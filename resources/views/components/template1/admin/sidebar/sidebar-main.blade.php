@@ -31,7 +31,7 @@
 
         [
             'isDropdown' => false,
-            'link' => "/home",
+            'link' => route("setting.view"),
             'icon' => "fas fa-cog",
             'title' => "Account Setting",
             'count' => 0,

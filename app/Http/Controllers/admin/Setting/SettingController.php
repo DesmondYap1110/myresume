@@ -1,18 +1,18 @@
 <?php
 
-namespace App\Http\Controllers\admin\Profile;
+namespace App\Http\Controllers\admin\Setting;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class ProfileController extends Controller
+class SettingController extends Controller
 {
     private function setbreadcrumbs()
     {
         return [
-            "CurrentPage" => "Profile",
+            "CurrentPage" => "Account Setting",
             "isDashboard" => true,
-            "CurrentUrl"  => route("profile.view"),
+            "CurrentUrl"  => route("setting.view"),
             "homeUrl" => route("dashboard.view"),
         ];
     }
@@ -22,6 +22,6 @@ class ProfileController extends Controller
         //Set Breadcrumbs
         $breadcrumbs = $this->setbreadcrumbs();
 
-        return view('admin.template1.profile.index',compact('breadcrumbs'));
+        return view('admin.template1.setting.index',compact('breadcrumbs'));
     }
 }

@@ -31,4 +31,14 @@ Route::prefix('admin')->group(function () {
 
     });
 
+        // --- Profile routes group ---
+    Route::prefix('/setting')->group(function () {
+        $settingNamespace = '\App\Http\Controllers\admin\Setting\\';
+
+        Route::get('/', $settingNamespace . 'SettingController@index')->name('setting.view');
+
+    });
+
+
+
 });
