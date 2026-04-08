@@ -7,7 +7,7 @@
     <div class="collapse" id="sidebarLayouts">
         <ul class="nav nav-collapse">
         @foreach($menulist as $list)
-        <x-template1.sidebar.ui.dropdown-list
+        <x-template1.admin.sidebar.ui.dropdown-list
             text="{{ $list['text'] }}"
             url="{{ $list['url'] }}"
         />

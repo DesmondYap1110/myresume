@@ -2,22 +2,42 @@
     // Sidebar Setting
     $menus = [
         [
+            'isDropdown' => false,
+            'link' => route("dashboard.view"),
+            'icon' => "fas fa-tachometer-alt",
+            'title' => "Dashboard",
+            'count' => 5,
+            'notification' => false
+        ],
+
+        [
             'isDropdown' => true,
             'icon' => "fas fa-user-circle",
             'title' => "My Profile",
             'menulist' => [
-                ["url" => "", "text" => "text1"],
+                ["url" =>  route("profile.view"), "text" => "Profile"],
                 ["url" => "", "text" => "text2"],
             ]
         ],
+
         [
             'isDropdown' => false,
             'link' => "/home",
             'icon' => "fas fa-envelope",
-            'title' => "Message",
+            'title' => "Inbox",
             'count' => 5,
             'notification' => false
         ],
+
+        [
+            'isDropdown' => false,
+            'link' => "/home",
+            'icon' => "fas fa-cog",
+            'title' => "Account Setting",
+            'count' => 0,
+            'notification' => false
+        ],
+
         [
             'isDropdown' => false,
             'link' => "/home",
@@ -34,9 +54,9 @@
     <div class="sidebar-logo">
         <!-- Logo Header -->
         <div class="logo-header" data-background-color="dark">
-        <a href="index.html" class="logo">
+        <a href="{{route("dashboard.view")}}" class="logo">
             <img
-            src="{{ asset("assets/img/kaiadmin/logo_light.svg")}}"
+            src="{{ asset("assets/admin/img/kaiadmin/logo_light.svg")}}"
             alt="navbar brand"
             class="navbar-brand"
             height="20"
@@ -44,10 +64,10 @@
         </a>
         <div class="nav-toggle">
             <button class="btn btn-toggle toggle-sidebar">
-            <i class="gg-menu-right"></i>
+                <i class="gg-menu-right"></i>
             </button>
             <button class="btn btn-toggle sidenav-toggler">
-            <i class="gg-menu-left"></i>
+                <i class="gg-menu-left"></i>
             </button>
         </div>
         <button class="topbar-toggler more">
@@ -62,13 +82,13 @@
 
                 @foreach ($menus as $menu)
                     @if(isset($menu['isDropdown']) && $menu['isDropdown'] == true)
-                        <x-template1.sidebar.ui.dropdown
+                        <x-template1.admin.sidebar.ui.dropdown
                             :menulist="$menu['menulist']"
                             :icon="$menu['icon']"
                             :title="$menu['title']"
                         />
                     @else
-                        <x-template1.sidebar.ui.list
+                        <x-template1.admin.sidebar.ui.list
                             :link="$menu['link']"
                             :icon="$menu['icon']"
                             :title="$menu['title']"

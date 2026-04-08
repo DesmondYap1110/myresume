@@ -13,6 +13,22 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::prefix('admin')->group(function () {
+
+    // --- Dashboard routes group ---
+    Route::prefix('/')->group(function () {
+        $dashboardNamespace = '\App\Http\Controllers\admin\Dashboard\\';
+
+        Route::get('/', $dashboardNamespace . 'DashboardController@index')->name('dashboard.view');
+
+    });
+
+    // --- Profile routes group ---
+    Route::prefix('/profile')->group(function () {
+        $profileNamespace = '\App\Http\Controllers\admin\Profile\\';
+
+        Route::get('/', $profileNamespace . 'ProfileController@index')->name('profile.view');
+
+    });
+
 });
