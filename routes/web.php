@@ -20,6 +20,7 @@ Route::prefix('admin')->group(function () {
         $loginNamespace = '\App\Http\Controllers\admin\Auth\\';
 
         Route::get('/', $loginNamespace . 'AuthController@index')->name('login.view');
+        Route::get('/logout', $loginNamespace . 'AuthController@index')->name('logout.view');
 
     });
 

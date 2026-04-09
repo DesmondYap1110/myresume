@@ -1,5 +1,5 @@
-<li class="nav-item">
-    <a href="{{ $link }}">
+<li class="nav-item {{ request()->routeIs($link) ? 'active' : '' }}">
+    <a href="{{ route($link) }}">
         <i class="{{ $icon }}"></i>
         <p>{{ $title }}</p>
         @if($notification == "true")

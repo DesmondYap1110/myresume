@@ -3,7 +3,7 @@
     $menus = [
         [
             'isDropdown' => false,
-            'link' => route("dashboard.view"),
+            'link' => "dashboard.view",
             'icon' => "fas fa-tachometer-alt",
             'title' => "Dashboard",
             'count' => 5,
@@ -15,17 +15,17 @@
             'icon' => "fas fa-user-circle",
             'title' => "My Profile",
             'menulist' => [
-                ["url" => route("profile.view"), "text" => "Profile"],
-                ["url" => route("education.view"), "text" => "Education"],
-                ["url" => route("experience.view"), "text" => "Experience"],
-                ["url" => route("project.view"), "text" => "Project"],
-                ["url" => route("blog.view"), "text" => "Blog"],
+                ["url" => "profile.view", "text" => "Profile"],
+                ["url" => "education.view", "text" => "Education"],
+                ["url" => "experience.view", "text" => "Experience"],
+                ["url" => "project.view", "text" => "Project"],
+                ["url" => "blog.view", "text" => "Blog"],
             ]
         ],
 
         [
             'isDropdown' => false,
-            'link' => route("inbox.view"),
+            'link' => "inbox.view",
             'icon' => "fas fa-envelope",
             'title' => "Inbox",
             'count' => 5,
@@ -34,7 +34,7 @@
 
         [
             'isDropdown' => false,
-            'link' => route("setting.view"),
+            'link' => "setting.view",
             'icon' => "fas fa-cog",
             'title' => "Account Setting",
             'count' => 0,
@@ -43,7 +43,7 @@
 
         [
             'isDropdown' => false,
-            'link' => "/home",
+            'link' => "logout.view",
             'icon' => "fas fa-sign-out-alt",
             'title' => "Log Out",
             'count' => 0,
