@@ -34,6 +34,9 @@
 <!-- Fonts and icons -->
 <script src="{{ asset("assets/admin/js/plugin/webfont/webfont.min.js") }}"></script>
 
+<!-- Moment JS -->
+<script src="{{ asset("assets/admin/js/plugin/moment/moment.min.js") }}"></script>
+
 <script>
     WebFont.load({
     google: { families: ["Public Sans:300,400,500,600,700"] },
@@ -50,4 +53,48 @@
         sessionStorage.fonts = true;
     },
     });
+</script>
+
+<!-- DateTimePicker -->
+<script src="{{ asset("assets/admin/js/plugin/datepicker/bootstrap-datetimepicker.min.js")}}"></script>
+
+<!-- Select2 -->
+<script src="{{ asset("assets/admin/js/plugin/select2/select2.full.min.js")}}"></script>
+
+<!-- Summer Note-->
+<script src="{{ asset("assets/admin/js/plugin/summernote/summernote-lite.min.js")}}"></script>
+
+<script>
+    $('#datetime').datetimepicker({
+        format: 'MM/DD/YYYY H:mm',
+    });
+
+    $('#datepicker').datetimepicker({
+        format: 'MM/DD/YYYY',
+    });
+
+    $('#timepicker').datetimepicker({
+        format: 'h:mm A',
+    });
+
+    $('#basic').select2({
+        theme: "bootstrap"
+    });
+
+    $('#multiple').select2({
+        theme: "bootstrap"
+    });
+
+    $('#multiple-states').select2({
+        theme: "bootstrap"
+    });
+
+
+    $('#summernote').summernote({
+        placeholder: 'About Me ....',
+        fontNames: ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New'],
+        tabsize: 2,
+        height: 300
+    });
+
 </script>

@@ -15,14 +15,17 @@
             'icon' => "fas fa-user-circle",
             'title' => "My Profile",
             'menulist' => [
-                ["url" =>  route("profile.view"), "text" => "Profile"],
-                ["url" => "", "text" => "text2"],
+                ["url" => route("profile.view"), "text" => "Profile"],
+                ["url" => route("education.view"), "text" => "Education"],
+                ["url" => route("experience.view"), "text" => "Experience"],
+                ["url" => route("project.view"), "text" => "Project"],
+                ["url" => route("blog.view"), "text" => "Blog"],
             ]
         ],
 
         [
             'isDropdown' => false,
-            'link' => "/home",
+            'link' => route("inbox.view"),
             'icon' => "fas fa-envelope",
             'title' => "Inbox",
             'count' => 5,

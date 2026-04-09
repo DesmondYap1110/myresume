@@ -8,14 +8,15 @@
 
     <x-template1.admin.master.master-style />
 
-  </head>
-  <body>
-    <div class="wrapper">
-      <!-- Sidebar -->
-        @include('components.template1.admin.sidebar.sidebar-main')
-      <!-- End Sidebar -->
+    </head>
+    <body class="{{ request()->routeIs('login.view') ? 'login bg-primary' : '' }}">
+        <div class="wrapper {{ request()->routeIs('login.view') ? 'wrapper-login' : '' }}">
+            @if(!request()->routeIs('login.view'))
+            <!-- Sidebar -->
+            @include('components.template1.admin.sidebar.sidebar-main')
+            <!-- End Sidebar -->
 
-        <div class="main-panel">
+            <div class="main-panel">
                 <!-- Header -->
                 @include('components.template1.admin.header.header-main')
                 <!-- End Header -->
@@ -24,14 +25,16 @@
                         {{$slot}}
                     </div>
                 </div>
-
                 <!-- Footer -->
                 @include('components.template1.admin.footer.footer-main')
                 <!-- End Footer -->
-        </div>
-      <div>
+            </div>
+            @else
+                {{$slot}}
+            @endif
+        <div>
+        @include('components.template1.admin.master.master-script')
 
-    @include('components.template1.admin.master.master-script')
+    </body>
 
-  </body>
 </html>
