@@ -3,25 +3,33 @@
 namespace App\Http\Controllers\admin\Profile;
 
 use App\Http\Controllers\Controller;
+use App\Helpers\Breadcrumb;
 use Illuminate\Http\Request;
 
 class ProfileController extends Controller
 {
-    private function setbreadcrumbs()
+    const page ="Profile";
+    const viewPath = "admin.template1.profile.";
+
+    protected $breadcrumbs;
+    protected $route;
+
+    public function __construct()
     {
-        return [
-            "CurrentPage" => "Profile",
-            "isDashboard" => true,
-            "CurrentUrl"  => route("profile.view"),
-            "homeUrl" => route("dashboard.view"),
-        ];
+        $this->route = strtolower(self::page).".";
+        $this->breadcrumbs = (new Breadcrumb())->setPage(self::page, route($this->route.'view'));
     }
+
+    public function update()
+    {
+
+    }
+
 
     public function index()
     {
-        //Set Breadcrumbs
-        $breadcrumbs = $this->setbreadcrumbs();
+        $breadcrumbs = $this->breadcrumbs->get();
 
-        return view('admin.template1.profile.index',compact('breadcrumbs'));
+        return view(self::viewPath . 'index', compact('breadcrumbs'));
     }
 }

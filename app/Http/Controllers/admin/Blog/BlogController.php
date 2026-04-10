@@ -3,25 +3,41 @@
 namespace App\Http\Controllers\admin\Blog;
 
 use App\Http\Controllers\Controller;
+use App\Helpers\Breadcrumb;
 use Illuminate\Http\Request;
 
 class BlogController extends Controller
 {
-    private function setbreadcrumbs()
+    const page ="Blog";
+    const viewPath = "admin.template1.blog.";
+
+    protected $breadcrumbs;
+    protected $route;
+
+    public function __construct()
     {
-        return [
-            "CurrentPage" => "Blog",
-            "isDashboard" => true,
-            "CurrentUrl"  => route("blog.view"),
-            "homeUrl" => route("dashboard.view"),
-        ];
+        $this->route = strtolower(self::page).".";
+        $this->breadcrumbs = (new Breadcrumb())->setPage(self::page, route($this->route.'view'));
+    }
+
+    public function add()
+    {
+        $breadcrumbs = $this->breadcrumbs->add('Add '.self::page, route($this->route.'add'))->get();
+
+        return view(self::viewPath . 'add', compact('breadcrumbs'));
+    }
+
+    public function edit()
+    {
+        $breadcrumbs = $this->breadcrumbs->add('Edit '.self::page, route($this->route.'edit'))->get();
+
+        return view(self::viewPath . 'edit', compact('breadcrumbs'));
     }
 
     public function index()
     {
-        //Set Breadcrumbs
-        $breadcrumbs = $this->setbreadcrumbs();
+        $breadcrumbs = $this->breadcrumbs->get();
 
-        return view('admin.template1.blog.index',compact('breadcrumbs'));
+        return view(self::viewPath . 'index', compact('breadcrumbs'));
     }
 }

@@ -3,25 +3,33 @@
 namespace App\Http\Controllers\admin\Setting;
 
 use App\Http\Controllers\Controller;
+use App\Helpers\Breadcrumb;
 use Illuminate\Http\Request;
 
 class SettingController extends Controller
 {
-    private function setbreadcrumbs()
+    const page ="Setting";
+    const viewPath = "admin.template1.setting.";
+
+    protected $breadcrumbs;
+    protected $route;
+
+    public function __construct()
     {
-        return [
-            "CurrentPage" => "Account Setting",
-            "isDashboard" => true,
-            "CurrentUrl"  => route("setting.view"),
-            "homeUrl" => route("dashboard.view"),
-        ];
+        $this->route = strtolower(self::page).".";
+        $this->breadcrumbs = (new Breadcrumb())->setPage(self::page, route($this->route.'view'));
+    }
+
+
+    public function update()
+    {
+
     }
 
     public function index()
     {
-        //Set Breadcrumbs
-        $breadcrumbs = $this->setbreadcrumbs();
+        $breadcrumbs = $this->breadcrumbs->get();
 
-        return view('admin.template1.setting.index',compact('breadcrumbs'));
+        return view(self::viewPath . 'index', compact('breadcrumbs'));
     }
 }

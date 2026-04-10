@@ -4,7 +4,7 @@
         <p>{{ $title }}</p>
         <span class="caret"></span>
     </a>
-    <div class="collapse" id="sidebarLayouts">
+    <div class="collapse @stack('show')" id="sidebarLayouts">
         <ul class="nav nav-collapse">
         @foreach($menulist as $list)
         <x-template1.admin.sidebar.ui.dropdown-list

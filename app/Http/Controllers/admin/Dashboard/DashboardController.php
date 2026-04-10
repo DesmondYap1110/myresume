@@ -3,22 +3,27 @@
 namespace App\Http\Controllers\admin\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Helpers\Breadcrumb;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
-    private function setbreadcrumbs()
+    const page ="Dashboard";
+    const viewPath = "admin.template1.dashboard.";
+
+    protected $breadcrumbs;
+    protected $route;
+
+    public function __construct()
     {
-        return [
-            "CurrentPage" => "Profile",
-            "isDashboard" => false
-        ];
+        $this->route = strtolower(self::page).".";
+        $this->breadcrumbs = (new Breadcrumb())->setPage(self::page, route($this->route.'view'));
     }
 
     public function index()
     {
-        $breadcrumbs = $this->setbreadcrumbs();
-        return view('admin.template1.dashboard.index',compact('breadcrumbs'));
-    }
+        $breadcrumbs = $this->breadcrumbs->get();
 
+        return view(self::viewPath . 'index', compact('breadcrumbs'));
+    }
 }
