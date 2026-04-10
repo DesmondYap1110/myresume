@@ -112,6 +112,7 @@ Route::prefix('admin')->group(function () {
         $inboxNamespace = '\App\Http\Controllers\admin\Inbox\\';
 
         Route::get('/', $inboxNamespace . 'InboxController@index')->name('inbox.view');
+        Route::get('/{id}', $inboxNamespace . 'InboxController@viewmessage')->name('inbox.view.message');
         Route::post('/delete', $inboxNamespace . 'InboxController@delete')->name('inbox.delete');
 
     });

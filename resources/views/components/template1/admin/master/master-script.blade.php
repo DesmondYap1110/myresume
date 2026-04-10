@@ -65,6 +65,12 @@
 <!-- Summer Note-->
 <script src="{{ asset("assets/admin/js/plugin/summernote/summernote-lite.min.js")}}"></script>
 
+<!-- Date Picker-->
+<script src="{{asset('assets/admin/js/plugin/datepicker/bootstrap-datepicker.min.js')}}"></script>
+
+<!-- File Pond-->
+<script src="{{asset('assets/admin/js/plugin/filepond/filepond.min.js')}}"></script>
+
 <script>
     $('#datetime').datetimepicker({
         format: 'MM/DD/YYYY H:mm',

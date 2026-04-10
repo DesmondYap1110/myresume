@@ -42,8 +42,8 @@
                         <td>@mdo</td>
                         <td>
                             <ul class="nav nav-pills nav-secondary nav-pills-no-bd nav-sm d-flex justify-content-center align-items-center">
-                                <li><a class="nav-link btn btn-primary text-white"  href="#pills-today">View</a></li>
-                                <li><a class="nav-link btn btn-danger text-white"  href="#pills-week">Delete</a></li>
+                                <li><a class="nav-link btn btn-primary text-white"  href="{{route('inbox.view.message',"7897")}}">View</a></li>
+                                <li><a class="nav-link btn btn-danger text-white"  href="{{route('inbox.delete')}}">Delete</a></li>
                             </ul>
 
                         </td>

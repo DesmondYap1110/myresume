@@ -40,4 +40,12 @@ class InboxController extends Controller
 
         return view(self::viewPath . 'index', compact('breadcrumbs'));
     }
+
+    public function viewmessage()
+    {
+        $breadcrumbs = $this->breadcrumbs->add('View '.self::page, route($this->route.'view.message',request()->id))->get();
+
+        return view(self::viewPath . 'viewmessage', compact('breadcrumbs'));
+
+    }
 }

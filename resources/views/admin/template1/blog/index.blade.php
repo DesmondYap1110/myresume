@@ -40,8 +40,8 @@
             <div class="col-md-4">
                 <div class="card card-post card-round">
                     <div class=" image-gallery">
-                        <a href="{{asset("/assets/admin/img/examples/example1.jpeg")}}" class="col-6 col-md-3 mb-4">
-                            <img src="{{asset("/assets/admin/img/examples/example1.jpeg")}}" class="img-fluid card-img-top">
+                        <a href="{{asset("/assets/admin/img/blogpost.jpg")}}" class="col-6 col-md-3 mb-4">
+                            <img src="{{asset("/assets/admin/img/blogpost.jpg")}}" class="img-fluid card-img-top" >
                         </a>
                     </div>
                     <div class="card-body">
@@ -54,9 +54,7 @@
                         <h3 class="card-title">Best Design Resources This Week</h3>
                     </div>
                     <div class="card-header d-flex justify-content-end align-items-center">
-
                         <button class="btn btn-success btn-sm m-1" onclick="window.location.href='{{ route('blog.edit') }}'">Edit</button>
-
                         <button class="btn btn-danger btn-sm m-1" onclick="window.location.href='{{ route('blog.delete') }}'">Delete</button>
                     </div>
 
