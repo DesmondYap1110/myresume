@@ -8,14 +8,14 @@
     <div class="col-md-6">
         <div class="card">
             <div class="card-header">
-            <div class="card-head-row card-tools-still-right">
-                <div class="card-title">My Experience</div>
-                <div class="card-tools">
-                    <a href="{{ route('experience.add') }}" class="btn bg-black btn-icon text-white data-toggle="tooltip data-placement="bottom" title="Add Experience" ">
-                        <i class="fas fa-plus"></i>
-                    </a>
+                <div class="card-head-row card-tools-still-right">
+                    <div class="card-title">My Experience</div>
+                    <div class="card-tools">
+                        <a href="{{ route('experience.add') }}" class="btn bg-black btn-icon text-white data-toggle="tooltip data-placement="bottom" title="Add Experience" ">
+                            <i class="fas fa-plus"></i>
+                        </a>
+                    </div>
                 </div>
-            </div>
             </div>
             <div class="card-body">
                 <ol class="activity-feed">

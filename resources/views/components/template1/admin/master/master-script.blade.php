@@ -5,6 +5,7 @@
 
 <!-- jQuery Scrollbar -->
 <script src="{{asset("assets/admin/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js")}}"></script>
+<script src="{{asset("assets/admin/js/plugin/jquery.magnific-popup/jquery.magnific-popup.min.js")}}"></script>
 
 <!-- Chart JS -->
 <script src="{{asset("assets/admin/js/plugin/chart.js/chart.min.js")}}"></script>
@@ -89,12 +90,14 @@
         theme: "bootstrap"
     });
 
-
     $('#summernote').summernote({
-        placeholder: 'About Me ....',
+        placeholder: $('.summertext').data('placeholder'),
         fontNames: ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New'],
         tabsize: 2,
         height: 300
     });
 
+
 </script>
+
+@stack('script')

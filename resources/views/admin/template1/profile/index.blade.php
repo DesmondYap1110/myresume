@@ -75,7 +75,7 @@
                     </div>
                 </div>
                 <div class="card-action">
-                    <div class="card-title">About Me</div>
+                    <div class="card-title summertext" data-placeholder = "About Me...">About Me</div>
                     <div id="summernote"></div>
                 </div>
 
