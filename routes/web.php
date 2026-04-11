@@ -46,47 +46,47 @@ Route::prefix('admin')->group(function () {
         Route::prefix('education')->group(function () {
             Route::get('/', [EducationController::class, 'index'])->name('education.view');
             Route::get('/add', [EducationController::class, 'add'])->name('education.add');
-            Route::get('/edit', [EducationController::class, 'edit'])->name('education.edit');
-            Route::post('/delete', [EducationController::class, 'delete'])->name('education.delete');
+            Route::get('/edit/{id}', [EducationController::class, 'edit'])->name('education.edit');
+            Route::get('/delete/{id}', [EducationController::class, 'delete'])->name('education.delete');
             Route::post('/create', [EducationController::class, 'create'])->name('education.create');
-            Route::post('/update', [EducationController::class, 'update'])->name('education.update');
+            Route::post('/update/{id}', [EducationController::class, 'update'])->name('education.update');
         });
 
         // ---------------- EXPERIENCE ----------------
         Route::prefix('experience')->group(function () {
             Route::get('/', [ExperienceController::class, 'index'])->name('experience.view');
             Route::get('/add', [ExperienceController::class, 'add'])->name('experience.add');
-            Route::get('/edit', [ExperienceController::class, 'edit'])->name('experience.edit');
-            Route::post('/delete', [ExperienceController::class, 'delete'])->name('experience.delete');
+            Route::get('/edit/{id}', [ExperienceController::class, 'edit'])->name('experience.edit');
+            Route::get('/delete/{id}', [ExperienceController::class, 'delete'])->name('experience.delete');
             Route::post('/create', [ExperienceController::class, 'create'])->name('experience.create');
-            Route::post('/update', [ExperienceController::class, 'update'])->name('experience.update');
+            Route::post('/update/{id}', [ExperienceController::class, 'update'])->name('experience.update');
         });
 
         // ---------------- PROJECT ----------------
         Route::prefix('project')->group(function () {
             Route::get('/', [ProjectController::class, 'index'])->name('project.view');
             Route::get('/add', [ProjectController::class, 'add'])->name('project.add');
-            Route::get('/edit', [ProjectController::class, 'edit'])->name('project.edit');
-            Route::post('/delete', [ProjectController::class, 'delete'])->name('project.delete');
+            Route::get('/edit/{id}', [ProjectController::class, 'edit'])->name('project.edit');
+            Route::get('/delete/{id}', [ProjectController::class, 'delete'])->name('project.delete');
             Route::post('/create', [ProjectController::class, 'create'])->name('project.create');
-            Route::post('/update', [ProjectController::class, 'update'])->name('project.update');
+            Route::post('/update/{id}', [ProjectController::class, 'update'])->name('project.update');
         });
 
         // ---------------- BLOG ----------------
         Route::prefix('blog')->group(function () {
             Route::get('/', [BlogController::class, 'index'])->name('blog.view');
             Route::get('/add', [BlogController::class, 'add'])->name('blog.add');
-            Route::get('/edit', [BlogController::class, 'edit'])->name('blog.edit');
-            Route::post('/delete', [BlogController::class, 'delete'])->name('blog.delete');
-            Route::post('/create', [BlogController::class, 'create'])->name('blog.create');
-            Route::post('/update', [BlogController::class, 'update'])->name('blog.update');
+            Route::get('/edit/{id}', [BlogController::class, 'edit'])->name('blog.edit');
+            Route::get('/delete', [BlogController::class, 'delete'])->name('blog.delete');
+            Route::post('/create/{id}', [BlogController::class, 'create'])->name('blog.create');
+            Route::post('/update/{id}', [BlogController::class, 'update'])->name('blog.update');
         });
 
         // ---------------- INBOX ----------------
         Route::prefix('inbox')->group(function () {
             Route::get('/', [InboxController::class, 'index'])->name('inbox.view');
             Route::get('/{id}', [InboxController::class, 'viewmessage'])->name('inbox.view.message');
-            Route::post('/delete', [InboxController::class, 'delete'])->name('inbox.delete');
+            Route::get('/delete', [InboxController::class, 'delete'])->name('inbox.delete');
         });
 
     });

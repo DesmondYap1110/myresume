@@ -5,7 +5,8 @@ namespace App\Http\Controllers\admin\Education;
 use App\Http\Controllers\Controller;
 use App\Helpers\Breadcrumb;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Auth;
+use App\Models\Education;
 class EducationController extends Controller
 {
     const page ="Education";
@@ -27,17 +28,55 @@ class EducationController extends Controller
         return view(self::viewPath . 'add', compact('breadcrumbs'));
     }
 
-    public function edit()
+    public function create(Request $request)
     {
-        $breadcrumbs = $this->breadcrumbs->add('Edit '.self::page, route($this->route.'edit'))->get();
+        $education = new Education();
+        $education->user_id     = Auth::id();
+        $education->institution = $request->institution;
+        $education->certificate = $request->certificate;
+        $education->achievement = $request->achievement;
+        $education->year        = $request->year;
+        $education->save();
 
-        return view(self::viewPath . 'edit', compact('breadcrumbs'));
+       return redirect()->route('education.view')->with('success', 'Add Profile successful!');
+    }
+
+    public function edit(Request $request)
+    {
+        $breadcrumbs = $this->breadcrumbs->add('Edit '.self::page, route($this->route.'edit',request()->id))->get();
+        $education_detail              = Education::getEducationById(Auth::id(),request()->id);
+
+        return view(self::viewPath . 'edit', compact('breadcrumbs','education_detail'));
+    }
+
+    public function update(Request $request)
+    {
+        $education_detail              = Education::getEducationById(Auth::id(),request()->id);
+        $education_detail->institution = $request->institution;
+        $education_detail->certificate = $request->certificate;
+        $education_detail->achievement = $request->achievement;
+        $education_detail->year        = $request->year;
+
+        $education_detail->update();
+
+        return redirect()->route('education.view')->with('success', 'Edit Profile successful!');
+    }
+
+    public function delete()
+    {
+
+        $education_detail = Education::getEducationById(Auth::id(),request()->id);
+        $education_detail->delete();
+
+        return redirect()->route('education.view')->with('success', 'Delete Profile successful!');
+
     }
 
     public function index()
     {
         $breadcrumbs = $this->breadcrumbs->get();
+        $education_detail = Education::getEducationByUserid(Auth::user()->id);
 
-        return view(self::viewPath . 'index', compact('breadcrumbs'));
+        return view(self::viewPath . 'index', compact('breadcrumbs','education_detail'));
     }
 }

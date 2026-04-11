@@ -19,34 +19,22 @@
             </div>
             <div class="card-body">
                 <ol class="activity-feed">
+                    @foreach($education_detail as $data)
                     <li class="feed-item">
                         <div class="row">
                             <div class="col-md-6 col-sm-6">
-                                <time class="date" datetime="9-25">Sep 25</time>
-                                <span class="text">Responded to need</span>
+                                <time class="date" datetime="9-25">{{$data->year}}</time>
+                                <span class="text">{{$data->institution}}</span>
                             </div>
                             <div class="col-md-6 col-sm-6">
                                 <ul class="nav nav-pills nav-secondary nav-pills-no-bd nav-sm">
-                                    <li><a class="nav-link btn btn-primary text-white"  href="{{ route('education.edit') }}">Edit</a></li>
-                                    <li><a class="nav-link btn btn-danger text-white"  href="{{ route('education.delete') }}">Delete</a></li>
+                                    <li><a class="nav-link btn btn-primary text-white"  href="{{ route('education.edit',$data->id) }}">Edit</a></li>
+                                    <li><a class="nav-link btn btn-danger text-white"  href="{{ route('education.delete',$data->id) }}">Delete</a></li>
                                 </ul>
                             </div>
                         </div>
                     </li>
-                    <li class="feed-item">
-                        <div class="row">
-                            <div class="col-md-6 col-sm-6">
-                                <time class="date" datetime="9-25">Sep 25</time>
-                                <span class="text">Responded to need</span>
-                            </div>
-                            <div class="col-md-6 col-sm-6">
-                                <ul class="nav nav-pills nav-secondary nav-pills-no-bd nav-sm">
-                                    <li><a class="nav-link btn btn-primary text-white"  href="#pills-today">Edit</a></li>
-                                    <li><a class="nav-link btn btn-danger text-white"  href="#pills-week">Delete</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </li>
+                    @endforeach
                 </ol>
             </div>
         </div>
