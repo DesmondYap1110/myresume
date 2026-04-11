@@ -45,9 +45,9 @@ class User extends Authenticatable
     ];
 
 
-    public function getUserByEmail($email)
+    static function getUserByEmail($email)
     {
-        $query = self::Where('email', $email)->where('status', self::status_block);
+        $query = self::Where('email', $email)->where('status', self::status_active);
         return $query->limit(1)->first();
     }
 }

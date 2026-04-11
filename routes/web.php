@@ -31,11 +31,9 @@ Route::prefix('admin')->group(function () {
         // ---------------- PROFILE ----------------
         Route::prefix('profile')->group(function () {
             Route::get('/', [ProfileController::class, 'index'])->name('profile.view');
-            Route::get('/add', [ProfileController::class, 'add'])->name('profile.add');
             Route::get('/edit', [ProfileController::class, 'edit'])->name('profile.edit');
-            Route::post('/delete', [ProfileController::class, 'delete'])->name('profile.delete');
-            Route::post('/create', [ProfileController::class, 'create'])->name('profile.create');
             Route::post('/update', [ProfileController::class, 'update'])->name('profile.update');
+            Route::post('/upload/image', [ProfileController::class, 'upload_img'])->name('profile.upload');
         });
 
         // ---------------- SETTING ----------------

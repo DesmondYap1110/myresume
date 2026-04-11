@@ -56,9 +56,14 @@
                 >
                     <div class="avatar-sm">
                         <img
+                            @if(!Auth::user()->image)
                             src="{{asset("assets/admin/img/profile.jpg")}}"
+                            @else
+                             src="{{Auth::user()->image}}"
+                            @endif
                             alt="{{Auth::user()->name}}"
                             class="avatar-img rounded-circle"
+
                         />
                     </div>
                     <span class="profile-username">
@@ -73,7 +78,12 @@
                             <div class="user-box">
                                 <div class="avatar-lg">
                                     <img
+                                        @if(!Auth::user()->image)
                                         src="{{asset("assets/admin/img/profile.jpg")}}"
+                                        @else
+                                        src="{{Auth::user()->image}}"
+                                        @endif
+
                                         alt="image profile"
                                         class="avatar-img rounded"
                                     />
