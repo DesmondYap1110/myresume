@@ -50,4 +50,10 @@ class User extends Authenticatable
         $query = self::Where('email', $email)->where('status', self::status_active);
         return $query->limit(1)->first();
     }
+
+    static function getUserByUserid($id)
+    {
+        $query = self::Where('user_id', $id)->where('status', self::status_active);
+         return $query->orderBy('id', 'desc')->get();
+    }
 }
