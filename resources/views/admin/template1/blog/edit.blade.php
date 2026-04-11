@@ -58,3 +58,4 @@ $("#imageInput").on("change", function (e) {
         </div>
 
 </x-template1.admin.master.master-layout>
+

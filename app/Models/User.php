@@ -8,9 +8,13 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
+
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
+
+    const status_active = 1;
+    const status_block  = 0;
 
     /**
      * The attributes that are mass assignable.
@@ -18,9 +22,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
-        'email',
-        'password',
+        'name','email','password','dob','phone','role','address','linkedIn_url','about'
     ];
 
     /**
@@ -39,7 +41,13 @@ class User extends Authenticatable
      * @var array<string, string>
      */
     protected $casts = [
-        'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+
+    public function getUserByEmail($email)
+    {
+        $query = self::Where('email', $email)->where('status', self::status_block);
+        return $query->limit(1)->first();
+    }
 }

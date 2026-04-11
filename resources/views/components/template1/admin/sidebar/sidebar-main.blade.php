@@ -43,7 +43,7 @@
 
         [
             'isDropdown' => false,
-            'link' => "logout.view",
+            'link' => "login.logout",
             'icon' => "fas fa-sign-out-alt",
             'title' => "Log Out",
             'count' => 0,

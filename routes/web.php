@@ -2,121 +2,95 @@
 
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
+use App\Http\Controllers\Admin\Auth\AuthController;
+use App\Http\Controllers\Admin\Dashboard\DashboardController;
+use App\Http\Controllers\Admin\Profile\ProfileController;
+use App\Http\Controllers\Admin\Setting\SettingController;
+use App\Http\Controllers\Admin\Education\EducationController;
+use App\Http\Controllers\Admin\Experience\ExperienceController;
+use App\Http\Controllers\Admin\Project\ProjectController;
+use App\Http\Controllers\Admin\Blog\BlogController;
+use App\Http\Controllers\Admin\Inbox\InboxController;
 
 Route::prefix('admin')->group(function () {
 
-    // --- Login routes group ---
-    Route::prefix('/')->group(function () {
-        $loginNamespace = '\App\Http\Controllers\admin\Auth\\';
+    // ---------------- LOGIN ----------------
+    Route::get('/', [AuthController::class, 'index'])->name('login.index');
+    Route::post('/login', [AuthController::class, 'login'])->name('login.submit');
 
-        Route::get('/', $loginNamespace . 'AuthController@index')->name('login.view');
-        Route::get('/logout', $loginNamespace . 'AuthController@index')->name('logout.view');
+    // ---------------- PROTECTED AREA ----------------
+    Route::middleware('auth')->group(function () {
 
-    });
+        Route::post('/logout', [AuthController::class, 'logout'])->name('login.logout');
 
-    // --- Dashboard routes group ---
-    Route::prefix('/dashboard')->group(function () {
-        $dashboardNamespace = '\App\Http\Controllers\admin\Dashboard\\';
+        // ---------------- DASHBOARD ----------------
+        Route::prefix('dashboard')->group(function () {
+            Route::get('/', [DashboardController::class, 'index'])->name('dashboard.view');
+        });
 
-        Route::get('/', $dashboardNamespace . 'DashboardController@index')->name('dashboard.view');
+        // ---------------- PROFILE ----------------
+        Route::prefix('profile')->group(function () {
+            Route::get('/', [ProfileController::class, 'index'])->name('profile.view');
+            Route::get('/add', [ProfileController::class, 'add'])->name('profile.add');
+            Route::get('/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+            Route::post('/delete', [ProfileController::class, 'delete'])->name('profile.delete');
+            Route::post('/create', [ProfileController::class, 'create'])->name('profile.create');
+            Route::post('/update', [ProfileController::class, 'update'])->name('profile.update');
+        });
 
-    });
+        // ---------------- SETTING ----------------
+        Route::prefix('setting')->group(function () {
+            Route::get('/', [SettingController::class, 'index'])->name('setting.view');
+            Route::post('/update', [SettingController::class, 'update'])->name('setting.update');
+        });
 
-    // --- Profile routes group ---
-    Route::prefix('/profile')->group(function () {
-        $profileNamespace = '\App\Http\Controllers\admin\Profile\\';
+        // ---------------- EDUCATION ----------------
+        Route::prefix('education')->group(function () {
+            Route::get('/', [EducationController::class, 'index'])->name('education.view');
+            Route::get('/add', [EducationController::class, 'add'])->name('education.add');
+            Route::get('/edit', [EducationController::class, 'edit'])->name('education.edit');
+            Route::post('/delete', [EducationController::class, 'delete'])->name('education.delete');
+            Route::post('/create', [EducationController::class, 'create'])->name('education.create');
+            Route::post('/update', [EducationController::class, 'update'])->name('education.update');
+        });
 
-        Route::get('/', $profileNamespace . 'ProfileController@index')->name('profile.view');
-        Route::get('/add', $profileNamespace . 'ProfileController@add')->name('profile.add');
-        Route::get('/edit', $profileNamespace . 'ProfileController@edit')->name('profile.edit');
-        Route::post('/delete', $profileNamespace . 'ProfileController@delete')->name('profile.delete');
-        Route::post('/create', $profileNamespace . 'ProfileController@create')->name('profile.create');
-        Route::post('/update', $profileNamespace . 'ProfileController@update')->name('profile.update');
+        // ---------------- EXPERIENCE ----------------
+        Route::prefix('experience')->group(function () {
+            Route::get('/', [ExperienceController::class, 'index'])->name('experience.view');
+            Route::get('/add', [ExperienceController::class, 'add'])->name('experience.add');
+            Route::get('/edit', [ExperienceController::class, 'edit'])->name('experience.edit');
+            Route::post('/delete', [ExperienceController::class, 'delete'])->name('experience.delete');
+            Route::post('/create', [ExperienceController::class, 'create'])->name('experience.create');
+            Route::post('/update', [ExperienceController::class, 'update'])->name('experience.update');
+        });
 
-    });
+        // ---------------- PROJECT ----------------
+        Route::prefix('project')->group(function () {
+            Route::get('/', [ProjectController::class, 'index'])->name('project.view');
+            Route::get('/add', [ProjectController::class, 'add'])->name('project.add');
+            Route::get('/edit', [ProjectController::class, 'edit'])->name('project.edit');
+            Route::post('/delete', [ProjectController::class, 'delete'])->name('project.delete');
+            Route::post('/create', [ProjectController::class, 'create'])->name('project.create');
+            Route::post('/update', [ProjectController::class, 'update'])->name('project.update');
+        });
 
-    // --- Profile routes group ---
-    Route::prefix('/setting')->group(function () {
-        $settingNamespace = '\App\Http\Controllers\admin\Setting\\';
+        // ---------------- BLOG ----------------
+        Route::prefix('blog')->group(function () {
+            Route::get('/', [BlogController::class, 'index'])->name('blog.view');
+            Route::get('/add', [BlogController::class, 'add'])->name('blog.add');
+            Route::get('/edit', [BlogController::class, 'edit'])->name('blog.edit');
+            Route::post('/delete', [BlogController::class, 'delete'])->name('blog.delete');
+            Route::post('/create', [BlogController::class, 'create'])->name('blog.create');
+            Route::post('/update', [BlogController::class, 'update'])->name('blog.update');
+        });
 
-        Route::get('/', $settingNamespace . 'SettingController@index')->name('setting.view');
-        Route::post('/update', $settingNamespace . 'SettingController@update')->name('setting.update');
-
-    });
-
-    // --- Education routes group ---
-    Route::prefix('/education')->group(function () {
-        $educationNamespace = '\App\Http\Controllers\admin\Education\\';
-
-        Route::get('/', $educationNamespace . 'EducationController@index')->name('education.view');
-        Route::get('/add', $educationNamespace . 'EducationController@add')->name('education.add');
-        Route::get('/edit', $educationNamespace . 'EducationController@edit')->name('education.edit');
-        Route::post('/delete', $educationNamespace . 'EducationController@delete')->name('education.delete');
-        Route::post('/create', $educationNamespace . 'EducationController@create')->name('education.create');
-        Route::post('/update', $educationNamespace . 'EducationController@update')->name('education.update');
-
-    });
-
-    // --- Experience routes group ---
-    Route::prefix('/experience')->group(function () {
-
-        $experienceNamespace = '\App\Http\Controllers\admin\Experience\\';
-        Route::get('/', $experienceNamespace . 'ExperienceController@index')->name('experience.view');
-        Route::get('/add', $experienceNamespace . 'ExperienceController@add')->name('experience.add');
-        Route::get('/edit', $experienceNamespace . 'ExperienceController@edit')->name('experience.edit');
-        Route::post('/delete', $experienceNamespace . 'ExperienceController@delete')->name('experience.delete');
-        Route::post('/create', $experienceNamespace . 'ExperienceController@create')->name('experience.create');
-        Route::post('/update', $experienceNamespace . 'ExperienceController@update')->name('experience.update');
-
-    });
-
-    // --- Project routes group ---
-    Route::prefix('/project')->group(function () {
-        $projectNamespace = '\App\Http\Controllers\admin\Project\\';
-
-        Route::get('/', $projectNamespace . 'ProjectController@index')->name('project.view');
-        Route::get('/add', $projectNamespace . 'ProjectController@add')->name('project.add');
-        Route::get('/edit', $projectNamespace . 'ProjectController@edit')->name('project.edit');
-        Route::post('/delete', $projectNamespace . 'ProjectController@delete')->name('project.delete');
-        Route::post('/create', $projectNamespace . 'ProjectController@create')->name('project.create');
-        Route::post('/update', $projectNamespace . 'ProjectController@update')->name('project.update');
-
-    });
-
-    // --- Blog routes group ---
-    Route::prefix('/blog')->group(function () {
-        $blogNamespace = '\App\Http\Controllers\admin\Blog\\';
-
-        Route::get('/', $blogNamespace . 'BlogController@index')->name('blog.view');
-        Route::get('/add', $blogNamespace . 'BlogController@add')->name('blog.add');
-        Route::get('/edit', $blogNamespace . 'BlogController@edit')->name('blog.edit');
-        Route::post('/delete', $blogNamespace . 'BlogController@delete')->name('blog.delete');
-        Route::post('/create', $blogNamespace . 'BlogController@create')->name('blog.create');
-        Route::post('/update', $blogNamespace . 'BlogController@update')->name('blog.update');
+        // ---------------- INBOX ----------------
+        Route::prefix('inbox')->group(function () {
+            Route::get('/', [InboxController::class, 'index'])->name('inbox.view');
+            Route::get('/{id}', [InboxController::class, 'viewmessage'])->name('inbox.view.message');
+            Route::post('/delete', [InboxController::class, 'delete'])->name('inbox.delete');
+        });
 
     });
-
-
-    // --- Inbox routes group ---
-    Route::prefix('/inbox')->group(function () {
-        $inboxNamespace = '\App\Http\Controllers\admin\Inbox\\';
-
-        Route::get('/', $inboxNamespace . 'InboxController@index')->name('inbox.view');
-        Route::get('/{id}', $inboxNamespace . 'InboxController@viewmessage')->name('inbox.view.message');
-        Route::post('/delete', $inboxNamespace . 'InboxController@delete')->name('inbox.delete');
-
-    });
-
-
 
 });

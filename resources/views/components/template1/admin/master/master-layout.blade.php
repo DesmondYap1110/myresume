@@ -9,9 +9,9 @@
     <x-template1.admin.master.master-style />
 
     </head>
-    <body class="{{ request()->routeIs('login.view', 'logout.view') ? 'login bg-primary' : '' }}">
-        <div class="wrapper {{ request()->routeIs('login.view', 'logout.view') ? 'wrapper-login' : '' }}">
-            @if(!request()->routeIs('login.view', 'logout.view'))
+    <body class="{{ request()->routeIs('login.index', 'login.logout') ? 'login bg-primary' : '' }}">
+        <div class="wrapper {{ request()->routeIs('login.index', 'login.logout') ? 'wrapper-login' : '' }}">
+            @if(!request()->routeIs('login.index', 'login.logout'))
             <!-- Sidebar -->
             @include('components.template1.admin.sidebar.sidebar-main')
             <!-- End Sidebar -->

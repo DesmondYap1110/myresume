@@ -106,4 +106,20 @@
 
 </script>
 
+
+<script>
+    $(document).ready(function () {
+
+        @if(session('success'))
+            $.notify("{{ session('success') }}", "success");
+        @endif
+
+        @if(session('error'))
+            $.notify("{{ session('error') }}", "error");
+        @endif
+
+    });
+</script>
+
+
 @stack('script')

@@ -61,7 +61,7 @@
                     <div class="row">
                         <div class="col-md-6 col-lg-4 py-1">
                             <label for="position">Position Role <span>*</span></label>
-                            <input type="poistion" class="form-control" id="email" placeholder="Enter Position Role" required>
+                            <input type="text" class="form-control" id="position" placeholder="Enter Position Role" required>
                         </div>
                         <div class="col-md-6 col-lg-4 py-1">
                             <label for="name">Address <span>*</span></label>

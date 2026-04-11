@@ -57,13 +57,13 @@
                     <div class="avatar-sm">
                         <img
                             src="{{asset("assets/admin/img/profile.jpg")}}"
-                            alt="..."
+                            alt="{{Auth::user()->name}}"
                             class="avatar-img rounded-circle"
                         />
                     </div>
                     <span class="profile-username">
                         <span class="op-7">Hi,</span>
-                        <span class="fw-bold">Hizrian</span>
+                        <span class="fw-bold">{{Auth::user()->name}}</span>
                     </span>
                 </a>
 
@@ -79,26 +79,27 @@
                                     />
                                 </div>
                                 <div class="u-text">
-                                    <h4>Hizrian</h4>
-                                    <p class="text-muted">hello@example.com</p>
-                                    <a
-                                        href="profile.html"
-                                        class="btn btn-xs btn-secondary btn-sm"
-                                        >View Profile</a
-                                    >
+                                    <h4>{{Auth::user()->name}}</h4>
+                                    <p class="text-muted">{{Auth::user()->email}}</p>
                                 </div>
                             </div>
-                        </li>
-                        <li>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">My Profile</a>
-                            <a class="dropdown-item" href="#">Inbox</a>
+                            <a class="dropdown-item" href="{{route('profile.view')}}">My Profile</a>
+                            <a class="dropdown-item" href="{{route('inbox.view')}}">Inbox</a>
 
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Account Setting</a>
+                            <a class="dropdown-item" href="{{route('setting.view')}}">Account Setting</a>
 
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Logout</a>
+
+                            <a
+                                class="dropdown-item"
+                                href="{{ route('login.logout') }}"
+                                onclick="event.preventDefault();
+                                document.getElementById('logout-form').submit();"
+                            >
+                                Logout
+                            </a>
                         </li>
                     </div>
                 </ul>
