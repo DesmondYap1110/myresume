@@ -27,8 +27,8 @@
                             </div>
                             <div class="col-md-6 col-sm-6">
                                 <ul class="nav nav-pills nav-secondary nav-pills-no-bd nav-sm">
-                                    <li><a class="nav-link btn btn-primary text-white"  href="{{ route('project.edit') }}">Edit</a></li>
-                                    <li><a class="nav-link btn btn-danger text-white"  href="{{ route('project.delete') }}">Delete</a></li>
+                                    <li><a class="nav-link btn btn-primary text-white"  href="{{ route('project.edit',12) }}">Edit</a></li>
+                                    <li><a class="nav-link btn btn-danger text-white"  href="{{ route('project.delete',14) }}">Delete</a></li>
                                 </ul>
                             </div>
                         </div>

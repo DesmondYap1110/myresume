@@ -19,34 +19,24 @@
             </div>
             <div class="card-body">
                 <ol class="activity-feed">
+                    @foreach($experience as $data)
                     <li class="feed-item">
                         <div class="row">
                             <div class="col-md-6 col-sm-6">
-                                <time class="date" datetime="9-25">Sep 25</time>
-                                <span class="text">Responded to need</span>
+                                <time class="date">{{$data->start_date}} - {{$data->end_date ?? "Now"}}</time>
+                                <span class="text">{{$data->company}}</span><br>
+                                <span class="text"><strong class="text-success">{{$data->role}}</strong></span>
                             </div>
                             <div class="col-md-6 col-sm-6">
                                 <ul class="nav nav-pills nav-secondary nav-pills-no-bd nav-sm">
-                                    <li><a class="nav-link btn btn-primary text-white"  href="{{ route('experience.edit') }}">Edit</a></li>
-                                    <li><a class="nav-link btn btn-danger text-white"  href="{{ route('experience.delete') }}">Delete</a></li>
+                                    <li><a class="nav-link btn btn-primary text-white"  href="{{ route('experience.edit',$data->id ) }}">Edit</a></li>
+                                    <li><a class="nav-link btn btn-danger text-white"  href="{{ route('experience.delete',$data->id ) }}">Delete</a></li>
                                 </ul>
                             </div>
                         </div>
                     </li>
-                    <li class="feed-item">
-                        <div class="row">
-                            <div class="col-md-6 col-sm-6">
-                                <time class="date" datetime="9-25">Sep 25</time>
-                                <span class="text">Responded to need</span>
-                            </div>
-                            <div class="col-md-6 col-sm-6">
-                                <ul class="nav nav-pills nav-secondary nav-pills-no-bd nav-sm">
-                                    <li><a class="nav-link btn btn-primary text-white"  href="#pills-today">Edit</a></li>
-                                    <li><a class="nav-link btn btn-danger text-white"  href="#pills-week">Delete</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </li>
+
+                    @endforeach
                 </ol>
             </div>
         </div>

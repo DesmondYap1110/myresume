@@ -5,6 +5,8 @@ namespace App\Http\Controllers\admin\Experience;
 use App\Http\Controllers\Controller;
 use App\Helpers\Breadcrumb;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Experience;
 
 class ExperienceController extends Controller
 {
@@ -29,15 +31,55 @@ class ExperienceController extends Controller
 
     public function edit()
     {
-        $breadcrumbs = $this->breadcrumbs->add('Edit '.self::page, route($this->route.'edit'))->get();
+        $breadcrumbs = $this->breadcrumbs->add('Edit '.self::page, route($this->route.'edit',request()->id))->get();
+        $experience  = Experience::getExperienceById(Auth::id(),request()->id);
 
-        return view(self::viewPath . 'edit', compact('breadcrumbs'));
+        return view(self::viewPath . 'edit', compact('breadcrumbs','experience'));
+    }
+
+    public function create(Request $request)
+    {
+        $experience              = new Experience();
+        $experience->user_id     = Auth::id();
+        $experience->company     = $request->company;
+        $experience->role        = $request->role;
+        $experience->start_date  = date("Y-m-d",strtotime($request->start_date));
+        $experience->end_date    = date("Y-m-d",strtotime($request->end_date));
+        $experience->detail      = $request->detail;
+        $experience->save();
+
+       return redirect()->route('experience.view')->with('success', 'Add Experience successful!');
+    }
+
+    public function update(Request $request)
+    {
+        $experience_detail              = Experience::getExperienceById(Auth::id(),request()->id);
+        $experience_detail->company     = $request->company;
+        $experience_detail->role        = $request->role;
+        $experience_detail->start_date  = date("Y-m-d",strtotime($request->start_date));
+        $experience_detail->end_date    = date("Y-m-d",strtotime($request->end_date));
+        $experience_detail->detail      = $request->detail;
+        $experience_detail->update();
+
+        return redirect()->route('experience.view')->with('success', 'Edit Experience successful!');
+    }
+
+    public function delete()
+    {
+
+        $experience_detail = Experience::getExperienceById(Auth::id(),request()->id);
+        $experience_detail->delete();
+
+        return redirect()->route('experience.view')->with('success', 'Delete Experience successful!');
+
     }
 
     public function index()
     {
         $breadcrumbs = $this->breadcrumbs->get();
 
-        return view(self::viewPath . 'index', compact('breadcrumbs'));
+        $experience  = Experience::getExperienceByUserid(Auth::id(),request()->id);
+
+        return view(self::viewPath . 'index', compact('breadcrumbs','experience'));
     }
 }

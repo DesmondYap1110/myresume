@@ -38,7 +38,7 @@ class EducationController extends Controller
         $education->year        = $request->year;
         $education->save();
 
-       return redirect()->route('education.view')->with('success', 'Add Profile successful!');
+       return redirect()->route('education.view')->with('success', 'Add Education successful!');
     }
 
     public function edit(Request $request)
@@ -59,7 +59,7 @@ class EducationController extends Controller
 
         $education_detail->update();
 
-        return redirect()->route('education.view')->with('success', 'Edit Profile successful!');
+        return redirect()->route('education.view')->with('success', 'Edit Education successful!');
     }
 
     public function delete()
@@ -68,7 +68,7 @@ class EducationController extends Controller
         $education_detail = Education::getEducationById(Auth::id(),request()->id);
         $education_detail->delete();
 
-        return redirect()->route('education.view')->with('success', 'Delete Profile successful!');
+        return redirect()->route('education.view')->with('success', 'Delete Education successful!');
 
     }
 
