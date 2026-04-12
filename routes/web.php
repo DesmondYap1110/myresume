@@ -11,12 +11,16 @@ use App\Http\Controllers\Admin\Experience\ExperienceController;
 use App\Http\Controllers\Admin\Project\ProjectController;
 use App\Http\Controllers\Admin\Blog\BlogController;
 use App\Http\Controllers\Admin\Inbox\InboxController;
+use App\Http\Controllers\Website\FrontEndController;
+
+Route::get('{id}', [FrontEndController::class, 'index'])->name('front.show');
+
 
 Route::prefix('admin')->group(function () {
 
     // ---------------- LOGIN ----------------
-    Route::get('/', [AuthController::class, 'index'])->name('login.index');
-    Route::post('/login', [AuthController::class, 'login'])->name('login.submit');
+    Route::get('/login', [AuthController::class, 'index'])->name('login.index');
+    Route::post('/login/submit', [AuthController::class, 'login'])->name('login.submit');
 
     // ---------------- PROTECTED AREA ----------------
     Route::middleware('auth')->group(function () {
