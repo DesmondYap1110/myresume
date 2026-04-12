@@ -5,6 +5,8 @@ namespace App\Http\Controllers\admin\Project;
 use App\Http\Controllers\Controller;
 use App\Helpers\Breadcrumb;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Project;
 
 class ProjectController extends Controller
 {
@@ -27,17 +29,59 @@ class ProjectController extends Controller
         return view(self::viewPath . 'add', compact('breadcrumbs'));
     }
 
-    public function edit()
-    {
-        $breadcrumbs = $this->breadcrumbs->add('Edit '.self::page, route($this->route.'edit'))->get();
 
-        return view(self::viewPath . 'edit', compact('breadcrumbs'));
+    public function edit(Request $request)
+    {
+        $breadcrumbs = $this->breadcrumbs->add('Edit '.self::page, route($this->route.'edit',request()->id))->get();
+        $project_detail  = Project::getProjectById(Auth::id(),request()->id);
+
+        return view(self::viewPath . 'edit', compact('breadcrumbs','project_detail'));
+    }
+
+
+    public function create(Request $request)
+    {
+        $project = new Project();
+        $project->user_id     = Auth::id();
+        $project->name        = $request->name;
+        $project->company     = $request->company;
+        $project->start_date  = date("Y-m-d",strtotime($request->start_date));
+        $project->end_date    = date("Y-m-d",strtotime( $request->end_date));
+        $project->detail      = $request->detail;
+        $project->save();
+
+       return redirect()->route('project.view')->with('success', 'Add Project successful!');
+    }
+
+    public function update(Request $request)
+    {
+        $project_detail              = Project::getProjectById(Auth::id(),request()->id);
+        $project_detail->name        = $request->name;
+        $project_detail->company     = $request->company;
+        $project_detail->start_date  = date("Y-m-d",strtotime( $request->start_date));
+        $project_detail->end_date    = date("Y-m-d",strtotime( $request->end_date));
+        $project_detail->detail      = $request->detail;
+
+        $project_detail->update();
+
+        return redirect()->route('project.view')->with('success', 'Edit Project successful!');
+    }
+
+    public function delete()
+    {
+
+        $project_detail = Project::getProjectById(Auth::id(),request()->id);
+        $project_detail->delete();
+
+        return redirect()->route('project.view')->with('success', 'Delete Project successful!');
+
     }
 
     public function index()
     {
         $breadcrumbs = $this->breadcrumbs->get();
+        $project_detail = Project::getProjectByUserid(Auth::user()->id);
 
-        return view(self::viewPath . 'index', compact('breadcrumbs'));
+        return view(self::viewPath . 'index', compact('breadcrumbs','project_detail'));
     }
 }

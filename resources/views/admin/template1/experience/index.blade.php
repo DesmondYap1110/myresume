@@ -23,7 +23,7 @@
                     <li class="feed-item">
                         <div class="row">
                             <div class="col-md-6 col-sm-6">
-                                <time class="date">{{$data->start_date}} - {{$data->end_date ?? "Now"}}</time>
+                                <time class="date">{{$data->start_date}} - {{ ($data->end_date && $data->end_date != '1970-01-01') ? $data->end_date : 'Now' }}</time>
                                 <span class="text">{{$data->company}}</span><br>
                                 <span class="text"><strong class="text-success">{{$data->role}}</strong></span>
                             </div>

@@ -18,7 +18,14 @@ class Project extends Model
     static function getProjectByUserid($id)
     {
         $query = self::Where('user_id', $id)->where('status', self::status_active);
-        return $query->orderBy('id', 'desc')->get();
+        return $query->orderBy('start_date', 'desc')->get();
+    }
+
+
+    static function getProjectById($user_id,$id)
+    {
+        $query = self::Where('user_id', $user_id)->where('id', $id)->where('status', self::status_active);
+        return $query->first();
     }
 
 

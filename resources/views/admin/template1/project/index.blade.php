@@ -19,34 +19,23 @@
             </div>
             <div class="card-body">
                 <ol class="activity-feed">
+                    @foreach($project_detail as $data)
                     <li class="feed-item">
                         <div class="row">
                             <div class="col-md-6 col-sm-6">
-                                <time class="date" datetime="9-25">Sep 25</time>
-                                <span class="text">Responded to need</span>
+                                <time class="date" datetime="9-25">{{date("Y-m-d",strtotime($data->start_date))}} &ensp;-&ensp; {{date("Y-m-d",strtotime($data->end_date))}}</time>
+                                <span class="text">{{$data->name}}</span></br></br>
+                                <span class="text"><strong class="text-danger">{{$data->company}}</strong></span>
                             </div>
                             <div class="col-md-6 col-sm-6">
                                 <ul class="nav nav-pills nav-secondary nav-pills-no-bd nav-sm">
-                                    <li><a class="nav-link btn btn-primary text-white"  href="{{ route('project.edit',12) }}">Edit</a></li>
-                                    <li><a class="nav-link btn btn-danger text-white"  href="{{ route('project.delete',14) }}">Delete</a></li>
+                                    <li><a class="nav-link btn btn-primary text-white"  href="{{ route('project.edit',$data->id) }}">Edit</a></li>
+                                    <li><a class="nav-link btn btn-danger text-white"  href="{{ route('project.delete',$data->id) }}">Delete</a></li>
                                 </ul>
                             </div>
                         </div>
                     </li>
-                    <li class="feed-item">
-                        <div class="row">
-                            <div class="col-md-6 col-sm-6">
-                                <time class="date" datetime="9-25">Sep 25</time>
-                                <span class="text">Responded to need</span>
-                            </div>
-                            <div class="col-md-6 col-sm-6">
-                                <ul class="nav nav-pills nav-secondary nav-pills-no-bd nav-sm">
-                                    <li><a class="nav-link btn btn-primary text-white"  href="#pills-today">Edit</a></li>
-                                    <li><a class="nav-link btn btn-danger text-white"  href="#pills-week">Delete</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </li>
+                    @endforeach
                 </ol>
             </div>
         </div>
