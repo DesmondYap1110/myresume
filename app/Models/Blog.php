@@ -21,6 +21,12 @@ class Blog extends Model
         return $query->orderBy('id', 'desc')->get();
     }
 
+    static function getBlogById($user_id,$id)
+    {
+        $query = self::Where('user_id', $user_id)->where('id', $id)->where('status', self::status_active);
+        return $query->first();
+    }
+
 
 
 }

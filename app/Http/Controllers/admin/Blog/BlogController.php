@@ -5,6 +5,8 @@ namespace App\Http\Controllers\admin\Blog;
 use App\Http\Controllers\Controller;
 use App\Helpers\Breadcrumb;
 use Illuminate\Http\Request;
+use App\Models\Blog;
+use Illuminate\Support\Facades\Auth;
 
 class BlogController extends Controller
 {
@@ -23,21 +25,100 @@ class BlogController extends Controller
     public function add()
     {
         $breadcrumbs = $this->breadcrumbs->add('Add '.self::page, route($this->route.'add'))->get();
-
         return view(self::viewPath . 'add', compact('breadcrumbs'));
+    }
+
+    public function create(Request $request)
+    {
+        $request->validate([
+            'title'       => 'required',
+            'description' => 'required',
+            'image'       => 'required|image|mimes:jpg,jpeg,png,gif,webp|max:2048'
+        ]);
+
+        $blog = new Blog();
+        $blog->user_id      = Auth::id();
+        $blog->title        = $request->title;
+        $blog->description  = $request->description;
+
+        if ($request->hasFile('image')) {
+
+            $file = $request->file('image');
+            $filename = time().'_'.uniqid().'.'.$file->getClientOriginalExtension();
+
+            if (!file_exists(public_path('uploads'))) {
+                mkdir(public_path('uploads'), 0755, true);
+            }
+
+            $file->move(public_path('uploads'), $filename);
+
+            $blog->image = asset('uploads/' . $filename);
+        }
+
+        $blog->save();
+
+        return redirect()->route('blog.view')->with('success', 'Add Blog successful!');
+    }
+
+    public function update(Request $request)
+    {
+        if(isset($request->existing_pond_file))
+        {
+            $request->validate([
+                'title'       => 'required',
+                'description' => 'required'
+            ]);
+        }
+        else
+        {
+            $request->validate([
+                'title'       => 'required',
+                'description' => 'required',
+                'image'       => 'required|image|mimes:jpg,jpeg,png,gif,webp|max:2048'
+            ]);
+        }
+
+        $blog =  Blog::getBlogById(Auth::id(),request()->id);
+        $blog->title        = $request->title;
+        $blog->description  = $request->description;
+
+        if(!isset($request->existing_pond_file))
+        {
+            if ($request->hasFile('image'))
+            {
+                $file = $request->file('image');
+                $filename = time().'_'.uniqid().'.'.$file->getClientOriginalExtension();
+
+                if (!file_exists(public_path('uploads'))) {
+                    mkdir(public_path('uploads'), 0755, true);
+                }
+
+                $file->move(public_path('uploads'), $filename);
+
+                $blog->image = asset('uploads/' . $filename);
+            }
+        }
+
+        $blog->update();
+
+        return redirect()->route('blog.view')->with('success', 'Edit Blog successful!');
+
     }
 
     public function edit()
     {
-        $breadcrumbs = $this->breadcrumbs->add('Edit '.self::page, route($this->route.'edit'))->get();
+        $breadcrumbs = $this->breadcrumbs->add('Edit '.self::page, route($this->route.'edit',request()->id))->get();
 
-        return view(self::viewPath . 'edit', compact('breadcrumbs'));
+        $blog = Blog::getBlogById(Auth::id(),request()->id);
+
+        return view(self::viewPath . 'edit', compact('breadcrumbs','blog'));
     }
 
     public function index()
     {
         $breadcrumbs = $this->breadcrumbs->get();
+        $blog = Blog::getBlogByUserid(Auth::user()->id);
 
-        return view(self::viewPath . 'index', compact('breadcrumbs'));
+        return view(self::viewPath . 'index', compact('breadcrumbs','blog'));
     }
 }

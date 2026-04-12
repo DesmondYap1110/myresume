@@ -77,8 +77,8 @@ Route::prefix('admin')->group(function () {
             Route::get('/', [BlogController::class, 'index'])->name('blog.view');
             Route::get('/add', [BlogController::class, 'add'])->name('blog.add');
             Route::get('/edit/{id}', [BlogController::class, 'edit'])->name('blog.edit');
-            Route::get('/delete', [BlogController::class, 'delete'])->name('blog.delete');
-            Route::post('/create/{id}', [BlogController::class, 'create'])->name('blog.create');
+            Route::get('/delete/{id}', [BlogController::class, 'delete'])->name('blog.delete');
+            Route::post('/create', [BlogController::class, 'create'])->name('blog.create');
             Route::post('/update/{id}', [BlogController::class, 'update'])->name('blog.update');
         });
 

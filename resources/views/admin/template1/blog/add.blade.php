@@ -3,23 +3,22 @@
 FilePond.create(document.querySelector('.filepond'), {
     allowMultiple: false,
     acceptedFileTypes: ['image/*'],
-    instantUpload: false   // preview only, no auto upload
+    instantUpload: false ,  // preview only, no auto upload
+    storeAsFile: true
 });
 
 
 $("#imageInput").on("change", function (e) {
 
     let file = e.target.files[0];
-
-    if (file) {
+    if (file)
+    {
         let reader = new FileReader();
-
         reader.onload = function (event) {
             $("#preview")
                 .attr("src", event.target.result)
                 .show();
         };
-
         reader.readAsDataURL(file);
     }
 });
@@ -34,26 +33,29 @@ $("#imageInput").on("change", function (e) {
                         <div class="card-title">Add Blog</div>
                     </div>
                 </div>
-                <div class="card-action">
-                    <div class="row">
-                        <div class="col-md-12 col-lg-12 col-sm-12 py-1">
-                            <label for="title">Title <span>*</span></label>
-                            <input type="text" class="form-control" id="title" placeholder="Enter Title" required>
-                        </div>
-                        <div class="col-md-12 col-lg-12 col-sm-12 py-1">
-                            <label for="archivement">Description <span>*</span></label>
-                            <textarea class="form-control" rows="4" placeholder="Enter Description of Blog">4534543</textarea>
-                        </div>
-                        <div class="col-md-12 col-lg-12 col-sm-12 py-1">
-                            <label for="image">Image<span>*</span></label>
-                            <input type="file" class="filepond" name="image" id = "imageInput">
-                            <img id="preview" style="width:150px; display:none; border-radius:10px;">
+                <form action="{{route("blog.create")}}" method = "post" enctype="multipart/form-data">
+                    @csrf
+                    <div class="card-action">
+                        <div class="row">
+                            <div class="col-md-12 col-lg-12 col-sm-12 py-1">
+                                <label for="title">Title <span>*</span></label>
+                                <input type="text" class="form-control" id="title" placeholder="Enter Title" name="title" required value="{{old('title')}}">
+                            </div>
+                            <div class="col-md-12 col-lg-12 col-sm-12 py-1">
+                                <label for="archivement">Description <span>*</span></label>
+                                <textarea class="form-control" rows="4" placeholder="Enter Description of Blog" name="description">{{old('description')}}</textarea>
+                            </div>
+                            <div class="col-md-12 col-lg-12 col-sm-12 py-1">
+                                <label for="image">Image<span>*</span></label>
+                                <input type="file" class="filepond" name="image" id = "imageInput">
+                                <img id="preview" style="width:150px; display:none; border-radius:10px;">
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="card-action">
-                    <button class="btn btn-success">Submit</button>
-                </div>
+                    <div class="card-action">
+                        <button class="btn btn-success">Submit</button>
+                    </div>
+                </form>
             </div>
         </div>
 
