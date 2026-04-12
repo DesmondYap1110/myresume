@@ -118,6 +118,11 @@
             $.notify("{{ session('error') }}", "error");
         @endif
 
+        @if($errors->any())
+            @foreach($errors->all() as $error)
+                $.notify("{{ $error }}", "error");
+            @endforeach
+        @endif
     });
 </script>
 

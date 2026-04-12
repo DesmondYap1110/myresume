@@ -5,6 +5,8 @@ namespace App\Http\Controllers\admin\Setting;
 use App\Http\Controllers\Controller;
 use App\Helpers\Breadcrumb;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 class SettingController extends Controller
 {
@@ -21,11 +23,25 @@ class SettingController extends Controller
     }
 
 
-    public function update()
+    public function update(Request $request)
     {
+        $request->validate([
+            'password' => 'required|min:6',
+            'confirmpassword' => 'required'
+        ]);
 
+        // Manual check for password match
+        if ($request->password !== $request->confirmpassword)
+        {
+            return back()->with('error', 'The password confirmation does not match.')->withInput();
+        }
+
+        $user = User::getUserByEmail(Auth::user()->email);
+        $user->password = bcrypt($request->password);
+        $user->update();
+
+        return back()->with('success', 'Password updated successfully!');
     }
-
     public function index()
     {
         $breadcrumbs = $this->breadcrumbs->get();

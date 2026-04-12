@@ -5,23 +5,24 @@
             <div class="card-header">
                 <div class="card-title">Edit Password</div>
             </div>
-            <form id="exampleValidation" novalidate="novalidate">
-                <div class="form-group form-show-validation row">
-                    <label for="email" class="col-lg-3 col-md-3 col-sm-4 mt-sm-2 text-end">Email Address <span class="required-label">*</span></label>
-                    <div class="col-lg-4 col-md-9 col-sm-8">
-                        <input type="email" class="form-control" id="email" placeholder="Enter Email" required="" data-sharkid="__3" data-sharklabel="email" disabled value="abc@gmail.com">
-                    </div>
+            <div class="form-group form-show-validation row">
+                <label for="email" class="col-lg-3 col-md-3 col-sm-4 mt-sm-2 text-end">E-mail <span class="required-label">*</span></label>
+                <div class="col-lg-4 col-md-9 col-sm-8">
+                    <input type="email" class="form-control" id="email" placeholder="Enter Email" disabled value="{{Auth::user()->email}}">
                 </div>
+            </div>
+            <form action="{{route("setting.update")}}" method="post">
+                @csrf
                 <div class="form-group form-show-validation row">
                     <label for="password" class="col-lg-3 col-md-3 col-sm-4 mt-sm-2 text-end">Password <span class="required-label">*</span></label>
                     <div class="col-lg-4 col-md-9 col-sm-8">
-                        <input type="password" class="form-control" id="password" name="password" placeholder="Enter Password" required="" data-sharkid="__4">
+                        <input type="password" class="form-control" id="password" name="password" placeholder="Enter Password" required>
                     </div>
                 </div>
                 <div class="form-group form-show-validation row">
                     <label for="confirmpassword" class="col-lg-3 col-md-3 col-sm-4 mt-sm-2 text-end">Confirm Password <span class="required-label">*</span></label>
                     <div class="col-lg-4 col-md-9 col-sm-8">
-                        <input type="password" class="form-control" id="confirmpassword" name="confirmpassword" placeholder="Enter Password" required="" data-sharkid="__5">
+                        <input type="password" class="form-control" id="confirmpassword" name="confirmpassword" placeholder="Enter Password" required>
                     </div>
                 </div>
                 <div class="card-action">
