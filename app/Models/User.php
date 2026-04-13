@@ -53,7 +53,7 @@ class User extends Authenticatable
 
     static function getUserByUserid($id)
     {
-        $query = self::Where('user_id', $id)->where('status', self::status_active);
-         return $query->orderBy('id', 'desc')->get();
+        $query = self::Where('id', $id)->where('status', self::status_active);
+         return $query->orderBy('id', 'desc')->first();
     }
 }

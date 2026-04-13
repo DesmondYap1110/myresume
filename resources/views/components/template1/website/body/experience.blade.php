@@ -1,0 +1,23 @@
+<section class="resume-section p-3 p-lg-5 d-flex flex-column justify-content-center align-items-center text-center" id="experience">
+    <div class="row my-auto">
+        <div class="col-12">
+        <h2 class="  text-center">Experience</h2>
+        <div class="mb-5 heading-border"></div>
+        </div>
+        <div class="main-experience" id="experience-box">
+            @foreach($experience as $data)
+            <div class="experience">
+                <div class="experience-icon"></div>
+                <div class="experience-content">
+                    <span class="date">{{date("F Y", strtotime($data->start_date))}} - {{ ($data->end_date && $data->end_date != '1970-01-01') ? date("F Y", strtotime($data->end_date)) : 'Now' }}</span>
+                    <h3>{{$data->company}}</h3>
+                    <h5 class="title">{{$data->role}}</h5>
+                    <p class="description">
+                       {{ strip_tags($data->detail) }}
+                    </p>
+                </div>
+            </div>
+            @endforeach
+        </div>
+    </div>
+</section>

@@ -2,7 +2,7 @@
     <a class="navbar-brand js-scroll-trigger" href="#page-top">
     {{-- <span class="d-block d-lg-none  mx-0 px-0"><img src="img/logo-white.png" alt="" class="img-fluid"></span> --}}
     <span class="d-none d-lg-block">
-        <img class="img-fluid img-profile rounded-circle mx-auto mb-2" src="img/profile.jpg" alt="">
+        <img class="img-fluid img-profile rounded-circle mx-auto mb-2" src="{{$user->image}}">
     </span>
     </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -14,17 +14,18 @@
                 <a class="nav-link js-scroll-trigger" href="#about">About</a>
             </li>
             <li class="nav-item">
+                <a class="nav-link js-scroll-trigger" href="#education">Education</a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link js-scroll-trigger" href="#experience">Experience</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link js-scroll-trigger" href="#portfolio">Portfolio</a>
+                <a class="nav-link js-scroll-trigger" href="#project">Project</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link js-scroll-trigger" href="#skills">Skills</a>
+                <a class="nav-link js-scroll-trigger" href="#blog">Blog</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link js-scroll-trigger" href="#awards">Awards</a>
-            </li>
+
             <li class="nav-item">
                 <a class="nav-link js-scroll-trigger" href="#contact">Contact</a>
             </li>

@@ -44,7 +44,7 @@
                                         <input type="text" class="form-control" id="name" placeholder="Enter Name" value="{{$user_detail->name}}" name="name" required>
                                     </div>
                                     <div class="col-lg-6 col-md-12 col-sm-12 py-1">
-                                        <label for="email">Email Address <span>*</span></label>
+                                        <label for="email">Email Address</label>
                                         <input type="email" class="form-control" id="email" placeholder="Enter Email" value="{{$user_detail->email}}" disabled>
                                     </div>
                                     <div class="col-lg-6 col-md-12 col-sm-12 py-1">
@@ -65,19 +65,25 @@
                     </div>
                     <div class="card-action">
                         <div class="row">
-                            <div class="col-md-6 col-lg-4 py-1">
+                            <div class="col-md-6 col-lg-4 py-3">
                                 <label for="position">Position Role <span>*</span></label>
                                 <input type="text" class="form-control" id="position" placeholder="Enter Position Role" value="{{$user_detail->role}}" name="role" required>
                             </div>
-                            <div class="col-md-6 col-lg-4 py-1">
+                            <div class="col-md-6 col-lg-4 py-3">
                                 <label for="name">Address <span>*</span></label>
                                 <input type="text" class="form-control" id="address" placeholder="Enter Address" value="{{$user_detail->address}}" name="address" required>
                             </div>
-                            <div class="col-md-6 col-lg-4 py-1">
+                            <div class="col-md-6 col-lg-4 py-3">
                                 <label for="linkedinURL">LinkedIn URL <span>*</span></label>
                                 <input type="text" class="form-control" id="linkedinURL" placeholder="Enter linkedIn URL" value="{{$user_detail->linkedIn_url}}" name="linkedIn_url" required>
                             </div>
-
+                            <div class="col-md-12 col-lg-12 py-1">
+                                <label>My Website URL</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" value="{{url('/')."/".base64_encode($user_detail->id)}}" id="textToCopy" disabled>
+                                    <button class="btn btn-black btn-border" id="copyBtn" type="button" >Copy</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="card-action">
@@ -138,6 +144,25 @@
                 }
                 $.notify(message, "error");
             }
+        });
+    });
+
+    $(document).ready(function() {
+        $("#copyBtn").click(function() {
+            var text = $("#textToCopy").val();
+
+            // Create temporary textarea
+            var temp = $("<textarea>");
+            $("body").append(temp);
+            temp.val(text).select();
+
+            // Copy text
+            document.execCommand("copy");
+
+            // Remove temp element
+            temp.remove();
+
+            alert("Copied!");
         });
     });
 
