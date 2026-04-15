@@ -46,6 +46,25 @@
         <x-template1.website.body.contact :user="$user"/>
     </div>
 
+    <script>
+    $(document).ready(function () {
+
+        @if(session('success'))
+            $.notify("{{ session('success') }}", "success");
+        @endif
+
+        @if(session('error'))
+            $.notify("{{ session('error') }}", "error");
+        @endif
+
+        @if($errors->any())
+            @foreach($errors->all() as $error)
+                $.notify("{{ $error }}", "error");
+            @endforeach
+        @endif
+    });
+</script>
+
 </x-template1.website.master.master-layout>
 
 

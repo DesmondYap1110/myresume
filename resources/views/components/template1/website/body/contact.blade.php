@@ -4,19 +4,24 @@
         <div class="contact-cont">
         <h3>CONTACT Us</h3>
         </div>
-        <div class="row con-form">
-        <div class="col-md-12">
-            <input type="text" name="full-name" placeholder="Full Name" class="form-control">
-        </div>
-        <div class="col-md-12">
-            <input type="text" name="email" placeholder="Email Id" class="form-control">
-        </div>
-        <div class="col-md-12">
-            <input type="text" name="subject" placeholder="Subject" class="form-control">
-        </div>
-        <div class="col-md-12"><textarea name="" id=""></textarea></div>
-        <div class="col-md-12 sub-but"><button class="btn btn-general btn-white" role="button">Send</button></div>
-        </div>
+        <form action="{{route('front.contact',request()->id)}}" method="post">
+        @csrf
+            <div class="row con-form">
+
+                    <div class="col-md-12">
+                        <input type="text" name="name" placeholder="Full Name" class="form-control">
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" name="email" placeholder="Email Id" class="form-control">
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" name="subject" placeholder="Subject" class="form-control">
+                    </div>
+                    <div class="col-md-12"><textarea name="description" ></textarea></div>
+                    <div class="col-md-12 sub-but"><button class="btn btn-general btn-white" type="submit">Send</button></div>
+
+            </div>
+        </form>
     </div>
     <div class="col-md-4 col-sm-12 mt-5">
         <div class="contact-cont2">

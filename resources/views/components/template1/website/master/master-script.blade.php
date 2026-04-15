@@ -5,6 +5,8 @@
 <script src="{{asset('assets/website/js/counter/jquery.waypoints.min.js')}}"></script>
 <script src="{{asset('assets/website/js/counter/jquery.counterup.min.js')}}"></script>
 <script src="{{asset('assets/website/js/custom.js')}}"></script>
+<!-- Bootstrap Notify -->
+<script src="{{asset("assets/admin/js/plugin/bootstrap-notify/bootstrap-notify.min.js")}}"></script>
 <script>
     $(document).ready(function(){
 

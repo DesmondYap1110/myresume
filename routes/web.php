@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin\Inbox\InboxController;
 use App\Http\Controllers\Website\FrontEndController;
 
 Route::get('{id}', [FrontEndController::class, 'index'])->name('front.show');
+Route::post('enquiry/{id}', [FrontEndController::class, 'contact'])->name('front.contact');
 
 
 Route::prefix('admin')->group(function () {
