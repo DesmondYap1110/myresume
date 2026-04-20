@@ -12,6 +12,7 @@
         </p>
 
         <ul class="list-inline list-social-icons mb-0">
+            @if($user->email)
             <li class="list-inline-item">
                 <a href="mailto:{{$user->email}}" target="_blank">
                     <span class="fa-stack fa-lg">
@@ -20,7 +21,9 @@
                     </span>
                 </a>
             </li>
+            @endif
 
+            @if($user->phone)
             <li class="list-inline-item">
                 <a href="https://wa.me/{{ $user->phone }}?text=Hello%20I%20want%20to%20contact%20you" target="_blank">
                     <span class="fa-stack fa-lg">
@@ -29,7 +32,9 @@
                     </span>
                 </a>
             </li>
+            @endif
 
+            @if($user->linkedIn_url)
             <li class="list-inline-item">
                 <a href="{{ $user->linkedIn_url }}" target="_blank">
                     <span class="fa-stack fa-lg">
@@ -38,6 +43,7 @@
                     </span>
                 </a>
             </li>
+            @endif
         </ul>
 
     </div>

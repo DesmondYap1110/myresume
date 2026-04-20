@@ -11,7 +11,7 @@
                 <div class="card-head-row card-tools-still-right">
                     <div class="card-title">My Experience</div>
                     <div class="card-tools">
-                        <a href="{{ route('experience.add') }}" class="btn bg-black btn-icon text-white data-toggle="tooltip data-placement="bottom" title="Add Experience" ">
+                        <a href="{{ route('experience.add') }}" class="btn bg-black btn-icon text-white" data-toggle="tooltip" data-placement="bottom" title="Add Experience" ">
                             <i class="fas fa-plus"></i>
                         </a>
                     </div>
@@ -19,6 +19,7 @@
             </div>
             <div class="card-body">
                 <ol class="activity-feed">
+                    @if(count($experience))
                     @foreach($experience as $data)
                     <li class="feed-item">
                         <div class="row">
@@ -35,8 +36,12 @@
                             </div>
                         </div>
                     </li>
-
                     @endforeach
+                    @else
+                        <div class="text-center">
+                            Empty {{$breadcrumbs['CurrentPage']}}. Add <a href="{{route('experience.add')}}"> {{$breadcrumbs['CurrentPage']}}</a> .
+                        </div>
+                    @endif
                 </ol>
             </div>
         </div>

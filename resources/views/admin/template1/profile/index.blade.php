@@ -88,7 +88,7 @@
                     </div>
                     <div class="card-action">
                         <div class="card-title summertext" data-placeholder = "About Me...">About Me</div>
-                        <<textarea name="about" id="summernote" class="form-control">{!! $user_detail->about !!}</textarea>
+                        <textarea name="about" id="summernote" class="form-control">{!! $user_detail->about !!}</textarea>
                     </div>
                     <div class="card-action">
                         <button type = "submit" class="btn btn-success">Edit</button>
