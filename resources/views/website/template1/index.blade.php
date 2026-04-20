@@ -2,7 +2,14 @@
 {{$user->name}}
 @endpush
 <x-template1.website.master.master-layout>
-    <x-template1.website.navbar.navbar :user="$user"/>
+    <x-template1.website.navbar.navbar
+        :user="$user"
+        :education="$education"
+        :experience="$experience"
+        :project="$project"
+        :blog="$blog"
+    />
+
     <div class="container-fluid p-0">
 
         <!--====================================================

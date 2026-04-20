@@ -13,18 +13,30 @@
             <li class="nav-item">
                 <a class="nav-link js-scroll-trigger" href="#about">About</a>
             </li>
+
+            @if(count($education)!=0)
             <li class="nav-item">
                 <a class="nav-link js-scroll-trigger" href="#education">Education</a>
             </li>
+            @endif
+
+            @if(count($experience)!=0)
             <li class="nav-item">
                 <a class="nav-link js-scroll-trigger" href="#experience">Experience</a>
             </li>
+            @endif
+
+            @if(count($project)!=0)
             <li class="nav-item">
                 <a class="nav-link js-scroll-trigger" href="#project">Project</a>
             </li>
+            @endif
+
+            @if(count($blog)!=0)
             <li class="nav-item">
                 <a class="nav-link js-scroll-trigger" href="#blog">Blog</a>
             </li>
+             @endif
 
             <li class="nav-item">
                 <a class="nav-link js-scroll-trigger" href="#contact">Contact</a>
