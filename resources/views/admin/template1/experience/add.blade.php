@@ -12,6 +12,14 @@
                     @csrf
                     <div class="card-action">
                         <div class="row">
+                            <div class="col-md-12 col-lg-12 col-sm-12 py-1">
+                                <div class="form-check d-flex align-items-center">
+                                    <input class="form-check-input" type="checkbox" name="work_status" id="work_status" >
+                                    <label class="mb-0" for="flexCheckChecked">
+                                        Currently Working?
+                                    </label>
+                                </div>
+                            </div>
                             <div class="col-md-12 col-lg-6 col-sm-12 py-1">
                                 <label for="company">Company <span>*</span></label>
                                 <input type="text" class="form-control" id="company" placeholder="Enter Company Name" required name="company" value="{{old('company')}}">
@@ -24,18 +32,17 @@
                             <div class="col-md-12 col-lg-6 col-sm-12 py-1">
                                 <label>Start Date <span>*</span></label>
                                 <div class="input-group">
-                                    <input type="text" class="form-control" id="datepicker" name="start_date" required name="start_date" value="{{old('start_date')}}">
+                                    <input type="text" class="form-control datepicker" id="datepicker2" name="start_date" required name="start_date" value="{{old('start_date')}}">
                                     <span class="input-group-text"><i class="fa fa-calendar-check"></i></span>
                                 </div>
                             </div>
-                            <div class="col-md-12 col-lg-6 col-sm-12 py-1">
+                            <div class="col-md-12 col-lg-6 col-sm-12 py-1" id="togglehide">
                                 <label>End Date</label>
                                 <div class="input-group">
-                                    <input type="text" class="form-control" id="datepicker2" name="end_date" name="end_date" value="{{old('end_date')}}">
+                                    <input type="text" class="form-control datepicker" id="datepicker3" name="end_date" name="end_date" value="{{old('end_date')}}">
                                     <span class="input-group-text"><i class="fa fa-calendar-check"></i></span>
                                 </div>
                             </div>
-
                         </div>
                     </div>
                     <div class="card-action">
@@ -52,8 +59,27 @@
 </x-template1.admin.master.master-layout>
 
 <script>
-    $('#datepicker2').datetimepicker({
-        format: 'MM/DD/YYYY',
+    $('.datepicker').datetimepicker({
+        format: 'MM/YYYY',
     });
+
+$('#work_status').on('change', function () {
+
+    if (this.checked) {
+        $('#togglehide').hide();
+
+        // remove required
+        $('#togglehide input').prop('required', false);
+
+        // RESET VALUES (important)
+        $('#togglehide input').val('');
+    }
+    else {
+        $('#togglehide').show();
+        $('#togglehide input').prop('required', true);
+    }
+
+}).trigger('change');
+
 
 </script>

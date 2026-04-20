@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string("name");
             $table->string("company");
-            $table->date("start_date");
-            $table->date("end_date");
+            $table->string('start_date', 7)->nullable();
+            $table->string('end_date', 7)->nullable();
             $table->longText("detail");
             $table->integer("status")->default(1);
             $table->string("user_id");

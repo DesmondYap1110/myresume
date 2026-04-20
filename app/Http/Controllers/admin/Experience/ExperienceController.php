@@ -7,6 +7,7 @@ use App\Helpers\Breadcrumb;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Experience;
+use Carbon\Carbon;
 
 class ExperienceController extends Controller
 {
@@ -43,9 +44,13 @@ class ExperienceController extends Controller
         $experience->user_id     = Auth::id();
         $experience->company     = $request->company;
         $experience->role        = $request->role;
-        $experience->start_date  = date("Y-m-d",strtotime($request->start_date));
-        $experience->end_date    = date("Y-m-d",strtotime($request->end_date));
+        $experience->work_status = $request->has('work_status') ? 1 : 0;
+        $experience->start_date  = Carbon::createFromFormat('m/Y',  $request->start_date)->format('Y-m');
+        $experience->end_date    = $request->end_date ? Carbon::createFromFormat('m/Y', $request->end_date)->format('Y-m'): null;
         $experience->detail      = $request->detail;
+
+
+        dd($experience);
         $experience->save();
 
        return redirect()->route('experience.view')->with('success', 'Add Experience successful!');
@@ -54,10 +59,13 @@ class ExperienceController extends Controller
     public function update(Request $request)
     {
         $experience_detail              = Experience::getExperienceById(Auth::id(),request()->id);
+
+        if($experience_detail) abort(404);
         $experience_detail->company     = $request->company;
         $experience_detail->role        = $request->role;
-        $experience_detail->start_date  = date("Y-m-d",strtotime($request->start_date));
-        $experience_detail->end_date    = date("Y-m-d",strtotime($request->end_date));
+        $experience_detail->work_status = $request->has('work_status') ? 1 : 0;
+        $experience_detail->start_date  = Carbon::createFromFormat('m/Y',  $request->start_date)->format('Y-m');
+        $experience_detail->end_date    = $request->end_date ? Carbon::createFromFormat('m/Y', $request->end_date)->format('Y-m'): null;
         $experience_detail->detail      = $request->detail;
         $experience_detail->update();
 

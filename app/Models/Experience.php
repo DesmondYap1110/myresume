@@ -12,6 +12,10 @@ class Experience extends Model
     const status_active = 1;
     const status_block  = 0;
 
+    const work_status_active   = 1;
+    const work_status_inactive = 0;
+
+
     protected $table = 'experience';
     protected $guarded = [];
 
