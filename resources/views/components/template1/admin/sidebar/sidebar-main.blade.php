@@ -28,8 +28,8 @@
             'link' => "inbox.view",
             'icon' => "fas fa-envelope",
             'title' => "Inbox",
-            'count' => 5,
-            'notification' => false
+            'count' => count(\App\Models\Inbox::getInboxByUseridStatus(Auth::user()->id)),
+            'notification' => true
         ],
 
         [

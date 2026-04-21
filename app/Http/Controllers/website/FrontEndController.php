@@ -47,7 +47,7 @@ class FrontEndController extends Controller
 
         $inbox->save();
 
-        return redirect()->back()->with('success', 'Successful!y Submit');
+        return redirect()->back()->with('success', 'Successfully Submit');
 
 
 

@@ -1,3 +1,7 @@
+@php
+    $inbox_nav = \App\Models\Inbox::getInboxByUseridStatus(Auth::user()->id);
+
+@endphp
 <!-- Navbar Header -->
 <nav class="navbar navbar-header navbar-header-transparent navbar-expand-lg border-bottom">
     <div class="container-fluid">
@@ -5,7 +9,7 @@
             <li class="nav-item topbar-icon dropdown hidden-caret">
                 <a
                     class="nav-link dropdown-toggle"
-                    href="#"
+                    href="javascript:void(0);"
                     id="messageDropdown"
                     role="button"
                     data-bs-toggle="dropdown"
@@ -13,33 +17,51 @@
                     aria-expanded="false"
                 >
                 <i class="fa fa-envelope"></i>
+                @if(count($inbox_nav))
+                <span class="notification">{{count($inbox_nav)}}</span>
+                @endif
                 </a>
 
                 <ul class="dropdown-menu messages-notif-box animated fadeIn" aria-labelledby="messageDropdown">
                     <li>
                         <div class="dropdown-title d-flex justify-content-between align-items-center">
                             Messages
-                            <a href="#" class="small">Mark all as read</a>
+                            <a href="{{route('inbox.status3')}}" class="small">Mark all as read</a>
                         </div>
                     </li>
                     <li>
+
                         <div class="message-notif-scroll scrollbar-outer">
                             <div class="notif-center">
-                                <a href="#">
+                                @if(count($inbox_nav))
+                                @foreach ($inbox_nav as $item)
+                                <a href="{{route('inbox.view.message',$item->id)}}">
                                     <div class="notif-img">
                                         <img src="{{asset("assets/admin/img/jm_denis.jpg")}}" alt="Img Profile"/>
                                     </div>
                                     <div class="notif-content">
-                                        <span class="subject">Jimmy Denis</span>
-                                        <span class="block"> How are you ? </span>
-                                        <span class="time">5 minutes ago</span>
+                                        <span class="subject">{{$item->name}}</span>
+                                        <span class="block"> {{\Illuminate\Support\Str::words($item->subject, 4, '...')}} </span>
+                                        <span class="time">{{$item->created_at->diffForHumans()}}</span>
                                     </div>
                                 </a>
+
+                                @endforeach
+
+                                @else
+
+                                <a href="javascript(0)" class="d-flex justify-content-center align-items-center">
+                                    <div class="notif-content">
+                                        <span class="block">No Message </span>
+                                    </div>
+                                </a>
+                                @endif
+
                             </div>
                         </div>
                     </li>
                     <li>
-                        <a class="see-all" href="javascript:void(0);">
+                        <a class="see-all" href="{{route('inbox.view')}}">
                         See all messages
                         <i class="fa fa-angle-right"></i>
                         </a>

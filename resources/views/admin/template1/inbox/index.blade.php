@@ -35,19 +35,26 @@
                     </tr>
                 </thead>
                 <tbody>
+                    @foreach($inbox as $data)
                     <tr>
-                        <td>1</td>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>@mdo</td>
+                        <td>{{$data->name}}</td>
+                        <td>{{$data->email}}</td>
+                        <td>{{ \Illuminate\Support\Str::words($data->subject, 4, '...') }}</td>
+                        <td>{{$data->created_at}}</td>
                         <td>
                             <ul class="nav nav-pills nav-secondary nav-pills-no-bd nav-sm d-flex justify-content-center align-items-center">
-                                <li><a class="nav-link btn btn-primary text-white"  href="{{route('inbox.view.message',"7897")}}">View</a></li>
-                                <li><a class="nav-link btn btn-danger text-white"  href="{{route('inbox.delete')}}">Delete</a></li>
+                                @if(!$data->read_status)
+                                <li><a class="nav-link btn btn-warning text-white"  href="{{route('inbox.status',$data->id)}}">Unread</a></li>
+                                @else
+                                <li><a class="nav-link btn btn-success text-white"  href="{{route('inbox.status',$data->id)}}">Read</a></li>
+                                @endif
+                                <li><a class="nav-link btn btn-primary text-white"  href="{{route('inbox.view.message',$data->id)}}">View</a></li>
+                                <li><a class="nav-link btn btn-danger text-white"  href="{{route('inbox.delete',$data->id)}}">Delete</a></li>
                             </ul>
 
                         </td>
                     </tr>
+                    @endforeach
                 </tbody>
             </table>
         </div>

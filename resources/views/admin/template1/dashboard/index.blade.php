@@ -7,7 +7,7 @@
     <div class="row">
         <div class="col-sm-6 col-md-3">
             <div class="card card-stats card-round">
-                <div class="card-body">
+                {{-- <div class="card-body">
                     <div class="row align-items-center">
                         <div class="col-icon">
                             <div class="icon-big text-center icon-primary bubble-shadow-small">
@@ -21,7 +21,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> --}}
             </div>
         </div>
     </div>

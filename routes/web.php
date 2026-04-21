@@ -91,7 +91,10 @@ Route::prefix('admin')->group(function () {
         Route::prefix('inbox')->group(function () {
             Route::get('/', [InboxController::class, 'index'])->name('inbox.view');
             Route::get('/{id}', [InboxController::class, 'viewmessage'])->name('inbox.view.message');
-            Route::get('/delete', [InboxController::class, 'delete'])->name('inbox.delete');
+            Route::get('/delete/{id}', [InboxController::class, 'delete'])->name('inbox.delete');
+            Route::get('/edit/status/{id}', [InboxController::class, 'status'])->name('inbox.status');
+            Route::post('/edit/status1/{id}', [InboxController::class, 'editstatus'])->name('inbox.status2');
+            Route::get('/edit/status3', [InboxController::class, 'readAll'])->name('inbox.status3');
         });
 
     });

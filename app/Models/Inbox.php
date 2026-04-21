@@ -24,13 +24,19 @@ class Inbox extends Model
         return $query->orderBy('id', 'desc')->get();
     }
 
-    static function getInboxByUseridStatus($id)
+    static function getInboxByUseridStatus($id,$read_status = self::read_status_inactive)
     {
         $query = self::Where('user_id', $id)
         ->where('status', self::status_active)
-        ->where("read_status",self::read_status_inactive);
+        ->where("read_status",$read_status);
 
         return $query->orderBy('id', 'desc')->get();
+    }
+
+    static function getInboxtById($user_id,$id)
+    {
+        $query = self::Where('user_id', $user_id)->where('id', $id)->where('status', self::status_active);
+        return $query->first();
     }
 
 
