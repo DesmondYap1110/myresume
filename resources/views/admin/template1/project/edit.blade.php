@@ -24,14 +24,14 @@
                             <div class="col-md-12 col-lg-6 col-sm-12 py-1">
                                 <label>Start Date <span>*</span></label>
                                 <div class="input-group">
-                                    <input type="text" class="form-control" id="datepicker" name="start_date" required value="{{$project_detail->start_date}}">
+                                    <input type="text" class="form-control datepicker" id="datepicker2" name="start_date" required value="{{$project_detail->start_date}}">
                                     <span class="input-group-text"><i class="fa fa-calendar-check"></i></span>
                                 </div>
                             </div>
                             <div class="col-md-12 col-lg-6 col-sm-12 py-1">
                                 <label>End Date<span>*</span></label>
                                 <div class="input-group">
-                                    <input type="text" class="form-control" id="datepicker2" name="end_date" required value="{{$project_detail->end_date}}">
+                                    <input type="text" class="form-control datepicker" id="datepicker3" name="end_date" required value="{{$project_detail->end_date}}">
                                     <span class="input-group-text"><i class="fa fa-calendar-check"></i></span>
                                 </div>
                             </div>
@@ -52,11 +52,11 @@
 </x-template1.admin.master.master-layout>
 
 <script>
-    $('#datepicker2').datetimepicker({
-        format: 'MM/DD/YYYY',
+    $('.datepicker').datetimepicker({
+        format: 'YYYY-MM',
     });
 
-    $('#datepicker').datetimepicker('date', moment('{{$project_detail->start_date}}'));
-    $('#datepicker2').datetimepicker('date', moment('{{$project_detail->end_date}}'));
+    $('#datepicker2').datetimepicker('date', moment('{{$project_detail->start_date}}'));
+    $('#datepicker3').datetimepicker('date', moment('{{$project_detail->end_date}}'));
 
 </script>
