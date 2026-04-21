@@ -9,7 +9,7 @@
     <div class="row my-auto">
         @foreach($blog as $data)
         <div class="col-sm-4 blog-item filter finance">
-            <a class="blog-link" href="#blog" data-toggle="modal">
+            <a class="blog-link" href="javascript:void(0);" data-id="{{ $data->id }}" data-toggle="modal" onclick='openModal(@json($data))'>
                 <div class="caption-port">
                     <div class="caption-port-content">
                         <i class="fa fa-search-plus fa-3x"></i>
@@ -22,3 +22,20 @@
 
     </div>
 </section>
+
+<!--====================================================
+                    BLOG MODALS
+======================================================-->
+<x-template1.website.modal.modal/>
+
+<script>
+function openModal(data)
+{
+    $('#blog-title').text(data.title);
+    $('#blog-image').attr('src', data.image);
+    $('#blog-content').html(data.description);
+
+    $('#portfolioModal').modal('show'); //
+}
+
+</script>

@@ -13,10 +13,6 @@
 <body id="page-top">
 
     {{$slot}}
-    <!--====================================================
-                        PORTFOLIO MODALS
-    ======================================================-->
-    @include('components.template1.website.modal.modal')
 
     <!-- Global javascript -->
     @include('components.template1.website.master.master-script')
