@@ -34,6 +34,7 @@ class ExperienceController extends Controller
     {
         $breadcrumbs = $this->breadcrumbs->add('Edit '.self::page, route($this->route.'edit',request()->id))->get();
         $experience  = Experience::getExperienceById(Auth::id(),request()->id);
+        if(!$experience) abort(404);
 
         return view(self::viewPath . 'edit', compact('breadcrumbs','experience'));
     }
@@ -49,8 +50,6 @@ class ExperienceController extends Controller
         $experience->end_date    = $request->end_date ? Carbon::createFromFormat('m/Y', $request->end_date)->format('Y-m'): null;
         $experience->detail      = $request->detail;
 
-
-        dd($experience);
         $experience->save();
 
        return redirect()->route('experience.view')->with('success', 'Add Experience successful!');
@@ -60,12 +59,11 @@ class ExperienceController extends Controller
     {
         $experience_detail              = Experience::getExperienceById(Auth::id(),request()->id);
 
-        if($experience_detail) abort(404);
         $experience_detail->company     = $request->company;
         $experience_detail->role        = $request->role;
         $experience_detail->work_status = $request->has('work_status') ? 1 : 0;
-        $experience_detail->start_date  = Carbon::createFromFormat('m/Y',  $request->start_date)->format('Y-m');
-        $experience_detail->end_date    = $request->end_date ? Carbon::createFromFormat('m/Y', $request->end_date)->format('Y-m'): null;
+        $experience_detail->start_date  = Carbon::createFromFormat('Y-m',  $request->start_date)->format('Y-m');
+        $experience_detail->end_date    = $request->end_date ? Carbon::createFromFormat('Y-m', $request->end_date)->format('Y-m'): null;
         $experience_detail->detail      = $request->detail;
         $experience_detail->update();
 

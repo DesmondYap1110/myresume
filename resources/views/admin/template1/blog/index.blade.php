@@ -30,7 +30,7 @@
             <div class="card-head-row card-tools-still-right">
             <div class="card-title">My Blog</div>
             <div class="card-tools">
-                <a href="{{ route('blog.add') }}" class="btn bg-black btn-icon text-white data-toggle="tooltip data-placement="bottom" title="Add Blog" ">
+                <a href="{{ route('blog.add') }}" class="btn bg-black btn-icon text-white" data-toggle="tooltip" data-placement="bottom" title="Add Blog" ">
                     <i class="fas fa-plus"></i>
                 </a>
             </div>
@@ -38,6 +38,7 @@
         </div>
         <div class="card-body">
             <div class="row">
+                @if(count($blog))
                 @foreach($blog as $data)
                 <div class="col-md-3">
                     <div class="card card-post card-round">
@@ -63,6 +64,11 @@
                     </div>
                 </div>
                 @endforeach
+                @else
+                    <div class="text-center">
+                        Empty {{$breadcrumbs['CurrentPage']}}. Add <a href="{{route('blog.add')}}"> {{$breadcrumbs['CurrentPage']}}</a> .
+                    </div>
+                @endif
             </div>
         </div>
     </div>

@@ -34,6 +34,7 @@ class ProjectController extends Controller
     {
         $breadcrumbs = $this->breadcrumbs->add('Edit '.self::page, route($this->route.'edit',request()->id))->get();
         $project_detail  = Project::getProjectById(Auth::id(),request()->id);
+        if(!$project_detail) abort(404);
 
         return view(self::viewPath . 'edit', compact('breadcrumbs','project_detail'));
     }
@@ -45,8 +46,8 @@ class ProjectController extends Controller
         $project->user_id     = Auth::id();
         $project->name        = $request->name;
         $project->company     = $request->company;
-        $project->start_date  = date("Y-m-d",strtotime($request->start_date));
-        $project->end_date    = date("Y-m-d",strtotime( $request->end_date));
+        $project->start_date  = $request->start_date;
+        $project->end_date    = $request->end_date;
         $project->detail      = $request->detail;
         $project->save();
 
@@ -58,8 +59,8 @@ class ProjectController extends Controller
         $project_detail              = Project::getProjectById(Auth::id(),request()->id);
         $project_detail->name        = $request->name;
         $project_detail->company     = $request->company;
-        $project_detail->start_date  = date("Y-m-d",strtotime( $request->start_date));
-        $project_detail->end_date    = date("Y-m-d",strtotime( $request->end_date));
+        $project_detail->start_date  = $request->start_date;
+        $project_detail->end_date    = $request->end_date;
         $project_detail->detail      = $request->detail;
 
         $project_detail->update();

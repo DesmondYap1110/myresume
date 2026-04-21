@@ -5,13 +5,21 @@
             <div class="card">
                 <div class="card-header">
                     <div class="card-head-row card-tools-still-right">
-                        <div class="card-title">Add Experience</div>
+                        <div class="card-title">Edit Experience</div>
                     </div>
                 </div>
                 <form action="{{route('experience.update',request()->id)}}" method="post">
                     @csrf
                     <div class="card-action">
                         <div class="row">
+                            <div class="col-md-12 col-lg-12 col-sm-12 py-1">
+                                <div class="form-check d-flex align-items-center">
+                                    <input class="form-check-input" type="checkbox" name="work_status" id="work_status" @if($experience->work_status) checked @endif>
+                                    <label class="mb-0" for="flexCheckChecked">
+                                        Currently Working?
+                                    </label>
+                                </div>
+                            </div>
                             <div class="col-md-12 col-lg-6 col-sm-12 py-1">
                                 <label for="company">Company <span>*</span></label>
                                 <input type="text" class="form-control" id="company" placeholder="Enter Company Name" required name="company" value="{{$experience->company}}">
@@ -24,18 +32,17 @@
                             <div class="col-md-12 col-lg-6 col-sm-12 py-1">
                                 <label>Start Date <span>*</span></label>
                                 <div class="input-group">
-                                    <input type="text" class="form-control" id="datepicker" name="start_date" required name="start_date" value="{{$experience->start_date}}">
+                                    <input type="text" class="form-control" id="datepicker2" name="start_date" required name="start_date" value="{{$experience->start_date}}">
                                     <span class="input-group-text"><i class="fa fa-calendar-check"></i></span>
                                 </div>
                             </div>
-                            <div class="col-md-12 col-lg-6 col-sm-12 py-1">
+                            <div class="col-md-12 col-lg-6 col-sm-12 py-1" id="togglehide">
                                 <label>End Date</label>
                                 <div class="input-group">
-                                    <input type="text" class="form-control" id="datepicker2" name="end_date" name="end_date" value="{{$experience->end_date}}">
+                                    <input type="text" class="form-control" id="datepicker3" name="end_date" name="end_date" value="{{$experience->end_date}}">
                                     <span class="input-group-text"><i class="fa fa-calendar-check"></i></span>
                                 </div>
                             </div>
-
                         </div>
                     </div>
                     <div class="card-action">
@@ -52,12 +59,28 @@
 </x-template1.admin.master.master-layout>
 
 <script>
-    $('#datepicker2').datetimepicker({
-        format: 'MM/DD/YYYY',
-    });
+$('.datepicker').datetimepicker({
+    format: 'YYYY-MM',
+});
 
-    $('#datepicker').datetimepicker('date', moment('{{$experience->start_date}}'));
-    $('#datepicker2').datetimepicker('date', moment('{{$experience->end_date}}'));
+$('#work_status').on('change', function () {
+
+    if (this.checked) {
+        $('#togglehide').hide();
+
+        // remove required
+        $('#togglehide input').prop('required', false);
+
+        // RESET VALUES (important)
+        $('#togglehide input').val('');
+    }
+    else
+    {
+        $('#togglehide').show();
+        $('#togglehide input').prop('required', true);
+    }
+
+}).trigger('change');
 
 
 </script>

@@ -59,9 +59,9 @@
 </x-template1.admin.master.master-layout>
 
 <script>
-    $('.datepicker').datetimepicker({
-        format: 'MM/YYYY',
-    });
+$('.datepicker').datetimepicker({
+    format: 'YYYY-MM',
+});
 
 $('#work_status').on('change', function () {
 

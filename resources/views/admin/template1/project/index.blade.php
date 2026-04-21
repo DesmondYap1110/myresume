@@ -11,7 +11,7 @@
                 <div class="card-head-row card-tools-still-right">
                     <div class="card-title">My Past Project</div>
                     <div class="card-tools">
-                        <a href="{{ route('project.add') }}" class="btn bg-black btn-icon text-white data-toggle="tooltip data-placement="bottom" title="Add Project" ">
+                        <a href="{{ route('project.add') }}" class="btn bg-black btn-icon text-white" data-toggle="tooltip" data-placement="bottom" title="Add Project" ">
                             <i class="fas fa-plus"></i>
                         </a>
                     </div>
@@ -19,11 +19,20 @@
             </div>
             <div class="card-body">
                 <ol class="activity-feed">
+                    @if(count($project_detail))
                     @foreach($project_detail as $data)
                     <li class="feed-item">
                         <div class="row">
                             <div class="col-md-6 col-sm-6">
-                                <time class="date" datetime="9-25">{{date("Y-m-d",strtotime($data->start_date))}} &ensp;-&ensp; {{date("Y-m-d",strtotime($data->end_date))}}</time>
+                                <time class="date" datetime="9-25">
+                                    {{
+                                        $data->start_date && $data->end_date    ? (date("F Y", strtotime($data->start_date)) ==
+                                        date("F Y", strtotime($data->end_date)) ? date("F Y", strtotime($data->start_date))
+                                        : date("F Y", strtotime($data->start_date)) . ' - ' . date("F Y", strtotime($data->end_date)))
+                                        : (date("F Y", strtotime($data->start_date ?? $data->end_date)))
+                                    }}
+
+                                </time>
                                 <span class="text">{{$data->name}}</span></br></br>
                                 <span class="text"><strong class="text-danger">{{$data->company}}</strong></span>
                             </div>
@@ -36,9 +45,16 @@
                         </div>
                     </li>
                     @endforeach
+                    @else
+                        <div class="text-center">
+                            Empty {{$breadcrumbs['CurrentPage']}}. Add <a href="{{route('project.add')}}"> {{$breadcrumbs['CurrentPage']}}</a> .
+                        </div>
+                    @endif
                 </ol>
             </div>
         </div>
     </div>
 
 </x-template1.admin.master.master-layout>
+
+

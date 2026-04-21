@@ -45,6 +45,7 @@ class EducationController extends Controller
     {
         $breadcrumbs = $this->breadcrumbs->add('Edit '.self::page, route($this->route.'edit',request()->id))->get();
         $education_detail              = Education::getEducationById(Auth::id(),request()->id);
+        if(!$education_detail) abort(404);
 
         return view(self::viewPath . 'edit', compact('breadcrumbs','education_detail'));
     }
