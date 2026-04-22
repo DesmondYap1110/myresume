@@ -5,7 +5,7 @@
         <div class="logo-header" data-background-color="dark">
             <a href="index.html" class="logo">
                 <img
-                    src="<?php echo e(asset("assets/admin/img/kaiadmin/logo_light.svg")); ?>"
+                    src="<?php echo e(asset("assets/admin/img/kaiadmin/logo_dark.png")); ?>"
                     alt="navbar brand"
                     class="navbar-brand"
                     height="20"

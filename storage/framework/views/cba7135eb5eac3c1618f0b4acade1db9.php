@@ -1,16 +1,10 @@
-<?php
-    $companyname = "Adrian";
-    $powerby = "Desmond";
-?>
-
 <footer class="footer fixed-bottom position-fixed bg-light">
     <div class="container d-flex flex-row-reverse">
         <div class="copyright">
-            © Copyright <?php echo e(date("Y")." ".$companyname); ?>. All Rights Reserved.
+            © Copyright <?php echo e(date("Y")); ?>. All Rights Reserved.
         </div>
         <div>
-            Powered by <?php echo e($powerby); ?>
-
+            Powered by Desmond Yap
         </div>
     </div>
 </footer>

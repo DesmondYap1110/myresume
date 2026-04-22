@@ -50,7 +50,7 @@
 
                                 <?php else: ?>
 
-                                <a href="javascript(0)" class="d-flex justify-content-center align-items-center">
+                                <a href="javascript:void(0);" class="d-flex justify-content-center align-items-center">
                                     <div class="notif-content">
                                         <span class="block">No Message </span>
                                     </div>

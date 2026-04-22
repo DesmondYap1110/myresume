@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use App\Models\Visit_Log;
+use App\Models\User;
 
 class LogFrontendVisit
 {
@@ -14,6 +15,7 @@ class LogFrontendVisit
 
         //  Skip login page or ajax (optional but safe)
         if ($request->ajax()) return $next($request);
+
 
         $lastSegment = last(explode('/', url()->current()));
 
@@ -29,13 +31,19 @@ class LogFrontendVisit
         //     'route' => $request->route(),
         // ]);
 
-
         $user_id = base64_decode($lastSegment);
+        $user = User::getUserByUserid($user_id);
 
+        if($user)
+        {
+            // log ONLY frontend
+            Visit_Log::set_visit_log($user_id);
+            return $next($request);
+        }
+        else
+        {
+            abort(403);
+        }
 
-        // log ONLY frontend
-        Visit_Log::set_visit_log($user_id);
-
-        return $next($request);
     }
 }

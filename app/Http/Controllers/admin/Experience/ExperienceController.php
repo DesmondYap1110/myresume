@@ -46,11 +46,13 @@ class ExperienceController extends Controller
         $experience->company     = $request->company;
         $experience->role        = $request->role;
         $experience->work_status = $request->has('work_status') ? 1 : 0;
-        $experience->start_date  = Carbon::createFromFormat('m/Y',  $request->start_date)->format('Y-m');
-        $experience->end_date    = $request->end_date ? Carbon::createFromFormat('m/Y', $request->end_date)->format('Y-m'): null;
+        $experience->start_date  = $request->start_date;
+        $experience->end_date    = $request->end_date ?? null;
         $experience->detail      = $request->detail;
 
         $experience->save();
+
+
 
        return redirect()->route('experience.view')->with('success', 'Add Experience successful!');
     }
@@ -62,8 +64,8 @@ class ExperienceController extends Controller
         $experience_detail->company     = $request->company;
         $experience_detail->role        = $request->role;
         $experience_detail->work_status = $request->has('work_status') ? 1 : 0;
-        $experience_detail->start_date  = Carbon::createFromFormat('Y-m',  $request->start_date)->format('Y-m');
-        $experience_detail->end_date    = $request->end_date ? Carbon::createFromFormat('Y-m', $request->end_date)->format('Y-m'): null;
+        $experience_detail->start_date  = $request->start_date;
+        $experience_detail->end_date    = $request->end_date ?? null;
         $experience_detail->detail      = $request->detail;
         $experience_detail->update();
 

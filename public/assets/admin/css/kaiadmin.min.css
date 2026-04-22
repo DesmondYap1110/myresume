@@ -6255,16 +6255,16 @@ label.error {
   opacity: 1;
 }
 .btn-label-info {
-  background: rgba(72, 171, 247, 0.1);
-  color: #48abf7 !important;
+  background: #000;
+  color: #fff !important;
   border-color: transparent;
 }
 .btn-label-info:disabled,
 .btn-label-info:focus,
 .btn-label-info:hover {
-  background: #48abf7;
+  background: #000;
   color: #fff !important;
-  opacity: 1;
+  opacity: 0.3;
 }
 .btn-label-success {
   background: rgba(49, 206, 54, 0.1);
@@ -10202,4 +10202,26 @@ body[data-background-color="dark"] .jvm-zoom-btn {
   .wrapper.not-found .desc {
     font-size: 18px !important;
   }
+}
+
+@media print {
+    @page {
+        size: A3 landscape;
+    }
+    body * {
+        visibility: hidden !important;
+    }
+
+    #statisticsChart {
+        visibility: visible !important;
+        position: absolute;
+        left: 0;
+        top: 0;
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+
+        width: 100% !important;
+        height: 100% !important; /* 👈 make it big */
+    }
 }

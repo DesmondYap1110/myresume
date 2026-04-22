@@ -36,14 +36,14 @@
                             <div class="col-md-12 col-lg-6 col-sm-12 py-1">
                                 <label>Start Date <span>*</span></label>
                                 <div class="input-group">
-                                    <input type="text" class="form-control" id="datepicker2" name="start_date" required name="start_date" value="{{$experience->start_date}}">
+                                    <input type="text" class="form-control datepicker" id="datepicker2" name="start_date" required name="start_date" value="{{$experience->start_date}}">
                                     <span class="input-group-text"><i class="fa fa-calendar-check"></i></span>
                                 </div>
                             </div>
                             <div class="col-md-12 col-lg-6 col-sm-12 py-1" id="togglehide">
                                 <label>End Date</label>
                                 <div class="input-group">
-                                    <input type="text" class="form-control" id="datepicker3" name="end_date" name="end_date" value="{{$experience->end_date}}">
+                                    <input type="text" class="form-control datepicker" id="datepicker3" name="end_date" name="end_date" value="{{$experience->end_date}}">
                                     <span class="input-group-text"><i class="fa fa-calendar-check"></i></span>
                                 </div>
                             </div>
