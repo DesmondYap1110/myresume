@@ -11,6 +11,7 @@ use App\Models\Blog;
 use App\Models\Experience;
 use App\Models\Project;
 use App\Models\Inbox;
+// use App\Models\Visit_Log;
 
 class FrontEndController extends Controller
 {
@@ -48,10 +49,6 @@ class FrontEndController extends Controller
         $inbox->save();
 
         return redirect()->back()->with('success', 'Successfully Submit');
-
-
-
-
 
     }
 

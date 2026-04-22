@@ -46,6 +46,7 @@
 
         <?php if(session('success')): ?>
             $.notify("<?php echo e(session('success')); ?>", "success");
+
         <?php endif; ?>
 
         <?php if(session('error')): ?>

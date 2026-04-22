@@ -17,11 +17,66 @@ Dashboard
         </div>
     </div>
     <div class="row">
-        <div class="col-sm-6 col-md-3">
-            <div class="card card-stats card-round">
-                
-            </div>
-        </div>
+        <?php if (isset($component)) { $__componentOriginal7d12ff95845b800d7113bea16d8e4ef7 = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginal7d12ff95845b800d7113bea16d8e4ef7 = $attributes; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.template1.admin.card.card','data' => ['icon' => 'fas fa-user','text' => 'Total Visitors','data' => $visit_log]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
+<?php $component->withName('template1.admin.card.card'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag && $constructor = (new ReflectionClass(Illuminate\View\AnonymousComponent::class))->getConstructor()): ?>
+<?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
+<?php endif; ?>
+<?php $component->withAttributes(['icon' => 'fas fa-user','text' => 'Total Visitors','data' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($visit_log)]); ?>
+<?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginal7d12ff95845b800d7113bea16d8e4ef7)): ?>
+<?php $attributes = $__attributesOriginal7d12ff95845b800d7113bea16d8e4ef7; ?>
+<?php unset($__attributesOriginal7d12ff95845b800d7113bea16d8e4ef7); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal7d12ff95845b800d7113bea16d8e4ef7)): ?>
+<?php $component = $__componentOriginal7d12ff95845b800d7113bea16d8e4ef7; ?>
+<?php unset($__componentOriginal7d12ff95845b800d7113bea16d8e4ef7); ?>
+<?php endif; ?>
+        <?php if (isset($component)) { $__componentOriginal7d12ff95845b800d7113bea16d8e4ef7 = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginal7d12ff95845b800d7113bea16d8e4ef7 = $attributes; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.template1.admin.card.card','data' => ['icon' => 'fas fa-user','text' => 'Visitors Today','data' => $visit_log]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
+<?php $component->withName('template1.admin.card.card'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag && $constructor = (new ReflectionClass(Illuminate\View\AnonymousComponent::class))->getConstructor()): ?>
+<?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
+<?php endif; ?>
+<?php $component->withAttributes(['icon' => 'fas fa-user','text' => 'Visitors Today','data' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($visit_log)]); ?>
+<?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginal7d12ff95845b800d7113bea16d8e4ef7)): ?>
+<?php $attributes = $__attributesOriginal7d12ff95845b800d7113bea16d8e4ef7; ?>
+<?php unset($__attributesOriginal7d12ff95845b800d7113bea16d8e4ef7); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal7d12ff95845b800d7113bea16d8e4ef7)): ?>
+<?php $component = $__componentOriginal7d12ff95845b800d7113bea16d8e4ef7; ?>
+<?php unset($__componentOriginal7d12ff95845b800d7113bea16d8e4ef7); ?>
+<?php endif; ?>
+        <?php if (isset($component)) { $__componentOriginal7d12ff95845b800d7113bea16d8e4ef7 = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginal7d12ff95845b800d7113bea16d8e4ef7 = $attributes; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.template1.admin.card.card','data' => ['icon' => 'fas fa-envelope','text' => 'Inbox Messages','data' => $inbox]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
+<?php $component->withName('template1.admin.card.card'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag && $constructor = (new ReflectionClass(Illuminate\View\AnonymousComponent::class))->getConstructor()): ?>
+<?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
+<?php endif; ?>
+<?php $component->withAttributes(['icon' => 'fas fa-envelope','text' => 'Inbox Messages','data' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($inbox)]); ?>
+<?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginal7d12ff95845b800d7113bea16d8e4ef7)): ?>
+<?php $attributes = $__attributesOriginal7d12ff95845b800d7113bea16d8e4ef7; ?>
+<?php unset($__attributesOriginal7d12ff95845b800d7113bea16d8e4ef7); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal7d12ff95845b800d7113bea16d8e4ef7)): ?>
+<?php $component = $__componentOriginal7d12ff95845b800d7113bea16d8e4ef7; ?>
+<?php unset($__componentOriginal7d12ff95845b800d7113bea16d8e4ef7); ?>
+<?php endif; ?>
     </div>
  <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
