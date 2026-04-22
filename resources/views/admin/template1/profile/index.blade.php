@@ -91,7 +91,7 @@
                         <textarea name="about" id="summernote" class="form-control">{!! $user_detail->about !!}</textarea>
                     </div>
                     <div class="card-action">
-                        <button type = "submit" class="btn btn-success">Edit</button>
+                        <button type = "submit" class="btn btn-dark">Edit</button>
                     </div>
                 </form>
             </div>

@@ -44,12 +44,28 @@
                         <td>
                             <ul class="nav nav-pills nav-secondary nav-pills-no-bd nav-sm d-flex justify-content-center align-items-center">
                                 @if(!$data->read_status)
-                                <li><a class="nav-link btn btn-warning text-white"  href="{{route('inbox.status',$data->id)}}">Unread</a></li>
+                                <li>
+                                    <a class="nav-link btn btn-warning text-white"  href="{{route('inbox.status',$data->id)}}">
+                                        <i class="fas fa-envelope fa-lg "></i>
+                                    </a>
+                                </li>
                                 @else
-                                <li><a class="nav-link btn btn-success text-white"  href="{{route('inbox.status',$data->id)}}">Read</a></li>
+                                <li>
+                                    <a class="nav-link btn btn-success text-white"  href="{{route('inbox.status',$data->id)}}">
+                                        <i class="fas fa-envelope-open fs-6 "></i>
+                                    </a>
+                                </li>
                                 @endif
-                                <li><a class="nav-link btn btn-primary text-white"  href="{{route('inbox.view.message',$data->id)}}">View</a></li>
-                                <li><a class="nav-link btn btn-danger text-white"  href="{{route('inbox.delete',$data->id)}}">Delete</a></li>
+                                <li>
+                                    <a class="nav-link btn btn-primary text-white"  href="{{route('inbox.view.message',$data->id)}}">
+                                        <i class="fas fa-eye fs-6 "></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="nav-link btn btn-danger text-white"  href="{{route('inbox.delete',$data->id)}}">
+                                        <i class="fas fa-trash fs-6 "></i>
+                                    </a>
+                                </li>
                             </ul>
 
                         </td>

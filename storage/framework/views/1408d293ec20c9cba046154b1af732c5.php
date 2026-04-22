@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="shortcut icon" href="img/favicon.ico">
+    <title><?php echo $__env->yieldPushContent('title'); ?></title>
+
+    <!-- Global stylesheets -->
+    <?php echo $__env->make('components.template1.website.master.master-style', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+</head>
+<body id="page-top">
+
+    <?php echo e($slot); ?>
+
+
+    <!-- Global javascript -->
+    <?php echo $__env->make('components.template1.website.master.master-script', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+
+</body>
+</html>
+<?php /**PATH C:\laragon\www\SAPPM\resources\views/components/template1/website/master/master-layout.blade.php ENDPATH**/ ?>

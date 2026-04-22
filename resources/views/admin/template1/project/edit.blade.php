@@ -43,7 +43,7 @@
                          <textarea name="detail" id="summernote" class="form-control" required>{!!$project_detail->detail !!}</textarea>
                     </div>
                     <div class="card-action">
-                        <button class="btn btn-success">Submit</button>
+                        <button class="btn btn-dark">Submit</button>
                     </div>
                 </form>
             </div>

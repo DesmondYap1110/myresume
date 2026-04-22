@@ -30,8 +30,8 @@
                             </div>
                             <div class="col-md-6 col-sm-6">
                                 <ul class="nav nav-pills nav-secondary nav-pills-no-bd nav-sm">
-                                    <li><a class="nav-link btn btn-primary text-white"  href="{{ route('experience.edit',$data->id ) }}">Edit</a></li>
-                                    <li><a class="nav-link btn btn-danger text-white"  href="{{ route('experience.delete',$data->id ) }}">Delete</a></li>
+                                    <li><a class="nav-link btn btn-primary text-white"  href="{{ route('experience.edit',$data->id ) }}"><i class="fas fa-edit"></i></a></li>
+                                    <li><a class="nav-link btn btn-danger text-white"  href="{{ route('experience.delete',$data->id ) }}"><i class="fas fa-trash"></i></a></li>
                                 </ul>
                             </div>
                         </div>

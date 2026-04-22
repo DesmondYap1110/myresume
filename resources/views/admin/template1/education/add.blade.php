@@ -48,7 +48,7 @@ $(document).ready(function () {
                     </div>
                 </div>
                 <div class="card-action">
-                    <button type="submit" class="btn btn-success">Submit</button>
+                    <button type="submit" class="btn btn-dark">Submit</button>
                 </div>
             </form>
         </div>

@@ -50,7 +50,7 @@
                         <textarea name="detail" id="summernote" class="form-control" required>{!! $experience->detail !!}</textarea>
                     </div>
                     <div class="card-action">
-                        <button type="submit" class="btn btn-success">Submit</button>
+                        <button type="submit" class="btn btn-dark">Submit</button>
                     </div>
                 </form>
             </div>
