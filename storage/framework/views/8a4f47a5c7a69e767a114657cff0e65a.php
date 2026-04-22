@@ -1,12 +1,29 @@
-<?php
-    $randomColor = ["feed-item-danger","feed-item-success" ,"feed-item-secondary","feed-item-info","feed-item-warning","feed-item-danger"]
+<?php $__env->startPush('script'); ?>
+<script>
+FilePond.create(document.querySelector('.filepond'), {
+    allowMultiple: false,
+    acceptedFileTypes: ['image/*'],
+    instantUpload: false ,  // preview only, no auto upload
+    storeAsFile: true
+});
 
-?>
-<?php $__env->startPush('title'); ?>
-<?php echo e($breadcrumbs['CurrentPage']); ?>
 
+$("#imageInput").on("change", function (e) {
+
+    let file = e.target.files[0];
+    if (file)
+    {
+        let reader = new FileReader();
+        reader.onload = function (event) {
+            $("#preview")
+                .attr("src", event.target.result)
+                .show();
+        };
+        reader.readAsDataURL(file);
+    }
+});
+</script>
 <?php $__env->stopPush(); ?>
-
 <?php if (isset($component)) { $__componentOriginal0eafdfbd4929ee0c58f5a7ec660b0f2f = $component; } ?>
 <?php if (isset($attributes)) { $__attributesOriginal0eafdfbd4929ee0c58f5a7ec660b0f2f = $attributes; } ?>
 <?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.template1.admin.master.master-layout','data' => []] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
@@ -37,47 +54,38 @@
 <?php $component = $__componentOriginal282d9cb825c54c1ba13d93fccf7c6be8; ?>
 <?php unset($__componentOriginal282d9cb825c54c1ba13d93fccf7c6be8); ?>
 <?php endif; ?>
-    <div class="col-md-6">
-        <div class="card">
-            <div class="card-header">
-                <div class="card-head-row card-tools-still-right">
-                    <div class="card-title">My Experience</div>
-                    <div class="card-tools">
-                        <a href="<?php echo e(route('experience.add')); ?>" class="btn bg-black btn-icon text-white" data-toggle="tooltip" data-placement="bottom" title="Add Experience" ">
-                            <i class="fas fa-plus"></i>
-                        </a>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-head-row card-tools-still-right">
+                        <div class="card-title">Add Blog</div>
                     </div>
                 </div>
-            </div>
-            <div class="card-body">
-                <ol class="activity-feed">
-                    <?php if(count($experience)): ?>
-                    <?php $__currentLoopData = $experience; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $data): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                    <li class="feed-item">
+                <form action="<?php echo e(route("blog.create")); ?>" method = "post" enctype="multipart/form-data">
+                    <?php echo csrf_field(); ?>
+                    <div class="card-action">
                         <div class="row">
-                            <div class="col-md-6 col-sm-6">
-                                <time class="date"><?php echo e(date('F Y', strtotime($data->start_date))); ?> - <?php echo e($data->end_date? date('F Y', strtotime($data->end_date)) : 'Now'); ?></time>
-                                <span class="text"><?php echo e($data->company); ?></span><br>
-                                <span class="text"><strong class="text-success"><?php echo e($data->role); ?></strong></span>
+                            <div class="col-md-12 col-lg-12 col-sm-12 py-1">
+                                <label for="title">Title <span>*</span></label>
+                                <input type="text" class="form-control" id="title" placeholder="Enter Title" name="title" required value="<?php echo e(old('title')); ?>">
                             </div>
-                            <div class="col-md-6 col-sm-6">
-                                <ul class="nav nav-pills nav-secondary nav-pills-no-bd nav-sm">
-                                    <li><a class="nav-link btn btn-primary text-white"  href="<?php echo e(route('experience.edit',$data->id )); ?>"><i class="fas fa-edit"></i></a></li>
-                                    <li><a class="nav-link btn btn-danger text-white"  href="<?php echo e(route('experience.delete',$data->id )); ?>"><i class="fas fa-trash"></i></a></li>
-                                </ul>
+                            <div class="col-md-12 col-lg-12 col-sm-12 py-1">
+                                <label for="archivement">Description <span>*</span></label>
+                                <textarea class="form-control" rows="4" placeholder="Enter Description of Blog" name="description"><?php echo e(old('description')); ?></textarea>
+                            </div>
+                            <div class="col-md-12 col-lg-12 col-sm-12 py-1">
+                                <label for="image">Image<span>*</span></label>
+                                <input type="file" class="filepond" name="image" id = "imageInput">
+                                <img id="preview" style="width:150px; display:none; border-radius:10px;">
                             </div>
                         </div>
-                    </li>
-                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                    <?php else: ?>
-                        <div class="text-center">
-                            Empty <?php echo e($breadcrumbs['CurrentPage']); ?>. Add <a href="<?php echo e(route('experience.add')); ?>"> <?php echo e($breadcrumbs['CurrentPage']); ?></a> .
-                        </div>
-                    <?php endif; ?>
-                </ol>
+                    </div>
+                    <div class="card-action">
+                        <button class="btn btn-success">Submit</button>
+                    </div>
+                </form>
             </div>
         </div>
-    </div>
 
  <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
@@ -89,4 +97,4 @@
 <?php $component = $__componentOriginal0eafdfbd4929ee0c58f5a7ec660b0f2f; ?>
 <?php unset($__componentOriginal0eafdfbd4929ee0c58f5a7ec660b0f2f); ?>
 <?php endif; ?>
-<?php /**PATH C:\laragon\www\SAPPM\resources\views/admin/template1/experience/index.blade.php ENDPATH**/ ?>
+<?php /**PATH C:\laragon\www\SAPPM\resources\views/admin/template1/blog/add.blade.php ENDPATH**/ ?>

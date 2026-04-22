@@ -46,6 +46,7 @@
 
         @if(session('success'))
             $.notify("{{ session('success') }}", "success");
+
         @endif
 
         @if(session('error'))

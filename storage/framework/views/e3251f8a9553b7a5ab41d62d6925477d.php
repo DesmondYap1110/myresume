@@ -1,9 +1,5 @@
-<?php
-    $randomColor = ["feed-item-danger","feed-item-success" ,"feed-item-secondary","feed-item-info","feed-item-warning","feed-item-danger"]
-
-?>
 <?php $__env->startPush('title'); ?>
-<?php echo e($breadcrumbs['CurrentPage']); ?>
+<?php echo e($breadcrumbs['list']['0']['text']); ?>
 
 <?php $__env->stopPush(); ?>
 
@@ -37,47 +33,53 @@
 <?php $component = $__componentOriginal282d9cb825c54c1ba13d93fccf7c6be8; ?>
 <?php unset($__componentOriginal282d9cb825c54c1ba13d93fccf7c6be8); ?>
 <?php endif; ?>
-    <div class="col-md-6">
-        <div class="card">
-            <div class="card-header">
-                <div class="card-head-row card-tools-still-right">
-                    <div class="card-title">My Experience</div>
-                    <div class="card-tools">
-                        <a href="<?php echo e(route('experience.add')); ?>" class="btn bg-black btn-icon text-white" data-toggle="tooltip" data-placement="bottom" title="Add Experience" ">
-                            <i class="fas fa-plus"></i>
-                        </a>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-head-row card-tools-still-right">
+                        <div class="card-title">Edit Project</div>
                     </div>
                 </div>
-            </div>
-            <div class="card-body">
-                <ol class="activity-feed">
-                    <?php if(count($experience)): ?>
-                    <?php $__currentLoopData = $experience; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $data): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                    <li class="feed-item">
+                <form action="<?php echo e(route('project.update',request()->id)); ?>" method="post" >
+                    <?php echo csrf_field(); ?>
+                    <div class="card-action">
                         <div class="row">
-                            <div class="col-md-6 col-sm-6">
-                                <time class="date"><?php echo e(date('F Y', strtotime($data->start_date))); ?> - <?php echo e($data->end_date? date('F Y', strtotime($data->end_date)) : 'Now'); ?></time>
-                                <span class="text"><?php echo e($data->company); ?></span><br>
-                                <span class="text"><strong class="text-success"><?php echo e($data->role); ?></strong></span>
+                            <div class="col-md-12 col-lg-12 col-sm-12 py-1">
+                                <label for="project_name">Project Name <span>*</span></label>
+                                <input type="text" class="form-control" id="project_name" placeholder="Enter Project Name" name="name" value="<?php echo e($project_detail->name); ?>" required>
                             </div>
-                            <div class="col-md-6 col-sm-6">
-                                <ul class="nav nav-pills nav-secondary nav-pills-no-bd nav-sm">
-                                    <li><a class="nav-link btn btn-primary text-white"  href="<?php echo e(route('experience.edit',$data->id )); ?>"><i class="fas fa-edit"></i></a></li>
-                                    <li><a class="nav-link btn btn-danger text-white"  href="<?php echo e(route('experience.delete',$data->id )); ?>"><i class="fas fa-trash"></i></a></li>
-                                </ul>
+                            <div class="col-md-12 col-lg-12 col-sm-12 py-1">
+                                <label for="company">Company Name <span>*</span></label>
+                                <input type="text" class="form-control" id="company" placeholder="Enter Company Name" required  name="company" value="<?php echo e($project_detail->company); ?>" required>
                             </div>
+
+                            <div class="col-md-12 col-lg-6 col-sm-12 py-1">
+                                <label>Start Date <span>*</span></label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control datepicker" id="datepicker2" name="start_date" required value="<?php echo e($project_detail->start_date); ?>">
+                                    <span class="input-group-text"><i class="fa fa-calendar-check"></i></span>
+                                </div>
+                            </div>
+                            <div class="col-md-12 col-lg-6 col-sm-12 py-1">
+                                <label>End Date<span>*</span></label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control datepicker" id="datepicker3" name="end_date" required value="<?php echo e($project_detail->end_date); ?>">
+                                    <span class="input-group-text"><i class="fa fa-calendar-check"></i></span>
+                                </div>
+                            </div>
+
                         </div>
-                    </li>
-                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                    <?php else: ?>
-                        <div class="text-center">
-                            Empty <?php echo e($breadcrumbs['CurrentPage']); ?>. Add <a href="<?php echo e(route('experience.add')); ?>"> <?php echo e($breadcrumbs['CurrentPage']); ?></a> .
-                        </div>
-                    <?php endif; ?>
-                </ol>
+                    </div>
+                    <div class="card-action">
+                        <div class="card-title summertext" data-placeholder = "Please Fill In My Past Project Detail">Detail</div>
+                         <textarea name="detail" id="summernote" class="form-control" required><?php echo $project_detail->detail; ?></textarea>
+                    </div>
+                    <div class="card-action">
+                        <button class="btn btn-dark">Submit</button>
+                    </div>
+                </form>
             </div>
         </div>
-    </div>
 
  <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
@@ -89,4 +91,14 @@
 <?php $component = $__componentOriginal0eafdfbd4929ee0c58f5a7ec660b0f2f; ?>
 <?php unset($__componentOriginal0eafdfbd4929ee0c58f5a7ec660b0f2f); ?>
 <?php endif; ?>
-<?php /**PATH C:\laragon\www\SAPPM\resources\views/admin/template1/experience/index.blade.php ENDPATH**/ ?>
+
+<script>
+    $('.datepicker').datetimepicker({
+        format: 'YYYY-MM',
+    });
+
+    $('#datepicker2').datetimepicker('date', moment('<?php echo e($project_detail->start_date); ?>'));
+    $('#datepicker3').datetimepicker('date', moment('<?php echo e($project_detail->end_date); ?>'));
+
+</script>
+<?php /**PATH C:\laragon\www\SAPPM\resources\views/admin/template1/project/edit.blade.php ENDPATH**/ ?>

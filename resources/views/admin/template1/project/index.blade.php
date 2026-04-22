@@ -1,7 +1,11 @@
+
 @php
     $randomColor = ["feed-item-danger","feed-item-success" ,"feed-item-secondary","feed-item-info","feed-item-warning","feed-item-danger"]
-
 @endphp
+
+@push('title')
+{{$breadcrumbs['CurrentPage']}}
+@endpush
 
 <x-template1.admin.master.master-layout>
     <x-template1.admin.header.breadcrumbs-main :breadcrumbs="$breadcrumbs"/>

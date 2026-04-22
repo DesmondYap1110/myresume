@@ -1,3 +1,6 @@
+@push('title')
+Login
+@endpush
 
 <x-template1.admin.master.master-layout>
     <div class="container container-login animated fadeIn" style="display: block;">

@@ -37,7 +37,7 @@
                                 @foreach ($inbox_nav as $item)
                                 <a href="{{route('inbox.view.message',$item->id)}}">
                                     <div class="notif-img">
-                                        <img src="{{asset("assets/admin/img/jm_denis.jpg")}}" alt="Img Profile"/>
+                                        <img src="{{asset("assets/admin/img/default.jpg")}}" alt="Img Profile"/>
                                     </div>
                                     <div class="notif-content">
                                         <span class="subject">{{$item->name}}</span>
@@ -79,7 +79,7 @@
                     <div class="avatar-sm">
                         <img
                             @if(!Auth::user()->image)
-                            src="{{asset("assets/admin/img/profile.jpg")}}"
+                            src="{{asset("assets/admin/img/default.jpg")}}"
                             @else
                              src="{{Auth::user()->image}}"
                             @endif
@@ -101,13 +101,13 @@
                                 <div class="avatar-lg">
                                     <img
                                         @if(!Auth::user()->image)
-                                        src="{{asset("assets/admin/img/profile.jpg")}}"
+                                        src="{{asset("assets/admin/img/default.jpg")}}"
                                         @else
                                         src="{{Auth::user()->image}}"
                                         @endif
 
                                         alt="image profile"
-                                        class="avatar-img rounded"
+                                        class="avatar-img rounded-circle"
                                     />
                                 </div>
                                 <div class="u-text">

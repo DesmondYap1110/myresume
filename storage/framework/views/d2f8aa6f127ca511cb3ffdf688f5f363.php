@@ -1,3 +1,6 @@
+<?php $__env->startPush('title'); ?>
+Login
+<?php $__env->stopPush(); ?>
 
 <?php if (isset($component)) { $__componentOriginal0eafdfbd4929ee0c58f5a7ec660b0f2f = $component; } ?>
 <?php if (isset($attributes)) { $__attributesOriginal0eafdfbd4929ee0c58f5a7ec660b0f2f = $attributes; } ?>

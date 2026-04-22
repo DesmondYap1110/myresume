@@ -24,6 +24,12 @@ $("#imageInput").on("change", function (e) {
 });
 </script>
 @endpush
+
+@push('title')
+{{$breadcrumbs['list']['0']['text']}}
+@endpush
+
+
 <x-template1.admin.master.master-layout>
     <x-template1.admin.header.breadcrumbs-main :breadcrumbs="$breadcrumbs"/>
         <div class="col-md-6">

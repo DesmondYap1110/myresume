@@ -1,3 +1,6 @@
+@push('title')
+Dashboard
+@endpush
 <x-template1.admin.master.master-layout>
     <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4">
         <div>

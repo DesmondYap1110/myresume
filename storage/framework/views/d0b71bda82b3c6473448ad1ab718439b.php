@@ -1,10 +1,15 @@
+<?php
+    $isOpen = collect($menulist)->contains(fn($list) => Route::is($list['url']));
+?>
+
+
 <li class="nav-item">
     <a data-bs-toggle="collapse" href="#sidebarLayouts">
         <i class="<?php echo e($icon); ?>"></i>
         <p><?php echo e($title); ?></p>
         <span class="caret"></span>
     </a>
-    <div class="collapse <?php echo $__env->yieldPushContent('show'); ?>" id="sidebarLayouts">
+    <div class="collapse <?php echo e($isOpen ? 'show' : ''); ?>" id="sidebarLayouts">
         <ul class="nav nav-collapse">
         <?php $__currentLoopData = $menulist; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $list): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
         <?php if (isset($component)) { $__componentOriginalf3767b61bddd32fecc51f910d9a41581 = $component; } ?>

@@ -134,6 +134,7 @@ h2 {
 .h3,
 h3 {
   font-size: 1.64rem;
+  color:#000;
 }
 .h4,
 h4 {
@@ -5973,7 +5974,7 @@ label.error {
 }
 .alert [data-notify="message"] {
   font-size: 13px;
-  color: #908e8e;
+  color: #000;
 }
 .alert .close {
   background: rgba(255, 255, 255, 0.8);
@@ -6005,7 +6006,8 @@ label.error {
   background: #6861ce;
 }
 .alert-info {
-  border-left: 4px solid #000;
+  border-left: 4px solid #FFD700;
+
 }
 .alert-info [data-notify="icon"]:before {
   background: #48abf7;
@@ -6135,14 +6137,14 @@ label.error {
 }
 .btn-primary {
   background: #212529 !important;
+  color: #FFD700 !important;
   /* border-color: #1572e8 !important; */
 }
 .btn-primary:disabled,
 .btn-primary:focus,
 .btn-primary:hover {
-  color: #fff !important;
-  background: #2a2f5a !important;
-  border-color: #1572e8 !important;
+  color: #FFD700        !important;
+  background: #212529   !important;
 }
 .btn-secondary {
   background: #6861ce !important;
@@ -9627,7 +9629,7 @@ body[data-background-color="dark"] .jvm-zoom-btn {
   background-color: #151a2b !important;
 }
 .bg-primary {
-  background-color: #2a2f5b !important;
+  background-color: #000 !important;
 }
 .bg-primary2 {
   background-color: #1269db !important;

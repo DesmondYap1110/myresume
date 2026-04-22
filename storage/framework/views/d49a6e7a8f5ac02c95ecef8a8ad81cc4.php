@@ -37,7 +37,7 @@
                                 <?php $__currentLoopData = $inbox_nav; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <a href="<?php echo e(route('inbox.view.message',$item->id)); ?>">
                                     <div class="notif-img">
-                                        <img src="<?php echo e(asset("assets/admin/img/jm_denis.jpg")); ?>" alt="Img Profile"/>
+                                        <img src="<?php echo e(asset("assets/admin/img/default.jpg")); ?>" alt="Img Profile"/>
                                     </div>
                                     <div class="notif-content">
                                         <span class="subject"><?php echo e($item->name); ?></span>
@@ -79,7 +79,7 @@
                     <div class="avatar-sm">
                         <img
                             <?php if(!Auth::user()->image): ?>
-                            src="<?php echo e(asset("assets/admin/img/profile.jpg")); ?>"
+                            src="<?php echo e(asset("assets/admin/img/default.jpg")); ?>"
                             <?php else: ?>
                              src="<?php echo e(Auth::user()->image); ?>"
                             <?php endif; ?>
@@ -101,13 +101,13 @@
                                 <div class="avatar-lg">
                                     <img
                                         <?php if(!Auth::user()->image): ?>
-                                        src="<?php echo e(asset("assets/admin/img/profile.jpg")); ?>"
+                                        src="<?php echo e(asset("assets/admin/img/default.jpg")); ?>"
                                         <?php else: ?>
                                         src="<?php echo e(Auth::user()->image); ?>"
                                         <?php endif; ?>
 
                                         alt="image profile"
-                                        class="avatar-img rounded"
+                                        class="avatar-img rounded-circle"
                                     />
                                 </div>
                                 <div class="u-text">

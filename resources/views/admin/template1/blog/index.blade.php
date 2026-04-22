@@ -22,6 +22,11 @@
     });
 </script>
 @endpush
+
+@push('title')
+{{$breadcrumbs['CurrentPage']}}
+@endpush
+
 <x-template1.admin.master.master-layout>
     <x-template1.admin.header.breadcrumbs-main :breadcrumbs="$breadcrumbs"/>
      <div class="col-md-12">

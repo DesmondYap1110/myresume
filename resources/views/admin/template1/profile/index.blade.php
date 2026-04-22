@@ -1,3 +1,6 @@
+@push('title')
+{{$breadcrumbs['CurrentPage']}}
+@endpush
 <style>
     .img-btn{
         opacity: 0 !important;
@@ -29,7 +32,7 @@
                                             @if($user_detail->image)
                                                 <img class="img-upload-preview img-circle" id="previewImg" width="150" height="150" src="{{ $user_detail->image }}" alt="preview">
                                             @else
-                                                <img class="img-upload-preview img-circle" id="previewImg" width="150" height="150" src="{{ asset('assets/admin/img/jm_denis.jpg') }}" alt="preview">
+                                                <img class="img-upload-preview img-circle" id="previewImg" width="150" height="150" src="{{ asset('assets/admin/img/default.jpg') }}" alt="preview">
                                             @endif
                                         <input type="file" class="d-none" id="uploadImg" accept="image/*" >
                                         <label for="uploadImg" class="btn btn-primary btn-sm  rounded-circle img-btn position-absolute" ><i class="fa fa-upload"></i></label>
