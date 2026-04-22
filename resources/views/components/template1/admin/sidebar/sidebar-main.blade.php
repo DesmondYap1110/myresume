@@ -59,10 +59,11 @@
         <div class="logo-header" data-background-color="dark">
         <a href="{{route("dashboard.view")}}" class="logo">
             <img
-            src="{{ asset("assets/admin/img/kaiadmin/logo_light.svg")}}"
+            src="{{ asset("assets/admin/img/kaiadmin/logo_dark.png")}}"
             alt="navbar brand"
             class="navbar-brand"
-            height="20"
+            height="110px"
+            width="100%"
             />
         </a>
         <div class="nav-toggle">
