@@ -112,7 +112,7 @@
                                 </div>
                                 <div class="u-text">
                                     <h4>{{Auth::user()->name}}</h4>
-                                    <p class="text-muted">{{Auth::user()->email}}</p>
+                                    <p class="text-muted">{{\Illuminate\Support\Str::limit(Auth::user()->email,20)}}</p>
                                 </div>
                             </div>
                             <div class="dropdown-divider"></div>
