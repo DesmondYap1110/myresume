@@ -18,15 +18,19 @@ class ThemeSetting extends Model
     public const EDITABLE = [
         'primary' => 'Primary - buttons',
         'button-text' => 'Button text',
-        'accent' => 'Sidebar menu text & icons',
-        'sidebar' => 'Sidebar',
-        'logo-header' => 'Logo header',
+        'accent' => 'Accent - sidebar menu, website highlights',
+        'sidebar' => 'Sidebar - also website cards',
+        'logo-header' => 'Logo header - also website background',
         'background' => 'Page background',
         'link' => 'Links',
     ];
 
     /** Built-in login backgrounds, under public/. */
     public const LOGIN_IMAGES = [
+        // Black & gold vector backgrounds made for the Black Gold theme.
+        'assets/admin/img/bg/black-gold-waves.svg',
+        'assets/admin/img/bg/black-hex.svg',
+        'assets/admin/img/bg/black-marble.svg',
         'assets/admin/img/bg/bg-3.jpg',
         'assets/admin/img/bg/bg.jpg',
         'assets/admin/img/bg/bg-1.jpg',
@@ -36,8 +40,8 @@ class ThemeSetting extends Model
         'assets/admin/img/bg/green-leaves.svg',
     ];
 
-    /** Where uploaded login backgrounds go, on the public disk. */
-    public const LOGIN_UPLOAD_DIR = 'login-backgrounds';
+    /** Where uploaded login backgrounds go, under public/. */
+    public const LOGIN_UPLOAD_DIR = 'uploads/login-backgrounds';
 
     protected $table = 'theme_setting';
 
@@ -85,6 +89,6 @@ class ThemeSetting extends Model
 
     public static function isUploadedLoginImage(?string $path): bool
     {
-        return is_string($path) && str_starts_with($path, 'storage/'.self::LOGIN_UPLOAD_DIR.'/');
+        return is_string($path) && str_starts_with($path, self::LOGIN_UPLOAD_DIR.'/') && ! str_contains($path, '..');
     }
 }

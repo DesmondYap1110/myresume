@@ -1,0 +1,30 @@
+# Uploaded files are data, never code. Defence in depth on top of
+# App\Support\SafeImageUpload: even if something slipped through, Apache
+# will not run it as a script or serve it as a web page.
+
+Options -Indexes -ExecCGI
+RemoveHandler .php .phtml .php3 .php4 .php5 .php7 .php8 .phar .pht .cgi .pl .py .sh
+RemoveType .php .phtml .php3 .php4 .php5 .php7 .php8 .phar .pht
+
+<IfModule mod_php.c>
+    php_flag engine off
+</IfModule>
+<IfModule mod_php7.c>
+    php_flag engine off
+</IfModule>
+<IfModule mod_php8.c>
+    php_flag engine off
+</IfModule>
+
+# Only image files may be served from here.
+<FilesMatch "(?i)\.(jpe?g|png|gif|webp)$">
+    Require all granted
+</FilesMatch>
+<FilesMatch "(?i)^(?!.*\.(jpe?g|png|gif|webp)$).*$">
+    Require all denied
+</FilesMatch>
+
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+    Header set Content-Security-Policy "default-src 'none'; img-src 'self'; style-src 'unsafe-inline'"
+</IfModule>

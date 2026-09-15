@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice">
+  <!-- Black marble with thin gold veins - login background for the Black Gold theme. -->
+  <defs>
+    <linearGradient id="stone" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1b1b1f"/>
+      <stop offset="0.5" stop-color="#0d0d0f"/>
+      <stop offset="1" stop-color="#050506"/>
+    </linearGradient>
+    <filter id="cloud" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.0022 0.004" numOctaves="4" seed="7"/>
+      <feColorMatrix values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.09 0"/>
+    </filter>
+    <filter id="soft"><feGaussianBlur stdDeviation="2.5"/></filter>
+  </defs>
+  <rect width="1920" height="1080" fill="url(#stone)"/>
+  <rect width="1920" height="1080" filter="url(#cloud)"/>
+  <g fill="none" stroke-linecap="round">
+    <g stroke="#ffd700" filter="url(#soft)" stroke-opacity="0.35" stroke-width="5">
+      <path d="M-40 180 C 260 240 420 150 640 330 S 980 420 1160 610 S 1560 760 1960 700"/>
+    </g>
+    <path d="M-40 180 C 260 240 420 150 640 330 S 980 420 1160 610 S 1560 760 1960 700" stroke="#ffd700" stroke-opacity="0.75" stroke-width="1.6"/>
+    <path d="M640 330 C 700 460 660 560 760 700 S 900 900 860 1120" stroke="#daa520" stroke-opacity="0.45" stroke-width="1.1"/>
+    <path d="M1160 610 C 1260 520 1400 520 1500 400 S 1700 200 1980 160" stroke="#daa520" stroke-opacity="0.40" stroke-width="1"/>
+    <path d="M220 1120 C 320 960 520 940 600 820 S 720 640 900 600" stroke="#b8860b" stroke-opacity="0.30" stroke-width="0.9"/>
+    <path d="M1300 1120 C 1340 980 1460 920 1520 820 S 1640 700 1760 690" stroke="#ffd700" stroke-opacity="0.22" stroke-width="0.8"/>
+    <path d="M380 210 C 470 120 560 90 700 -40" stroke="#b8860b" stroke-opacity="0.25" stroke-width="0.8"/>
+  </g>
+</svg>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\admin\Blog;
 
 use App\Http\Controllers\Controller;
+use App\Support\SafeImageUpload;
 use App\Helpers\Breadcrumb;
 use Illuminate\Http\Request;
 use App\Models\Blog;
@@ -42,17 +43,7 @@ class BlogController extends Controller
         $blog->description  = $request->description;
 
         if ($request->hasFile('image')) {
-
-            $file = $request->file('image');
-            $filename = time().'_'.uniqid().'.'.$file->getClientOriginalExtension();
-
-            if (!file_exists(public_path('uploads'))) {
-                mkdir(public_path('uploads'), 0755, true);
-            }
-
-            $file->move(public_path('uploads'), $filename);
-
-            $blog->image = asset('uploads/' . $filename);
+            $blog->image = asset(SafeImageUpload::store($request->file('image'), 'uploads'));
         }
 
         $blog->save();
@@ -86,16 +77,7 @@ class BlogController extends Controller
         {
             if ($request->hasFile('image'))
             {
-                $file = $request->file('image');
-                $filename = time().'_'.uniqid().'.'.$file->getClientOriginalExtension();
-
-                if (!file_exists(public_path('uploads'))) {
-                    mkdir(public_path('uploads'), 0755, true);
-                }
-
-                $file->move(public_path('uploads'), $filename);
-
-                $blog->image = asset('uploads/' . $filename);
+                $blog->image = asset(SafeImageUpload::store($request->file('image'), 'uploads'));
             }
         }
 

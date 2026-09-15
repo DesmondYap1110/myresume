@@ -3,6 +3,21 @@ Login
 @endpush
 
 <x-template1.admin.master.master-layout>
+    <style>
+        .login-stack { display: flex; flex-direction: column; align-items: center; width: 100%; max-width: 400px; }
+        .login-logo { margin-bottom: 28px; text-align: center; }
+        .login-logo img { width: 260px; max-width: 70vw; height: auto; filter: drop-shadow(0 4px 18px rgba(0, 0, 0, .6)); }
+        .login .wrapper.wrapper-login .login-stack .container-login { width: 100%; }
+        @media (max-width: 576px) {
+            .login-logo { margin-bottom: 18px; }
+            .login-logo img { width: 180px; }
+        }
+    </style>
+
+    <div class="login-stack">
+    <div class="login-logo animated fadeIn">
+        <img src="{{ asset('assets/admin/img/kaiadmin/logo_login.png') }}" alt="my resume">
+    </div>
     <div class="container container-login animated fadeIn" style="display: block;">
         <h3 class="text-center">Sign In</h3>
         <div class="login-form">
@@ -26,5 +41,6 @@ Login
                 </div>
             </form>
         </div>
+    </div>
     </div>
 </x-template1.admin.master.master-layout>

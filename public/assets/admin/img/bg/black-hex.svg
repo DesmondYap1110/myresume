@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice">
+  <!-- Matte black honeycomb with a soft gold glow - login background for the Black Gold theme. -->
+  <defs>
+    <pattern id="hex" width="84" height="145.5" patternUnits="userSpaceOnUse" patternTransform="scale(0.9)">
+      <path d="M42 0 L84 24.25 L84 72.75 L42 97 L0 72.75 L0 24.25 Z M42 97 L42 145.5 M0 72.75 L-42 97 M84 72.75 L126 97"
+            fill="none" stroke="#ffffff" stroke-opacity="0.06" stroke-width="1.5"/>
+    </pattern>
+    <radialGradient id="glow" cx="72%" cy="30%" r="55%">
+      <stop offset="0" stop-color="#ffd700" stop-opacity="0.22"/>
+      <stop offset="0.45" stop-color="#b8860b" stop-opacity="0.08"/>
+      <stop offset="1" stop-color="#000000" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glow2" cx="18%" cy="85%" r="45%">
+      <stop offset="0" stop-color="#daa520" stop-opacity="0.12"/>
+      <stop offset="1" stop-color="#000000" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="vignette" cx="50%" cy="50%" r="75%">
+      <stop offset="0.55" stop-color="#000000" stop-opacity="0"/>
+      <stop offset="1" stop-color="#000000" stop-opacity="0.85"/>
+    </radialGradient>
+  </defs>
+  <rect width="1920" height="1080" fill="#0b0b0d"/>
+  <rect width="1920" height="1080" fill="url(#hex)"/>
+  <rect width="1920" height="1080" fill="url(#glow)"/>
+  <rect width="1920" height="1080" fill="url(#glow2)"/>
+  <g fill="none" stroke="#ffd700" stroke-width="2">
+    <path d="M1386 262 L1428 286 L1428 335 L1386 359 L1344 335 L1344 286 Z" stroke-opacity="0.55"/>
+    <path d="M1462 306 L1504 330 L1504 379 L1462 403 L1420 379 L1420 330 Z" stroke-opacity="0.30"/>
+    <path d="M1310 218 L1352 242 L1352 291 L1310 315 L1268 291 L1268 242 Z" stroke-opacity="0.18"/>
+    <path d="M310 790 L352 814 L352 863 L310 887 L268 863 L268 814 Z" stroke-opacity="0.25"/>
+  </g>
+  <rect width="1920" height="1080" fill="url(#vignette)"/>
+</svg>

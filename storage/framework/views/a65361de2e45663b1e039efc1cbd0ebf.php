@@ -5,14 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <link rel="shortcut icon" href="img/favicon.ico">
-    <title>@stack('title')</title>
+    <title><?php echo $__env->yieldPushContent('title'); ?></title>
 
     <!-- Global stylesheets -->
-    @include('components.template1.website.master.master-style')
+    <?php echo $__env->make('components.template1.website.master.master-style', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 </head>
 <body id="page-top">
 
-    {{-- Boot screen + scroll progress; hidden by assets/website/js/theme.js (CSS fallback after 3s). --}}
+    
     <div class="boot-screen" aria-hidden="true">
         <div class="boot-inner">
             <div class="boot-line"><span class="boot-prompt">&gt;</span> initializing portfolio<span class="boot-dots"></span></div>
@@ -22,10 +22,12 @@
     </div>
     <div class="scroll-progress" aria-hidden="true"><span></span></div>
 
-    {{$slot}}
+    <?php echo e($slot); ?>
+
 
     <!-- Global javascript -->
-    @include('components.template1.website.master.master-script')
+    <?php echo $__env->make('components.template1.website.master.master-script', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 
 </body>
 </html>
+<?php /**PATH C:\laragon\www\myresume\resources\views/components/template1/website/master/master-layout.blade.php ENDPATH**/ ?>

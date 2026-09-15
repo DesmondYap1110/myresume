@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\admin\Profile;
 
 use App\Http\Controllers\Controller;
+use App\Support\SafeImageUpload;
+use Illuminate\Validation\ValidationException;
 use App\Helpers\Breadcrumb;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -60,25 +62,20 @@ class ProfileController extends Controller
                 'uploadImg' => 'required|image|mimes:jpg,jpeg,png,gif,webp|max:2048'
             ]);
 
-            $file = $request->file('uploadImg');
-            $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
-
-            // Create directory if it doesn't exist
-            if (!file_exists(public_path('uploads')))
-            {
-                mkdir(public_path('uploads'), 755, true);
-            }
-
-            $file->move(public_path('uploads'), $filename);
+            $path = SafeImageUpload::store($request->file('uploadImg'), 'uploads', 'uploadImg');
 
             $user_detail = User::getUserByEmail(Auth::user()->email);
-            $user_detail->image = asset('uploads/' . $filename);
+            $user_detail->image = asset($path);
             $user_detail->update();
 
             return response()->json([
                 'success' => true,
-                'url' => asset('uploads/' . $filename)
+                'url' => asset($path)
             ]);
+        }
+        catch (ValidationException $e)
+        {
+            return response()->json(['success' => false,'message' => collect($e->errors())->flatten()->first()], 422);
         }
         catch (\Exception $e)
         {

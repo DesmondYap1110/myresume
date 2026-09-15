@@ -15,7 +15,7 @@
         <!--====================================================
                             ABOUT
         ======================================================-->
-        <x-template1.website.body.about :user="$user"/>
+        <x-template1.website.body.about :user="$user" :experience="$experience" :education="$education"/>
 
         <!--====================================================
                             Education

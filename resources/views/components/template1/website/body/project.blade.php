@@ -6,7 +6,7 @@
     </div>
     @foreach($project as $data)
     <div class="resume-item col-md-6 col-sm-12 " >
-        <div class="card mx-0 p-4 mb-5" style="border-color: #17a2b8; box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.21);">
+        <div class="card mx-0 p-4 mb-5">
             <div class=" resume-content mr-auto">
                 <h4 class="mb-3"><i class="fa fa-briefcase mr-3 text-info"></i> {{$data->company}} </h4>
                 <h5> {{$data->name}}</h5>

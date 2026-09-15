@@ -25,13 +25,13 @@ return [
     */
 
     'background' => [
-        'image' => env('APP_BACKGROUND_IMAGE', 'assets/admin/img/bg/bg-3.jpg'),
+        'image' => env('APP_BACKGROUND_IMAGE', 'assets/admin/img/bg/black-gold-waves.svg'),
         'colour' => env('APP_BACKGROUND_COLOR', '#000000'),
         'size' => 'cover',
         'position' => 'center',
         'repeat' => 'no-repeat',
         'attachment' => 'fixed',
-        'overlay' => env('APP_BACKGROUND_OVERLAY', 'rgba(0, 0, 0, 0.35)'),
+        'overlay' => env('APP_BACKGROUND_OVERLAY', 'rgba(0, 0, 0, 0)'),
     ],
 
     /*
@@ -53,7 +53,7 @@ return [
             'primary-hover' => '#000000',
             'button-text' => '#FFD700',
             'accent' => '#FFD700',
-            'sidebar' => '#1A2035',
+            'sidebar' => '#141416',
             'logo-header' => '#000000',
             'background' => '#F5F7FD',
             'link' => '#1572E8',
@@ -63,9 +63,9 @@ return [
             'primary' => '#1572E8',
             'primary-hover' => '#1259B8',
             'button-text' => '#FFFFFF',
-            'accent' => '#FFFFFF',
+            'accent' => '#48ABF7',
             'sidebar' => '#1A2035',
-            'logo-header' => '#1572E8',
+            'logo-header' => '#0B1430',
             'background' => '#F5F7FD',
             'link' => '#1572E8',
         ],

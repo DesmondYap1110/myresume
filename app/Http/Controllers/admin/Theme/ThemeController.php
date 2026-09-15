@@ -6,8 +6,8 @@ use App\Helpers\Breadcrumb;
 use App\Http\Controllers\Controller;
 use App\Models\ThemeSetting;
 use App\Support\Branding;
+use App\Support\SafeImageUpload;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 
@@ -73,7 +73,7 @@ class ThemeController extends Controller
 
         $loginImage = match ($validated['login_image']) {
             'uploaded' => ThemeSetting::isUploadedLoginImage($setting->login_background_image) ? $setting->login_background_image : null,
-            'upload' => 'storage/'.$request->file('login_upload')->store(ThemeSetting::LOGIN_UPLOAD_DIR, 'public'),
+            'upload' => SafeImageUpload::store($request->file('login_upload'), ThemeSetting::LOGIN_UPLOAD_DIR, 'login_upload'),
             default => $validated['login_image'],
         };
 
@@ -124,6 +124,6 @@ class ThemeController extends Controller
 
     private function deleteUpload(string $path): void
     {
-        Storage::disk('public')->delete(Str::after($path, 'storage/'));
+        SafeImageUpload::delete($path, ThemeSetting::LOGIN_UPLOAD_DIR);
     }
 }
