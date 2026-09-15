@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Helpers\Breadcrumb;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 use App\Models\User;
 
 class SettingController extends Controller
@@ -42,10 +43,32 @@ class SettingController extends Controller
 
         return back()->with('success', 'Password updated successfully!');
     }
+    /**
+     * Website Template: which public design this user's portfolio uses.
+     */
+    public function template(Request $request)
+    {
+        $templates = (array) config('website_templates.templates', []);
+
+        $request->validate([
+            'website_template' => ['required', Rule::in(array_keys($templates))],
+        ], [
+            'website_template.in' => 'Please choose one of the available templates.',
+        ]);
+
+        $user = User::getUserByEmail(Auth::user()->email);
+        $user->website_template = $request->website_template;
+        $user->update();
+
+        return back()->with('success', $templates[$request->website_template]['name'].' is now live on your website!');
+    }
+
     public function index()
     {
         $breadcrumbs = $this->breadcrumbs->get();
+        $templates = (array) config('website_templates.templates', []);
+        $currentTemplate = Auth::user()->websiteTemplate();
 
-        return view(self::viewPath . 'index', compact('breadcrumbs'));
+        return view(self::viewPath . 'index', compact('breadcrumbs', 'templates', 'currentTemplate'));
     }
 }

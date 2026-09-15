@@ -59,6 +59,22 @@ class User extends Authenticatable
         return asset(ltrim($value, '/'));
     }
 
+    /**
+     * The chosen public template, falling back to the default when the saved
+     * value is unknown or its view is missing.
+     */
+    public function websiteTemplate(): string
+    {
+        $key = (string) $this->website_template;
+        $templates = (array) config('website_templates.templates', []);
+
+        if (isset($templates[$key]) && view()->exists("website.{$key}.index")) {
+            return $key;
+        }
+
+        return (string) config('website_templates.default', 'template1');
+    }
+
     static function getUserByEmail($email)
     {
         $query = self::Where('email', $email)->where('status', self::status_active);

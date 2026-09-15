@@ -15,6 +15,8 @@ use App\Http\Controllers\Admin\Inbox\InboxController;
 use App\Http\Controllers\Website\FrontEndController;
 
 Route::get('{id}', [FrontEndController::class, 'index'])->name('front.show');
+// Blog post page; the user id stays last because LogFrontendVisit reads the last segment.
+Route::get('post/{blog}/{id}', [FrontEndController::class, 'post'])->whereNumber('blog')->name('front.post');
 Route::post('enquiry/{id}', [FrontEndController::class, 'contact'])->name('front.contact');
 
 
@@ -46,6 +48,7 @@ Route::prefix('admin')->group(function () {
         Route::prefix('setting')->group(function () {
             Route::get('/', [SettingController::class, 'index'])->name('setting.view');
             Route::post('/update', [SettingController::class, 'update'])->name('setting.update');
+            Route::post('/template', [SettingController::class, 'template'])->name('setting.template');
         });
 
         // ---------------- THEME ----------------
