@@ -5,4 +5,6 @@
 <link rel="stylesheet" href="{{ asset("assets/admin/css/kaiadmin.min.css") }}"/>
 <link rel="stylesheet" href="{{asset('assets/admin/css/filepond.min.css')}}" />
 
+<x-template1.admin.master.branding-styles />
+
 

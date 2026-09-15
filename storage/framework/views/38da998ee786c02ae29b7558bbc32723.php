@@ -28,7 +28,7 @@
 <?php endif; ?>
 
     </head>
-    <body class="<?php echo e(request()->routeIs('login.index', 'login.logout') ? 'login bg-primary' : ''); ?>">
+    <body class="<?php echo e(request()->routeIs('login.index', 'login.logout') ? 'login' : ''); ?>">
         <div class="wrapper <?php echo e(request()->routeIs('login.index', 'login.logout') ? 'wrapper-login' : ''); ?>">
             <?php if(!request()->routeIs('login.index', 'login.logout')): ?>
             <!-- Sidebar -->

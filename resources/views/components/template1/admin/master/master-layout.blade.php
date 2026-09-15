@@ -9,7 +9,7 @@
     <x-template1.admin.master.master-style />
 
     </head>
-    <body class="{{ request()->routeIs('login.index', 'login.logout') ? 'login bg-primary' : '' }}">
+    <body class="{{ request()->routeIs('login.index', 'login.logout') ? 'login' : '' }}">
         <div class="wrapper {{ request()->routeIs('login.index', 'login.logout') ? 'wrapper-login' : '' }}">
             @if(!request()->routeIs('login.index', 'login.logout'))
             <!-- Sidebar -->

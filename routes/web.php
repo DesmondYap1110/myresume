@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\Auth\AuthController;
 use App\Http\Controllers\Admin\Dashboard\DashboardController;
 use App\Http\Controllers\Admin\Profile\ProfileController;
 use App\Http\Controllers\Admin\Setting\SettingController;
+use App\Http\Controllers\Admin\Theme\ThemeController;
 use App\Http\Controllers\Admin\Education\EducationController;
 use App\Http\Controllers\Admin\Experience\ExperienceController;
 use App\Http\Controllers\Admin\Project\ProjectController;
@@ -45,6 +46,13 @@ Route::prefix('admin')->group(function () {
         Route::prefix('setting')->group(function () {
             Route::get('/', [SettingController::class, 'index'])->name('setting.view');
             Route::post('/update', [SettingController::class, 'update'])->name('setting.update');
+        });
+
+        // ---------------- THEME ----------------
+        Route::prefix('theme')->group(function () {
+            Route::get('/', [ThemeController::class, 'index'])->name('theme.view');
+            Route::post('/update', [ThemeController::class, 'update'])->name('theme.update');
+            Route::post('/reset', [ThemeController::class, 'reset'])->name('theme.reset');
         });
 
         // ---------------- EDUCATION ----------------
