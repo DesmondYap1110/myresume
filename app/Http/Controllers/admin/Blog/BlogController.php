@@ -43,7 +43,7 @@ class BlogController extends Controller
         $blog->description  = $request->description;
 
         if ($request->hasFile('image')) {
-            $blog->image = asset(SafeImageUpload::store($request->file('image'), 'uploads'));
+            $blog->image = SafeImageUpload::store($request->file('image'), 'uploads');
         }
 
         $blog->save();
@@ -77,7 +77,7 @@ class BlogController extends Controller
         {
             if ($request->hasFile('image'))
             {
-                $blog->image = asset(SafeImageUpload::store($request->file('image'), 'uploads'));
+                $blog->image = SafeImageUpload::store($request->file('image'), 'uploads');
             }
         }
 

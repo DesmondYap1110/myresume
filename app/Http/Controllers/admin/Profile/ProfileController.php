@@ -65,7 +65,8 @@ class ProfileController extends Controller
             $path = SafeImageUpload::store($request->file('uploadImg'), 'uploads', 'uploadImg');
 
             $user_detail = User::getUserByEmail(Auth::user()->email);
-            $user_detail->image = asset($path);
+            // Stored as a path so it works on any host; User::getImageAttribute builds the URL.
+            $user_detail->image = $path;
             $user_detail->update();
 
             return response()->json([

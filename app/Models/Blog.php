@@ -15,6 +15,19 @@ class Blog extends Model
     protected $table = 'blog';
     protected $guarded = [];
 
+    /**
+     * Image as a URL for the current host. New uploads are stored as a path
+     * under public/ ("uploads/abc.jpg"); older rows hold a full URL.
+     */
+    public function getImageAttribute($value)
+    {
+        if (blank($value) || preg_match('#^(https?:)?//#i', $value)) {
+            return $value;
+        }
+
+        return asset(ltrim($value, '/'));
+    }
+
     static function getBlogByUserid($id)
     {
         $query = self::Where('user_id', $id)->where('status', self::status_active);

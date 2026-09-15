@@ -45,6 +45,20 @@ class User extends Authenticatable
     ];
 
 
+    /**
+     * Profile image as a URL for the current host. New uploads are stored as
+     * a path under public/ ("uploads/abc.jpg"); older rows hold a full URL,
+     * which is returned unchanged.
+     */
+    public function getImageAttribute($value)
+    {
+        if (blank($value) || preg_match('#^(https?:)?//#i', $value)) {
+            return $value;
+        }
+
+        return asset(ltrim($value, '/'));
+    }
+
     static function getUserByEmail($email)
     {
         $query = self::Where('email', $email)->where('status', self::status_active);
