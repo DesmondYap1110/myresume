@@ -1,4 +1,4 @@
-@push('script')
+<?php $__env->startPush('script'); ?>
 <script>
 FilePond.create(document.querySelector('.filepond'), {
     allowMultiple: true,
@@ -44,14 +44,43 @@ FilePond.create(document.querySelector('.filepond'), {
     refresh();
 })();
 </script>
-@endpush
+<?php $__env->stopPush(); ?>
 
-@push('title')
-{{$breadcrumbs['list']['0']['text']}}
-@endpush
+<?php $__env->startPush('title'); ?>
+<?php echo e($breadcrumbs['list']['0']['text']); ?>
 
-<x-template1.admin.master.master-layout>
-    <x-template1.admin.header.breadcrumbs-main :breadcrumbs="$breadcrumbs"/>
+<?php $__env->stopPush(); ?>
+
+<?php if (isset($component)) { $__componentOriginal0eafdfbd4929ee0c58f5a7ec660b0f2f = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginal0eafdfbd4929ee0c58f5a7ec660b0f2f = $attributes; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.template1.admin.master.master-layout','data' => []] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
+<?php $component->withName('template1.admin.master.master-layout'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag && $constructor = (new ReflectionClass(Illuminate\View\AnonymousComponent::class))->getConstructor()): ?>
+<?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
+<?php endif; ?>
+<?php $component->withAttributes([]); ?>
+    <?php if (isset($component)) { $__componentOriginal282d9cb825c54c1ba13d93fccf7c6be8 = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginal282d9cb825c54c1ba13d93fccf7c6be8 = $attributes; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.template1.admin.header.breadcrumbs-main','data' => ['breadcrumbs' => $breadcrumbs]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
+<?php $component->withName('template1.admin.header.breadcrumbs-main'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag && $constructor = (new ReflectionClass(Illuminate\View\AnonymousComponent::class))->getConstructor()): ?>
+<?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
+<?php endif; ?>
+<?php $component->withAttributes(['breadcrumbs' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($breadcrumbs)]); ?>
+<?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginal282d9cb825c54c1ba13d93fccf7c6be8)): ?>
+<?php $attributes = $__attributesOriginal282d9cb825c54c1ba13d93fccf7c6be8; ?>
+<?php unset($__attributesOriginal282d9cb825c54c1ba13d93fccf7c6be8); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal282d9cb825c54c1ba13d93fccf7c6be8)): ?>
+<?php $component = $__componentOriginal282d9cb825c54c1ba13d93fccf7c6be8; ?>
+<?php unset($__componentOriginal282d9cb825c54c1ba13d93fccf7c6be8); ?>
+<?php endif; ?>
         <style>
             .gallery-list { list-style: none; padding: 0; margin: 0 0 12px; }
             .gallery-row { display: flex; align-items: center; gap: 12px; padding: 8px; margin-bottom: 8px; border: 1px solid #ebedf2; border-radius: 8px; background: #fff; transition: opacity .2s ease; }
@@ -71,44 +100,44 @@ FilePond.create(document.querySelector('.filepond'), {
                         <div class="card-title">Edit Blog</div>
                     </div>
                 </div>
-                <form action="{{route("blog.update",request()->id)}}" method = "post" enctype="multipart/form-data">
-                    @csrf
+                <form action="<?php echo e(route("blog.update",request()->id)); ?>" method = "post" enctype="multipart/form-data">
+                    <?php echo csrf_field(); ?>
                     <div class="card-action">
                         <div class="row">
                             <div class="col-md-12 col-lg-12 col-sm-12 py-1">
                                 <label for="title">Title <span>*</span></label>
-                                <input type="text" class="form-control" id="title" placeholder="Enter Title" name="title" required value="{{ old('title', $blog->title) }}">
+                                <input type="text" class="form-control" id="title" placeholder="Enter Title" name="title" required value="<?php echo e(old('title', $blog->title)); ?>">
                             </div>
                             <div class="col-md-12 col-lg-12 col-sm-12 py-1">
                                 <label for="archivement">Description <span>*</span></label>
-                                <textarea class="form-control" rows="4" placeholder="Enter Description of Blog" name="description">{{ old('description', $blog->description) }}</textarea>
+                                <textarea class="form-control" rows="4" placeholder="Enter Description of Blog" name="description"><?php echo e(old('description', $blog->description)); ?></textarea>
                             </div>
                             <div class="col-md-12 col-lg-12 col-sm-12 py-1">
                                 <label>Images <span>*</span></label>
                                 <small class="form-text text-muted mb-2 mt-0">The first image is the cover. Use the arrows to reorder, or tick Remove.</small>
 
                                 <ul class="gallery-list" id="gallery-list">
-                                    @foreach($blog->images as $image)
+                                    <?php $__currentLoopData = $blog->images; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $image): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                     <li class="gallery-row">
-                                        <input type="hidden" name="image_order[]" value="{{ $image->id }}">
-                                        <a href="{{ $image->url }}" target="_blank" rel="noopener"><img src="{{ $image->url }}" alt=""></a>
+                                        <input type="hidden" name="image_order[]" value="<?php echo e($image->id); ?>">
+                                        <a href="<?php echo e($image->url); ?>" target="_blank" rel="noopener"><img src="<?php echo e($image->url); ?>" alt=""></a>
                                         <div class="meta">
                                             <span class="cover-badge" hidden>Cover</span>
-                                            <span class="name">{{ basename($image->path) }}</span>
+                                            <span class="name"><?php echo e(basename($image->path)); ?></span>
                                         </div>
                                         <div class="actions">
                                             <button type="button" class="btn btn-sm btn-light move-up" title="Move up" aria-label="Move up"><i class="fas fa-arrow-up"></i></button>
                                             <button type="button" class="btn btn-sm btn-light move-down" title="Move down" aria-label="Move down"><i class="fas fa-arrow-down"></i></button>
                                             <label class="btn btn-sm btn-outline-danger mb-0 ms-1">
-                                                <input type="checkbox" class="remove-toggle me-1" name="remove_images[]" value="{{ $image->id }}"> Remove
+                                                <input type="checkbox" class="remove-toggle me-1" name="remove_images[]" value="<?php echo e($image->id); ?>"> Remove
                                             </label>
                                         </div>
                                     </li>
-                                    @endforeach
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                 </ul>
 
                                 <input type="file" class="filepond" name="images[]" id="imageInput" multiple accept="image/jpeg,image/png,image/gif,image/webp">
-                                <small class="form-text text-muted">New images are added after the ones above. JPG, PNG, GIF or WebP, up to 4 MB each, max {{ \App\Http\Controllers\admin\Blog\BlogController::maxImages }} images in total.</small>
+                                <small class="form-text text-muted">New images are added after the ones above. JPG, PNG, GIF or WebP, up to 4 MB each, max <?php echo e(\App\Http\Controllers\admin\Blog\BlogController::maxImages); ?> images in total.</small>
                             </div>
                         </div>
                     </div>
@@ -119,4 +148,14 @@ FilePond.create(document.querySelector('.filepond'), {
             </div>
         </div>
 
-</x-template1.admin.master.master-layout>
+ <?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginal0eafdfbd4929ee0c58f5a7ec660b0f2f)): ?>
+<?php $attributes = $__attributesOriginal0eafdfbd4929ee0c58f5a7ec660b0f2f; ?>
+<?php unset($__attributesOriginal0eafdfbd4929ee0c58f5a7ec660b0f2f); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal0eafdfbd4929ee0c58f5a7ec660b0f2f)): ?>
+<?php $component = $__componentOriginal0eafdfbd4929ee0c58f5a7ec660b0f2f; ?>
+<?php unset($__componentOriginal0eafdfbd4929ee0c58f5a7ec660b0f2f); ?>
+<?php endif; ?>
+<?php /**PATH C:\laragon\www\myresume\resources\views/admin/template1/blog/edit.blade.php ENDPATH**/ ?>

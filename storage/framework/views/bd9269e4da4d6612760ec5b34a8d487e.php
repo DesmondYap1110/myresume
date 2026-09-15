@@ -1,7 +1,23 @@
+<?php $__env->startPush('script'); ?>
+<script>
+FilePond.create(document.querySelector('.filepond'), {
+    allowMultiple: true,
+    allowReorder: true,
+    maxFiles: <?php echo e(\App\Http\Controllers\admin\Blog\BlogController::maxImages); ?>,
+    acceptedFileTypes: ['image/*'],
+    instantUpload: false,  // preview only, files are sent with the form
+    storeAsFile: true,
+    labelIdle: 'Drag &amp; drop images or <span class="filepond--label-action">Browse</span><br><small>The first image is the cover. Drag to reorder.</small>'
+});
+</script>
+<?php $__env->stopPush(); ?>
+
 <?php $__env->startPush('title'); ?>
 <?php echo e($breadcrumbs['list']['0']['text']); ?>
 
 <?php $__env->stopPush(); ?>
+
+
 <?php if (isset($component)) { $__componentOriginal0eafdfbd4929ee0c58f5a7ec660b0f2f = $component; } ?>
 <?php if (isset($attributes)) { $__attributesOriginal0eafdfbd4929ee0c58f5a7ec660b0f2f = $attributes; } ?>
 <?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.template1.admin.master.master-layout','data' => []] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
@@ -32,49 +48,34 @@
 <?php $component = $__componentOriginal282d9cb825c54c1ba13d93fccf7c6be8; ?>
 <?php unset($__componentOriginal282d9cb825c54c1ba13d93fccf7c6be8); ?>
 <?php endif; ?>
-        <div class="col-md-6">
+        <div class="col-md-8 col-lg-6">
             <div class="card">
                 <div class="card-header">
                     <div class="card-head-row card-tools-still-right">
-                        <div class="card-title">Add Project</div>
+                        <div class="card-title">Add Blog</div>
                     </div>
                 </div>
-                <form action="<?php echo e(route('project.create')); ?>" method="post" >
+                <form action="<?php echo e(route("blog.create")); ?>" method = "post" enctype="multipart/form-data">
                     <?php echo csrf_field(); ?>
                     <div class="card-action">
                         <div class="row">
                             <div class="col-md-12 col-lg-12 col-sm-12 py-1">
-                                <label for="project_name">Project Name <span>*</span></label>
-                                <input type="text" class="form-control" id="project_name" placeholder="Enter Project Name" name="name" value="<?php echo e(old('name')); ?>" required>
+                                <label for="title">Title <span>*</span></label>
+                                <input type="text" class="form-control" id="title" placeholder="Enter Title" name="title" required value="<?php echo e(old('title')); ?>">
                             </div>
                             <div class="col-md-12 col-lg-12 col-sm-12 py-1">
-                                <label for="company">Company Name <span>*</span></label>
-                                <input type="text" class="form-control" id="company" placeholder="Enter Company Name" required  name="company" value="<?php echo e(old('company')); ?>" required>
+                                <label for="archivement">Description <span>*</span></label>
+                                <textarea class="form-control" rows="4" placeholder="Enter Description of Blog" name="description"><?php echo e(old('description')); ?></textarea>
                             </div>
-
-                            <div class="col-md-12 col-lg-6 col-sm-12 py-1">
-                                <label>Start Date <span>*</span></label>
-                                <div class="input-group">
-                                    <input type="text" class="form-control datepicker" id="datepicker2" name="start_date" required value="<?php echo e(old('start_date')); ?>">
-                                    <span class="input-group-text"><i class="fa fa-calendar-check"></i></span>
-                                </div>
+                            <div class="col-md-12 col-lg-12 col-sm-12 py-1">
+                                <label for="imageInput">Images <span>*</span></label>
+                                <input type="file" class="filepond" name="images[]" id="imageInput" multiple accept="image/jpeg,image/png,image/gif,image/webp">
+                                <small class="form-text text-muted">JPG, PNG, GIF or WebP, up to 4 MB each, max <?php echo e(\App\Http\Controllers\admin\Blog\BlogController::maxImages); ?> images.</small>
                             </div>
-                            <div class="col-md-12 col-lg-6 col-sm-12 py-1">
-                                <label>End Date<span>*</span></label>
-                                <div class="input-group">
-                                    <input type="text" class="form-control datepicker" id="datepicker3" name="end_date" required value="<?php echo e(old('end_date')); ?>">
-                                    <span class="input-group-text"><i class="fa fa-calendar-check"></i></span>
-                                </div>
-                            </div>
-
                         </div>
                     </div>
                     <div class="card-action">
-                        <div class="card-title summertext" data-placeholder = "Please Fill In My Past Project Detail">Detail</div>
-                         <textarea name="detail" id="summernote" class="form-control" required><?php echo old('detail'); ?></textarea>
-                    </div>
-                    <div class="card-action">
-                        <button class="btn btn-dark">Submit</button>
+                        <button class="btn btn-success">Submit</button>
                     </div>
                 </form>
             </div>
@@ -90,11 +91,4 @@
 <?php $component = $__componentOriginal0eafdfbd4929ee0c58f5a7ec660b0f2f; ?>
 <?php unset($__componentOriginal0eafdfbd4929ee0c58f5a7ec660b0f2f); ?>
 <?php endif; ?>
-
-<script>
-$('.datepicker').datetimepicker({
-    format: 'YYYY-MM',
-});
-
-</script>
-<?php /**PATH C:\laragon\www\myresume\resources\views/admin/template1/project/add.blade.php ENDPATH**/ ?>
+<?php /**PATH C:\laragon\www\myresume\resources\views/admin/template1/blog/add.blade.php ENDPATH**/ ?>

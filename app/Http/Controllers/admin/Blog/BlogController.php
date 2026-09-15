@@ -7,12 +7,18 @@ use App\Support\SafeImageUpload;
 use App\Helpers\Breadcrumb;
 use Illuminate\Http\Request;
 use App\Models\Blog;
+use App\Models\BlogImage;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\ValidationException;
 
 class BlogController extends Controller
 {
     const page ="Blog";
     const viewPath = "admin.template1.blog.";
+
+    /** Most images one post may have. */
+    const maxImages = 10;
 
     protected $breadcrumbs;
     protected $route;
@@ -32,59 +38,139 @@ class BlogController extends Controller
     public function create(Request $request)
     {
         $request->validate([
-            'title'       => 'required',
+            'title'       => 'required|max:255',
             'description' => 'required',
-            'image'       => 'required|image|mimes:jpg,jpeg,png,gif,webp|max:2048'
+            'images'      => 'required|array|min:1|max:'.self::maxImages,
+            'images.*'    => 'image|mimes:jpg,jpeg,png,gif,webp|max:4096',
+        ], [
+            'images.required' => 'Please add at least one image.',
+            'images.max'      => 'A blog can have at most '.self::maxImages.' images.',
+            'images.*.max'    => 'Each image must be 4 MB or smaller.',
         ]);
 
-        $blog = new Blog();
-        $blog->user_id      = Auth::id();
-        $blog->title        = $request->title;
-        $blog->description  = $request->description;
+        $stored = [];
 
-        if ($request->hasFile('image')) {
-            $blog->image = SafeImageUpload::store($request->file('image'), 'uploads');
+        try {
+            DB::transaction(function () use ($request, &$stored) {
+                $blog = new Blog();
+                $blog->user_id     = Auth::id();
+                $blog->title       = $request->title;
+                $blog->description = $request->description;
+                $blog->image       = '';
+                $blog->save();
+
+                foreach ($request->file('images') as $i => $file) {
+                    $path = SafeImageUpload::store($file, 'uploads', "images.$i");
+                    $stored[] = $path;
+                    $blog->images()->create(['path' => $path, 'sort_order' => $i]);
+                }
+
+                $blog->syncCover();
+            });
+        } catch (\Throwable $e) {
+            // Nothing was saved, so drop any files already written.
+            foreach ($stored as $path) {
+                SafeImageUpload::delete($path, 'uploads');
+            }
+            throw $e;
         }
-
-        $blog->save();
 
         return redirect()->route('blog.view')->with('success', 'Add Blog successful!');
     }
 
     public function update(Request $request)
     {
-        if(isset($request->existing_pond_file))
-        {
-            $request->validate([
-                'title'       => 'required',
-                'description' => 'required'
-            ]);
+        $blog = Blog::getBlogById(Auth::id(), request()->id);
+        if (!$blog) abort(404);
+
+        $request->validate([
+            'title'           => 'required|max:255',
+            'description'     => 'required',
+            'image_order'     => 'array',
+            'image_order.*'   => 'integer',
+            'remove_images'   => 'array',
+            'remove_images.*' => 'integer',
+            'images'          => 'array|max:'.self::maxImages,
+            'images.*'        => 'image|mimes:jpg,jpeg,png,gif,webp|max:4096',
+        ], [
+            'images.*.max' => 'Each image must be 4 MB or smaller.',
+        ]);
+
+        // Only this post's own images can be kept, reordered or removed.
+        $existing = $blog->images->keyBy('id');
+        $remove = collect($request->input('remove_images', []))->map(fn ($id) => (int) $id)->filter(fn ($id) => $existing->has($id));
+        $kept = $existing->count() - $remove->count();
+        $new = count($request->file('images', []));
+
+        if ($kept + $new < 1) {
+            throw ValidationException::withMessages(['images' => 'A blog needs at least one image.']);
         }
-        else
-        {
-            $request->validate([
-                'title'       => 'required',
-                'description' => 'required',
-                'image'       => 'required|image|mimes:jpg,jpeg,png,gif,webp|max:2048'
-            ]);
+        if ($kept + $new > self::maxImages) {
+            throw ValidationException::withMessages(['images' => 'A blog can have at most '.self::maxImages.' images.']);
         }
 
-        $blog =  Blog::getBlogById(Auth::id(),request()->id);
-        $blog->title        = $request->title;
-        $blog->description  = $request->description;
+        $stored = [];
+        $toDelete = [];
 
-        if(!isset($request->existing_pond_file))
-        {
-            if ($request->hasFile('image'))
-            {
-                $blog->image = SafeImageUpload::store($request->file('image'), 'uploads');
+        try {
+            DB::transaction(function () use ($request, $blog, $existing, $remove, &$stored, &$toDelete) {
+                $blog->title       = $request->title;
+                $blog->description = $request->description;
+
+                foreach ($remove as $id) {
+                    $image = $existing->get($id);
+                    if ($image->isLocalUpload()) $toDelete[] = $image->path;
+                    $image->delete();
+                }
+
+                // Kept images in the order shown on the form, then any not listed.
+                $order = collect($request->input('image_order', []))->map(fn ($id) => (int) $id)
+                    ->filter(fn ($id) => $existing->has($id) && !$remove->contains($id))
+                    ->unique()->values();
+                $order = $order->merge($existing->keys()->diff($order)->diff($remove))->values();
+
+                $position = 0;
+                foreach ($order as $id) {
+                    $existing->get($id)->update(['sort_order' => $position++]);
+                }
+
+                foreach ($request->file('images', []) as $i => $file) {
+                    $path = SafeImageUpload::store($file, 'uploads', "images.$i");
+                    $stored[] = $path;
+                    $blog->images()->create(['path' => $path, 'sort_order' => $position++]);
+                }
+
+                $blog->syncCover();
+            });
+        } catch (\Throwable $e) {
+            foreach ($stored as $path) {
+                SafeImageUpload::delete($path, 'uploads');
             }
+            throw $e;
         }
 
-        $blog->update();
+        // Files are removed only once the database change has committed.
+        foreach ($toDelete as $path) {
+            SafeImageUpload::delete($path, 'uploads');
+        }
 
         return redirect()->route('blog.view')->with('success', 'Edit Blog successful!');
+    }
 
+    public function delete()
+    {
+        $blog = Blog::getBlogById(Auth::id(), request()->id);
+        if (!$blog) abort(404);
+
+        $files = $blog->images->filter(fn (BlogImage $image) => $image->isLocalUpload())->pluck('path');
+
+        $blog->delete(); // blog_image rows go with it (cascade)
+
+        foreach ($files as $path) {
+            SafeImageUpload::delete($path, 'uploads');
+        }
+
+        return redirect()->route('blog.view')->with('success', 'Delete Blog successful!');
     }
 
     public function edit()
@@ -92,6 +178,7 @@ class BlogController extends Controller
         $breadcrumbs = $this->breadcrumbs->add('Edit '.self::page, route($this->route.'edit',request()->id))->get();
 
         $blog = Blog::getBlogById(Auth::id(),request()->id);
+        if (!$blog) abort(404);
 
         return view(self::viewPath . 'edit', compact('breadcrumbs','blog'));
     }

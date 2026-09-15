@@ -47,10 +47,17 @@
                 @foreach($blog as $data)
                 <div class="col-md-3">
                     <div class="card card-post card-round">
-                        <div class=" image-gallery">
-                            <a href="{{$data->image}}" class="col-6 col-md-3 mb-4">
-                                <img src="{{$data->image}}" class="img-fluid card-img-top" >
+                        <div class="image-gallery position-relative">
+                            @foreach($data->images as $image)
+                            <a href="{{ $image->url }}" @if(!$loop->first) hidden @endif>
+                                <img src="{{ $image->url }}" class="img-fluid card-img-top" alt="{{ $data->title }}">
                             </a>
+                            @endforeach
+                            @if($data->images->count() > 1)
+                            <span class="badge bg-black text-white position-absolute" style="top:10px;right:10px">
+                                <i class="fas fa-images me-1"></i>{{ $data->images->count() }}
+                            </span>
+                            @endif
                         </div>
                         <div class="card-body">
                             <div class="d-flex">

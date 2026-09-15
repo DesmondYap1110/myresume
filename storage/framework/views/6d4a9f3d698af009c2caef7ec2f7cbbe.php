@@ -76,10 +76,18 @@
                 <?php $__currentLoopData = $blog; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $data): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                 <div class="col-md-3">
                     <div class="card card-post card-round">
-                        <div class=" image-gallery">
-                            <a href="<?php echo e($data->image); ?>" class="col-6 col-md-3 mb-4">
-                                <img src="<?php echo e($data->image); ?>" class="img-fluid card-img-top" >
+                        <div class="image-gallery position-relative">
+                            <?php $__currentLoopData = $data->images; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $image): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                            <a href="<?php echo e($image->url); ?>" <?php if(!$loop->first): ?> hidden <?php endif; ?>>
+                                <img src="<?php echo e($image->url); ?>" class="img-fluid card-img-top" alt="<?php echo e($data->title); ?>">
                             </a>
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                            <?php if($data->images->count() > 1): ?>
+                            <span class="badge bg-black text-white position-absolute" style="top:10px;right:10px">
+                                <i class="fas fa-images me-1"></i><?php echo e($data->images->count()); ?>
+
+                            </span>
+                            <?php endif; ?>
                         </div>
                         <div class="card-body">
                             <div class="d-flex">

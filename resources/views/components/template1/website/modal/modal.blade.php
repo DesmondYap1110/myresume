@@ -11,21 +11,26 @@
             </button>
 
             <div class="post-grid">
-                <aside class="post-media">
+                <aside class="post-media" aria-label="Images">
                     <div class="post-media-frame">
                         <span class="post-corner tl"></span><span class="post-corner tr"></span>
                         <span class="post-corner bl"></span><span class="post-corner br"></span>
-                        <img id="blog-image" src="" alt="">
+                        <a id="blog-image-link" href="#" target="_blank" rel="noopener" title="Open full size">
+                            <img id="blog-image" src="" alt="">
+                        </a>
+                        <button type="button" class="post-gallery-arrow prev" data-image-step="-1" aria-label="Previous image"><i class="fa fa-chevron-left"></i></button>
+                        <button type="button" class="post-gallery-arrow next" data-image-step="1" aria-label="Next image"><i class="fa fa-chevron-right"></i></button>
                     </div>
                     <div class="post-media-caption">
                         <span class="post-live"></span>
-                        <span id="blog-index">01 / 01</span>
+                        <span id="blog-image-count">1 / 1</span>
                     </div>
+                    <div class="post-thumbs" id="blog-thumbs"></div>
                 </aside>
 
                 <article class="post-body">
                     <div class="post-meta">
-                        <span class="post-tag">// blog</span>
+                        <span class="post-tag">// blog <span id="blog-index">01 / 01</span></span>
                         <span><i class="fa fa-calendar-o"></i> <span id="blog-date"></span></span>
                         <span><i class="fa fa-clock-o"></i> <span id="blog-read"></span></span>
                     </div>
