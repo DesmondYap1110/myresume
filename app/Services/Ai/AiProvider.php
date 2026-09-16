@@ -52,7 +52,7 @@ abstract class AiProvider
                         'address' => ['type' => ['string', 'null'], 'description' => 'City and country only'],
                         'email' => ['type' => ['string', 'null']],
                         'phone' => ['type' => ['string', 'null'], 'description' => 'Digits with country code'],
-                        'linkedIn_url' => ['type' => ['string', 'null']],
+                        'linkedIn_url' => ['type' => ['string', 'null'], 'description' => 'The full https:// address, or null when only the words "LinkedIn" appear'],
                         'about' => ['type' => ['string', 'null'], 'description' => 'Professional summary, 2-4 sentences, plus listed skills'],
                     ],
                     'required' => ['name', 'role', 'address', 'email', 'phone', 'linkedIn_url', 'about'],
@@ -95,7 +95,11 @@ abstract class AiProvider
                         'properties' => [
                             'title' => ['type' => 'string'],
                             'description' => ['type' => 'string'],
-                            'icon' => ['type' => 'string', 'description' => 'One of: code, web, mobile, database, api, design, security, cloud, chart, support, rocket, gear'],
+                            'icon' => [
+                                'type' => 'string',
+                                'enum' => ['code', 'web', 'mobile', 'database', 'api', 'design', 'security', 'cloud', 'chart', 'support', 'rocket', 'gear'],
+                                'description' => 'The closest match for this service',
+                            ],
                         ],
                         'required' => ['title', 'description', 'icon'],
                         'additionalProperties' => false,

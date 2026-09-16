@@ -51,7 +51,12 @@ AI Assistant
                             </form>
                         </div>
                     </div>
-                    <div class="card-category">Using {{ $model }}</div>
+                    <div class="card-category">
+                        Using {{ $model }}
+                        @unless($readsFiles)
+                            · reads text PDFs (a scanned photo of a resume needs Claude)
+                        @endunless
+                    </div>
                 </div>
 
                 <div class="card-body">

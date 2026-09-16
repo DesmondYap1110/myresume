@@ -78,6 +78,7 @@ class SettingController extends Controller
             'base_url' => ['nullable', 'string', 'max:200', 'url'],
             'api_key' => ['nullable', 'string', 'max:200', 'regex:/^[A-Za-z0-9_\-\.:]+$/'],
             'model' => ['required', 'string', 'max:120', 'regex:/^[A-Za-z0-9_\-\.\/:]+$/'],
+            'model_custom' => ['nullable', 'string', 'max:120'],
             'enabled' => ['nullable', 'boolean'],
             'action' => ['nullable', 'in:save,test,remove'],
         ], [
@@ -86,12 +87,25 @@ class SettingController extends Controller
             'model.regex' => 'That model name has characters we do not allow.',
         ]);
 
+        // "Other" in the model list means the name was typed in by hand.
+        $model = $validated['model'];
+
+        if ($model === '__custom') {
+            $model = trim((string) ($validated['model_custom'] ?? ''));
+
+            if (blank($model) || !preg_match('/^[A-Za-z0-9_\-\.\/:]+$/', $model)) {
+                throw \Illuminate\Validation\ValidationException::withMessages([
+                    'model_custom' => 'Type the model name, using letters, numbers and - _ . / : only.',
+                ]);
+            }
+        }
+
         $setting = \App\Models\AiSetting::forUser(Auth::id());
         $setting->user_id = (string) Auth::id();
         $changingProvider = $setting->provider && $setting->provider !== $validated['provider'];
         $setting->provider = $validated['provider'];
         $setting->base_url = $validated['base_url'] ?: null;
-        $setting->model = $validated['model'];
+        $setting->model = $model;
         $setting->enabled = $request->boolean('enabled');
 
         // A key belongs to one provider; don't carry it across to another.

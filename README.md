@@ -35,7 +35,8 @@ One installation serves **many people** — each account gets its own site at it
 - **Blog** — multiple images per post, reorderable, with the first image as the cover.
 - **Inbox** — messages from the public contact form, with read/unread status.
 - **Dashboard** — visitor counts (today and overall) from the visit log.
-- **Account Setting** — one page with three tabs: password, website template, theme.
+- **AI Assistant** — chat about your own portfolio, and drop in a CV to fill the modules from it. Runs on a free local model by default; Claude and OpenAI-compatible servers are also supported.
+- **Account Setting** — one page with four tabs: password, website template, theme, AI assistant.
 
 ### Theming
 - Six colour presets (Black Gold, Ocean Blue, Indigo, Light Green, Slate, Rose) plus per-token custom colours.
@@ -76,6 +77,7 @@ Chosen per account under **Account Setting → Website Template**.
 - **Back office:** KaiAdmin (Bootstrap 5), jQuery, Summernote, FilePond, DataTables
 - **Templates:** Bootstrap 4/5, Owl Carousel, AOS, Themify icons, Font Awesome, Tailwind (CDN) + Alpine.js for Template 3
 - **Images:** processed with PHP GD
+- **AI:** Ollama (local, free) · any OpenAI-compatible endpoint · Anthropic PHP SDK · `smalot/pdfparser` for CV text
 
 ---
 
@@ -140,6 +142,38 @@ Sign in at `/admin/login`. Your public site is at `/your-name`, and the slug can
 | `config/website_templates.php` | The list of templates, their names, descriptions and previews |
 | `config/service_icons.php` | The service icon set, with a name per icon library (Font Awesome 4/5, Themify, SVG) |
 | `config/captcha.php` | Contact form captcha driver and Turnstile keys |
+| `config/ai.php` | AI providers, their default addresses and models |
+
+### AI Assistant
+
+The assistant reads an uploaded CV and fills in profile, experience, education and services, and answers questions about the portfolio it can already see. Pick a provider under **Account Setting → AI Assistant**:
+
+| Provider | Cost | Key | Notes |
+| --- | --- | --- | --- |
+| **Ollama** (default) | Free | None | Runs on your own machine; nothing leaves it |
+| **OpenAI-compatible** | Free tiers available | Yes | OpenAI, OpenRouter, Groq, LM Studio, vLLM, llama.cpp |
+| **Claude** | Paid | Yes | The only one that reads scanned or photographed CVs |
+
+The free default needs [Ollama](https://ollama.com) and one model:
+
+```bash
+ollama pull qwen2.5:7b     # ~4.4 GB
+```
+
+A resume takes roughly 45 seconds on a 7B model and about 5 seconds for a chat reply. Ollama and the OpenAI-compatible providers read text out of the PDF first (`smalot/pdfparser`), including hyperlink targets, so a CV that only shows the word "LinkedIn" still yields the address behind it. Neither can read a CV that is a scan or a photo — that needs Claude.
+
+For the OpenAI-compatible option, the server address is whatever your provider documents — `https://api.openai.com/v1` for OpenAI itself, `https://openrouter.ai/api/v1` for OpenRouter. If the model you want is not in the list, choose **Other** and type its name.
+
+Defaults come from the environment when set:
+
+```env
+AI_PROVIDER=ollama                    # ollama | compatible | claude
+OLLAMA_URL=http://localhost:11434
+OLLAMA_MODEL=qwen2.5:7b
+ANTHROPIC_API_KEY=sk-ant-...          # only for the Claude provider
+```
+
+Keys entered in the back office are encrypted at rest and never sent back to the browser — only a masked hint is shown. Extracted data is always shown for review before anything is written, and the import never touches the login email.
 
 ### Contact form captcha
 

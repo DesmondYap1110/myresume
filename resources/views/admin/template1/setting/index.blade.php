@@ -28,11 +28,44 @@
         var keyRow = document.getElementById('ai-key-row');
         var urlField = document.getElementById('base_url');
         var modelField = document.getElementById('ai_model');
-        var modelList = document.getElementById('ai-model-list');
+        var modelCustom = document.getElementById('ai_model_custom');
         var modelHint = document.getElementById('ai-model-hint');
         var urlHint = document.getElementById('ai-url-hint');
 
         if (!radios.length) return;
+
+        function option(value, label) {
+            var el = document.createElement('option');
+            el.value = value;
+            el.textContent = label;
+            modelField.appendChild(el);
+            return el;
+        }
+
+        // The list a provider ships with, plus whatever is already saved, plus
+        // a way to type a name the list doesn't have.
+        function fillModels(conf, want) {
+            var models = conf.models || {};
+            var known = Object.keys(models);
+
+            modelField.innerHTML = '';
+
+            if (want && want !== '__custom' && known.indexOf(want) === -1) {
+                option(want, want);
+            }
+
+            known.forEach(function (id) { option(id, models[id]); });
+            option('__custom', 'Other — type a name…');
+
+            modelField.value = want || conf.model || known[0] || '__custom';
+            showCustom();
+
+            modelHint.textContent = conf.modelHint || '';
+        }
+
+        function showCustom() {
+            modelCustom.hidden = modelField.value !== '__custom';
+        }
 
         function apply(name, changed) {
             var conf = meta[name];
@@ -47,20 +80,9 @@
             // Switching provider: start from that provider's own defaults.
             if (changed) {
                 urlField.value = conf.url || '';
-                modelField.value = conf.model || '';
             }
 
-            modelList.innerHTML = '';
-            Object.keys(conf.models || {}).forEach(function (id) {
-                var option = document.createElement('option');
-                option.value = id;
-                option.label = conf.models[id];
-                modelList.appendChild(option);
-            });
-
-            modelHint.textContent = Object.keys(conf.models || {}).length
-                ? 'Click the box to pick from the list, or type any model name.'
-                : 'Type the model name exactly as your provider lists it.';
+            fillModels(conf, changed ? conf.model : modelField.dataset.current);
 
             document.querySelectorAll('.ai-provider-card').forEach(function (card) {
                 card.classList.toggle('is-active', card.querySelector('input').value === name);
@@ -70,6 +92,8 @@
         radios.forEach(function (radio) {
             radio.addEventListener('change', function () { apply(radio.value, true); });
         });
+
+        modelField.addEventListener('change', showCustom);
 
         apply(document.querySelector('#ai-providers input[name="provider"]:checked').value, false);
     })();
@@ -243,6 +267,7 @@
                         'model' => $aiConf['default_model'] ?? '',
                         'models' => (array) ($aiConf['models'] ?? []),
                         'hint' => $aiConf['hint'] ?? '',
+                        'modelHint' => $aiConf['model_hint'] ?? '',
                     ];
                 }
             @endphp
@@ -297,11 +322,27 @@
 
                                 <div class="col-lg-5 py-1">
                                     <label for="ai_model">Model</label>
-                                    <input type="text" class="form-control" id="ai_model" name="model" list="ai-model-list"
-                                           value="{{ old('model', $aiSetting->resolvedModel()) }}" maxlength="120" autocomplete="off">
-                                    <datalist id="ai-model-list"></datalist>
-                                    <small class="form-text text-muted" id="ai-model-hint"></small>
+                                    @php
+                                        $aiModel = old('model', $aiSetting->resolvedModel());
+                                        $aiModelList = (array) ($aiProviders[$aiCurrentProvider]['models'] ?? []);
+                                    @endphp
+                                    <select class="form-control form-select" id="ai_model" name="model" data-current="{{ $aiModel }}">
+                                        @unless(array_key_exists($aiModel, $aiModelList))
+                                        <option value="{{ $aiModel }}" selected>{{ $aiModel }}</option>
+                                        @endunless
+                                        @foreach($aiModelList as $id => $label)
+                                        <option value="{{ $id }}" @selected($aiModel === $id)>{{ $label }}</option>
+                                        @endforeach
+                                        <option value="__custom">Other — type a name…</option>
+                                    </select>
+
+                                    <input type="text" class="form-control mt-2" id="ai_model_custom" name="model_custom"
+                                           value="{{ old('model_custom') }}" maxlength="120" autocomplete="off"
+                                           placeholder="Type the model name" hidden>
+
+                                    <small class="form-text text-muted" id="ai-model-hint">{{ $aiProviders[$aiCurrentProvider]['model_hint'] ?? '' }}</small>
                                     @error('model')<span class="text-danger d-block">{{ $message }}</span>@enderror
+                                    @error('model_custom')<span class="text-danger d-block">{{ $message }}</span>@enderror
                                 </div>
 
                                 <div class="col-lg-7 py-1" id="ai-key-row">
@@ -334,7 +375,7 @@
                             <button type="submit" name="action" value="save" class="btn btn-success">Save</button>
                             <button type="submit" name="action" value="test" class="btn btn-light">Test connection</button>
                             <a href="{{ route('ai.view') }}" class="btn btn-light"><i class="fas fa-robot me-1"></i> Open AI Assistant</a>
-                            @if($aiSetting->api_key)
+                            @if($aiSetting->api_key && $aiSetting->needsKey())
                             <button type="submit" name="action" value="remove" class="btn btn-danger float-end"
                                     onclick="return confirm('Remove the saved API key?')">Remove key</button>
                             @endif

@@ -23,8 +23,10 @@ class Captcha
     {
         $driver = (string) config('captcha.driver', 'math');
 
-        // Turnstile without keys would lock the form; fall back to the sum.
-        if ($driver === 'turnstile' && blank(config('captcha.turnstile.site_key'))) {
+        // Turnstile needs both keys: with only one, every message would be
+        // rejected and the form would look broken. Fall back to the sum.
+        if ($driver === 'turnstile'
+            && (blank(config('captcha.turnstile.site_key')) || blank(config('captcha.turnstile.secret')))) {
             return 'math';
         }
 
