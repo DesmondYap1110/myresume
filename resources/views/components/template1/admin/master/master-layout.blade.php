@@ -4,6 +4,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>@stack('title')</title>
     <meta content="width=device-width, initial-scale=1.0, shrink-to-fit=no" name="viewport"/>
+    <meta name="robots" content="noindex, nofollow"/>
     <link rel="icon" href="{{asset("assets/admin/img/kaiadmin/favicon.ico")}}" type="image/x-icon" />
 
     <x-template1.admin.master.master-style />

@@ -10,7 +10,7 @@
     $others = $blog->where('id', '!=', $post->id)->take(4);
 @endphp
 
-<x-template2.website.master.master-layout :user="$user" :title="$post->title" :home="$home">
+<x-template2.website.master.master-layout :user="$user" :title="$post->title" :home="$home" :blog="$blog" :post="$post">
 
     <section class="page-title section pb-0">
         <div class="container">

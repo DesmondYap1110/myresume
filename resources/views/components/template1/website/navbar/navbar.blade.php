@@ -41,6 +41,18 @@
             </li>
             @endif
 
+            @if(count($service ?? [])!=0)
+            <li class="nav-item">
+                <a class="nav-link js-scroll-trigger" href="#services">Services</a>
+            </li>
+            @endif
+
+            @if(count($testimonial ?? [])!=0)
+            <li class="nav-item">
+                <a class="nav-link js-scroll-trigger" href="#reviews">Reviews</a>
+            </li>
+            @endif
+
             @if(count($blog)!=0)
             <li class="nav-item">
                 <a class="nav-link js-scroll-trigger" href="#blog">Blog</a>

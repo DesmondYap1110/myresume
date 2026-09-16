@@ -22,7 +22,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name','email','password','dob','phone','role','address','linkedIn_url','about'
+        'name','slug','email','password','dob','phone','role','address','linkedIn_url','about'
     ];
 
     /**
@@ -57,6 +57,46 @@ class User extends Authenticatable
         }
 
         return asset(ltrim($value, '/'));
+    }
+
+    /**
+     * Slugs that would clash with a real route or folder.
+     */
+    const reserved_slugs = [
+        'admin', 'post', 'sitemap', 'sitemap.xml', 'robots.txt', 'favicon.ico',
+        'login', 'logout', 'enquiry', 'storage', 'assets', 'uploads', 'api', 'build', 'vendor',
+    ];
+
+    /**
+     * What goes in the website address: the slug, or the old base64 id when
+     * a user has no slug yet.
+     */
+    public function routeKey(): string
+    {
+        return $this->slug ?: base64_encode((string) $this->id);
+    }
+
+    /**
+     * Finds the owner of a public page from either form of the address.
+     */
+    static function findByRouteKey(?string $key): ?self
+    {
+        $key = trim((string) $key);
+
+        if ($key === '') {
+            return null;
+        }
+
+        $user = self::where('slug', $key)->where('status', self::status_active)->first();
+
+        if ($user) {
+            return $user;
+        }
+
+        // Older links use the base64 id.
+        $id = base64_decode($key, true);
+
+        return ($id !== false && ctype_digit(trim($id))) ? self::getUserByUserid(trim($id)) : null;
     }
 
     /**

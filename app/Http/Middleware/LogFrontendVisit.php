@@ -31,19 +31,18 @@ class LogFrontendVisit
         //     'route' => $request->route(),
         // ]);
 
-        $user_id = base64_decode($lastSegment);
-        $user = User::getUserByUserid($user_id);
+        // The last segment is the owner's slug (desmond-yap) or base64 id (MQ==).
+        $user = User::findByRouteKey($lastSegment);
 
         if($user)
         {
             // log ONLY frontend
-            Visit_Log::set_visit_log($user_id);
-            return $next($request);
+            Visit_Log::set_visit_log($user->id);
         }
-        else
-        {
-            abort(403);
-        }
+
+        // Anything else (sitemap.xml, a mistyped URL) carries on and is
+        // handled by the router, so it 404s normally instead of 403.
+        return $next($request);
 
     }
 }

@@ -10,18 +10,25 @@
     };
     $plain = fn ($html) => trim(preg_replace('/\s+/', ' ', html_entity_decode(strip_tags(str_replace(['</p>', '</li>', '<br>', '<br/>', '<br />'], ' ', (string) $html)))));
 
-    $monthYear = fn ($ym) => $ym ? date('F Y', strtotime(strlen($ym) === 7 ? $ym.'-01' : $ym)) : null;
-    $period = function ($start, $end) use ($monthYear) {
-        $to = ($end && $end !== '1970-01-01') ? $monthYear($end) : 'Present';
-        return trim(($monthYear($start) ?: '').' - '.$to, ' -');
-    };
+    $period = fn ($start, $end) => \App\Support\Period::label($start, $end);
 
-    $roles = collect($experience)->pluck('role')->filter()->map(fn ($r) => trim(strip_tags($r)))
-        ->prepend($user->role)->filter()->unique()->values()->all();
-    if (!$roles) $roles = ['Web Developer'];
+    // Short titles only: the headline is one line.
+    $roles = \App\Support\RoleLabel::headlineWords($experience, $user->role) ?: ['Web Developer'];
 
     $about = $plain($user->about);
     $firstName = trim(explode(' ', trim((string) $user->name))[0] ?? $user->name);
+
+    // Menu shows only the sections that have content.
+    $sections = collect([
+        'about' => 'About',
+        'experience' => count($experience) ? 'Experience' : null,
+        'education' => count($education) ? 'Education' : null,
+        'projects' => count($project) ? 'Projects' : null,
+        'services' => count($service) ? 'Services' : null,
+        'reviews' => count($testimonial) ? 'Reviews' : null,
+        'blog' => count($blog) ? 'Blog' : null,
+        'contact' => 'Contact',
+    ])->filter()->all();
 ?>
 
 <?php $__env->startPush('t2-scripts'); ?>
@@ -35,14 +42,14 @@
 
 <?php if (isset($component)) { $__componentOriginal508270d59867368494d21ca6c3d30618 = $component; } ?>
 <?php if (isset($attributes)) { $__attributesOriginal508270d59867368494d21ca6c3d30618 = $attributes; } ?>
-<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.template2.website.master.master-layout','data' => ['user' => $user]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.template2.website.master.master-layout','data' => ['user' => $user,'blog' => $blog,'sections' => $sections]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
 <?php $component->withName('template2.website.master.master-layout'); ?>
 <?php if ($component->shouldRender()): ?>
 <?php $__env->startComponent($component->resolveView(), $component->data()); ?>
 <?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag && $constructor = (new ReflectionClass(Illuminate\View\AnonymousComponent::class))->getConstructor()): ?>
 <?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
 <?php endif; ?>
-<?php $component->withAttributes(['user' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($user)]); ?>
+<?php $component->withAttributes(['user' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($user),'blog' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($blog),'sections' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($sections)]); ?>
 
     
     <section class="section banner t2-banner">
@@ -71,6 +78,9 @@
                 <?php if($user->image): ?>
                 <div class="col-lg-4 d-none d-lg-block" data-aos="fade-left" data-aos-delay="200">
                     <div class="t2-portrait">
+                        <span class="t2-portrait-orb" aria-hidden="true"></span>
+                        <span class="t2-portrait-frame" aria-hidden="true"></span>
+                        <span class="t2-portrait-dots" aria-hidden="true"></span>
                         <img src="<?php echo e($user->image); ?>" alt="<?php echo e($user->name); ?>" class="img-fluid">
                     </div>
                 </div>
@@ -119,7 +129,6 @@
             <div class="row">
                 <div class="col-lg-4 mb-5">
                     <h3 class="mb-2">Work Experiences.</h3>
-                    <p><?php echo e(count($experience)); ?> <?php echo e(\Illuminate\Support\Str::plural('role', count($experience))); ?> so far.</p>
                 </div>
                 <div class="col-lg-8">
                     <?php $__currentLoopData = $experience; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $job): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
@@ -157,7 +166,7 @@
                         <?php $__currentLoopData = $education; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $edu): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                         <div class="col-lg-6">
                             <div class="about-info mb-5" data-aos="fade-up" data-aos-delay="<?php echo e($loop->index * 100); ?>">
-                                <span><?php echo e($edu->year); ?></span>
+                                <?php if($edu->year): ?><span><?php echo e($edu->year); ?></span><?php endif; ?>
                                 <h4 class="mb-2 mt-1"><?php echo e($edu->institution); ?></h4>
                                 <p class="mb-1 text-dark"><?php echo e($edu->certificate); ?></p>
                                 <p><?php echo e($plain($edu->achievement)); ?></p>
@@ -190,6 +199,70 @@
                         <p class="text-sm mb-2 text-color"><?php echo e($item->company); ?> · <?php echo e($period($item->start_date, $item->end_date)); ?></p>
                         <p><?php echo e(\Illuminate\Support\Str::limit($plain($item->detail), 160)); ?></p>
                     </div>
+                </div>
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+            </div>
+        </div>
+    </section>
+    <?php endif; ?>
+
+    
+    <?php if(count($service)): ?>
+    <section class="section service-home border-top" id="services">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6">
+                    <h2 class="mb-2">Services.</h2>
+                    <p class="mb-5">What I can help you with.</p>
+                </div>
+            </div>
+            <div class="row">
+                <?php $__currentLoopData = $service; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                <div class="col-lg-4 col-md-6">
+                    <div class="service-item mb-5" data-aos="fade-left" data-aos-delay="<?php echo e($loop->index * 150); ?>">
+                        <i class="<?php echo e($item->iconSet()['ti']); ?>"></i>
+                        <h4 class="my-3"><?php echo e($item->title); ?></h4>
+                        <p><?php echo e($item->description); ?></p>
+                    </div>
+                </div>
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+            </div>
+        </div>
+    </section>
+    <?php endif; ?>
+
+    
+    <?php if(count($testimonial)): ?>
+    <section class="section border-top t2-reviews" id="reviews">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6">
+                    <h2 class="mb-2">What clients say.</h2>
+                    <p class="mb-5">Feedback from the people I have worked with.</p>
+                </div>
+            </div>
+            <div class="row">
+                <?php $__currentLoopData = $testimonial; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $review): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                <div class="col-lg-4 col-md-6">
+                    <blockquote class="t2-review mb-4" data-aos="fade-up" data-aos-delay="<?php echo e($loop->index * 100); ?>">
+                        <div class="t2-stars" aria-label="<?php echo e($review->rating); ?> out of 5 stars">
+                            <?php for($i = 1; $i <= 5; $i++): ?>
+                            <i class="ti-star <?php echo e($i <= $review->rating ? 'is-on' : ''); ?>"></i>
+                            <?php endfor; ?>
+                        </div>
+                        <p class="t2-review-text">"<?php echo e($review->message); ?>"</p>
+                        <footer class="t2-review-by">
+                            <?php if($review->image): ?>
+                            <img src="<?php echo e($review->image); ?>" alt="<?php echo e($review->name); ?>">
+                            <?php else: ?>
+                            <span class="t2-review-initials"><?php echo e($review->initials()); ?></span>
+                            <?php endif; ?>
+                            <span>
+                                <b><?php echo e($review->name); ?></b>
+                                <?php if($review->position): ?><small><?php echo e($review->position); ?></small><?php endif; ?>
+                            </span>
+                        </footer>
+                    </blockquote>
                 </div>
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             </div>
@@ -238,7 +311,7 @@
     
     <section class="section-sm pt-0 cta">
         <div class="container">
-            <div class="row align-items-center bg-dark p-5" data-aos="zoom-in">
+            <div class="row align-items-center t2-cta p-5" data-aos="zoom-in">
                 <div class="col-lg-8">
                     <h3 class="text-white mb-0">Want to discuss a project?</h3>
                 </div>

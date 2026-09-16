@@ -19,6 +19,8 @@
                 ["url" => "education.view", "text" => "Education"],
                 ["url" => "experience.view", "text" => "Experience"],
                 ["url" => "project.view", "text" => "Project"],
+                ["url" => "service.view", "text" => "Service"],
+                ["url" => "testimonial.view", "text" => "Testimonial"],
                 ["url" => "blog.view", "text" => "Blog"],
             ]
         ],

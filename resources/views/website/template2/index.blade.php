@@ -10,18 +10,25 @@
     };
     $plain = fn ($html) => trim(preg_replace('/\s+/', ' ', html_entity_decode(strip_tags(str_replace(['</p>', '</li>', '<br>', '<br/>', '<br />'], ' ', (string) $html)))));
 
-    $monthYear = fn ($ym) => $ym ? date('F Y', strtotime(strlen($ym) === 7 ? $ym.'-01' : $ym)) : null;
-    $period = function ($start, $end) use ($monthYear) {
-        $to = ($end && $end !== '1970-01-01') ? $monthYear($end) : 'Present';
-        return trim(($monthYear($start) ?: '').' - '.$to, ' -');
-    };
+    $period = fn ($start, $end) => \App\Support\Period::label($start, $end);
 
-    $roles = collect($experience)->pluck('role')->filter()->map(fn ($r) => trim(strip_tags($r)))
-        ->prepend($user->role)->filter()->unique()->values()->all();
-    if (!$roles) $roles = ['Web Developer'];
+    // Short titles only: the headline is one line.
+    $roles = \App\Support\RoleLabel::headlineWords($experience, $user->role) ?: ['Web Developer'];
 
     $about = $plain($user->about);
     $firstName = trim(explode(' ', trim((string) $user->name))[0] ?? $user->name);
+
+    // Menu shows only the sections that have content.
+    $sections = collect([
+        'about' => 'About',
+        'experience' => count($experience) ? 'Experience' : null,
+        'education' => count($education) ? 'Education' : null,
+        'projects' => count($project) ? 'Projects' : null,
+        'services' => count($service) ? 'Services' : null,
+        'reviews' => count($testimonial) ? 'Reviews' : null,
+        'blog' => count($blog) ? 'Blog' : null,
+        'contact' => 'Contact',
+    ])->filter()->all();
 @endphp
 
 @push('t2-scripts')
@@ -33,7 +40,7 @@
 @endif
 @endpush
 
-<x-template2.website.master.master-layout :user="$user">
+<x-template2.website.master.master-layout :user="$user" :blog="$blog" :sections="$sections">
 
     {{-- ============ Banner ============ --}}
     <section class="section banner t2-banner">
@@ -62,6 +69,9 @@
                 @if($user->image)
                 <div class="col-lg-4 d-none d-lg-block" data-aos="fade-left" data-aos-delay="200">
                     <div class="t2-portrait">
+                        <span class="t2-portrait-orb" aria-hidden="true"></span>
+                        <span class="t2-portrait-frame" aria-hidden="true"></span>
+                        <span class="t2-portrait-dots" aria-hidden="true"></span>
                         <img src="{{ $user->image }}" alt="{{ $user->name }}" class="img-fluid">
                     </div>
                 </div>
@@ -110,7 +120,6 @@
             <div class="row">
                 <div class="col-lg-4 mb-5">
                     <h3 class="mb-2">Work Experiences.</h3>
-                    <p>{{ count($experience) }} {{ \Illuminate\Support\Str::plural('role', count($experience)) }} so far.</p>
                 </div>
                 <div class="col-lg-8">
                     @foreach($experience as $job)
@@ -148,7 +157,7 @@
                         @foreach($education as $edu)
                         <div class="col-lg-6">
                             <div class="about-info mb-5" data-aos="fade-up" data-aos-delay="{{ $loop->index * 100 }}">
-                                <span>{{ $edu->year }}</span>
+                                @if($edu->year)<span>{{ $edu->year }}</span>@endif
                                 <h4 class="mb-2 mt-1">{{ $edu->institution }}</h4>
                                 <p class="mb-1 text-dark">{{ $edu->certificate }}</p>
                                 <p>{{ $plain($edu->achievement) }}</p>
@@ -181,6 +190,70 @@
                         <p class="text-sm mb-2 text-color">{{ $item->company }} · {{ $period($item->start_date, $item->end_date) }}</p>
                         <p>{{ \Illuminate\Support\Str::limit($plain($item->detail), 160) }}</p>
                     </div>
+                </div>
+                @endforeach
+            </div>
+        </div>
+    </section>
+    @endif
+
+    {{-- ============ Services ============ --}}
+    @if(count($service))
+    <section class="section service-home border-top" id="services">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6">
+                    <h2 class="mb-2">Services.</h2>
+                    <p class="mb-5">What I can help you with.</p>
+                </div>
+            </div>
+            <div class="row">
+                @foreach($service as $item)
+                <div class="col-lg-4 col-md-6">
+                    <div class="service-item mb-5" data-aos="fade-left" data-aos-delay="{{ $loop->index * 150 }}">
+                        <i class="{{ $item->iconSet()['ti'] }}"></i>
+                        <h4 class="my-3">{{ $item->title }}</h4>
+                        <p>{{ $item->description }}</p>
+                    </div>
+                </div>
+                @endforeach
+            </div>
+        </div>
+    </section>
+    @endif
+
+    {{-- ============ Testimonials ============ --}}
+    @if(count($testimonial))
+    <section class="section border-top t2-reviews" id="reviews">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6">
+                    <h2 class="mb-2">What clients say.</h2>
+                    <p class="mb-5">Feedback from the people I have worked with.</p>
+                </div>
+            </div>
+            <div class="row">
+                @foreach($testimonial as $review)
+                <div class="col-lg-4 col-md-6">
+                    <blockquote class="t2-review mb-4" data-aos="fade-up" data-aos-delay="{{ $loop->index * 100 }}">
+                        <div class="t2-stars" aria-label="{{ $review->rating }} out of 5 stars">
+                            @for($i = 1; $i <= 5; $i++)
+                            <i class="ti-star {{ $i <= $review->rating ? 'is-on' : '' }}"></i>
+                            @endfor
+                        </div>
+                        <p class="t2-review-text">"{{ $review->message }}"</p>
+                        <footer class="t2-review-by">
+                            @if($review->image)
+                            <img src="{{ $review->image }}" alt="{{ $review->name }}">
+                            @else
+                            <span class="t2-review-initials">{{ $review->initials() }}</span>
+                            @endif
+                            <span>
+                                <b>{{ $review->name }}</b>
+                                @if($review->position)<small>{{ $review->position }}</small>@endif
+                            </span>
+                        </footer>
+                    </blockquote>
                 </div>
                 @endforeach
             </div>
@@ -229,7 +302,7 @@
     {{-- ============ CTA ============ --}}
     <section class="section-sm pt-0 cta">
         <div class="container">
-            <div class="row align-items-center bg-dark p-5" data-aos="zoom-in">
+            <div class="row align-items-center t2-cta p-5" data-aos="zoom-in">
                 <div class="col-lg-8">
                     <h3 class="text-white mb-0">Want to discuss a project?</h3>
                 </div>

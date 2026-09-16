@@ -81,10 +81,26 @@
                                 <input type="text" class="form-control" id="linkedinURL" placeholder="Enter linkedIn URL" value="{{$user_detail->linkedIn_url}}" name="linkedIn_url" required>
                             </div>
                             <div class="col-md-12 col-lg-12 py-1">
-                                <label>My Website URL</label>
+                                <label for="slug">My Website URL <span>*</span></label>
                                 <div class="input-group">
-                                    <input type="text" class="form-control" value="{{url('/')."/".base64_encode($user_detail->id)}}" id="textToCopy" disabled>
-                                    <button class="btn btn-black btn-border" id="copyBtn" type="button" >Copy</button>
+                                    <span class="input-group-text">{{ rtrim(url('/'), '/') }}/</span>
+                                    <input type="text" class="form-control" id="slug" name="slug" required minlength="3" maxlength="60"
+                                           pattern="[a-z0-9]+(-[a-z0-9]+)*" placeholder="desmond-yap"
+                                           value="{{ old('slug', $user_detail->slug ?: base64_encode($user_detail->id)) }}"
+                                           aria-describedby="slug-help">
+                                </div>
+                                <small id="slug-help" class="form-text text-muted">
+                                    Lowercase letters, numbers and hyphens, e.g. <b>desmond-yap</b>. Changing it changes your website link, and the old link will redirect here.
+                                </small>
+                                @error('slug')<span class="text-danger d-block">{{ $message }}</span>@enderror
+                            </div>
+
+                            <div class="col-md-12 col-lg-12 py-1">
+                                <label>Share this link</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" value="{{ route('front.show', $user_detail->routeKey()) }}" id="textToCopy" disabled>
+                                    <button class="btn btn-black btn-border" id="copyBtn" type="button">Copy</button>
+                                    <a class="btn btn-black btn-border" href="{{ route('front.show', $user_detail->routeKey()) }}" target="_blank" rel="noopener">Open</a>
                                 </div>
                             </div>
                         </div>

@@ -14,7 +14,7 @@
                 <p> {{ strip_tags($data->achievement) }}</p>
             </div>
             <div class="resume-date text-md-right">
-                <span class="text-primary">{{$data->year}}</span>
+                @if($data->year)<span class="text-primary">{{$data->year}}</span>@endif
             </div>
         </div>
     </div>

@@ -378,6 +378,57 @@ section.resume-section h2 {
 }
 
 /*==================================================
+             SERVICES & TESTIMONIALS
+====================================================*/
+#services .service-card,
+#reviews .review-card {
+    background: var(--w-card-solid);
+    border: 1px solid var(--w-line);
+    border-radius: 14px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, .35);
+    transition: transform .35s ease, border-color .35s ease, box-shadow .35s ease;
+}
+
+#services .service-card:hover,
+#reviews .review-card:hover {
+    transform: translateY(-6px);
+    border-color: var(--w-accent-soft);
+    box-shadow: 0 18px 40px rgba(0, 0, 0, .5), 0 0 30px var(--w-accent-soft);
+}
+
+#services .service-icon {
+    width: 56px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 14px;
+    background: var(--w-accent-soft);
+    color: var(--w-accent);
+    font-size: 24px;
+}
+
+#services .service-card h4 { color: var(--w-heading); }
+#services .service-card p { color: var(--w-text); }
+
+#reviews .review-stars { color: color-mix(in srgb, var(--w-muted) 60%, transparent); margin-bottom: 14px; }
+#reviews .review-stars .is-on { color: var(--w-accent); }
+#reviews .review-text { color: var(--w-text); font-style: italic; margin-bottom: 22px; }
+#reviews .review-by { display: flex; align-items: center; gap: 12px; }
+#reviews .review-by img,
+#reviews .review-initials { width: 46px; height: 46px; border-radius: 50%; object-fit: cover; flex: 0 0 auto; }
+#reviews .review-initials {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    color: var(--w-bg);
+    background: var(--w-accent);
+}
+#reviews .review-by b { display: block; color: var(--w-heading); }
+#reviews .review-by small { color: var(--w-muted); }
+
+/*==================================================
                     EXPERIENCE timeline
 ====================================================*/
 #experience-box:before {

@@ -10,6 +10,8 @@ use App\Models\Education;
 use App\Models\Blog;
 use App\Models\Experience;
 use App\Models\Project;
+use App\Models\Service;
+use App\Models\Testimonial;
 use App\Models\Inbox;
 // use App\Models\Visit_Log;
 
@@ -17,53 +19,59 @@ class FrontEndController extends Controller
 {
     public function index()
     {
-        $decode_id = base64_decode(request()->id);
-
-        //Get User
-        $user = User::getUserByUserid($decode_id);
+        // The address is the slug (/desmond-yap), or an older base64 id (/MQ==).
+        $user = User::findByRouteKey(request()->id);
         if(!$user) abort('404');
 
-        $education = Education::getEducationByUserid($decode_id);
-        $blog = Blog::getBlogByUserid($decode_id);
-        $experience = Experience::getExperienceByUserid($decode_id);
-        $project = Project::getProjectByUserid($decode_id);
+        // Send old links to the friendly one so search engines keep a single address.
+        if (request()->id !== $user->routeKey()) {
+            return redirect()->to(route('front.show', $user->routeKey()), 301);
+        }
+
+        $education = Education::getEducationByUserid($user->id);
+        $blog = Blog::getBlogByUserid($user->id);
+        $experience = Experience::getExperienceByUserid($user->id);
+        $project = Project::getProjectByUserid($user->id);
+        $service = Service::getServiceByUserid($user->id);
+        $testimonial = Testimonial::getTestimonialByUserid($user->id);
 
         // Design chosen under Account Setting > Website Template.
         $template = $user->websiteTemplate();
 
-        return view("website.{$template}.index", compact('user','education','blog','experience','project'));
+        return view("website.{$template}.index", compact('user','education','blog','experience','project','service','testimonial'));
     }
 
     /**
-     * A single blog post. The URL ends with the user id (post/{blog}/{id})
+     * A single blog post. The URL ends with the owner's key (post/{blog}/{id})
      * because LogFrontendVisit reads the last segment.
      */
     public function post()
     {
-        $decode_id = base64_decode(request()->id);
-
-        $user = User::getUserByUserid($decode_id);
+        $user = User::findByRouteKey(request()->id);
         if(!$user) abort('404');
 
         $post = Blog::getBlogById($user->id, (int) request()->blog);
         if(!$post) abort('404');
 
+        if (request()->id !== $user->routeKey()) {
+            return redirect()->to(route('front.post', [$post->id, $user->routeKey()]), 301);
+        }
+
         $template = $user->websiteTemplate();
 
         // Templates without a post page show the post in their modal instead.
         if (!view()->exists("website.{$template}.post")) {
-            return redirect()->to(route('front.show', request()->id).'#post-'.$post->id);
+            return redirect()->to(route('front.show', $user->routeKey()).'#post-'.$post->id);
         }
 
-        $blog = Blog::getBlogByUserid($decode_id);
+        $blog = Blog::getBlogByUserid($user->id);
 
         return view("website.{$template}.post", compact('user','post','blog'));
     }
 
     public function contact(Request $request)
     {
-        $decode_id = base64_decode(request()->id);
-        $user = User::getUserByUserid($decode_id);
+        $user = User::findByRouteKey(request()->id);
         if(!$user) abort('404');
 
         $request->validate([

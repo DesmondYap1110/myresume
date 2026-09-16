@@ -1,3 +1,4 @@
+@props(['user' => null, 'post' => null])
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,7 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <link rel="icon" href="{{ asset('assets/admin/img/kaiadmin/favicon.ico') }}" type="image/x-icon">
+    @if($user)
+    <x-website.seo :user="$user" :post="$post" />
+    @else
     <title>@stack('title')</title>
+    @endif
 
     <!-- Global stylesheets -->
     @include('components.template1.website.master.master-style')

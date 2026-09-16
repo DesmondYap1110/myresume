@@ -8,6 +8,7 @@ use Illuminate\Validation\ValidationException;
 use App\Helpers\Breadcrumb;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 use app\Models\User;
 
 class ProfileController extends Controller
@@ -26,8 +27,23 @@ class ProfileController extends Controller
 
     public function update(Request $request)
     {
-
         $user_detail = User::getUserByEmail(Auth::user()->email);
+
+        // The website address, e.g. /desmond-yap
+        $request->validate([
+            'slug' => [
+                'required', 'string', 'min:3', 'max:60',
+                'regex:/^[a-z0-9]+(?:-[a-z0-9]+)*$/',
+                Rule::notIn(User::reserved_slugs),
+                Rule::unique('users', 'slug')->ignore($user_detail->id),
+            ],
+        ], [
+            'slug.regex' => 'The website address can use lowercase letters, numbers and hyphens only, for example desmond-yap.',
+            'slug.not_in' => 'That website address is reserved. Please choose another one.',
+            'slug.unique' => 'That website address is already taken.',
+        ]);
+
+        $user_detail->slug = $request->slug;
         $user_detail->name = $request->name;
         $user_detail->dob = date("Y-m-d",strtotime($request->dob));
         $user_detail->phone = $request->phone;

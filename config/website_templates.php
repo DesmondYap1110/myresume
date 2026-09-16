@@ -30,6 +30,14 @@ return [
             'credit' => 'Thomson by Themefisher, distributed by ThemeWagon',
         ],
 
+        'template3' => [
+            'name' => 'Template 3 - Folio',
+            'description' => 'Modern portfolio with a light/dark switch, services and client testimonials.',
+            'preview' => 'assets/admin/img/templates/template3.jpg',
+            // MIT licensed - Folio by Laurent Begey, distributed by ThemeWagon.
+            'credit' => 'Folio by Laurent Begey, distributed by ThemeWagon',
+        ],
+
     ],
 
 ];

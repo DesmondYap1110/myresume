@@ -88,7 +88,7 @@
                 </div>
                 <div class="card-action">
                     <button type="submit" class="btn btn-success">Save Template</button>
-                    <a href="{{ route('front.show', base64_encode(Auth::id())) }}" target="_blank" rel="noopener" class="btn btn-light">
+                    <a href="{{ route('front.show', Auth::user()->routeKey()) }}" target="_blank" rel="noopener" class="btn btn-light">
                         <i class="fas fa-external-link-alt me-1"></i> View Website
                     </a>
                 </div>

@@ -1,12 +1,14 @@
 @push('title')
 {{$user->name}}
 @endpush
-<x-template1.website.master.master-layout>
+<x-template1.website.master.master-layout :user="$user">
     <x-template1.website.navbar.navbar
         :user="$user"
         :education="$education"
         :experience="$experience"
         :project="$project"
+        :service="$service"
+        :testimonial="$testimonial"
         :blog="$blog"
     />
 
@@ -38,6 +40,20 @@
         ======================================================-->
         @if(count($project)!=0)
         <x-template1.website.body.project :project="$project"/>
+        @endif
+
+        <!--====================================================
+                            Service
+        ======================================================-->
+        @if(count($service))
+        <x-template1.website.body.service :service="$service"/>
+        @endif
+
+        <!--====================================================
+                            Testimonial
+        ======================================================-->
+        @if(count($testimonial))
+        <x-template1.website.body.testimonial :testimonial="$testimonial"/>
         @endif
 
         <!--====================================================

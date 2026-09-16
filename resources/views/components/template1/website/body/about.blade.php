@@ -1,7 +1,8 @@
 @php
     // Words for the terminal typing line: the roles from Experience, else a default set.
-    $words = collect($experience ?? [])->pluck('role')->filter()->map(fn ($r) => trim(strip_tags($r)))->unique()->values()->all();
-    $words = array_values(array_unique(array_merge($words, ['Web Developer', 'Problem Solver', 'Building things for the web'])));
+    // Short titles only, so the typing line stays on one line.
+    $words = \App\Support\RoleLabel::headlineWords($experience ?? [], $user->role);
+    $words = array_values(array_unique(array_merge($words, ['Problem Solver'])));
 @endphp
 <section class="resume-section p-3 p-lg-5 d-flex flex-column justify-content-center align-items-center text-center" id="about">
     {{-- Decorative tech layers, animated by assets/website/js/theme.js --}}

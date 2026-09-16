@@ -11,8 +11,13 @@ use App\Http\Controllers\Admin\Education\EducationController;
 use App\Http\Controllers\Admin\Experience\ExperienceController;
 use App\Http\Controllers\Admin\Project\ProjectController;
 use App\Http\Controllers\Admin\Blog\BlogController;
+use App\Http\Controllers\Admin\Service\ServiceController;
+use App\Http\Controllers\Admin\Testimonial\TestimonialController;
 use App\Http\Controllers\Admin\Inbox\InboxController;
 use App\Http\Controllers\Website\FrontEndController;
+use App\Http\Controllers\Website\SitemapController;
+
+Route::get('sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
 
 Route::get('{id}', [FrontEndController::class, 'index'])->name('front.show');
 // Blog post page; the user id stays last because LogFrontendVisit reads the last segment.
@@ -86,6 +91,26 @@ Route::prefix('admin')->group(function () {
             Route::get('/delete/{id}', [ProjectController::class, 'delete'])->name('project.delete');
             Route::post('/create', [ProjectController::class, 'create'])->name('project.create');
             Route::post('/update/{id}', [ProjectController::class, 'update'])->name('project.update');
+        });
+
+        // ---------------- SERVICE ----------------
+        Route::prefix('service')->group(function () {
+            Route::get('/', [ServiceController::class, 'index'])->name('service.view');
+            Route::get('/add', [ServiceController::class, 'add'])->name('service.add');
+            Route::get('/edit/{id}', [ServiceController::class, 'edit'])->name('service.edit');
+            Route::get('/delete/{id}', [ServiceController::class, 'delete'])->name('service.delete');
+            Route::post('/create', [ServiceController::class, 'create'])->name('service.create');
+            Route::post('/update/{id}', [ServiceController::class, 'update'])->name('service.update');
+        });
+
+        // ---------------- TESTIMONIAL ----------------
+        Route::prefix('testimonial')->group(function () {
+            Route::get('/', [TestimonialController::class, 'index'])->name('testimonial.view');
+            Route::get('/add', [TestimonialController::class, 'add'])->name('testimonial.add');
+            Route::get('/edit/{id}', [TestimonialController::class, 'edit'])->name('testimonial.edit');
+            Route::get('/delete/{id}', [TestimonialController::class, 'delete'])->name('testimonial.delete');
+            Route::post('/create', [TestimonialController::class, 'create'])->name('testimonial.create');
+            Route::post('/update/{id}', [TestimonialController::class, 'update'])->name('testimonial.update');
         });
 
         // ---------------- BLOG ----------------

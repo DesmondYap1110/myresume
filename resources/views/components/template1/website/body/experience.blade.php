@@ -9,7 +9,7 @@
             <div class="experience">
                 <div class="experience-icon"></div>
                 <div class="experience-content">
-                    <span class="date">{{date("F Y", strtotime($data->start_date))}} - {{ ($data->end_date && $data->end_date != '1970-01-01') ? date("F Y", strtotime($data->end_date)) : 'Now' }}</span>
+                    <span class="date">{{ \App\Support\Period::label($data->start_date, $data->end_date, false, 'Now') }}</span>
                     <h3>{{$data->company}}</h3>
                     <h5 class="title">{{$data->role}}</h5>
                     <p class="description">

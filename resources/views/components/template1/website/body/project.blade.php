@@ -14,7 +14,7 @@
                 <p> {{ strip_tags($data->detail) }}</p>
             </div>
             <div class="resume-date text-md-right">
-                <span class="text-primary">{{date("F Y", strtotime($data->start_date))}} - {{ ($data->end_date && $data->end_date != '1970-01-01') ? date("F Y", strtotime($data->end_date)) : 'Now' }}</span>
+                <span class="text-primary">{{ \App\Support\Period::label($data->start_date, $data->end_date, false, 'Now') }}</span>
             </div>
         </div>
     </div>
