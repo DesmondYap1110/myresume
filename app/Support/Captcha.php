@@ -79,7 +79,7 @@ class Captcha
 
         if ($given === '' || !is_numeric($given) || (int) $given !== (int) $stored['answer']) {
             Log::info('Contact form blocked: wrong captcha answer', ['ip' => $request->ip()]);
-            $fail('That answer was not correct. Please try the new question.');
+            $fail('That answer was not correct. Please answer the new question shown above.');
         }
     }
 

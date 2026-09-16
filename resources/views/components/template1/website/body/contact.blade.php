@@ -9,16 +9,25 @@
                         <x-website.form-guard />
             <div class="row con-form">
 
+                    @if(session('success'))
+                    <div class="col-md-12"><div class="alert alert-success" role="alert">Thank you! Your message has been sent.</div></div>
+                    @endif
+                    @if($errors->any())
+                    <div class="col-md-12"><div class="alert alert-danger" role="alert">
+                        @foreach($errors->all() as $error)<div>{{ $error }}</div>@endforeach
+                    </div></div>
+                    @endif
+
                     <div class="col-md-12">
-                        <input type="text" name="name" placeholder="Full Name" class="form-control">
+                        <input type="text" name="name" placeholder="Full Name" class="form-control" value="{{ old('name') }}" required maxlength="255">
                     </div>
                     <div class="col-md-12">
-                        <input type="text" name="email" placeholder="Email Id" class="form-control">
+                        <input type="email" name="email" placeholder="Email Id" class="form-control" value="{{ old('email') }}" required maxlength="255">
                     </div>
                     <div class="col-md-12">
-                        <input type="text" name="subject" placeholder="Subject" class="form-control">
+                        <input type="text" name="subject" placeholder="Subject" class="form-control" value="{{ old('subject') }}" maxlength="255">
                     </div>
-                    <div class="col-md-12"><textarea name="description" ></textarea></div>
+                    <div class="col-md-12"><textarea name="description" placeholder="Your Message" required maxlength="5000">{{ old('description') }}</textarea></div>
                     <div class="col-md-12 captcha-field"><x-website.captcha theme="dark" /></div>
                     <div class="col-md-12 sub-but"><button class="btn btn-general btn-white" type="submit">Send</button></div>
 

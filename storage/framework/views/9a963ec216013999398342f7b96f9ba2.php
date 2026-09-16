@@ -18,14 +18,16 @@
     <div class="cf-turnstile"
          data-sitekey="<?php echo e(config('captcha.turnstile.site_key')); ?>"
          data-theme="<?php echo e($theme); ?>"></div>
-    <?php if (! $__env->hasRenderedOnce('27c36984-990f-4086-8850-35b40fbee614')): $__env->markAsRenderedOnce('27c36984-990f-4086-8850-35b40fbee614'); ?>
+    <?php if (! $__env->hasRenderedOnce('bd7125b1-5051-41aa-bf56-ef6203af5ac0')): $__env->markAsRenderedOnce('bd7125b1-5051-41aa-bf56-ef6203af5ac0'); ?>
         <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
     <?php endif; ?>
     <?php $__errorArgs = ['captcha_answer'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?><span class="text-danger d-block"><?php echo e($message); ?></span><?php unset($message);
+$message = $__bag->first($__errorArgs[0]); ?>
+        <span class="captcha-error" role="alert" style="display:block;margin-top:6px;font-size:13px;line-height:1.4;color:#e74c3c"><?php echo e($message); ?></span>
+    <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>
@@ -40,7 +42,10 @@ unset($__errorArgs, $__bag); ?>
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?><span class="text-danger d-block"><?php echo e($message); ?></span><?php unset($message);
+$message = $__bag->first($__errorArgs[0]); ?>
+        
+        <span class="captcha-error" role="alert" style="display:block;margin-top:6px;font-size:13px;line-height:1.4;color:#e74c3c"><?php echo e($message); ?></span>
+    <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>

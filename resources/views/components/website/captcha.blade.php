@@ -18,7 +18,9 @@
     @once
         <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
     @endonce
-    @error('captcha_answer')<span class="text-danger d-block">{{ $message }}</span>@enderror
+    @error('captcha_answer')
+        <span class="captcha-error" role="alert" style="display:block;margin-top:6px;font-size:13px;line-height:1.4;color:#e74c3c">{{ $message }}</span>
+    @enderror
 @elseif($driver === 'math')
     @php $captcha = \App\Support\Captcha::question(); @endphp
     <label for="{{ \App\Support\Captcha::field }}">{{ $label ?? 'Quick check' }}: {{ $captcha['question'] }} <span aria-hidden="true">*</span></label>
@@ -26,5 +28,8 @@
            inputmode="numeric" autocomplete="off" required
            placeholder="Type the number"
            aria-label="{{ $captcha['question'] }}">
-    @error(\App\Support\Captcha::field)<span class="text-danger d-block">{{ $message }}</span>@enderror
+    @error(\App\Support\Captcha::field)
+        {{-- The question above is a new one, so say so rather than just "wrong". --}}
+        <span class="captcha-error" role="alert" style="display:block;margin-top:6px;font-size:13px;line-height:1.4;color:#e74c3c">{{ $message }}</span>
+    @enderror
 @endif

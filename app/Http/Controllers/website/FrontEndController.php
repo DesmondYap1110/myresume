@@ -74,16 +74,24 @@ class FrontEndController extends Controller
         $user = User::findByRouteKey(request()->id);
         if(!$user) abort('404');
 
-        $request->validate([
-            'name'        => 'required|max:255',
-            'email'       => 'required|email:rfc|max:255',
-            'subject'     => 'nullable|max:255',
-            'description' => 'required|min:10|max:5000',
-        ]);
+        // On any failure, come back to the contact section with what was typed,
+        // instead of landing at the top of the page.
+        try {
+            $request->validate([
+                'name'        => 'required|max:255',
+                'email'       => 'required|email:rfc|max:255',
+                'subject'     => 'nullable|max:255',
+                'description' => 'required|min:10|max:5000',
+            ]);
 
-        // Honeypot, time trap and per-IP rate limit, then the captcha.
-        \App\Support\SpamGuard::check($request);
-        \App\Support\Captcha::validate($request);
+            // Honeypot, time trap and per-IP rate limit, then the captcha.
+            \App\Support\SpamGuard::check($request);
+            \App\Support\Captcha::validate($request);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return redirect()->to($this->contactUrl())
+                ->withErrors($e->errors())
+                ->withInput($request->except(['_token', \App\Support\Captcha::field, 'cf-turnstile-response']));
+        }
 
         // Stored as plain text: no HTML can reach the admin screens.
         $inbox              = new Inbox();
@@ -96,8 +104,19 @@ class FrontEndController extends Controller
 
         $inbox->save();
 
-        return redirect()->back()->with('success', 'Successfully Submit');
+        return redirect()->to($this->contactUrl())->with('success', 'Successfully Submit');
 
+    }
+
+    /**
+     * The page the visitor came from, pointed at its contact section.
+     */
+    private function contactUrl(): string
+    {
+        $previous = url()->previous();
+        $base = strtok($previous, '#') ?: $previous;
+
+        return $base.'#contact';
     }
 
 }
