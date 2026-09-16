@@ -81,8 +81,9 @@ class FrontEndController extends Controller
             'description' => 'required|min:10|max:5000',
         ]);
 
-        // Honeypot, time trap and per-IP rate limit.
+        // Honeypot, time trap and per-IP rate limit, then the captcha.
         \App\Support\SpamGuard::check($request);
+        \App\Support\Captcha::validate($request);
 
         // Stored as plain text: no HTML can reach the admin screens.
         $inbox              = new Inbox();

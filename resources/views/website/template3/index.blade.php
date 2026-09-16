@@ -313,6 +313,10 @@
                             <textarea id="fmessage" name="description" rows="5" required maxlength="5000"
                                       class="w-full rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 px-4 py-3 text-sm focus:border-accent focus:outline-none transition-colors">{{ old('description') }}</textarea>
                         </div>
+                        <div>
+                            <x-website.captcha
+                                class="w-full sm:w-48 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 px-4 py-3 text-sm focus:border-accent focus:outline-none transition-colors" />
+                        </div>
                         <button type="submit" class="shimmer w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 font-medium px-8 py-3.5 rounded-full hover:bg-zinc-700 dark:hover:bg-zinc-200 transition-colors text-sm">
                             Send message
                         </button>

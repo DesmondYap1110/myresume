@@ -19,6 +19,7 @@
                         <input type="text" name="subject" placeholder="Subject" class="form-control">
                     </div>
                     <div class="col-md-12"><textarea name="description" ></textarea></div>
+                    <div class="col-md-12 captcha-field"><x-website.captcha theme="dark" /></div>
                     <div class="col-md-12 sub-but"><button class="btn btn-general btn-white" type="submit">Send</button></div>
 
             </div>

@@ -9,7 +9,7 @@
         @foreach($service as $item)
         <div class="col-md-4 col-sm-6 mb-4">
             <div class="card service-card mx-0 p-4 h-100">
-                <div class="service-icon"><i class="{{ $item->iconSet()['fa'] }}"></i></div>
+                <div class="service-icon"><i class="{{ $item->iconSet()['fa4'] }}"></i></div>
                 <h4 class="mt-3 mb-2">{{ $item->title }}</h4>
                 <p class="mb-0">{{ $item->description }}</p>
             </div>

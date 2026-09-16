@@ -370,6 +370,9 @@
                                 <div class="form-group-2 mb-4">
                                     <textarea name="description" class="form-control" rows="6" placeholder="Your Message" required maxlength="5000">{{ old('description') }}</textarea>
                                 </div>
+                                <div class="form-group mb-4 t2-captcha">
+                                    <x-website.captcha />
+                                </div>
                                 <div class="text-center">
                                     <button class="btn btn-main" type="submit">Send Message</button>
                                 </div>

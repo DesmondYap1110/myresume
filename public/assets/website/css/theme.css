@@ -957,6 +957,18 @@ body.modal-open .modal-backdrop.show {
     transform: translateY(-3px);
 }
 
+/* Contact form anti-spam question */
+#contact .captcha-field label {
+    display: block;
+    margin: 18px 0 8px;
+    font-size: .95rem;
+    color: var(--w-text);
+}
+
+#contact .captcha-field label span { color: var(--w-accent); }
+
+#contact .captcha-field .form-control { max-width: 260px; }
+
 /*==================================================
                     ANIMATIONS
 ====================================================*/

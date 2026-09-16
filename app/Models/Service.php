@@ -20,7 +20,15 @@ class Service extends Model
     {
         $icons = (array) config('service_icons', []);
 
-        return $icons[$this->icon] ?? reset($icons) ?: ['label' => '', 'fa' => 'fas fa-star', 'ti' => 'ti-star', 'svg' => 'M12 3l2.6 7.4L22 11l-7.4 2.6L12 21l-2.6-7.4L2 11l7.4-2.6z'];
+        $icon = $icons[$this->icon] ?? reset($icons) ?: [];
+
+        return $icon + [
+            'label' => '',
+            'fa' => 'fas fa-star',       // admin (Font Awesome 5)
+            'fa4' => 'fa fa-star',       // Template 1 website (Font Awesome 4)
+            'ti' => 'ti-star',           // Template 2 (Themify)
+            'svg' => 'M12 3l2.6 7.4L22 11l-7.4 2.6L12 21l-2.6-7.4L2 11l7.4-2.6z', // Template 3
+        ];
     }
 
     static function getServiceByUserid($id)
