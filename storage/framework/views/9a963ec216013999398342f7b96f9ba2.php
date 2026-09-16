@@ -18,7 +18,7 @@
     <div class="cf-turnstile"
          data-sitekey="<?php echo e(config('captcha.turnstile.site_key')); ?>"
          data-theme="<?php echo e($theme); ?>"></div>
-    <?php if (! $__env->hasRenderedOnce('fad7c37b-f2a5-43e4-88d9-449829e3f481')): $__env->markAsRenderedOnce('fad7c37b-f2a5-43e4-88d9-449829e3f481'); ?>
+    <?php if (! $__env->hasRenderedOnce('27c36984-990f-4086-8850-35b40fbee614')): $__env->markAsRenderedOnce('27c36984-990f-4086-8850-35b40fbee614'); ?>
         <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
     <?php endif; ?>
     <?php $__errorArgs = ['captcha_answer'];

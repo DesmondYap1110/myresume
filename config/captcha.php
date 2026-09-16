@@ -15,7 +15,12 @@
 
 return [
 
-    'driver' => env('CAPTCHA_DRIVER', 'math'),
+    /*
+    | Left unset, the driver follows the environment: Turnstile in production,
+    | the sum question everywhere else. Set CAPTCHA_DRIVER in .env to force
+    | one ('turnstile', 'math' or 'none').
+    */
+    'driver' => env('CAPTCHA_DRIVER') ?: (env('APP_ENV') === 'production' ? 'turnstile' : 'math'),
 
     // How long an unanswered question stays valid, in seconds.
     'lifetime' => 1800,
