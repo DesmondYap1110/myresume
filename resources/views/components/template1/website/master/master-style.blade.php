@@ -6,4 +6,4 @@
 <link href="{{asset('assets/website/css/simple-line-icons/css/simple-line-icons.css')}}" rel="stylesheet">
 <link href="{{asset('assets/website/css/style.css')}}" rel="stylesheet">
 <link href="{{asset('assets/website/font-awesome/css/font-awesome.min.css')}}" rel="stylesheet">
-<x-template1.website.master.branding-styles />
+<x-template1.website.master.branding-styles :user="$user ?? null" />

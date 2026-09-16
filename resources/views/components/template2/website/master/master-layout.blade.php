@@ -31,7 +31,7 @@
     {{-- Colours from Theme Setting (same --brand-* tokens as the back office and Template 1). --}}
     <style>
         :root {
-            {!! \App\Support\Branding::cssDeclarations(\App\Support\Branding::cssVariables()) !!}
+            {!! \App\Support\Branding::cssDeclarations(\App\Support\Branding::websiteCssVariables($user, 'template2')) !!}
         }
     </style>
     <link rel="stylesheet" href="{{ $asset('css/custom.css') }}?v={{ $version }}">

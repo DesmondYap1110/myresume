@@ -13,7 +13,7 @@
     @endif
 
     <!-- Global stylesheets -->
-    @include('components.template1.website.master.master-style')
+    <x-template1.website.master.master-style :user="$user" />
 </head>
 <body id="page-top">
 

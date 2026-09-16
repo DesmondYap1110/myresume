@@ -1,6 +1,6 @@
 @props(['user', 'title' => null, 'home' => '', 'blog' => [], 'sections' => [], 'post' => null])
 @php
-    $branding = \App\Support\Branding::colors();
+    $branding = \App\Support\Branding::websiteColors($user, 'template3');
     $accent = $branding['accent'] ?? '#FF6B2B';
     // Bright accents (gold, mint) need darkening to stay readable on white.
     $accentInk = \App\Support\Branding::darken($accent, 32);
