@@ -76,17 +76,21 @@ class FrontEndController extends Controller
 
         $request->validate([
             'name'        => 'required|max:255',
-            'email'       => 'required|email|max:255',
+            'email'       => 'required|email:rfc|max:255',
             'subject'     => 'nullable|max:255',
-            'description' => 'required|max:5000',
+            'description' => 'required|min:10|max:5000',
         ]);
 
+        // Honeypot, time trap and per-IP rate limit.
+        \App\Support\SpamGuard::check($request);
+
+        // Stored as plain text: no HTML can reach the admin screens.
         $inbox              = new Inbox();
         $inbox->user_id     = $user->id;
-        $inbox->name        = $request->name;
-        $inbox->email       = $request->email;
-        $inbox->subject     = $request->subject;
-        $inbox->description = $request->description;
+        $inbox->name        = \App\Support\SpamGuard::clean($request->name, 255);
+        $inbox->email       = \App\Support\SpamGuard::clean($request->email, 255);
+        $inbox->subject     = \App\Support\SpamGuard::clean($request->subject, 255);
+        $inbox->description = \App\Support\SpamGuard::clean($request->description);
         $inbox->read_status = 0;
 
         $inbox->save();

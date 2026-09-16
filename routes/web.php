@@ -61,6 +61,7 @@ Route::prefix('admin')->group(function () {
             Route::get('/', [ThemeController::class, 'index'])->name('theme.view');
             Route::post('/update', [ThemeController::class, 'update'])->name('theme.update');
             Route::post('/reset', [ThemeController::class, 'reset'])->name('theme.reset');
+            Route::post('/website', [ThemeController::class, 'website'])->name('theme.website');
         });
 
         // ---------------- EDUCATION ----------------

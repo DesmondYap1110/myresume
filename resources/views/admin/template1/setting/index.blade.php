@@ -158,6 +158,11 @@
                     :login-images="$loginImages"
                     :login-uploaded="$loginUploaded"
                     :login-overlay="$loginOverlay"
+                    :website-template="$websiteTemplate"
+                    :website-template-name="$websiteTemplateName"
+                    :website-follows-admin="$websiteFollowsAdmin"
+                    :website-preset="$websitePreset"
+                    :website-current="$websiteCurrent"
                 />
             </div>
 

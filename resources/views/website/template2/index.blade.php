@@ -349,6 +349,7 @@
 
                     <form class="contact__form mt-4" method="post" action="{{ route('front.contact', $id) }}">
                         @csrf
+                        <x-website.form-guard />
                         <div class="form-row">
                             <div class="col-lg-6">
                                 <div class="form-group mb-3">

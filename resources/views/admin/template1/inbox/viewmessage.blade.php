@@ -35,7 +35,8 @@
                     </div>
                     <div class="col-md-12 col-lg-12 col-sm-12 py-1">
                         <label for="description"> Description </label>
-                        <textarea name="detail"  class="form-control" disabled>{!! $inbox->description !!}</textarea>
+                        {{-- Escaped: this text comes from the public contact form. --}}
+                        <textarea name="detail" rows="6" class="form-control" disabled>{{ $inbox->description }}</textarea>
                     </div>
                 </div>
             </div>

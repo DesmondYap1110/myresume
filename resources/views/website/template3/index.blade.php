@@ -290,6 +290,7 @@
 
                     <form method="post" action="{{ route('front.contact', $id) }}" class="space-y-4">
                         @csrf
+                        <x-website.form-guard />
                         <div class="grid sm:grid-cols-2 gap-4">
                             <div>
                                 <label for="fname" class="block text-sm text-zinc-600 dark:text-zinc-400 mb-1.5">Name</label>

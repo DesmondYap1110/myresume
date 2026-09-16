@@ -23,7 +23,7 @@ return [
         ],
 
         'template2' => [
-            'name' => 'Template 2 - Thomson',
+            'name' => 'Template 2 - Light Minimal',
             'description' => 'Clean, light minimal portfolio with a separate page for each blog post.',
             'preview' => 'assets/admin/img/templates/template2.jpg',
             // MIT licensed - see public/assets/website/template2/LICENSE.txt
@@ -31,7 +31,7 @@ return [
         ],
 
         'template3' => [
-            'name' => 'Template 3 - Folio',
+            'name' => 'Template 3 - Modern Studio',
             'description' => 'Modern portfolio with a light/dark switch, services and client testimonials.',
             'preview' => 'assets/admin/img/templates/template3.jpg',
             // MIT licensed - Folio by Laurent Begey, distributed by ThemeWagon.

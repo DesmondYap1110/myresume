@@ -6,6 +6,7 @@
         </div>
         <form action="{{route('front.contact',request()->id)}}" method="post">
         @csrf
+                        <x-website.form-guard />
             <div class="row con-form">
 
                     <div class="col-md-12">
