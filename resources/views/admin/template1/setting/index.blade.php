@@ -7,7 +7,7 @@
     // Runs after Bootstrap is loaded: reopen the tab named in the address
     // (#theme) or the last one used.
     (function () {
-        var tabs = { '#password': 'tab-password', '#template': 'tab-template', '#theme': 'tab-theme' };
+        var tabs = { '#password': 'tab-password', '#template': 'tab-template', '#theme': 'tab-theme', '#ai': 'tab-ai' };
         var wanted = tabs[location.hash] || localStorage.getItem('settingTab');
         var button = wanted && document.getElementById(wanted);
 
@@ -18,6 +18,60 @@
                 try { localStorage.setItem('settingTab', el.id); } catch (e) {}
             });
         });
+    })();
+
+    // AI Assistant tab: show only the fields the chosen provider needs.
+    (function () {
+        var meta = JSON.parse(document.getElementById('ai-provider-meta').textContent);
+        var radios = document.querySelectorAll('#ai-providers input[name="provider"]');
+        var urlRow = document.getElementById('ai-url-row');
+        var keyRow = document.getElementById('ai-key-row');
+        var urlField = document.getElementById('base_url');
+        var modelField = document.getElementById('ai_model');
+        var modelList = document.getElementById('ai-model-list');
+        var modelHint = document.getElementById('ai-model-hint');
+        var urlHint = document.getElementById('ai-url-hint');
+
+        if (!radios.length) return;
+
+        function apply(name, changed) {
+            var conf = meta[name];
+            if (!conf) return;
+
+            urlRow.hidden = !conf.needsUrl;
+            keyRow.hidden = !conf.needsKey;
+
+            urlHint.textContent = conf.hint || '';
+            urlField.placeholder = conf.url || '';
+
+            // Switching provider: start from that provider's own defaults.
+            if (changed) {
+                urlField.value = conf.url || '';
+                modelField.value = conf.model || '';
+            }
+
+            modelList.innerHTML = '';
+            Object.keys(conf.models || {}).forEach(function (id) {
+                var option = document.createElement('option');
+                option.value = id;
+                option.label = conf.models[id];
+                modelList.appendChild(option);
+            });
+
+            modelHint.textContent = Object.keys(conf.models || {}).length
+                ? 'Click the box to pick from the list, or type any model name.'
+                : 'Type the model name exactly as your provider lists it.';
+
+            document.querySelectorAll('.ai-provider-card').forEach(function (card) {
+                card.classList.toggle('is-active', card.querySelector('input').value === name);
+            });
+        }
+
+        radios.forEach(function (radio) {
+            radio.addEventListener('change', function () { apply(radio.value, true); });
+        });
+
+        apply(document.querySelector('#ai-providers input[name="provider"]:checked').value, false);
     })();
 </script>
 @endpush
@@ -31,6 +85,12 @@
         .setting-tabs .nav-link:hover { color: #1a2035; }
         .setting-tabs .nav-link.active { color: #1a2035; border-bottom-color: var(--brand-primary, #212529); background: none; }
         .setting-tabs .nav-link i { margin-right: 8px; }
+
+        .ai-provider-card { display: block; border: 2px solid #ebedf2; border-radius: 12px; padding: 14px; cursor: pointer; background: #fff; transition: border-color .2s ease, box-shadow .2s ease; }
+        .ai-provider-card:hover { border-color: #d6dae5; }
+        .ai-provider-card.is-active { border-color: var(--brand-primary, #212529); box-shadow: 0 0 0 3px rgba(0,0,0,.06); }
+        .ai-provider-card i { color: var(--brand-primary, #212529); }
+        .ai-provider-card b { font-size: .92rem; line-height: 1.3; }
 
         .template-options { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 18px; }
         .template-option input { position: absolute; opacity: 0; pointer-events: none; }
@@ -63,6 +123,11 @@
             <li class="nav-item" role="presentation">
                 <button class="nav-link" id="tab-theme" data-bs-toggle="tab" data-bs-target="#pane-theme" type="button" role="tab" aria-controls="pane-theme" aria-selected="false">
                     <i class="fas fa-palette"></i>Theme Setting
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="tab-ai" data-bs-toggle="tab" data-bs-target="#pane-ai" type="button" role="tab" aria-controls="pane-ai" aria-selected="false">
+                    <i class="fas fa-robot"></i>AI Assistant
                 </button>
             </li>
         </ul>
@@ -164,6 +229,118 @@
                     :website-preset="$websitePreset"
                     :website-current="$websiteCurrent"
                 />
+            </div>
+
+            {{-- ============ AI Assistant ============ --}}
+            @php
+                $aiCurrentProvider = old('provider', $aiSetting->resolvedProvider());
+                $aiProviderMeta = [];
+                foreach ($aiProviders as $aiKey => $aiConf) {
+                    $aiProviderMeta[$aiKey] = [
+                        'needsKey' => (bool) ($aiConf['needs_key'] ?? false),
+                        'needsUrl' => (bool) ($aiConf['needs_url'] ?? false),
+                        'url' => $aiConf['default_url'] ?? '',
+                        'model' => $aiConf['default_model'] ?? '',
+                        'models' => (array) ($aiConf['models'] ?? []),
+                        'hint' => $aiConf['hint'] ?? '',
+                    ];
+                }
+            @endphp
+            <div class="tab-pane fade" id="pane-ai" role="tabpanel" aria-labelledby="tab-ai">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">AI Assistant</div>
+                        <div class="card-category">
+                            Choose which AI does the work. It powers the AI Assistant page, where you can chat and upload a resume to fill in your details.
+                        </div>
+                    </div>
+                    <form action="{{ route('setting.ai') }}" method="post">
+                        @csrf
+                        <div class="card-body">
+
+                            <script type="application/json" id="ai-provider-meta">@json($aiProviderMeta)</script>
+
+                            <label class="d-block mb-2">Provider</label>
+                            <div class="row" id="ai-providers">
+                                @foreach($aiProviders as $key => $conf)
+                                <div class="col-lg-4 py-1">
+                                    <label class="ai-provider-card w-100 h-100 {{ $aiCurrentProvider === $key ? 'is-active' : '' }}">
+                                        <input type="radio" name="provider" value="{{ $key }}" class="d-none"
+                                               @checked($aiCurrentProvider === $key)>
+                                        <span class="d-flex align-items-start">
+                                            <i class="fas {{ $key === 'ollama' ? 'fa-laptop-code' : ($key === 'claude' ? 'fa-cloud' : 'fa-server') }} me-2 mt-1"></i>
+                                            <span>
+                                                <b class="d-block">{{ $conf['label'] }}</b>
+                                                <small class="text-muted d-block">{{ $conf['hint'] ?? '' }}</small>
+                                                @if($conf['free'] ?? false)
+                                                    <span class="badge bg-success mt-2">Free</span>
+                                                @else
+                                                    <span class="badge bg-secondary mt-2">Paid</span>
+                                                @endif
+                                            </span>
+                                        </span>
+                                    </label>
+                                </div>
+                                @endforeach
+                            </div>
+                            @error('provider')<span class="text-danger d-block">{{ $message }}</span>@enderror
+
+                            <div class="row mt-3">
+                                <div class="col-lg-7 py-1" id="ai-url-row">
+                                    <label for="base_url">Server address</label>
+                                    <input type="text" class="form-control" id="base_url" name="base_url"
+                                           value="{{ old('base_url', $aiSetting->base_url) }}" maxlength="200"
+                                           placeholder="http://localhost:11434">
+                                    <small class="form-text text-muted" id="ai-url-hint">Where the AI is running.</small>
+                                    @error('base_url')<span class="text-danger d-block">{{ $message }}</span>@enderror
+                                </div>
+
+                                <div class="col-lg-5 py-1">
+                                    <label for="ai_model">Model</label>
+                                    <input type="text" class="form-control" id="ai_model" name="model" list="ai-model-list"
+                                           value="{{ old('model', $aiSetting->resolvedModel()) }}" maxlength="120" autocomplete="off">
+                                    <datalist id="ai-model-list"></datalist>
+                                    <small class="form-text text-muted" id="ai-model-hint"></small>
+                                    @error('model')<span class="text-danger d-block">{{ $message }}</span>@enderror
+                                </div>
+
+                                <div class="col-lg-7 py-1" id="ai-key-row">
+                                    <label for="api_key">API key</label>
+                                    <input type="password" class="form-control" id="api_key" name="api_key"
+                                           placeholder="{{ $aiSetting->api_key ? 'Saved — leave blank to keep it' : 'Paste your key' }}"
+                                           autocomplete="off" maxlength="200">
+                                    <small class="form-text text-muted">
+                                        @if($aiSetting->api_key)
+                                            Currently: <b>{{ $aiSetting->keyHint() }}</b>. Leave blank to keep it.
+                                        @else
+                                            Stored encrypted, and never shown again once saved.
+                                        @endif
+                                    </small>
+                                    @error('api_key')<span class="text-danger d-block">{{ $message }}</span>@enderror
+                                </div>
+
+                                <div class="col-12 py-3">
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" role="switch" id="ai_enabled" name="enabled" value="1" @checked(old('enabled', $aiSetting->enabled ?? true))>
+                                        <label class="form-check-label" for="ai_enabled">Enable the AI Assistant</label>
+                                    </div>
+                                    @if($aiSetting->last_used_at)
+                                    <small class="form-text text-muted">Last used {{ $aiSetting->last_used_at->diffForHumans() }}.</small>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-action">
+                            <button type="submit" name="action" value="save" class="btn btn-success">Save</button>
+                            <button type="submit" name="action" value="test" class="btn btn-light">Test connection</button>
+                            <a href="{{ route('ai.view') }}" class="btn btn-light"><i class="fas fa-robot me-1"></i> Open AI Assistant</a>
+                            @if($aiSetting->api_key)
+                            <button type="submit" name="action" value="remove" class="btn btn-danger float-end"
+                                    onclick="return confirm('Remove the saved API key?')">Remove key</button>
+                            @endif
+                        </div>
+                    </form>
+                </div>
             </div>
 
         </div>

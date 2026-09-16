@@ -27,6 +27,15 @@
 
         [
             'isDropdown' => false,
+            'link' => "ai.view",
+            'icon' => "fas fa-robot",
+            'title' => "AI Assistant",
+            'count' => 0,
+            'notification' => false
+        ],
+
+        [
+            'isDropdown' => false,
             'link' => "inbox.view",
             'icon' => "fas fa-envelope",
             'title' => "Inbox",

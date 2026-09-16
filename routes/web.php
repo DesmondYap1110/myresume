@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\Education\EducationController;
 use App\Http\Controllers\Admin\Experience\ExperienceController;
 use App\Http\Controllers\Admin\Project\ProjectController;
 use App\Http\Controllers\Admin\Blog\BlogController;
+use App\Http\Controllers\Admin\Ai\AiChatController;
 use App\Http\Controllers\Admin\Service\ServiceController;
 use App\Http\Controllers\Admin\Testimonial\TestimonialController;
 use App\Http\Controllers\Admin\Inbox\InboxController;
@@ -54,6 +55,7 @@ Route::prefix('admin')->group(function () {
             Route::get('/', [SettingController::class, 'index'])->name('setting.view');
             Route::post('/update', [SettingController::class, 'update'])->name('setting.update');
             Route::post('/template', [SettingController::class, 'template'])->name('setting.template');
+            Route::post('/ai', [SettingController::class, 'ai'])->name('setting.ai');
         });
 
         // ---------------- THEME ----------------
@@ -92,6 +94,14 @@ Route::prefix('admin')->group(function () {
             Route::get('/delete/{id}', [ProjectController::class, 'delete'])->name('project.delete');
             Route::post('/create', [ProjectController::class, 'create'])->name('project.create');
             Route::post('/update/{id}', [ProjectController::class, 'update'])->name('project.update');
+        });
+
+        // ---------------- AI ASSISTANT ----------------
+        Route::prefix('ai')->group(function () {
+            Route::get('/', [AiChatController::class, 'index'])->name('ai.view');
+            Route::post('/message', [AiChatController::class, 'message'])->name('ai.message');
+            Route::post('/import', [AiChatController::class, 'import'])->name('ai.import');
+            Route::post('/clear', [AiChatController::class, 'clear'])->name('ai.clear');
         });
 
         // ---------------- SERVICE ----------------
