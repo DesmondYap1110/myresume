@@ -45,15 +45,6 @@
 
         [
             'isDropdown' => false,
-            'link' => "theme.view",
-            'icon' => "fas fa-palette",
-            'title' => "Theme Setting",
-            'count' => 0,
-            'notification' => false
-        ],
-
-        [
-            'isDropdown' => false,
             'link' => "login.logout",
             'icon' => "fas fa-sign-out-alt",
             'title' => "Log Out",

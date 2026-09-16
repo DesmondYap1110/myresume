@@ -60,7 +60,8 @@ class SettingController extends Controller
         $user->website_template = $request->website_template;
         $user->update();
 
-        return back()->with('success', $templates[$request->website_template]['name'].' is now live on your website!');
+        return redirect()->to(route('setting.view').'#template')
+            ->with('success', $templates[$request->website_template]['name'].' is now live on your website!');
     }
 
     public function index()
@@ -69,6 +70,10 @@ class SettingController extends Controller
         $templates = (array) config('website_templates.templates', []);
         $currentTemplate = Auth::user()->websiteTemplate();
 
-        return view(self::viewPath . 'index', compact('breadcrumbs', 'templates', 'currentTemplate'));
+        // Password, Website Template and Theme Setting all live on this page.
+        return view(self::viewPath . 'index', array_merge(
+            compact('breadcrumbs', 'templates', 'currentTemplate'),
+            \App\Support\ThemeSettingData::forView(),
+        ));
     }
 }

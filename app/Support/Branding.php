@@ -120,6 +120,44 @@ class Branding
     }
 
     /**
+     * Colours for one user's public website on a given template.
+     *
+     * Each template keeps its own scheme; with nothing saved for it, the
+     * website follows the back-office theme.
+     *
+     * @return array<string, string>
+     */
+    public static function websiteColors($user, ?string $template = null): array
+    {
+        $template = $template ?: (string) config('website_templates.default', 'template1');
+        $saved = \App\Models\WebsiteTheme::settingsFor($user->id ?? 0, $template);
+
+        if (blank($saved['preset']) && empty($saved['colors'])) {
+            return static::colors();
+        }
+
+        return static::resolveColors(
+            (array) static::get('presets', []),
+            $saved['preset'] ?: (string) static::get('theme', 'default'),
+            static::expandCustomColors($saved['colors']),
+        );
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    public static function websiteCssVariables($user, ?string $template = null): array
+    {
+        $vars = [];
+
+        foreach (static::websiteColors($user, $template) as $token => $value) {
+            $vars["--brand-{$token}"] = $value;
+        }
+
+        return $vars;
+    }
+
+    /**
      * @return array<string, string>
      */
     public static function cssVariables(): array

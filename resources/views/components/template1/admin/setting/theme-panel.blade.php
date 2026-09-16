@@ -1,118 +1,4 @@
-@push('script')
-<script>
-    (function () {
-        'use strict';
-
-        var form = document.getElementById('theme-form');
-        var presets = JSON.parse(form.getAttribute('data-presets'));
-        var root = document.documentElement.style;
-        var isHex = function (v) { return /^#[0-9A-Fa-f]{6}$/.test(v); };
-
-        function darken(hex, percent) {
-            var f = 1 - percent / 100;
-            return '#' + hex.replace('#', '').match(/../g).map(function (p) {
-                return ('0' + Math.round(parseInt(p, 16) * f).toString(16)).slice(-2);
-            }).join('');
-        }
-
-        // Same follower as Branding::expandCustomColors().
-        function apply(token, value) {
-            if (!isHex(value)) return;
-            root.setProperty('--brand-' + token, value);
-            if (token === 'primary') root.setProperty('--brand-primary-hover', darken(value, 15));
-        }
-
-        function presetColors() {
-            var picked = form.querySelector('input[name="preset"]:checked');
-            return presets[picked ? picked.value : 'default'] || {};
-        }
-
-        function setField(token, value) {
-            form.querySelector('.theme-color-picker[data-token="' + token + '"]').value = value.toLowerCase();
-            form.querySelector('.theme-color-hex[data-token="' + token + '"]').value = value.toUpperCase();
-            apply(token, value);
-        }
-
-        form.querySelectorAll('input[name="preset"]').forEach(function (radio) {
-            radio.addEventListener('change', function () {
-                var colors = presetColors();
-                Object.keys(colors).forEach(function (token) { root.setProperty('--brand-' + token, colors[token]); });
-                form.querySelectorAll('.theme-color-hex').forEach(function (input) {
-                    var token = input.getAttribute('data-token');
-                    if (colors[token]) setField(token, colors[token]);
-                });
-            });
-        });
-
-        form.addEventListener('input', function (event) {
-            var el = event.target;
-            var token = el.getAttribute('data-token');
-            if (!token) return;
-            if (el.classList.contains('theme-color-picker')) setField(token, el.value);
-            if (el.classList.contains('theme-color-hex') && isHex(el.value)) {
-                form.querySelector('.theme-color-picker[data-token="' + token + '"]').value = el.value.toLowerCase();
-                apply(token, el.value);
-            }
-        });
-
-        form.addEventListener('click', function (event) {
-            var button = event.target.closest('.theme-color-reset');
-            if (!button) return;
-            var token = button.getAttribute('data-token');
-            var colors = presetColors();
-            if (colors[token]) setField(token, colors[token]);
-        });
-
-        // Login background preview.
-        var preview = form.querySelector('[data-login-preview]');
-        var previewOverlay = form.querySelector('[data-login-preview-overlay]');
-        var uploadField = form.querySelector('[data-upload-field]');
-        var fileInput = form.querySelector('input[name="login_upload"]');
-        var uploadUrl = null;
-
-        function paintLogin() {
-            var picked = form.querySelector('input[name="login_image"]:checked');
-            var value = picked ? picked.value : 'none';
-            uploadField.hidden = value !== 'upload';
-            var src = value === 'upload' ? uploadUrl : (value === 'none' ? null : picked.getAttribute('data-src'));
-            preview.style.backgroundImage = src ? 'url("' + src + '")' : 'none';
-        }
-
-        form.querySelectorAll('input[name="login_image"]').forEach(function (r) { r.addEventListener('change', paintLogin); });
-        fileInput.addEventListener('change', function () {
-            if (uploadUrl) URL.revokeObjectURL(uploadUrl);
-            uploadUrl = fileInput.files[0] ? URL.createObjectURL(fileInput.files[0]) : null;
-            paintLogin();
-        });
-
-        var colorPicker = form.querySelector('[data-login-color]');
-        var colorHex = form.querySelector('[data-login-color-hex]');
-        colorPicker.addEventListener('input', function () {
-            colorHex.value = colorPicker.value.toUpperCase();
-            preview.style.backgroundColor = colorPicker.value;
-        });
-        colorHex.addEventListener('input', function () {
-            if (isHex(colorHex.value)) {
-                colorPicker.value = colorHex.value.toLowerCase();
-                preview.style.backgroundColor = colorHex.value;
-            }
-        });
-
-        var overlay = form.querySelector('[data-login-overlay]');
-        overlay.addEventListener('input', function () {
-            previewOverlay.style.background = 'rgba(0,0,0,' + (overlay.value / 100) + ')';
-            form.querySelector('[data-overlay-value]').textContent = overlay.value + '%';
-        });
-
-        paintLogin();
-    })();
-</script>
-@endpush
-
-@push('title')
-{{$breadcrumbs['CurrentPage']}}
-@endpush
-
+@props(["presets", "activePreset", "current", "editable", "login", "loginImages", "loginUploaded", "loginOverlay"])
 @php
     $currentImage = (string) ($login['image'] ?? '');
     $selectedImage = old('login_image', match (true) {
@@ -125,8 +11,7 @@
     $overlay = (int) old('login_overlay', $loginOverlay);
 @endphp
 
-<x-template1.admin.master.master-layout>
-    <x-template1.admin.header.breadcrumbs-main :breadcrumbs="$breadcrumbs"/>
+
 
     <style>
         .theme-presets { display: flex; flex-wrap: wrap; gap: 12px; }
@@ -264,7 +149,7 @@
             </div>
             <div class="card-action">
                 <button type="submit" class="btn btn-primary">Save Theme</button>
-                <a href="{{ route('theme.view') }}" class="btn btn-light">Discard Changes</a>
+                <a href="{{ route('setting.view') }}" class="btn btn-light">Discard Changes</a>
                 <button type="submit" form="theme-reset-form" class="btn btn-danger float-end" onclick="return confirm('Reset theme and login background to default?')">Reset to Default</button>
             </div>
         </div>
@@ -273,4 +158,114 @@
     <form method="POST" action="{{ route('theme.reset') }}" id="theme-reset-form">
         @csrf
     </form>
-</x-template1.admin.master.master-layout>
+
+<script>
+<script>
+    (function () {
+        'use strict';
+
+        var form = document.getElementById('theme-form');
+        var presets = JSON.parse(form.getAttribute('data-presets'));
+        var root = document.documentElement.style;
+        var isHex = function (v) { return /^#[0-9A-Fa-f]{6}$/.test(v); };
+
+        function darken(hex, percent) {
+            var f = 1 - percent / 100;
+            return '#' + hex.replace('#', '').match(/../g).map(function (p) {
+                return ('0' + Math.round(parseInt(p, 16) * f).toString(16)).slice(-2);
+            }).join('');
+        }
+
+        // Same follower as Branding::expandCustomColors().
+        function apply(token, value) {
+            if (!isHex(value)) return;
+            root.setProperty('--brand-' + token, value);
+            if (token === 'primary') root.setProperty('--brand-primary-hover', darken(value, 15));
+        }
+
+        function presetColors() {
+            var picked = form.querySelector('input[name="preset"]:checked');
+            return presets[picked ? picked.value : 'default'] || {};
+        }
+
+        function setField(token, value) {
+            form.querySelector('.theme-color-picker[data-token="' + token + '"]').value = value.toLowerCase();
+            form.querySelector('.theme-color-hex[data-token="' + token + '"]').value = value.toUpperCase();
+            apply(token, value);
+        }
+
+        form.querySelectorAll('input[name="preset"]').forEach(function (radio) {
+            radio.addEventListener('change', function () {
+                var colors = presetColors();
+                Object.keys(colors).forEach(function (token) { root.setProperty('--brand-' + token, colors[token]); });
+                form.querySelectorAll('.theme-color-hex').forEach(function (input) {
+                    var token = input.getAttribute('data-token');
+                    if (colors[token]) setField(token, colors[token]);
+                });
+            });
+        });
+
+        form.addEventListener('input', function (event) {
+            var el = event.target;
+            var token = el.getAttribute('data-token');
+            if (!token) return;
+            if (el.classList.contains('theme-color-picker')) setField(token, el.value);
+            if (el.classList.contains('theme-color-hex') && isHex(el.value)) {
+                form.querySelector('.theme-color-picker[data-token="' + token + '"]').value = el.value.toLowerCase();
+                apply(token, el.value);
+            }
+        });
+
+        form.addEventListener('click', function (event) {
+            var button = event.target.closest('.theme-color-reset');
+            if (!button) return;
+            var token = button.getAttribute('data-token');
+            var colors = presetColors();
+            if (colors[token]) setField(token, colors[token]);
+        });
+
+        // Login background preview.
+        var preview = form.querySelector('[data-login-preview]');
+        var previewOverlay = form.querySelector('[data-login-preview-overlay]');
+        var uploadField = form.querySelector('[data-upload-field]');
+        var fileInput = form.querySelector('input[name="login_upload"]');
+        var uploadUrl = null;
+
+        function paintLogin() {
+            var picked = form.querySelector('input[name="login_image"]:checked');
+            var value = picked ? picked.value : 'none';
+            uploadField.hidden = value !== 'upload';
+            var src = value === 'upload' ? uploadUrl : (value === 'none' ? null : picked.getAttribute('data-src'));
+            preview.style.backgroundImage = src ? 'url("' + src + '")' : 'none';
+        }
+
+        form.querySelectorAll('input[name="login_image"]').forEach(function (r) { r.addEventListener('change', paintLogin); });
+        fileInput.addEventListener('change', function () {
+            if (uploadUrl) URL.revokeObjectURL(uploadUrl);
+            uploadUrl = fileInput.files[0] ? URL.createObjectURL(fileInput.files[0]) : null;
+            paintLogin();
+        });
+
+        var colorPicker = form.querySelector('[data-login-color]');
+        var colorHex = form.querySelector('[data-login-color-hex]');
+        colorPicker.addEventListener('input', function () {
+            colorHex.value = colorPicker.value.toUpperCase();
+            preview.style.backgroundColor = colorPicker.value;
+        });
+        colorHex.addEventListener('input', function () {
+            if (isHex(colorHex.value)) {
+                colorPicker.value = colorHex.value.toLowerCase();
+                preview.style.backgroundColor = colorHex.value;
+            }
+        });
+
+        var overlay = form.querySelector('[data-login-overlay]');
+        overlay.addEventListener('input', function () {
+            previewOverlay.style.background = 'rgba(0,0,0,' + (overlay.value / 100) + ')';
+            form.querySelector('[data-overlay-value]').textContent = overlay.value + '%';
+        });
+
+        paintLogin();
+    })();
+</script>
+</script>

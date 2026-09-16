@@ -29,27 +29,12 @@ class ThemeController extends Controller
         $this->breadcrumbs = (new Breadcrumb())->setPage(self::page, route($this->route.'view'));
     }
 
+    /**
+     * The theme form now lives under Account Setting.
+     */
     public function index()
     {
-        $breadcrumbs = $this->breadcrumbs->get();
-        $setting = ThemeSetting::current();
-        $presets = (array) Branding::get('presets', []);
-
-        return view(self::viewPath . 'index', [
-            'breadcrumbs' => $breadcrumbs,
-            'presets' => collect($presets)->map(fn ($colors, $key) => [
-                'key' => $key,
-                'label' => $key === 'default' ? 'Black Gold' : Str::headline($key),
-                'colors' => Branding::resolveColors($presets, $key, []),
-            ])->values(),
-            'activePreset' => $setting->preset ?: (string) Branding::get('theme', 'default'),
-            'current' => Branding::colors(),
-            'editable' => ThemeSetting::EDITABLE,
-            'login' => Branding::loginBackground(),
-            'loginImages' => ThemeSetting::LOGIN_IMAGES,
-            'loginUploaded' => ThemeSetting::isUploadedLoginImage($setting->login_background_image) ? $setting->login_background_image : null,
-            'loginOverlay' => $setting->login_overlay ?? $this->overlayPercent((string) Branding::get('background.overlay', '')),
-        ]);
+        return redirect()->to(route('setting.view').'#theme');
     }
 
     public function update(Request $request)
@@ -97,7 +82,7 @@ class ThemeController extends Controller
             'login_overlay' => (int) $validated['login_overlay'],
         ]);
 
-        return back()->with('success', 'Theme saved successfully!');
+        return redirect()->to(route('setting.view').'#theme')->with('success', 'Theme saved successfully!');
     }
 
     public function reset()
@@ -113,7 +98,7 @@ class ThemeController extends Controller
             'login_background_image' => null, 'login_background_color' => null, 'login_overlay' => null,
         ]);
 
-        return back()->with('success', 'Theme reset to default!');
+        return redirect()->to(route('setting.view').'#theme')->with('success', 'Theme reset to default!');
     }
 
     /** "rgba(0, 0, 0, 0.35)" -> 35; anything else -> 0. */
