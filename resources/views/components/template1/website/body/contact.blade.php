@@ -28,8 +28,10 @@
                         <input type="text" name="subject" placeholder="Subject" class="form-control" value="{{ old('subject') }}" maxlength="255">
                     </div>
                     <div class="col-md-12"><textarea name="description" placeholder="Your Message" required maxlength="5000">{{ old('description') }}</textarea></div>
-                    <div class="col-md-12 captcha-field"><x-website.captcha theme="dark" /></div>
-                    <div class="col-md-12 sub-but"><button class="btn btn-general btn-white" type="submit">Send</button></div>
+                    <div class="col-md-12 captcha-row">
+                        <div class="captcha-field"><x-website.captcha theme="dark" /></div>
+                        <div class="sub-but"><button class="btn btn-general btn-white" type="submit">Send</button></div>
+                    </div>
 
             </div>
         </form>
@@ -51,7 +53,7 @@
         <div class="contact-mail contact-side-desc contact-box-desc">
             <h3><i class="fa fa-envelope-o cl-atlantis fa-2x"></i> Email</h3>
         <address class="address-details-f">
-            Email: <a href="mailto:{{$user->email}}" class="">{{$user->email}}</a>
+            <a href="mailto:{{$user->email}}">{{$user->email}}</a>
         </address>
         <ul class="list-inline social-icon-f top-data">
             @if($user->phone)

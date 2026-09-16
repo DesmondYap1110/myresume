@@ -912,6 +912,20 @@ body.modal-open .modal-backdrop.show {
 .contact-box-desc h3 i,
 .cl-atlantis { color: var(--w-accent) !important; }
 
+/* The icon is fa-2x next to normal-size text, so line them up properly
+   instead of letting them sit on the same baseline with a bare space. */
+#contact .contact-box-desc h3 {
+    display: flex;
+    align-items: center;
+    gap: .65rem;
+    margin-bottom: .4rem;
+}
+
+#contact .contact-box-desc h3 i {
+    line-height: 1;
+    flex: 0 0 auto;
+}
+
 .contact-box-desc p,
 #contact .contact-cont2 address,
 #contact .contact-cont2 address a { color: var(--w-text); }
@@ -929,6 +943,24 @@ body.modal-open .modal-backdrop.show {
 }
 
 .con-form input { height: auto; }
+
+/* The base theme spaces inputs with margin-top but the textarea with
+   margin on both sides, so the gaps came out uneven. Space every field
+   from its column instead, so they all match. */
+#contact .con-form > [class*="col-"] { margin-bottom: 20px; }
+#contact .con-form > [class*="col-"]:last-child { margin-bottom: 0; }
+
+#contact .con-form input,
+#contact .con-form textarea {
+    margin: 0;
+    width: 100%;
+    max-width: 100%;
+    /* Without this, width:100% plus the field's own padding overflowed the
+       column and the boxes ran off the right edge of a phone. */
+    box-sizing: border-box;
+}
+
+#contact .con-form textarea { height: 180px; }
 .con-form input::placeholder,
 .con-form textarea::placeholder { color: var(--w-muted); }
 
@@ -967,7 +999,34 @@ body.modal-open .modal-backdrop.show {
 
 #contact .captcha-field label span { color: var(--w-accent); }
 
-#contact .captcha-field .form-control { max-width: 260px; }
+/* The answer is one or two digits, so keep the box small and stand the Send
+   button beside it — the two belong to the same action. */
+#contact .captcha-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 14px 20px;
+    margin-top: 10px;
+}
+
+#contact .captcha-row .captcha-field { flex: 1 1 240px; }
+#contact .captcha-row .sub-but { flex: 0 0 auto; }
+#contact .captcha-field .form-control { max-width: 200px; }
+
+/* Turnstile renders a fixed-width widget; give it its own line. */
+#contact .captcha-field .cf-turnstile { margin-top: 4px; }
+
+@media (max-width: 767px) {
+    #contact .contact-box-desc h3 { justify-content: center; }
+    #contact .contact-box-desc { margin-bottom: 30px; }
+
+    /* Full width on a phone: a boxed-in field clips its own placeholder. */
+    #contact .captcha-row { display: block; text-align: left; }
+    #contact .captcha-row .captcha-field { width: 100%; }
+    #contact .captcha-field .form-control { max-width: 100%; width: 100%; }
+    #contact .captcha-row .sub-but { margin-top: 16px; }
+    #contact .captcha-row .sub-but .btn { width: 100%; }
+}
 
 /*==================================================
                     ANIMATIONS
