@@ -39,6 +39,47 @@
     document.getElementById('contact') && document.getElementById('contact').scrollIntoView();
 </script>
 @endif
+<script>
+// The rotating job title is clipped when it is wider than the banner. Measure
+// how much is hidden and let the CSS slide the word across to show its end.
+(function () {
+    var wrapper = document.querySelector('.t2-banner .cd-words-wrapper');
+    if (!wrapper) return;
+
+    var pending = null;
+
+    function fit() {
+        wrapper.querySelectorAll('b').forEach(function (word) {
+            var visible = word.classList.contains('is-visible');
+            var hidden = visible ? word.offsetWidth - wrapper.clientWidth : 0;
+
+            if (visible && hidden > 2) {
+                word.style.setProperty('--t2-pan', '-' + (hidden + 4) + 'px');
+                word.classList.add('is-panning');
+            } else {
+                word.classList.remove('is-panning');
+                word.style.removeProperty('--t2-pan');
+            }
+        });
+    }
+
+    // The plugin swaps .is-visible and animates the wrapper width over 600ms,
+    // so measure once that has settled.
+    function schedule() {
+        clearTimeout(pending);
+        pending = setTimeout(fit, 700);
+    }
+
+    new MutationObserver(schedule).observe(wrapper, {
+        attributes: true,
+        attributeFilter: ['class', 'style'],
+        subtree: true
+    });
+
+    window.addEventListener('resize', schedule);
+    schedule();
+})();
+</script>
 @endpush
 
 <x-template2.website.master.master-layout :user="$user" :blog="$blog" :sections="$sections">
@@ -58,7 +99,7 @@
                         </span>
                     </h1>
                     @if($about)
-                    <p class="t2-lead" data-aos="fade-up" data-aos-delay="200">{{ \Illuminate\Support\Str::limit($about, 220) }}</p>
+                    <p class="t2-lead" data-aos="fade-up" data-aos-delay="200">{{ $about }}</p>
                     @endif
                     <div class="mt-5 t2-actions" data-aos="fade-up" data-aos-delay="300">
                         <a href="#contact" class="btn btn-main mr-2 mb-2">Contact me</a>
@@ -93,9 +134,7 @@
                     @if($user->role)
                     <p class="lead mb-4">{{ $user->role }}</p>
                     @endif
-                    @if($about)
-                    <p class="mb-4">{{ $about }}</p>
-                    @endif
+                    {{-- The about text is already in full in the banner above. --}}
                 </div>
                 <div class="col-lg-5" data-aos="fade-up" data-aos-delay="150">
                     <ul class="list-unstyled mt-3 mb-5 about-list t2-facts">

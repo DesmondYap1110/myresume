@@ -44,7 +44,7 @@
                         Hi, I'm <span class="text-accent-ink dark:text-accent">{{ $firstName }}</span>
                     </h1>
                     @if($about)
-                    <p class="reveal d2 text-lg md:text-xl text-zinc-500 dark:text-zinc-400 font-light leading-relaxed max-w-md mb-10">
+                    <p class="reveal d2 text-lg md:text-xl text-zinc-500 dark:text-zinc-400 font-light leading-relaxed max-w-md mb-10 text-justify">
                         @if($user->role)<strong class="font-medium text-zinc-700 dark:text-zinc-300">{{ $user->role }}</strong>. @endif
                         {{ $about }}
                     </p>
