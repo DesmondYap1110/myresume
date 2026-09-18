@@ -3,7 +3,6 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
 /**
@@ -12,35 +11,30 @@ use Illuminate\Support\Str;
 class UserFactory extends Factory
 {
     /**
-     * The current password being used by the factory.
-     */
-    protected static ?string $password;
-
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
+     * The administrator from config/admin.php. Same account the first
+     * migration creates, so seeding and migrating agree.
      */
     public function definition(): array
     {
         return [
-            'name' => "Desmond Yap",
-
-            'email' => "desmondyap1110@gmail.com",
-
-            'password' =>  bcrypt('123456'),
-
-
+            'name' => config('admin.name'),
+            'email' => config('admin.email'),
+            'password' => bcrypt((string) config('admin.password')),
+            'slug' => config('admin.slug'),
+            'website_template' => config('admin.template'),
+            'status' => 1,
+            'is_admin' => true,
         ];
     }
 
-    /**
-     * Indicate that the model's email address should be unverified.
-     */
-    public function unverified(): static
+    /** A second, ordinary portfolio owner - not an administrator. */
+    public function member(): static
     {
         return $this->state(fn (array $attributes) => [
-
+            'name' => $this->faker->name(),
+            'email' => $this->faker->unique()->safeEmail(),
+            'slug' => Str::slug($this->faker->unique()->userName()),
+            'is_admin' => false,
         ]);
     }
 }

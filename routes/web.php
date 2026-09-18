@@ -35,7 +35,8 @@ Route::prefix('admin')->group(function () {
     Route::post('/login/submit', [AuthController::class, 'login'])->name('login.submit');
 
     // ---------------- PROTECTED AREA ----------------
-    Route::middleware('auth')->group(function () {
+    // Signed in, and not still on the installation password.
+    Route::middleware(['auth', \App\Http\Middleware\RequirePasswordChange::class])->group(function () {
 
         Route::post('/logout', [AuthController::class, 'logout'])->name('login.logout');
 
@@ -51,6 +52,15 @@ Route::prefix('admin')->group(function () {
             Route::post('/update', [ProfileController::class, 'update'])->name('profile.update');
             Route::post('/upload/image', [ProfileController::class, 'upload_img'])->name('profile.upload');
             Route::get('/resume', [ProfileController::class, 'resume'])->name('profile.resume');
+        });
+
+        // ---------------- MEMBER (administrators only) ----------------
+        Route::prefix('member')->middleware(\App\Http\Middleware\EnsureAdmin::class)->group(function () {
+            Route::get('/', [\App\Http\Controllers\admin\Member\MemberController::class, 'index'])->name('member.view');
+            Route::get('/add', [\App\Http\Controllers\admin\Member\MemberController::class, 'add'])->name('member.add');
+            Route::post('/create', [\App\Http\Controllers\admin\Member\MemberController::class, 'create'])->name('member.create');
+            Route::get('/edit/{id}', [\App\Http\Controllers\admin\Member\MemberController::class, 'edit'])->name('member.edit');
+            Route::post('/update/{id}', [\App\Http\Controllers\admin\Member\MemberController::class, 'update'])->name('member.update');
         });
 
         // ---------------- SETTING ----------------

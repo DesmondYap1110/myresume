@@ -42,7 +42,17 @@ class User extends Authenticatable
      */
     protected $casts = [
         'password' => 'hashed',
+        'is_admin' => 'boolean',
     ];
+
+    /**
+     * Administers the site itself. Note "role" is the person's job title, so
+     * the flag has its own column.
+     */
+    public function isAdmin(): bool
+    {
+        return (bool) $this->is_admin;
+    }
 
 
     /**

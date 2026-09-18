@@ -52,6 +52,16 @@
             'notification' => false
         ],
 
+        // Site administration, not one person's portfolio.
+        ...(Auth::user()->isAdmin() ? [[
+            'isDropdown' => false,
+            'link' => "member.view",
+            'icon' => "fas fa-users",
+            'title' => "Member",
+            'count' => 0,
+            'notification' => false
+        ]] : []),
+
         [
             'isDropdown' => false,
             'link' => "login.logout",
