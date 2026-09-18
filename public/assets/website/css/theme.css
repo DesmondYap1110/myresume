@@ -1432,6 +1432,13 @@ section.resume-section h2::before {
     .boot-screen { display: none; }
 }
 
+/* A 60px sideways slide sticks out past a phone's edge, so the page shows a
+   horizontal scrollbar until the element animates in. Slide up instead. */
+@media (max-width: 767px) {
+    .reveal-left,
+    .reveal-right { transform: translateY(40px); }
+}
+
 /* Download CV, under the hero's social icons (shown only when a resume is uploaded). */
 .hero-cv { margin-top: 28px; position: relative; z-index: 2; }
 .hero-cv .btn { display: inline-flex; align-items: center; gap: 10px; }

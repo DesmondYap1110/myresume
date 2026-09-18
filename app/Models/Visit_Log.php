@@ -42,6 +42,23 @@ class Visit_Log extends Model
             ->get();
     }
 
+    /**
+     * Unique visitors per day across a range, keyed by Y-m-d. One query,
+     * rather than one per day on the dashboard chart.
+     */
+    static function get_daily_visitor_counts($user_id, $startDate, $endDate)
+    {
+        return self::query()
+            ->when($user_id, fn ($q) => $q->where('user_id', $user_id))
+            ->whereBetween('created_at', [$startDate, $endDate])
+            ->select(
+                DB::raw('DATE(created_at) as visit_date'),
+                DB::raw('COUNT(DISTINCT ip_address) as visitors')
+            )
+            ->groupBy(DB::raw('DATE(created_at)'))
+            ->pluck('visitors', 'visit_date');
+    }
+
     static function get_visit_log($user_id)
     {
         $query = self::where('user_id', $user_id)

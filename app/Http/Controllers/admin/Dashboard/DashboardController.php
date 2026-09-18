@@ -36,10 +36,10 @@ class DashboardController extends Controller
             return Carbon::now()->subDays($i)->format('Y-m-d');
         })->reverse()->values()->toArray();
 
-        $data_visit = collect($period)->mapWithKeys(function ($date) {
-            return [
-                $date => count(Visit_log::get_today_visit_log(Auth::user()->id, $date." 00:00:00", $date." 23:59:59"))
-            ];
+        $daily = Visit_log::get_daily_visitor_counts(Auth::user()->id, $period[0]." 00:00:00", end($period)." 23:59:59");
+
+        $data_visit = collect($period)->mapWithKeys(function ($date) use ($daily) {
+            return [$date => (int) ($daily[$date] ?? 0)];
         })->toArray();
 
         return view(self::viewPath . 'index', compact('breadcrumbs','inbox','visit_log','all_visit_log','period','data_visit'));
