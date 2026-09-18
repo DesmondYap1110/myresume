@@ -12,6 +12,10 @@
             font-weight: 700; background: var(--brand-primary, #212529); color: var(--brand-button-text, #FFD700); flex: 0 0 auto; }
         .member-who { display: flex; align-items: center; gap: 12px; min-width: 0; }
         .member-link { word-break: break-all; }
+        .member-presence { white-space: nowrap; color: #6c757d; font-size: .85rem; }
+        .member-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 5px; vertical-align: middle; }
+        .member-dot-on { background: #31ce36; box-shadow: 0 0 0 3px rgba(49, 206, 54, .18); }
+        .member-dot-off { background: #c9ccd1; }
     </style>
 
     <div class="col-md-12">
@@ -25,7 +29,6 @@
                         </a>
                     </div>
                 </div>
-                <div class="card-category">Everyone with a portfolio on this site. {{ count($members) }} {{ \Illuminate\Support\Str::plural('account', count($members)) }}.</div>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
@@ -34,6 +37,7 @@
                             <tr>
                                 <th>Person</th>
                                 <th>Access</th>
+                                <th>Online</th>
                                 <th>Website</th>
                                 <th>Status</th>
                                 <th class="text-end">Action</th>
@@ -64,6 +68,14 @@
                                     @endif
                                     @if($person->id === Auth::id())<span class="badge bg-secondary ms-1">You</span>@endif
                                 </td>
+                                <td class="member-presence">
+                                    @if($person->isOnline())
+                                        <span class="member-dot member-dot-on"></span> Online
+                                    @else
+                                        <span class="member-dot member-dot-off"></span>
+                                        {{ $person->last_seen_at ? $person->last_seen_at->diffForHumans() : 'Never signed in' }}
+                                    @endif
+                                </td>
                                 <td>
                                     <a href="{{ route('front.show', $person->routeKey()) }}" target="_blank" rel="noopener" class="member-link">/{{ $person->routeKey() }}</a>
                                     <div class="text-muted text-small">{{ config('website_templates.templates.'.$person->websiteTemplate().'.name', $person->websiteTemplate()) }}</div>
@@ -88,9 +100,6 @@
                         </tbody>
                     </table>
                 </div>
-                <small class="form-text text-muted">
-                    Blocked accounts cannot sign in and their website returns “not found”. Accounts are never deleted here, so nobody's posts or messages are left behind.
-                </small>
             </div>
         </div>
     </div>

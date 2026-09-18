@@ -16,6 +16,9 @@ class User extends Authenticatable
     const status_active = 1;
     const status_block  = 0;
 
+    // Someone active in the back office this recently counts as online.
+    const online_within_minutes = 5;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -43,7 +46,17 @@ class User extends Authenticatable
     protected $casts = [
         'password' => 'hashed',
         'is_admin' => 'boolean',
+        'last_seen_at' => 'datetime',
     ];
+
+    /**
+     * Signed in and active in the back office just now. Tracked by
+     * TrackLastSeen, so it only reflects the admin area, not the public site.
+     */
+    public function isOnline(): bool
+    {
+        return $this->last_seen_at && $this->last_seen_at->gt(now()->subMinutes(self::online_within_minutes));
+    }
 
     /**
      * Administers the site itself. Note "role" is the person's job title, so

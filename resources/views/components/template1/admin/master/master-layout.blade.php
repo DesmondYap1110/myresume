@@ -14,6 +14,10 @@
     <body class="{{ request()->routeIs('login.index', 'login.logout') ? 'login' : '' }}">
         <div class="wrapper {{ request()->routeIs('login.index', 'login.logout') ? 'wrapper-login' : '' }}">
             @if(!request()->routeIs('login.index', 'login.logout'))
+            @php
+                // Read once here: the sidebar badge and the navbar dropdown both need it.
+                $inboxUnread = \App\Models\Inbox::getInboxByUseridStatus(Auth::user()->id);
+            @endphp
             <!-- Sidebar -->
             @include('components.template1.admin.sidebar.sidebar-main')
             <!-- End Sidebar -->

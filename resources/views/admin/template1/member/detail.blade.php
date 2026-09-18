@@ -35,6 +35,7 @@
                             @if($person->isAdmin())<span class="badge bg-dark ms-1">Admin</span>@else<span class="badge bg-light text-dark ms-1">Member</span>@endif
                             @if($person->id === Auth::id())<span class="badge bg-secondary ms-1">You</span>@endif
                             @if($person->status)<span class="badge bg-success ms-1">Active</span>@else<span class="badge bg-danger ms-1">Blocked</span>@endif
+                            @if($person->isOnline())<span class="badge bg-success ms-1">Online</span>@endif
                         </h4>
                         @if($person->role)<div class="text-muted">{{ $person->role }}</div>@endif
                         <div class="mt-2">
@@ -73,6 +74,14 @@
                                 @else — @endif
                             </dd>
                             <dt>Joined</dt><dd>{{ $person->created_at ? $person->created_at->format('j F Y') : '—' }}</dd>
+                            <dt>Last seen</dt>
+                            <dd>
+                                @if($person->isOnline())
+                                    Online now
+                                @else
+                                    {{ $person->last_seen_at ? $person->last_seen_at->diffForHumans().' ('.$person->last_seen_at->format('j M Y, g:ia').')' : 'Never signed in' }}
+                                @endif
+                            </dd>
                         </dl>
                     </div>
                 </div>

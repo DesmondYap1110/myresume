@@ -39,7 +39,7 @@
             'link' => "inbox.view",
             'icon' => "fas fa-envelope",
             'title' => "Inbox",
-            'count' => count(\App\Models\Inbox::getInboxByUseridStatus(Auth::user()->id)),
+            'count' => count($inboxUnread),
             'notification' => true
         ],
 

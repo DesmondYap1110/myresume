@@ -36,7 +36,7 @@ Route::prefix('admin')->group(function () {
 
     // ---------------- PROTECTED AREA ----------------
     // Signed in, and not still on the installation password.
-    Route::middleware(['auth', \App\Http\Middleware\RequirePasswordChange::class])->group(function () {
+    Route::middleware(['auth', \App\Http\Middleware\RequirePasswordChange::class, \App\Http\Middleware\TrackLastSeen::class])->group(function () {
 
         Route::post('/logout', [AuthController::class, 'logout'])->name('login.logout');
 

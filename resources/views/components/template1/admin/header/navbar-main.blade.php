@@ -1,6 +1,5 @@
 @php
-    $inbox_nav = \App\Models\Inbox::getInboxByUseridStatus(Auth::user()->id);
-
+    $inbox_nav = $inboxUnread;
 @endphp
 <!-- Navbar Header -->
 <nav class="navbar navbar-header navbar-header-transparent navbar-expand-lg border-bottom">
