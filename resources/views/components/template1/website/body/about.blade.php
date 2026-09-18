@@ -77,6 +77,12 @@
             @endif
         </ul>
 
+        @if($user->hasResume())
+        <div class="hero-cv">
+            <a href="{{ $user->resumeUrl() }}" class="btn btn-general btn-white"><i class="fa fa-download" aria-hidden="true"></i> Download CV</a>
+        </div>
+        @endif
+
         <a href="#{{ count($education ?? []) ? 'education' : 'contact' }}" class="hero-scroll js-scroll-trigger" aria-label="Scroll down">
             <span class="mouse"><span class="wheel"></span></span>
         </a>

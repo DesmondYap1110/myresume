@@ -42,6 +42,7 @@ class User extends Authenticatable
      */
     protected $casts = [
         'password' => 'hashed',
+        'resume_uploaded_at' => 'datetime',
     ];
 
 
@@ -65,6 +66,7 @@ class User extends Authenticatable
     const reserved_slugs = [
         'admin', 'post', 'sitemap', 'sitemap.xml', 'robots.txt', 'favicon.ico',
         'login', 'logout', 'enquiry', 'storage', 'assets', 'uploads', 'api', 'build', 'vendor',
+        'resume',
     ];
 
     /**
@@ -97,6 +99,31 @@ class User extends Authenticatable
         $id = base64_decode($key, true);
 
         return ($id !== false && ctype_digit(trim($id))) ? self::getUserByUserid(trim($id)) : null;
+    }
+
+    /** True when a resume PDF has been uploaded and is still on disk. */
+    public function hasResume(): bool
+    {
+        return filled($this->resume) && is_file($this->resumePath());
+    }
+
+    public function resumePath(): string
+    {
+        return storage_path('app/'.$this->resume);
+    }
+
+    /** Public download link, e.g. /resume/desmond-yap */
+    public function resumeUrl(): string
+    {
+        return route('front.resume', $this->routeKey());
+    }
+
+    /** What the visitor's download is called, e.g. Desmond-Yap-Resume.pdf */
+    public function resumeDownloadName(): string
+    {
+        $name = trim(preg_replace('/[^A-Za-z0-9]+/', '-', (string) $this->name), '-') ?: 'Resume';
+
+        return $name.'-Resume.pdf';
     }
 
     /**

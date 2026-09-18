@@ -59,8 +59,11 @@
                     @if($about)
                     <p class="t2-lead" data-aos="fade-up" data-aos-delay="200">{{ \Illuminate\Support\Str::limit($about, 220) }}</p>
                     @endif
-                    <div class="mt-5" data-aos="fade-up" data-aos-delay="300">
+                    <div class="mt-5 t2-actions" data-aos="fade-up" data-aos-delay="300">
                         <a href="#contact" class="btn btn-main mr-2 mb-2">Contact me</a>
+                        @if($user->hasResume())
+                        <a href="{{ $user->resumeUrl() }}" class="btn btn-black mr-2 mb-2"><i class="ti-download mr-1" aria-hidden="true"></i> Download CV</a>
+                        @endif
                         @if(count($blog))
                         <a href="#blog" class="btn btn-black mb-2">Read my blog</a>
                         @endif

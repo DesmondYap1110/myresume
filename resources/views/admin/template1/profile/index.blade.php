@@ -16,6 +16,11 @@
         color: white;
     }
 
+    .resume-current { display: flex; flex-wrap: wrap; align-items: center; gap: 14px; padding: 14px 16px; margin-bottom: 20px; border: 1px solid #ebedf2; border-radius: 10px; background: #fafbfd; }
+    .resume-icon { width: 44px; height: 44px; border-radius: 10px; display: flex; align-items: center; justify-content: center; background: #fdecea; color: #d93025; font-size: 20px; flex: 0 0 auto; }
+    .resume-meta { flex: 1 1 200px; min-width: 0; word-break: break-word; }
+    .resume-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+
 
 </style>
 <x-template1.admin.master.master-layout>
@@ -113,6 +118,49 @@
                         <button type = "submit" class="btn btn-dark">Edit</button>
                     </div>
                 </form>
+            </div>
+
+            {{-- Separate from the form above: a file upload cannot sit inside it. --}}
+            <div class="card" id="resume">
+                <div class="card-header">
+                    <div class="card-title">Resume / CV</div>
+                    <div class="card-category">A PDF visitors can download from the <b>Download CV</b> button on your website.</div>
+                </div>
+                <div class="card-body">
+                    @if($user_detail->hasResume())
+                    <div class="resume-current">
+                        <span class="resume-icon"><i class="fa fa-file-pdf"></i></span>
+                        <div class="resume-meta">
+                            <b>{{ $user_detail->resume_name ?: 'resume.pdf' }}</b>
+                            <small class="text-muted d-block">
+                                {{ number_format(filesize($user_detail->resumePath()) / 1024) }} KB
+                                @if($user_detail->resume_uploaded_at) · uploaded {{ $user_detail->resume_uploaded_at->diffForHumans() }}@endif
+                            </small>
+                        </div>
+                        <div class="resume-actions">
+                            <a href="{{ $user_detail->resumeUrl() }}" class="btn btn-sm btn-black btn-border"><i class="fa fa-download me-1"></i> Download</a>
+                            <form action="{{ route('profile.resume.delete') }}" method="post" class="d-inline"
+                                  onsubmit="return confirm('Remove your resume from the website?')">
+                                @csrf
+                                <button type="submit" class="btn btn-sm btn-danger"><i class="fa fa-trash me-1"></i> Remove</button>
+                            </form>
+                        </div>
+                    </div>
+                    @else
+                    <p class="text-muted mb-3">No resume uploaded yet — the <b>Download CV</b> button stays hidden on your website until you add one.</p>
+                    @endif
+
+                    <form action="{{ route('profile.resume.upload') }}" method="post" enctype="multipart/form-data" class="resume-upload">
+                        @csrf
+                        <label for="resumeFile" class="form-label">{{ $user_detail->hasResume() ? 'Replace with a new PDF' : 'Upload a PDF' }}</label>
+                        <div class="input-group">
+                            <input type="file" class="form-control" id="resumeFile" name="resume" accept="application/pdf,.pdf" required>
+                            <button type="submit" class="btn btn-dark"><i class="fa fa-upload me-1"></i> Upload</button>
+                        </div>
+                        <small class="form-text text-muted">PDF only, up to 5 MB. Kept outside the public folder and always sent as a download.</small>
+                        @error('resume')<span class="text-danger d-block">{{ $message }}</span>@enderror
+                    </form>
+                </div>
             </div>
         </div>
 </x-template1.admin.master.master-layout>

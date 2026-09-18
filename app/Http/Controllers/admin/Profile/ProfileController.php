@@ -4,12 +4,13 @@ namespace App\Http\Controllers\admin\Profile;
 
 use App\Http\Controllers\Controller;
 use App\Support\SafeImageUpload;
+use App\Support\SafeResumeUpload;
 use Illuminate\Validation\ValidationException;
 use App\Helpers\Breadcrumb;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
-use app\Models\User;
+use App\Models\User;
 
 class ProfileController extends Controller
 {
@@ -68,6 +69,49 @@ class ProfileController extends Controller
         return view(self::viewPath . 'index', compact('breadcrumbs','user_detail'));
     }
 
+
+    /**
+     * Uploads or replaces the resume PDF visitors can download.
+     */
+    public function upload_resume(Request $request)
+    {
+        $request->validate([
+            'resume' => 'required|file|mimes:pdf|max:'.SafeResumeUpload::max_kb,
+        ], [
+            'resume.mimes' => 'Please upload your resume as a PDF file.',
+            'resume.max' => 'The resume must be 5 MB or smaller.',
+        ]);
+
+        $stored = SafeResumeUpload::store($request->file('resume'));
+
+        $user_detail = User::getUserByEmail(Auth::user()->email);
+        $previous = $user_detail->resume;
+
+        $user_detail->resume = $stored['path'];
+        $user_detail->resume_name = $stored['name'];
+        $user_detail->resume_uploaded_at = now();
+        $user_detail->update();
+
+        // Only remove the old file once the new one is safely recorded.
+        SafeResumeUpload::delete($previous);
+
+        return redirect()->to(route('profile.view').'#resume')->with('success', 'Resume uploaded. Visitors can now download it from your website.');
+    }
+
+    public function delete_resume()
+    {
+        $user_detail = User::getUserByEmail(Auth::user()->email);
+        $previous = $user_detail->resume;
+
+        $user_detail->resume = null;
+        $user_detail->resume_name = null;
+        $user_detail->resume_uploaded_at = null;
+        $user_detail->update();
+
+        SafeResumeUpload::delete($previous);
+
+        return redirect()->to(route('profile.view').'#resume')->with('success', 'Resume removed from your website.');
+    }
 
 // Controller
     public function upload_img(Request $request)

@@ -69,6 +69,26 @@ class FrontEndController extends Controller
         return view("website.{$template}.post", compact('user','post','blog'));
     }
 
+    /**
+     * The owner's resume, sent as a download. The file sits outside the web
+     * root, so this is the only way to reach it.
+     */
+    public function resume()
+    {
+        $user = User::findByRouteKey(request()->id);
+        if (!$user || !$user->hasResume()) abort(404);
+
+        if (request()->id !== $user->routeKey()) {
+            return redirect()->to($user->resumeUrl(), 301);
+        }
+
+        return response()->download($user->resumePath(), $user->resumeDownloadName(), [
+            'Content-Type' => 'application/pdf',
+            'X-Content-Type-Options' => 'nosniff',
+            'Cache-Control' => 'public, max-age=300',
+        ]);
+    }
+
     public function contact(Request $request)
     {
         $user = User::findByRouteKey(request()->id);

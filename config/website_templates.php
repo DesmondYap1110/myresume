@@ -38,6 +38,14 @@ return [
             'credit' => 'Folio by Laurent Begey, distributed by ThemeWagon',
         ],
 
+        'template4' => [
+            'name' => 'Template 4 - Creative CV',
+            'description' => 'Classic CV layout with a photo header, experience cards, references and a Download CV button.',
+            'preview' => 'assets/admin/img/templates/template4.jpg',
+            // MIT licensed - see public/assets/website/template4/LICENSE.txt
+            'credit' => 'Creative CV by TemplateFlip, built on Now UI Kit by Creative Tim',
+        ],
+
     ],
 
 ];

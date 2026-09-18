@@ -33,6 +33,8 @@
         :root {
             {!! \App\Support\Branding::cssDeclarations(\App\Support\Branding::websiteCssVariables($user, 'template2')) !!}
         }
+        /* Hero buttons: equal width when they stack on a phone. */
+        @media (max-width: 575px) { .t2-actions .btn { display: block; width: 100%; margin-right: 0 !important; } }
     </style>
     <link rel="stylesheet" href="{{ $asset('css/custom.css') }}?v={{ $version }}">
 </head>
