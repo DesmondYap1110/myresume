@@ -152,6 +152,7 @@ Route::prefix('admin')->group(function () {
         // ---------------- INBOX ----------------
         Route::prefix('inbox')->group(function () {
             Route::get('/', [InboxController::class, 'index'])->name('inbox.view');
+            Route::get('/unread', [InboxController::class, 'unread'])->name('inbox.unread');
             Route::get('/{id}', [InboxController::class, 'viewmessage'])->name('inbox.view.message');
             Route::get('/delete/{id}', [InboxController::class, 'delete'])->name('inbox.delete');
             Route::get('/edit/status/{id}', [InboxController::class, 'status'])->name('inbox.status');

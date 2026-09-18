@@ -24,13 +24,30 @@ class Inbox extends Model
         return $query->orderBy('id', 'desc')->get();
     }
 
-    static function getInboxByUseridStatus($id,$read_status = self::read_status_inactive)
+    static function getInboxByUseridStatus($id,$read_status = self::read_status_inactive, $limit = null)
     {
         $query = self::Where('user_id', $id)
         ->where('status', self::status_active)
-        ->where("read_status",$read_status);
+        ->where("read_status",$read_status)
+        ->orderBy('id', 'desc');
 
-        return $query->orderBy('id', 'desc')->get();
+        if ($limit) {
+            $query->limit($limit);
+        }
+
+        return $query->get();
+    }
+
+    /**
+     * Just the number, for the badge that gets polled every few seconds -
+     * no point hydrating full rows for a count.
+     */
+    static function countUnreadByUserid($id, $read_status = self::read_status_inactive)
+    {
+        return self::where('user_id', $id)
+            ->where('status', self::status_active)
+            ->where('read_status', $read_status)
+            ->count();
     }
 
     static function getInboxtById($user_id,$id)

@@ -31,6 +31,30 @@ class InboxController extends Controller
         return view(self::viewPath . 'index', compact('breadcrumbs','inbox'));
     }
 
+    /**
+     * Polled from the navbar so the unread badge updates without a page
+     * reload. Kept deliberately small: a count query plus a handful of
+     * rows, not the full inbox.
+     */
+    public function unread()
+    {
+        $userId = Auth::id();
+
+        $items = Inbox::getInboxByUseridStatus($userId, Inbox::read_status_inactive, 8)
+            ->map(fn ($item) => [
+                'id' => $item->id,
+                'name' => $item->name,
+                'subject' => \Illuminate\Support\Str::words($item->subject, 4, '...'),
+                'time' => $item->created_at->diffForHumans(),
+                'url' => route('inbox.view.message', $item->id),
+            ]);
+
+        return response()->json([
+            'count' => Inbox::countUnreadByUserid($userId),
+            'items' => $items,
+        ]);
+    }
+
     public function delete()
     {
 

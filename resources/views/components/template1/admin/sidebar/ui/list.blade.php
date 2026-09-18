@@ -18,7 +18,7 @@
             <p>{{ $title }}</p>
 
             @if($notification == "true")
-                <span class="badge badge-secondary">{{ $count }}</span>
+                <span class="badge badge-secondary" @if($link === 'inbox.view') id="sidebarInboxBadge" @endif @if(!$count) style="display:none" @endif>{{ $count }}</span>
             @endif
 
         </a>
