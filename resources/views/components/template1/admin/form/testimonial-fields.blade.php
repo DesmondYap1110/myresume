@@ -2,13 +2,22 @@
 {{-- Shared fields for the Testimonial add and edit forms. --}}
 
 <style>
-    .star-rating { display: inline-flex; flex-direction: row-reverse; gap: 4px; }
+    .star-rating-row { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+    .star-rating { display: inline-flex; flex-direction: row-reverse; gap: 6px; }
     .star-rating input { position: absolute; opacity: 0; pointer-events: none; }
-    .star-rating label { font-size: 26px; color: #dfe2e8; cursor: pointer; margin: 0; transition: color .15s ease; }
-    .star-rating input:checked ~ label,
-    .star-rating label:hover,
-    .star-rating label:hover ~ label { color: var(--brand-accent, #FFD700); }
-    .star-rating input:focus-visible + label { outline: 2px solid var(--brand-primary, #212529); outline-offset: 2px; }
+    .star-rating label { font-size: 28px; line-height: 1; cursor: pointer; margin: 0; }
+    /* KaiAdmin forces every label grey with !important, so the colour goes on
+       the icon inside it instead. */
+    .star-rating label i { font-size: 28px; color: #d9dde4; transition: color .15s ease, transform .15s ease; }
+    .star-rating input:checked ~ label i { color: var(--brand-accent, #FFD700); filter: drop-shadow(0 1px 1px rgba(0,0,0,.3)); }
+    /* While hovering, preview the rating you would pick instead of the saved one. */
+    .star-rating:hover input ~ label i { color: #d9dde4; filter: none; }
+    .star-rating:hover label:hover i,
+    .star-rating:hover label:hover ~ label i { color: var(--brand-accent, #FFD700); filter: drop-shadow(0 1px 1px rgba(0,0,0,.3)); }
+    .star-rating label:hover i { transform: scale(1.18); }
+    .star-rating input:focus-visible + label i { outline: 2px solid var(--brand-primary, #212529); outline-offset: 3px; border-radius: 4px; }
+    .star-rating-value { font-weight: 600; color: #495057; }
+    .star-rating-value small { font-weight: 400; color: #8d9498; margin-left: 4px; }
 </style>
 
 <div class="card-action">
@@ -34,12 +43,31 @@
         <div class="col-md-6 py-2">
             <label class="d-block">Rating <span class="required-label">*</span></label>
             @php $rating = (int) old('rating', $testimonial->rating ?? 5); @endphp
-            <div class="star-rating">
-                @for($i = 5; $i >= 1; $i--)
-                <input type="radio" id="rating-{{ $i }}" name="rating" value="{{ $i }}" @checked($rating === $i)>
-                <label for="rating-{{ $i }}" title="{{ $i }} star{{ $i > 1 ? 's' : '' }}"><i class="fas fa-star"></i></label>
-                @endfor
+            @php $ratingWords = [1 => 'Poor', 2 => 'Fair', 3 => 'Good', 4 => 'Very good', 5 => 'Excellent']; @endphp
+            <div class="star-rating-row">
+                <div class="star-rating" role="radiogroup" aria-label="Rating">
+                    @for($i = 5; $i >= 1; $i--)
+                    <input type="radio" id="rating-{{ $i }}" name="rating" value="{{ $i }}" @checked($rating === $i)>
+                    <label for="rating-{{ $i }}" title="{{ $i }} star{{ $i > 1 ? 's' : '' }} - {{ $ratingWords[$i] }}"><i class="fas fa-star"></i></label>
+                    @endfor
+                </div>
+                <span class="star-rating-value" id="rating-value" aria-live="polite">{{ $rating }} / 5<small>{{ $ratingWords[$rating] ?? '' }}</small></span>
             </div>
+            <script>
+                // Keep the "4 / 5 Very good" readout in step with the stars.
+                (function () {
+                    var words = @json($ratingWords), out = document.getElementById('rating-value');
+                    document.querySelectorAll('.star-rating input').forEach(function (input) {
+                        input.addEventListener('change', function () {
+                            out.innerHTML = '';
+                            out.appendChild(document.createTextNode(input.value + ' / 5'));
+                            var small = document.createElement('small');
+                            small.textContent = words[input.value] || '';
+                            out.appendChild(small);
+                        });
+                    });
+                })();
+            </script>
         </div>
 
         <div class="col-md-6 py-2">
