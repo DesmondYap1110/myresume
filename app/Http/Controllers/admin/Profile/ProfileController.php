@@ -4,7 +4,7 @@ namespace App\Http\Controllers\admin\Profile;
 
 use App\Http\Controllers\Controller;
 use App\Support\SafeImageUpload;
-use App\Support\SafeResumeUpload;
+use App\Services\ResumePdf;
 use Illuminate\Validation\ValidationException;
 use App\Helpers\Breadcrumb;
 use Illuminate\Http\Request;
@@ -66,51 +66,28 @@ class ProfileController extends Controller
 
         $user_detail = User::getUserByEmail(Auth::user()->email);
 
-        return view(self::viewPath . 'index', compact('breadcrumbs','user_detail'));
+        // What the generated resume will contain, shown on its card.
+        $resumeStats = [
+            'experience' => \App\Models\Experience::getExperienceByUserid($user_detail->id)->count(),
+            'education' => \App\Models\Education::getEducationByUserid($user_detail->id)->count(),
+            'services' => \App\Models\Service::getServiceByUserid($user_detail->id)->count(),
+            'projects' => \App\Models\Project::getProjectByUserid($user_detail->id)->count(),
+        ];
+
+        return view(self::viewPath . 'index', compact('breadcrumbs','user_detail','resumeStats'));
     }
 
 
     /**
-     * Uploads or replaces the resume PDF visitors can download.
+     * The resume, generated from the profile data. Opens in the browser to
+     * preview; ?download=1 saves it instead.
      */
-    public function upload_resume(Request $request)
-    {
-        $request->validate([
-            'resume' => 'required|file|mimes:pdf|max:'.SafeResumeUpload::max_kb,
-        ], [
-            'resume.mimes' => 'Please upload your resume as a PDF file.',
-            'resume.max' => 'The resume must be 5 MB or smaller.',
-        ]);
-
-        $stored = SafeResumeUpload::store($request->file('resume'));
-
-        $user_detail = User::getUserByEmail(Auth::user()->email);
-        $previous = $user_detail->resume;
-
-        $user_detail->resume = $stored['path'];
-        $user_detail->resume_name = $stored['name'];
-        $user_detail->resume_uploaded_at = now();
-        $user_detail->update();
-
-        // Only remove the old file once the new one is safely recorded.
-        SafeResumeUpload::delete($previous);
-
-        return redirect()->to(route('profile.view').'#resume')->with('success', 'Resume uploaded. Visitors can now download it from your website.');
-    }
-
-    public function delete_resume()
+    public function resume(Request $request)
     {
         $user_detail = User::getUserByEmail(Auth::user()->email);
-        $previous = $user_detail->resume;
+        $pdf = ResumePdf::for($user_detail);
 
-        $user_detail->resume = null;
-        $user_detail->resume_name = null;
-        $user_detail->resume_uploaded_at = null;
-        $user_detail->update();
-
-        SafeResumeUpload::delete($previous);
-
-        return redirect()->to(route('profile.view').'#resume')->with('success', 'Resume removed from your website.');
+        return $pdf->response($request->boolean('download') ? 'attachment' : 'inline');
     }
 
 // Controller

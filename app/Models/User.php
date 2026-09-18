@@ -42,7 +42,6 @@ class User extends Authenticatable
      */
     protected $casts = [
         'password' => 'hashed',
-        'resume_uploaded_at' => 'datetime',
     ];
 
 
@@ -101,15 +100,19 @@ class User extends Authenticatable
         return ($id !== false && ctype_digit(trim($id))) ? self::getUserByUserid(trim($id)) : null;
     }
 
-    /** True when a resume PDF has been uploaded and is still on disk. */
+    private ?bool $resumeReady = null;
+
+    /**
+     * True when there is enough to build a resume from: a name plus some
+     * experience, education or an about text. Checked once per request.
+     */
     public function hasResume(): bool
     {
-        return filled($this->resume) && is_file($this->resumePath());
-    }
-
-    public function resumePath(): string
-    {
-        return storage_path('app/'.$this->resume);
+        return $this->resumeReady ??= filled($this->name) && (
+            filled(strip_tags((string) $this->about))
+            || Experience::where('user_id', $this->id)->where('status', Experience::status_active)->exists()
+            || Education::where('user_id', $this->id)->where('status', Education::status_active)->exists()
+        );
     }
 
     /** Public download link, e.g. /resume/desmond-yap */

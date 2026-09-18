@@ -16,9 +16,12 @@
   <div class="profile-page">
     <div class="wrapper">
       <div class="page-header page-header-small" filter-color="green">
-        <div class="page-header-image" data-parallax="true" style="background-image: url('{{ $images->first() ?: asset('assets/website/template4/img/banner.jpg') }}')"></div>
+        <div class="page-header-image" data-parallax="true">
+          <div class="t4-hero-bg" style="background-image: url('{{ $images->first() ?: asset('assets/website/template4/img/banner.jpg') }}')"></div>
+        </div>
+        <div class="t4-orbs" aria-hidden="true"><span></span><span></span><span></span></div>
         <div class="container">
-          <div class="content-center">
+          <div class="content-center t4-hero-in">
             <p class="category text-white mb-2">Portfolio</p>
             <h1 class="h2 title">{{ $post->title }}</h1>
             <p class="text-white mb-0">{{ $post->created_at->format('d F Y') }} · {{ $minutes }} min read · {{ $user->name }}</p>

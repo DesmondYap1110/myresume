@@ -70,8 +70,8 @@ class FrontEndController extends Controller
     }
 
     /**
-     * The owner's resume, sent as a download. The file sits outside the web
-     * root, so this is the only way to reach it.
+     * The owner's resume as a PDF, generated from their portfolio data, so it
+     * is never out of date.
      */
     public function resume()
     {
@@ -82,11 +82,7 @@ class FrontEndController extends Controller
             return redirect()->to($user->resumeUrl(), 301);
         }
 
-        return response()->download($user->resumePath(), $user->resumeDownloadName(), [
-            'Content-Type' => 'application/pdf',
-            'X-Content-Type-Options' => 'nosniff',
-            'Cache-Control' => 'public, max-age=300',
-        ]);
+        return \App\Services\ResumePdf::for($user)->response('attachment');
     }
 
     public function contact(Request $request)

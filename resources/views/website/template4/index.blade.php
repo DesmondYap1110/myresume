@@ -28,6 +28,19 @@
     $initials = collect(preg_split('/\s+/', trim((string) $user->name)))->filter()->take(2)
         ->map(fn ($w) => mb_strtoupper(mb_substr($w, 0, 1)))->implode('');
     $whatsapp = $user->phone ? 'https://wa.me/'.preg_replace('/\D+/', '', $user->phone) : null;
+
+    // Short titles the hero types through, current role first.
+    $roles = \App\Support\RoleLabel::headlineWords($experience, $user->role) ?: array_filter([$user->role]);
+
+    // Numbers for the count-up band; only the ones that are above zero show.
+    $firstStart = collect($experience)->pluck('start_date')->filter()->sort()->first();
+    $years = $firstStart ? max(1, (int) date('Y') - (int) substr($firstStart, 0, 4)) : 0;
+    $stats = array_filter([
+        ['value' => $years, 'suffix' => '+', 'label' => 'Years experience', 'icon' => 'fa-briefcase'],
+        ['value' => collect($experience)->pluck('company')->map(fn ($c) => \Illuminate\Support\Str::lower(trim(preg_replace('/\(.*?\)/', '', (string) $c))))->filter()->unique()->count(), 'suffix' => '', 'label' => 'Companies', 'icon' => 'fa-building'],
+        ['value' => count($blog) + count($project), 'suffix' => '', 'label' => 'Projects shipped', 'icon' => 'fa-rocket'],
+        ['value' => count($testimonial), 'suffix' => '', 'label' => 'Happy clients', 'icon' => 'fa-smile-o'],
+    ], fn ($s) => $s['value'] > 0);
 @endphp
 
 <x-template4.website.master.master-layout :user="$user" :sections="$sections">
@@ -36,9 +49,13 @@
   <div class="profile-page">
     <div class="wrapper">
       <div class="page-header page-header-small" filter-color="green">
-        <div class="page-header-image" data-parallax="true" style="background-image: url('{{ asset('assets/website/template4/img/banner.jpg') }}')"></div>
+        {{-- The parallax script moves this layer; the slow zoom runs on the one inside it. --}}
+        <div class="page-header-image" data-parallax="true">
+          <div class="t4-hero-bg" style="background-image: url('{{ asset('assets/website/template4/img/banner.jpg') }}')"></div>
+        </div>
+        <div class="t4-orbs" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
         <div class="container">
-          <div class="content-center">
+          <div class="content-center t4-hero-in">
             <div class="cc-profile-image">
               <a href="#about">
                 @if($user->image)
@@ -49,11 +66,16 @@
               </a>
             </div>
             <h1 class="h2 title">{{ $user->name }}</h1>
-            @if($user->role)<p class="category text-white">{{ $user->role }}</p>@endif
-            <a class="btn btn-primary smooth-scroll mr-2" href="#contact" data-aos="zoom-in" data-aos-anchor="data-aos-anchor">Hire Me</a>
-            @if($user->hasResume())
-            <a class="btn btn-primary" href="{{ $user->resumeUrl() }}" data-aos="zoom-in" data-aos-anchor="data-aos-anchor"><i class="fa fa-download mr-1" aria-hidden="true"></i> Download CV</a>
+            @if($user->role)
+            {{-- Shows the role as-is; with motion allowed it types through the roles below. --}}
+            <p class="category text-white t4-typed" data-roles='@json($roles)'><span class="t4-typed-text">{{ $user->role }}</span><span class="t4-caret" aria-hidden="true"></span></p>
             @endif
+            <div class="t4-hero-actions">
+              <a class="btn btn-primary smooth-scroll mr-2" href="#contact">Hire Me</a>
+              @if($user->hasResume())
+              <a class="btn btn-primary" href="{{ $user->resumeUrl() }}"><i class="fa fa-download mr-1" aria-hidden="true"></i> Download CV</a>
+              @endif
+            </div>
           </div>
         </div>
         <div class="section">
@@ -117,6 +139,26 @@
       </div>
     </div>
   </div>
+
+  {{-- ═══ STATS (count up when scrolled into view) ═══ --}}
+  @if(count($stats))
+  <div class="t4-stats">
+    <div class="container">
+      <div class="row justify-content-center">
+        @foreach($stats as $stat)
+        <div class="col-6 col-md-3">
+          <div class="t4-stat" data-aos="zoom-in" data-aos-delay="{{ $loop->index * 100 }}">
+            <i class="fa {{ $stat['icon'] }}" aria-hidden="true"></i>
+            {{-- The real number is in the markup; the animation only replays it. --}}
+            <span class="t4-stat-num"><span class="t4-count" data-count="{{ $stat['value'] }}">{{ $stat['value'] }}</span>{{ $stat['suffix'] }}</span>
+            <span class="t4-stat-label">{{ $stat['label'] }}</span>
+          </div>
+        </div>
+        @endforeach
+      </div>
+    </div>
+  </div>
+  @endif
 
   {{-- ═══ SERVICES (where the old site had skill bars) ═══ --}}
   @if(count($service))

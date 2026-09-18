@@ -23,7 +23,8 @@ Route::get('sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
 Route::get('{id}', [FrontEndController::class, 'index'])->name('front.show');
 // Blog post page; the user id stays last because LogFrontendVisit reads the last segment.
 Route::get('post/{blog}/{id}', [FrontEndController::class, 'post'])->whereNumber('blog')->name('front.post');
-Route::get('resume/{id}', [FrontEndController::class, 'resume'])->name('front.resume');
+// Generated on request (cached per content), so a small rate limit keeps it cheap.
+Route::get('resume/{id}', [FrontEndController::class, 'resume'])->middleware('throttle:20,1')->name('front.resume');
 Route::post('enquiry/{id}', [FrontEndController::class, 'contact'])->name('front.contact');
 
 
@@ -49,8 +50,7 @@ Route::prefix('admin')->group(function () {
             Route::get('/edit', [ProfileController::class, 'edit'])->name('profile.edit');
             Route::post('/update', [ProfileController::class, 'update'])->name('profile.update');
             Route::post('/upload/image', [ProfileController::class, 'upload_img'])->name('profile.upload');
-            Route::post('/upload/resume', [ProfileController::class, 'upload_resume'])->name('profile.resume.upload');
-            Route::post('/resume/delete', [ProfileController::class, 'delete_resume'])->name('profile.resume.delete');
+            Route::get('/resume', [ProfileController::class, 'resume'])->name('profile.resume');
         });
 
         // ---------------- SETTING ----------------

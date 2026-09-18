@@ -19,7 +19,10 @@
     .resume-current { display: flex; flex-wrap: wrap; align-items: center; gap: 14px; padding: 14px 16px; margin-bottom: 20px; border: 1px solid #ebedf2; border-radius: 10px; background: #fafbfd; }
     .resume-icon { width: 44px; height: 44px; border-radius: 10px; display: flex; align-items: center; justify-content: center; background: #fdecea; color: #d93025; font-size: 20px; flex: 0 0 auto; }
     .resume-meta { flex: 1 1 200px; min-width: 0; word-break: break-word; }
-    .resume-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+    .resume-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+    /* Outline and solid buttons differ in border by default; pin both to one box. */
+    .resume-actions .resume-btn { display: inline-flex; align-items: center; justify-content: center; height: 36px; padding: 0 16px;
+        line-height: 1; border-width: 1px; border-radius: 6px; font-weight: 600; white-space: nowrap; }
 
 
 </style>
@@ -124,42 +127,35 @@
             <div class="card" id="resume">
                 <div class="card-header">
                     <div class="card-title">Resume / CV</div>
-                    <div class="card-category">A PDF visitors can download from the <b>Download CV</b> button on your website.</div>
+                    <div class="card-category">Generated automatically from this page and your Experience, Education, Project and Service modules — edit those and the resume updates itself.</div>
                 </div>
                 <div class="card-body">
                     @if($user_detail->hasResume())
                     <div class="resume-current">
                         <span class="resume-icon"><i class="fa fa-file-pdf"></i></span>
                         <div class="resume-meta">
-                            <b>{{ $user_detail->resume_name ?: 'resume.pdf' }}</b>
+                            <b>{{ $user_detail->resumeDownloadName() }}</b>
                             <small class="text-muted d-block">
-                                {{ number_format(filesize($user_detail->resumePath()) / 1024) }} KB
-                                @if($user_detail->resume_uploaded_at) · uploaded {{ $user_detail->resume_uploaded_at->diffForHumans() }}@endif
+                                {{ $resumeStats['experience'] }} {{ \Illuminate\Support\Str::plural('job', $resumeStats['experience']) }}
+                                · {{ $resumeStats['education'] }} {{ \Illuminate\Support\Str::plural('qualification', $resumeStats['education']) }}
+                                · {{ $resumeStats['services'] }} {{ \Illuminate\Support\Str::plural('strength', $resumeStats['services']) }}
+                                @if($resumeStats['projects']) · {{ $resumeStats['projects'] }} {{ \Illuminate\Support\Str::plural('project', $resumeStats['projects']) }}@endif
                             </small>
                         </div>
+                        {{-- Same size and shape for both, so they line up. --}}
                         <div class="resume-actions">
-                            <a href="{{ $user_detail->resumeUrl() }}" class="btn btn-sm btn-black btn-border"><i class="fa fa-download me-1"></i> Download</a>
-                            <form action="{{ route('profile.resume.delete') }}" method="post" class="d-inline"
-                                  onsubmit="return confirm('Remove your resume from the website?')">
-                                @csrf
-                                <button type="submit" class="btn btn-sm btn-danger"><i class="fa fa-trash me-1"></i> Remove</button>
-                            </form>
+                            <a href="{{ route('profile.resume') }}" target="_blank" rel="noopener" class="btn btn-sm btn-outline-dark resume-btn"><i class="fa fa-eye me-1"></i> Preview</a>
+                            <a href="{{ route('profile.resume', ['download' => 1]) }}" class="btn btn-sm btn-dark resume-btn"><i class="fa fa-download me-1"></i> Generate &amp; Download</a>
                         </div>
                     </div>
+                    <small class="form-text text-muted">
+                        Visitors get the same PDF from the <b>Download CV</b> button on your website:
+                        <a href="{{ $user_detail->resumeUrl() }}">{{ $user_detail->resumeUrl() }}</a>.
+                        Tip: end your About text with “Skills: HTML, CSS, …” and they appear as a skills list on the resume.
+                    </small>
                     @else
-                    <p class="text-muted mb-3">No resume uploaded yet — the <b>Download CV</b> button stays hidden on your website until you add one.</p>
+                    <p class="text-muted mb-0">Add your About text, or some Experience or Education, and your resume will be generated from it. Until then the <b>Download CV</b> button stays hidden on your website.</p>
                     @endif
-
-                    <form action="{{ route('profile.resume.upload') }}" method="post" enctype="multipart/form-data" class="resume-upload">
-                        @csrf
-                        <label for="resumeFile" class="form-label">{{ $user_detail->hasResume() ? 'Replace with a new PDF' : 'Upload a PDF' }}</label>
-                        <div class="input-group">
-                            <input type="file" class="form-control" id="resumeFile" name="resume" accept="application/pdf,.pdf" required>
-                            <button type="submit" class="btn btn-dark"><i class="fa fa-upload me-1"></i> Upload</button>
-                        </div>
-                        <small class="form-text text-muted">PDF only, up to 5 MB. Kept outside the public folder and always sent as a download.</small>
-                        @error('resume')<span class="text-danger d-block">{{ $message }}</span>@enderror
-                    </form>
                 </div>
             </div>
         </div>
