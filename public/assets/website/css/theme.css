@@ -992,7 +992,7 @@ body.modal-open .modal-backdrop.show {
 /* Contact form anti-spam question */
 #contact .captcha-field label {
     display: block;
-    margin: 18px 0 8px;
+    margin: 0 0 8px;
     font-size: .95rem;
     color: var(--w-text);
 }
@@ -1000,13 +1000,13 @@ body.modal-open .modal-backdrop.show {
 #contact .captcha-field label span { color: var(--w-accent); }
 
 /* The answer is one or two digits, so keep the box small and stand the Send
-   button beside it — the two belong to the same action. */
+   button beside it — the two belong to the same action. The column above
+   already carries the standard 20px gap, so this row adds none of its own. */
 #contact .captcha-row {
     display: flex;
     flex-wrap: wrap;
     align-items: flex-end;
     gap: 14px 20px;
-    margin-top: 10px;
 }
 
 #contact .captcha-row .captcha-field { flex: 1 1 240px; }
