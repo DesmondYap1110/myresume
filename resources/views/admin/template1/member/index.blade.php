@@ -11,8 +11,6 @@
         .member-initials { width: 42px; height: 42px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center;
             font-weight: 700; background: var(--brand-primary, #212529); color: var(--brand-button-text, #FFD700); flex: 0 0 auto; }
         .member-who { display: flex; align-items: center; gap: 12px; min-width: 0; }
-        .member-counts { white-space: nowrap; color: #6c757d; font-size: .85rem; }
-        .member-counts b { color: #495057; }
         .member-link { word-break: break-all; }
     </style>
 
@@ -35,15 +33,14 @@
                         <thead>
                             <tr>
                                 <th>Person</th>
+                                <th>Access</th>
                                 <th>Website</th>
-                                <th>Content</th>
                                 <th>Status</th>
                                 <th class="text-end">Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($members as $row)
-                            @php $person = $row->model; @endphp
+                            @foreach($members as $person)
                             <tr>
                                 <td>
                                     <div class="member-who">
@@ -54,20 +51,22 @@
                                         @endif
                                         <div>
                                             <b>{{ $person->name }}</b>
-                                            @if($person->isAdmin())<span class="badge bg-dark ms-1">Admin</span>@endif
-                                            @if($person->id === Auth::id())<span class="badge bg-secondary ms-1">You</span>@endif
                                             <div class="text-muted text-small">{{ $person->email }}</div>
                                             @if($person->role)<div class="text-muted text-small">{{ $person->role }}</div>@endif
                                         </div>
                                     </div>
                                 </td>
                                 <td>
+                                    @if($person->isAdmin())
+                                        <span class="badge bg-dark">Admin</span>
+                                    @else
+                                        <span class="badge bg-light text-dark">Member</span>
+                                    @endif
+                                    @if($person->id === Auth::id())<span class="badge bg-secondary ms-1">You</span>@endif
+                                </td>
+                                <td>
                                     <a href="{{ route('front.show', $person->routeKey()) }}" target="_blank" rel="noopener" class="member-link">/{{ $person->routeKey() }}</a>
                                     <div class="text-muted text-small">{{ config('website_templates.templates.'.$person->websiteTemplate().'.name', $person->websiteTemplate()) }}</div>
-                                </td>
-                                <td class="member-counts">
-                                    <b>{{ $row->experience }}</b> jobs · <b>{{ $row->education }}</b> education · <b>{{ $row->blog }}</b> posts
-                                    <div><b>{{ $row->visits }}</b> visits @if($row->unread) · <span class="text-danger">{{ $row->unread }} unread</span>@endif</div>
                                 </td>
                                 <td>
                                     @if($person->id === Auth::id())
@@ -81,6 +80,7 @@
                                     @endif
                                 </td>
                                 <td class="text-end">
+                                    <a href="{{ route('member.detail', $person->id) }}" class="btn btn-info btn-sm">View</a>
                                     <a href="{{ route('member.edit', $person->id) }}" class="btn btn-success btn-sm">Edit</a>
                                 </td>
                             </tr>

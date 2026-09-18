@@ -66,7 +66,9 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a class="nav-link btn btn-danger text-white"  href="{{route('inbox.delete',$data->id)}}">
+                                    <a class="nav-link btn btn-danger text-white"  href="{{route('inbox.delete',$data->id)}}"
+                                       data-confirm="Delete the message from {{ $data->name }}? This cannot be undone."
+                                       data-confirm-title="Delete message" data-confirm-ok="Delete">
                                         <i class="fas fa-trash fs-6 "></i>
                                     </a>
                                 </li>

@@ -43,15 +43,6 @@
             'notification' => true
         ],
 
-        [
-            'isDropdown' => false,
-            'link' => "setting.view",
-            'icon' => "fas fa-cog",
-            'title' => "Account Setting",
-            'count' => 0,
-            'notification' => false
-        ],
-
         // Site administration, not one person's portfolio.
         ...(Auth::user()->isAdmin() ? [[
             'isDropdown' => false,
@@ -61,6 +52,15 @@
             'count' => 0,
             'notification' => false
         ]] : []),
+
+        [
+            'isDropdown' => false,
+            'link' => "setting.view",
+            'icon' => "fas fa-cog",
+            'title' => "Account Setting",
+            'count' => 0,
+            'notification' => false
+        ],
 
         [
             'isDropdown' => false,

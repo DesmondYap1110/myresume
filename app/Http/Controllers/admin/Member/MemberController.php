@@ -8,6 +8,9 @@ use App\Models\Blog;
 use App\Models\Education;
 use App\Models\Experience;
 use App\Models\Inbox;
+use App\Models\Project;
+use App\Models\Service;
+use App\Models\Testimonial;
 use App\Models\User;
 use App\Models\Visit_Log;
 use Illuminate\Http\Request;
@@ -38,18 +41,35 @@ class MemberController extends Controller
     {
         $breadcrumbs = $this->breadcrumbs->get();
 
-        $members = User::orderBy('id')->get()->map(function ($user) {
-            return (object) [
-                'model' => $user,
-                'experience' => Experience::where('user_id', $user->id)->count(),
-                'education' => Education::where('user_id', $user->id)->count(),
-                'blog' => Blog::where('user_id', $user->id)->count(),
-                'unread' => Inbox::where('user_id', $user->id)->where('read_status', 0)->count(),
-                'visits' => Visit_Log::where('user_id', $user->id)->count(),
-            ];
-        });
+        $members = User::orderBy('id')->get();
 
         return view(self::viewPath.'index', compact('breadcrumbs', 'members'));
+    }
+
+    /**
+     * Everything this member has put on their site, so an administrator can
+     * look without signing in as them.
+     */
+    public function detail($id)
+    {
+        $person = User::find($id);
+        if (!$person) abort(404);
+
+        $breadcrumbs = $this->breadcrumbs->add($person->name, route($this->route.'detail', $person->id))->get();
+
+        $experiences = Experience::where('user_id', $person->id)->orderByDesc('start_date')->get();
+        $educations = Education::where('user_id', $person->id)->orderByDesc('year')->get();
+        $projects = Project::where('user_id', $person->id)->orderByDesc('start_date')->get();
+        $services = Service::where('user_id', $person->id)->orderBy('sort_order')->get();
+        $testimonials = Testimonial::where('user_id', $person->id)->orderBy('sort_order')->get();
+        $blogs = Blog::where('user_id', $person->id)->orderByDesc('created_at')->get();
+        $messages = Inbox::where('user_id', $person->id)->orderByDesc('created_at')->get();
+        $visits = Visit_Log::where('user_id', $person->id)->count();
+
+        return view(self::viewPath.'detail', compact(
+            'breadcrumbs', 'person', 'experiences', 'educations', 'projects',
+            'services', 'testimonials', 'blogs', 'messages', 'visits'
+        ));
     }
 
     public function add()

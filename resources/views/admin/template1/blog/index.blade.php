@@ -70,7 +70,9 @@
                         </div>
                         <div class="card-header d-flex justify-content-end align-items-center">
                             <button class="btn btn-success btn-sm m-1" onclick="window.location.href='{{ route('blog.edit',$data->id) }}'">Edit</button>
-                            <button class="btn btn-danger btn-sm m-1" onclick="window.location.href='{{ route('blog.delete',$data->id) }}'">Delete</button>
+                            <a href="{{ route('blog.delete',$data->id) }}" class="btn btn-danger btn-sm m-1"
+                               data-confirm="Delete the post “{{ $data->title }}”? This cannot be undone."
+                               data-confirm-title="Delete post" data-confirm-ok="Delete">Delete</a>
                         </div>
 
                     </div>

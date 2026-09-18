@@ -58,6 +58,7 @@ Route::prefix('admin')->group(function () {
         Route::prefix('member')->middleware(\App\Http\Middleware\EnsureAdmin::class)->group(function () {
             Route::get('/', [\App\Http\Controllers\admin\Member\MemberController::class, 'index'])->name('member.view');
             Route::get('/add', [\App\Http\Controllers\admin\Member\MemberController::class, 'add'])->name('member.add');
+            Route::get('/detail/{id}', [\App\Http\Controllers\admin\Member\MemberController::class, 'detail'])->name('member.detail');
             Route::post('/create', [\App\Http\Controllers\admin\Member\MemberController::class, 'create'])->name('member.create');
             Route::get('/edit/{id}', [\App\Http\Controllers\admin\Member\MemberController::class, 'edit'])->name('member.edit');
             Route::post('/update/{id}', [\App\Http\Controllers\admin\Member\MemberController::class, 'update'])->name('member.update');
