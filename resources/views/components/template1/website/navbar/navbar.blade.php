@@ -41,6 +41,12 @@
             </li>
             @endif
 
+            @if(count($skill ?? [])!=0)
+            <li class="nav-item">
+                <a class="nav-link js-scroll-trigger" href="#skills">Skills</a>
+            </li>
+            @endif
+
             @if(count($service ?? [])!=0)
             <li class="nav-item">
                 <a class="nav-link js-scroll-trigger" href="#services">Services</a>

@@ -117,6 +117,13 @@ a, a:hover, a:focus, .text-primary { color: var(--t4-ink); }
 .t4-info strong { font-size: .8rem; letter-spacing: .5px; }
 .t4-about p:last-child { margin-bottom: 0; }
 
+/* Skills - the only template that shows the level. */
+.t4-skill { margin-bottom: 18px; }
+.t4-skill-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px; font-size: .92rem; }
+.t4-skill-pct { color: #888; font-size: .82rem; }
+.t4-skill-track { height: 8px; border-radius: 999px; background: rgba(0,0,0,.08); overflow: hidden; }
+.t4-skill-fill { display: block; height: 100%; border-radius: 999px; background: var(--t4-primary, #16a085); }
+
 /* Services, shown where the old site had skill bars. */
 .t4-service { height: 100%; padding: 28px 24px; text-align: center; transition: transform .25s ease, box-shadow .25s ease; }
 .t4-service:hover { transform: translateY(-4px); box-shadow: 0 14px 30px rgba(0,0,0,.12); }

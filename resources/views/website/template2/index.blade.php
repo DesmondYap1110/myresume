@@ -24,6 +24,7 @@
         'experience' => count($experience) ? 'Experience' : null,
         'education' => count($education) ? 'Education' : null,
         'projects' => count($project) ? 'Projects' : null,
+        'skills' => count($skill) ? 'Skills' : null,
         'services' => count($service) ? 'Services' : null,
         'reviews' => count($testimonial) ? 'Reviews' : null,
         'blog' => count($blog) ? 'Blog' : null,
@@ -195,6 +196,28 @@
                     </div>
                 </div>
                 @endforeach
+            </div>
+        </div>
+    </section>
+    @endif
+
+    {{-- ============ Skills ============ --}}
+    @if(count($skill))
+    <section class="section border-top" id="skills">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6">
+                    <h2 class="mb-5">Skills.</h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12" data-aos="fade-left">
+                    <ul class="t2-skill-tags">
+                        @foreach($skill as $item)
+                        <li>{{ $item->name }}</li>
+                        @endforeach
+                    </ul>
+                </div>
             </div>
         </div>
     </section>

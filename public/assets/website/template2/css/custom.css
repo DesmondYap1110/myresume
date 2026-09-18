@@ -57,6 +57,23 @@ section[id] { scroll-margin-top: 80px; }
 .t2-kicker { font-family: "Work Sans", sans-serif; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--t2-ink); margin-bottom: 12px; }
 .t2-banner .cd-headline { font-size: clamp(30px, 4.2vw, 56px); line-height: 1.2; }
 .t2-banner .cd-words-wrapper { max-width: 100%; }
+
+/* A long job title is wider than the banner, and the clip effect hides the
+   overflow. Slide the word sideways while it is on screen so its end can be
+   read, then bring it back. Distance is measured in JS. */
+.t2-banner .cd-words-wrapper b.is-panning {
+    animation: t2-word-pan 3s ease-in-out infinite;
+}
+
+@keyframes t2-word-pan {
+    0%, 14%   { transform: translateX(0); }
+    46%, 64%  { transform: translateX(var(--t2-pan, 0px)); }
+    96%, 100% { transform: translateX(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .t2-banner .cd-words-wrapper b.is-panning { animation: none; }
+}
 .t2-lead { max-width: 600px; font-size: 17px; }
 
 /* Portrait: flowing gradient block, spinning gradient frame, glow and dots */
@@ -322,4 +339,28 @@ section[id] { scroll-margin-top: 80px; }
     .t2 .main-nav .nav-link { padding: 10px 0 !important; }
     .t2 .main-nav .nav-link::after { display: none; }
     .t2-banner .cd-headline { font-size: 38px; line-height: 50px; }
+}
+
+/* ============ Skills ============ */
+.t2-skill-tags {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 0;
+    margin: 0;
+}
+
+.t2-skill-tags li {
+    padding: 7px 15px;
+    border: 1px solid rgba(0, 0, 0, .12);
+    border-radius: 999px;
+    font-size: 14px;
+    line-height: 1.4;
+    transition: border-color .25s ease, transform .25s ease;
+}
+
+.t2-skill-tags li:hover {
+    border-color: currentColor;
+    transform: translateY(-2px);
 }

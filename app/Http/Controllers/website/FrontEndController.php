@@ -11,6 +11,7 @@ use App\Models\Blog;
 use App\Models\Experience;
 use App\Models\Project;
 use App\Models\Service;
+use App\Models\Skill;
 use App\Models\Testimonial;
 use App\Models\Inbox;
 // use App\Models\Visit_Log;
@@ -34,11 +35,12 @@ class FrontEndController extends Controller
         $project = Project::getProjectByUserid($user->id);
         $service = Service::getServiceByUserid($user->id);
         $testimonial = Testimonial::getTestimonialByUserid($user->id);
+        $skill = Skill::getSkillByUserid($user->id);
 
         // Design chosen under Account Setting > Website Template.
         $template = $user->websiteTemplate();
 
-        return view("website.{$template}.index", compact('user','education','blog','experience','project','service','testimonial'));
+        return view("website.{$template}.index", compact('user','education','blog','experience','project','service','testimonial','skill'));
     }
 
     /**

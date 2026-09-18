@@ -6,6 +6,7 @@ use App\Models\Education;
 use App\Models\Experience;
 use App\Models\Project;
 use App\Models\Service;
+use App\Models\Skill;
 use App\Models\User;
 use App\Support\Branding;
 use App\Support\Period;
@@ -40,7 +41,7 @@ class ResumePdf
     public function data(): array
     {
         $user = $this->user;
-        [$summary, $skills] = $this->splitSkills($this->plain($user->about));
+        [$summary, $skills] = $this->skills($this->plain($user->about));
 
         $colors = Branding::websiteColors($user, $user->websiteTemplate());
         $accent = $colors['accent'] ?? '#FFD700';
@@ -143,8 +144,28 @@ class ResumePdf
     }
 
     /**
-     * About texts often end with "Skills: HTML, CSS, ...". Pull that into a
-     * list of its own and keep the rest as the summary.
+     * The Skill module is the only source for the resume's skills section.
+     * The about text is still trimmed of any trailing "Skills: ..." line so
+     * the same list does not appear twice.
+     *
+     * @return array{0: string, 1: array<int, string>}
+     */
+    private function skills(string $about): array
+    {
+        [$summary] = $this->splitSkills($about);
+
+        $skills = Skill::getSkillByUserid($this->user->id)
+            ->map(fn ($skill) => $this->plain($skill->name))
+            ->filter()
+            ->values()
+            ->all();
+
+        return [$summary, $skills];
+    }
+
+    /**
+     * About texts often end with "Skills: HTML, CSS, ...". Split that off so
+     * only the prose remains as the summary.
      *
      * @return array{0: string, 1: array<int, string>}
      */

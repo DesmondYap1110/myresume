@@ -8,6 +8,7 @@
         :experience="$experience"
         :project="$project"
         :service="$service"
+        :skill="$skill"
         :testimonial="$testimonial"
         :blog="$blog"
     />
@@ -40,6 +41,13 @@
         ======================================================-->
         @if(count($project)!=0)
         <x-template1.website.body.project :project="$project"/>
+        @endif
+
+        <!--====================================================
+                            Skill
+        ======================================================-->
+        @if(count($skill))
+        <x-template1.website.body.skill :skill="$skill"/>
         @endif
 
         <!--====================================================

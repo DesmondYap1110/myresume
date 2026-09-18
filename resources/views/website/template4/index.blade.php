@@ -16,6 +16,7 @@
     // Only sections with content appear, in the menu and on the page.
     $sections = collect([
         'about' => 'About',
+        'skills' => count($skill) ? 'Skills' : null,
         'services' => count($service) ? 'Services' : null,
         'portfolio' => count($blog) ? 'Portfolio' : null,
         'projects' => count($project) ? 'Projects' : null,
@@ -153,6 +154,32 @@
             <span class="t4-stat-num"><span class="t4-count" data-count="{{ $stat['value'] }}">{{ $stat['value'] }}</span>{{ $stat['suffix'] }}</span>
             <span class="t4-stat-label">{{ $stat['label'] }}</span>
           </div>
+        </div>
+        @endforeach
+      </div>
+    </div>
+  </div>
+  @endif
+
+  {{-- ═══ SKILLS (the one template that shows the level) ═══ --}}
+  @if(count($skill))
+  <div class="section" id="skills">
+    <div class="container">
+      <div class="h4 text-center mb-4 title">Skills</div>
+      <div class="row justify-content-center">
+        @foreach($skill->chunk(ceil(count($skill) / 2)) as $column)
+        <div class="col-lg-6" data-aos="fade-up" data-aos-delay="{{ $loop->index * 100 }}">
+          @foreach($column as $item)
+          <div class="t4-skill">
+            <div class="t4-skill-head">
+              <span>{{ $item->name }}</span>
+              <span class="t4-skill-pct">{{ $item->level }}%</span>
+            </div>
+            <div class="t4-skill-track">
+              <span class="t4-skill-fill" style="width: {{ $item->level }}%"></span>
+            </div>
+          </div>
+          @endforeach
         </div>
         @endforeach
       </div>

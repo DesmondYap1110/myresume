@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\Project\ProjectController;
 use App\Http\Controllers\Admin\Blog\BlogController;
 use App\Http\Controllers\Admin\Ai\AiChatController;
 use App\Http\Controllers\Admin\Service\ServiceController;
+use App\Http\Controllers\Admin\Skill\SkillController;
 use App\Http\Controllers\Admin\Testimonial\TestimonialController;
 use App\Http\Controllers\Admin\Inbox\InboxController;
 use App\Http\Controllers\Website\FrontEndController;
@@ -109,6 +110,15 @@ Route::prefix('admin')->group(function () {
             Route::get('/delete/{id}', [ProjectController::class, 'delete'])->name('project.delete');
             Route::post('/create', [ProjectController::class, 'create'])->name('project.create');
             Route::post('/update/{id}', [ProjectController::class, 'update'])->name('project.update');
+        });
+
+        // ---------------- SKILL ----------------
+        Route::prefix('skill')->group(function () {
+            Route::get('/', [SkillController::class, 'index'])->name('skill.view');
+            Route::get('/delete/{id}', [SkillController::class, 'delete'])->name('skill.delete');
+            Route::post('/create', [SkillController::class, 'create'])->name('skill.create');
+            Route::post('/update/{id}', [SkillController::class, 'update'])->name('skill.update');
+            Route::post('/reorder', [SkillController::class, 'reorder'])->name('skill.reorder');
         });
 
         // ---------------- AI ASSISTANT ----------------

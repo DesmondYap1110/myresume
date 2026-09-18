@@ -15,6 +15,7 @@
     // Only show sections that have content.
     $sections = collect([
         'services' => count($service) ? 'Services' : null,
+        'skills' => count($skill) ? 'Skills' : null,
         'work' => count($project) ? 'Work' : null,
         'about' => 'About',
         'reviews' => count($testimonial) ? 'Reviews' : null,
@@ -45,7 +46,7 @@
                     @if($about)
                     <p class="reveal d2 text-lg md:text-xl text-zinc-500 dark:text-zinc-400 font-light leading-relaxed max-w-md mb-10">
                         @if($user->role)<strong class="font-medium text-zinc-700 dark:text-zinc-300">{{ $user->role }}</strong>. @endif
-                        {{ \Illuminate\Support\Str::limit($about, 180) }}
+                        {{ $about }}
                     </p>
                     @endif
 
@@ -114,6 +115,23 @@
                 </article>
                 @endforeach
             </div>
+        </div>
+    </section>
+    @endif
+
+    {{-- ═══ SKILLS ═══ --}}
+    @if(count($skill))
+    <section id="skills" class="py-24">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="mb-14">
+                <p class="reveal text-xs font-medium text-accent-ink dark:text-accent tracking-widest uppercase mb-3">What I work with</p>
+                <h2 class="reveal d1 font-display font-bold text-4xl md:text-5xl text-zinc-900 dark:text-white">Skills</h2>
+            </div>
+            <ul class="reveal d1 flex flex-wrap gap-3">
+                @foreach($skill as $item)
+                <li class="px-5 py-2.5 rounded-full text-sm border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-300 hover:border-accent transition-colors">{{ $item->name }}</li>
+                @endforeach
+            </ul>
         </div>
     </section>
     @endif

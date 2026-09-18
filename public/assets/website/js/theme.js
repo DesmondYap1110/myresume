@@ -224,6 +224,7 @@
             ['#education .resume-item, #project .resume-item', 'reveal-up'],
             ['#experience-box .experience:nth-child(odd)', 'reveal-left'],
             ['#experience-box .experience:nth-child(even)', 'reveal-right'],
+            ['#skills .skill-tags li', 'reveal-up'],
             ['#blog .blog-item', 'reveal-zoom'],
             ['.con-form > div', 'reveal-up'],
             ['.contact-box-desc, .social-icon-f', 'reveal-right']
