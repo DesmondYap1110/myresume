@@ -127,4 +127,6 @@
 </script>
 
 
+@include('components.template1.admin.master.confirm-modal')
+
 @stack('script')

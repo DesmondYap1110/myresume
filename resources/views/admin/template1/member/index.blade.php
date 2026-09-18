@@ -70,10 +70,14 @@
                                     <div><b>{{ $row->visits }}</b> visits @if($row->unread) · <span class="text-danger">{{ $row->unread }} unread</span>@endif</div>
                                 </td>
                                 <td>
-                                    @if($person->status)
-                                        <span class="badge bg-success">Active</span>
+                                    @if($person->id === Auth::id())
+                                        <span class="btn btn-success btn-sm disabled">Active</span>
+                                    @elseif($person->status)
+                                        <a href="{{ route('member.status', $person->id) }}" class="btn btn-success btn-sm"
+                                           data-confirm="Block {{ $person->name }}? They will not be able to sign in and their website will be hidden."
+                                           data-confirm-title="Block member" data-confirm-ok="Block">Active</a>
                                     @else
-                                        <span class="badge bg-danger">Blocked</span>
+                                        <a href="{{ route('member.status', $person->id) }}" class="btn btn-danger btn-sm">Blocked</a>
                                     @endif
                                 </td>
                                 <td class="text-end">

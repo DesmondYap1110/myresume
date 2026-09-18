@@ -377,7 +377,8 @@
                             <a href="{{ route('ai.view') }}" class="btn btn-light"><i class="fas fa-robot me-1"></i> Open AI Assistant</a>
                             @if($aiSetting->api_key && $aiSetting->needsKey())
                             <button type="submit" name="action" value="remove" class="btn btn-danger float-end"
-                                    onclick="return confirm('Remove the saved API key?')">Remove key</button>
+                                    data-confirm="Remove the saved API key? The AI Assistant will stop working until you add a new one."
+                                    data-confirm-title="Remove API key" data-confirm-ok="Remove">Remove key</button>
                             @endif
                         </div>
                     </form>

@@ -151,7 +151,9 @@
             <div class="card-action">
                 <button type="submit" class="btn btn-primary">Save Theme</button>
                 <a href="{{ route('setting.view') }}" class="btn btn-light">Discard Changes</a>
-                <button type="submit" form="theme-reset-form" class="btn btn-danger float-end" onclick="return confirm('Reset theme and login background to default?')">Reset to Default</button>
+                <button type="submit" form="theme-reset-form" class="btn btn-danger float-end"
+                        data-confirm="Reset the theme and login background to their defaults? Your current colours will be lost."
+                        data-confirm-title="Reset theme" data-confirm-ok="Reset">Reset to Default</button>
             </div>
         </div>
     </form>

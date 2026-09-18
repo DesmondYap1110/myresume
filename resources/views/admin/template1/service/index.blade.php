@@ -39,7 +39,7 @@
                                 <td class="text-muted">{{ Str::limit($data->description, 110) }}</td>
                                 <td class="text-end">
                                     <a href="{{ route('service.edit', $data->id) }}" class="btn btn-success btn-sm m-1">Edit</a>
-                                    <a href="{{ route('service.delete', $data->id) }}" class="btn btn-danger btn-sm m-1" onclick="return confirm('Delete this service?')">Delete</a>
+                                    <a href="{{ route('service.delete', $data->id) }}" class="btn btn-danger btn-sm m-1" data-confirm="Delete this service? This cannot be undone." data-confirm-title="Delete service" data-confirm-ok="Delete">Delete</a>
                                 </td>
                             </tr>
                             @endforeach

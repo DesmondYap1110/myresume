@@ -113,6 +113,21 @@ class MemberController extends Controller
         return redirect()->route($this->route.'view')->with('success', $person->name.' updated.');
     }
 
+    public function status($id)
+    {
+        $person = User::find($id);
+        if (!$person) abort(404);
+
+        if ($person->id === Auth::id()) {
+            return redirect()->route($this->route.'view')->with('error', 'You cannot block your own account.');
+        }
+
+        $person->status = !$person->status;
+        $person->save();
+
+        return redirect()->route($this->route.'view')->with('success', $person->name.' is now '.($person->status ? 'active' : 'blocked').'.');
+    }
+
     /**
      * Blocking yourself, or removing your own admin rights, would lock you
      * out of this screen - and possibly leave the site with no administrator.

@@ -61,6 +61,7 @@ Route::prefix('admin')->group(function () {
             Route::post('/create', [\App\Http\Controllers\admin\Member\MemberController::class, 'create'])->name('member.create');
             Route::get('/edit/{id}', [\App\Http\Controllers\admin\Member\MemberController::class, 'edit'])->name('member.edit');
             Route::post('/update/{id}', [\App\Http\Controllers\admin\Member\MemberController::class, 'update'])->name('member.update');
+            Route::get('/status/{id}', [\App\Http\Controllers\admin\Member\MemberController::class, 'status'])->name('member.status');
         });
 
         // ---------------- SETTING ----------------

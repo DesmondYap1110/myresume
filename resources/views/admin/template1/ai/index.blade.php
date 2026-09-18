@@ -45,7 +45,9 @@ AI Assistant
                     <div class="card-head-row card-tools-still-right">
                         <div class="card-title">Chat</div>
                         <div class="card-tools">
-                            <form action="{{ route('ai.clear') }}" method="post" onsubmit="return confirm('Clear this conversation?')">
+                            <form action="{{ route('ai.clear') }}" method="post"
+                                  data-confirm="Clear this conversation? The messages cannot be brought back."
+                                  data-confirm-title="Clear conversation" data-confirm-ok="Clear">
                                 @csrf
                                 <button class="btn btn-light btn-sm"><i class="fas fa-trash me-1"></i> Clear</button>
                             </form>

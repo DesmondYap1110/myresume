@@ -225,7 +225,7 @@
             // Remove temp element
             temp.remove();
 
-            alert("Copied!");
+            adminAlert("The link has been copied to your clipboard.", "Copied");
         });
     });
 
