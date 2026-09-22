@@ -5,7 +5,7 @@ namespace App\Http\Controllers\admin\Dashboard;
 use App\Http\Controllers\Controller;
 use App\Helpers\Breadcrumb;
 use App\Models\Inbox;
-use App\Models\Visit_log;
+use App\Models\Visit_Log;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -29,14 +29,14 @@ class DashboardController extends Controller
         $breadcrumbs = $this->breadcrumbs->get();
 
         $inbox = Inbox::getInboxByUseridStatus(Auth::user()->id);
-        $visit_log = Visit_log::get_today_visit_log(Auth::user()->id);
-        $all_visit_log = Visit_log::get_visit_log(Auth::user()->id);
+        $visit_log = Visit_Log::get_today_visit_log(Auth::user()->id);
+        $all_visit_log = Visit_Log::get_visit_log(Auth::user()->id);
 
         $period =  collect(range(0, 6))->map(function ($i) {
             return Carbon::now()->subDays($i)->format('Y-m-d');
         })->reverse()->values()->toArray();
 
-        $daily = Visit_log::get_daily_visitor_counts(Auth::user()->id, $period[0]." 00:00:00", end($period)." 23:59:59");
+        $daily = Visit_Log::get_daily_visitor_counts(Auth::user()->id, $period[0]." 00:00:00", end($period)." 23:59:59");
 
         $data_visit = collect($period)->mapWithKeys(function ($date) use ($daily) {
             return [$date => (int) ($daily[$date] ?? 0)];
