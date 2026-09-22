@@ -2,22 +2,22 @@
 
 use Illuminate\Support\Facades\Route;
 
-use App\Http\Controllers\Admin\Auth\AuthController;
-use App\Http\Controllers\Admin\Dashboard\DashboardController;
-use App\Http\Controllers\Admin\Profile\ProfileController;
-use App\Http\Controllers\Admin\Setting\SettingController;
-use App\Http\Controllers\Admin\Theme\ThemeController;
-use App\Http\Controllers\Admin\Education\EducationController;
-use App\Http\Controllers\Admin\Experience\ExperienceController;
-use App\Http\Controllers\Admin\Project\ProjectController;
-use App\Http\Controllers\Admin\Blog\BlogController;
-use App\Http\Controllers\Admin\Ai\AiChatController;
-use App\Http\Controllers\Admin\Service\ServiceController;
-use App\Http\Controllers\Admin\Skill\SkillController;
-use App\Http\Controllers\Admin\Testimonial\TestimonialController;
-use App\Http\Controllers\Admin\Inbox\InboxController;
-use App\Http\Controllers\Website\FrontEndController;
-use App\Http\Controllers\Website\SitemapController;
+use App\Http\Controllers\admin\Auth\AuthController;
+use App\Http\Controllers\admin\Dashboard\DashboardController;
+use App\Http\Controllers\admin\Profile\ProfileController;
+use App\Http\Controllers\admin\Setting\SettingController;
+use App\Http\Controllers\admin\Theme\ThemeController;
+use App\Http\Controllers\admin\Education\EducationController;
+use App\Http\Controllers\admin\Experience\ExperienceController;
+use App\Http\Controllers\admin\Project\ProjectController;
+use App\Http\Controllers\admin\Blog\BlogController;
+use App\Http\Controllers\admin\Ai\AiChatController;
+use App\Http\Controllers\admin\Service\ServiceController;
+use App\Http\Controllers\admin\Skill\SkillController;
+use App\Http\Controllers\admin\Testimonial\TestimonialController;
+use App\Http\Controllers\admin\Inbox\InboxController;
+use App\Http\Controllers\website\FrontEndController;
+use App\Http\Controllers\website\SitemapController;
 
 Route::get('sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
 
