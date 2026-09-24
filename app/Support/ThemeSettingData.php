@@ -16,18 +16,7 @@ class ThemeSettingData
         $setting = ThemeSetting::current();
         $presets = (array) Branding::get('presets', []);
 
-        // Colours for the website template this user has live.
-        $user = auth()->user();
-        $websiteTemplate = $user ? $user->websiteTemplate() : (string) config('website_templates.default', 'template1');
-        $websiteSaved = $user ? \App\Models\WebsiteTheme::settingsFor($user->id, $websiteTemplate) : ['preset' => null, 'colors' => []];
-        $websiteFollowsAdmin = blank($websiteSaved['preset']) && empty($websiteSaved['colors']);
-
         return [
-            'websiteTemplate' => $websiteTemplate,
-            'websiteTemplateName' => config("website_templates.templates.{$websiteTemplate}.name", $websiteTemplate),
-            'websiteFollowsAdmin' => $websiteFollowsAdmin,
-            'websitePreset' => $websiteSaved['preset'] ?: ($setting->preset ?: (string) Branding::get('theme', 'default')),
-            'websiteCurrent' => $user ? Branding::websiteColors($user, $websiteTemplate) : Branding::colors(),
             'presets' => collect($presets)->map(fn ($colors, $key) => [
                 'key' => $key,
                 'label' => $key === 'default' ? 'Black Gold' : Str::headline($key),

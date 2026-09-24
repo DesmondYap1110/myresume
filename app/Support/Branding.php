@@ -120,27 +120,17 @@ class Branding
     }
 
     /**
-     * Colours for one user's public website on a given template.
+     * Colours for one user's public website.
      *
-     * Each template keeps its own scheme; with nothing saved for it, the
-     * website follows the back-office theme.
+     * Websites follow the back-office theme. The arguments are kept so the
+     * template layouts and the resume can go on naming who and what they are
+     * rendering, should that ever matter again.
      *
      * @return array<string, string>
      */
-    public static function websiteColors($user, ?string $template = null): array
+    public static function websiteColors($user = null, ?string $template = null): array
     {
-        $template = $template ?: (string) config('website_templates.default', 'template1');
-        $saved = \App\Models\WebsiteTheme::settingsFor($user->id ?? 0, $template);
-
-        if (blank($saved['preset']) && empty($saved['colors'])) {
-            return static::colors();
-        }
-
-        return static::resolveColors(
-            (array) static::get('presets', []),
-            $saved['preset'] ?: (string) static::get('theme', 'default'),
-            static::expandCustomColors($saved['colors']),
-        );
+        return static::colors();
     }
 
     /**

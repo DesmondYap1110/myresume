@@ -40,7 +40,7 @@
                                 <th>Online</th>
                                 <th>Website</th>
                                 <th>Status</th>
-                                <th class="text-end">Action</th>
+                                <th class="text-center">Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -91,9 +91,21 @@
                                         <a href="{{ route('member.status', $person->id) }}" class="btn btn-danger btn-sm">Blocked</a>
                                     @endif
                                 </td>
-                                <td class="text-end">
-                                    <a href="{{ route('member.detail', $person->id) }}" class="btn btn-info btn-sm">View</a>
-                                    <a href="{{ route('member.edit', $person->id) }}" class="btn btn-success btn-sm">Edit</a>
+                                <td>
+                                    <ul class="nav nav-pills nav-secondary nav-pills-no-bd nav-sm d-flex justify-content-center align-items-center">
+                                        <li>
+                                            <a class="nav-link btn btn-primary text-white" href="{{ route('member.detail', $person->id) }}"
+                                               data-toggle="tooltip" title="View everything this member has added">
+                                                <i class="fas fa-eye fs-6"></i>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a class="nav-link btn btn-success text-white" href="{{ route('member.edit', $person->id) }}"
+                                               data-toggle="tooltip" title="Edit this member">
+                                                <i class="fas fa-pen fs-6"></i>
+                                            </a>
+                                        </li>
+                                    </ul>
                                 </td>
                             </tr>
                             @endforeach

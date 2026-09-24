@@ -5,7 +5,6 @@ namespace App\Http\Controllers\admin\Theme;
 use App\Helpers\Breadcrumb;
 use App\Http\Controllers\Controller;
 use App\Models\ThemeSetting;
-use App\Models\WebsiteTheme;
 use App\Support\Branding;
 use Illuminate\Support\Facades\Auth;
 use App\Support\SafeImageUpload;
@@ -87,52 +86,6 @@ class ThemeController extends Controller
         return redirect()->to(route('setting.view').'#theme')->with('success', 'Theme saved successfully!');
     }
 
-    /**
-     * Colours for the public website. Saved against the template that is
-     * live for this user, so each design keeps its own scheme.
-     */
-    public function website(Request $request)
-    {
-        $presets = array_keys((array) Branding::get('presets', []));
-        $user = Auth::user();
-        $template = $user->websiteTemplate();
-
-        $validated = $request->validate([
-            'follow_admin' => ['nullable', 'boolean'],
-            'preset' => ['required_without:follow_admin', 'nullable', Rule::in($presets)],
-            'colors' => ['array'],
-            'colors.*' => ['nullable', 'regex:/^#[0-9A-Fa-f]{6}$/'],
-        ], [
-            'colors.*.regex' => 'Each colour must be a hex value like #22A65E.',
-        ]);
-
-        if ($request->boolean('follow_admin')) {
-            WebsiteTheme::where('user_id', (string) $user->id)->where('template', $template)->delete();
-            WebsiteTheme::forget();
-
-            return redirect()->to(route('setting.view').'#theme')
-                ->with('success', 'Website now uses the back office colours.');
-        }
-
-        // Keep only colours that differ from the chosen preset.
-        $base = Branding::resolveColors((array) Branding::get('presets', []), $validated['preset'], []);
-        $colors = collect($validated['colors'] ?? [])
-            ->only(array_keys(ThemeSetting::EDITABLE))
-            ->filter(fn ($value, $token) => filled($value) && strcasecmp($value, $base[$token] ?? '') !== 0)
-            ->map(fn ($value) => strtoupper($value))
-            ->all();
-
-        WebsiteTheme::updateOrCreate(
-            ['user_id' => (string) $user->id, 'template' => $template],
-            ['preset' => $validated['preset'], 'colors' => $colors ?: null],
-        );
-        WebsiteTheme::forget();
-
-        $name = config("website_templates.templates.{$template}.name", $template);
-
-        return redirect()->to(route('setting.view').'#theme')
-            ->with('success', 'Website colours saved for '.$name.'.');
-    }
 
     public function reset()
     {

@@ -17,6 +17,10 @@
             @php
                 // Read once here: the sidebar badge and the navbar dropdown both need it.
                 $inboxUnread = \App\Models\Inbox::getInboxByUseridStatus(Auth::user()->id);
+
+                // The AI Assistant is only offered once this account has a
+                // provider and a key, administrators included.
+                $aiReady = \App\Models\AiSetting::forUser(Auth::user()->id)->isReady();
             @endphp
             <!-- Sidebar -->
             @include('components.template1.admin.sidebar.sidebar-main')

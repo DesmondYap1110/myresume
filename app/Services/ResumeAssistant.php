@@ -7,7 +7,6 @@ use App\Models\User;
 use App\Services\Ai\AiProvider;
 use App\Services\Ai\ClaudeProvider;
 use App\Services\Ai\CompatibleProvider;
-use App\Services\Ai\OllamaProvider;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Log;
 
@@ -20,12 +19,11 @@ use Illuminate\Support\Facades\Log;
  *              admin can review and import.
  *
  * The work itself is done by whichever provider the user picked under
- * Account Setting > AI Assistant — a free local model by default.
+ * Account Setting > AI Assistant.
  */
 class ResumeAssistant
 {
     private const providers = [
-        'ollama' => OllamaProvider::class,
         'compatible' => CompatibleProvider::class,
         'claude' => ClaudeProvider::class,
     ];
@@ -48,7 +46,7 @@ class ResumeAssistant
     public function provider(?AiSetting $setting = null): AiProvider
     {
         $setting = $setting ?: $this->setting();
-        $class = self::providers[$setting->resolvedProvider()] ?? OllamaProvider::class;
+        $class = self::providers[$setting->resolvedProvider()] ?? CompatibleProvider::class;
 
         return new $class($setting);
     }

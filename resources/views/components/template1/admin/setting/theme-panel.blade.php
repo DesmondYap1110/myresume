@@ -1,5 +1,4 @@
-@props(["presets", "activePreset", "current", "editable", "login", "loginImages", "loginUploaded", "loginOverlay",
-        "websiteTemplate", "websiteTemplateName", "websiteFollowsAdmin", "websitePreset", "websiteCurrent"])
+@props(["presets", "activePreset", "current", "editable", "login", "loginImages", "loginUploaded", "loginOverlay"])
 @php
     $currentImage = (string) ($login['image'] ?? '');
     $selectedImage = old('login_image', match (true) {
@@ -80,6 +79,12 @@
                     @endforeach
                 </div>
             </div>
+            {{-- The same submit as at the foot of the form: saving from here
+                 spares a scroll past the login background section. --}}
+            <div class="card-action">
+                <button type="submit" class="btn btn-primary">Save Theme</button>
+                <a href="{{ route('setting.view') }}#theme" class="btn btn-light">Discard Changes</a>
+            </div>
         </div>
 
         <div class="card">
@@ -150,7 +155,7 @@
             </div>
             <div class="card-action">
                 <button type="submit" class="btn btn-primary">Save Theme</button>
-                <a href="{{ route('setting.view') }}" class="btn btn-light">Discard Changes</a>
+                <a href="{{ route('setting.view') }}#theme" class="btn btn-light">Discard Changes</a>
                 <button type="submit" form="theme-reset-form" class="btn btn-danger float-end"
                         data-confirm="Reset the theme and login background to their defaults? Your current colours will be lost."
                         data-confirm-title="Reset theme" data-confirm-ok="Reset">Reset to Default</button>
@@ -162,130 +167,6 @@
         @csrf
     </form>
 
-    {{-- ===== Website colours, saved per template ===== --}}
-    @php $wFollow = (bool) old('follow_admin', $websiteFollowsAdmin); @endphp
-    <form action="{{ route('theme.website') }}" method="post" id="website-theme-form"
-          data-presets='@json($presets->keyBy('key')->map(fn ($p) => $p['colors']))'>
-        @csrf
-
-        <div class="card">
-            <div class="card-header">
-                <div class="card-title">Website Colours - {{ $websiteTemplateName }}</div>
-                <div class="card-category">
-                    Colours for your public website. Each template keeps its own set, so switching template switches its colours.
-                </div>
-            </div>
-            <div class="card-body">
-                <div class="form-check form-switch mb-4">
-                    <input class="form-check-input" type="checkbox" role="switch" id="follow-admin" name="follow_admin" value="1" @checked($wFollow)>
-                    <label class="form-check-label" for="follow-admin">Use the same colours as the back office</label>
-                </div>
-
-                <div id="website-colour-fields" @if($wFollow) hidden @endif>
-                    <div class="theme-presets">
-                        @foreach ($presets as $preset)
-                            <label class="theme-preset">
-                                <input type="radio" name="preset" value="{{ $preset['key'] }}" @checked(old('preset', $websitePreset) === $preset['key'])>
-                                <span class="theme-preset-card">
-                                    <span class="theme-preset-swatches">
-                                        @foreach (['logo-header', 'sidebar', 'primary', 'accent', 'background'] as $token)
-                                            <span style="background: {{ $preset['colors'][$token] ?? '#ccc' }}"></span>
-                                        @endforeach
-                                    </span>
-                                    <span class="theme-preset-name">{{ $preset['label'] }}</span>
-                                </span>
-                            </label>
-                        @endforeach
-                    </div>
-
-                    <h4 class="mt-4 mb-3">Colours</h4>
-                    <div class="row">
-                        @foreach ($editable as $token => $label)
-                            @php $value = strtoupper(old("colors.$token", $websiteCurrent[$token] ?? '#000000')); @endphp
-                            <div class="col-lg-4 col-md-6">
-                                <div class="form-group">
-                                    <label for="web-{{ $token }}">{{ $label }}</label>
-                                    <div class="theme-color-row">
-                                        <input type="color" id="web-{{ $token }}" class="w-color-picker" value="{{ strtolower($value) }}" data-token="{{ $token }}">
-                                        <input type="text" class="form-control w-color-hex" name="colors[{{ $token }}]" value="{{ $value }}" maxlength="7" pattern="#[0-9A-Fa-f]{6}" data-token="{{ $token }}">
-                                        <button type="button" class="btn btn-sm btn-light w-color-reset" data-token="{{ $token }}" title="Use the preset's colour">
-                                            <i class="fas fa-undo"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        @endforeach
-                    </div>
-                    <small class="form-text text-muted">These colours do not change the back office, only your website.</small>
-                </div>
-            </div>
-            <div class="card-action">
-                <button type="submit" class="btn btn-primary">Save Website Colours</button>
-                <a href="{{ route('front.show', Auth::user()->routeKey()) }}" target="_blank" rel="noopener" class="btn btn-light">
-                    <i class="fas fa-external-link-alt me-1"></i> View Website
-                </a>
-            </div>
-        </div>
-    </form>
-
-    <script>
-        // Website colour card: toggle the fields, and keep the pickers, hex
-        // boxes and preset in step (no live preview - these colours are for
-        // the website, not this page).
-        (function () {
-            var form = document.getElementById('website-theme-form');
-            if (!form) return;
-
-            var presets = JSON.parse(form.getAttribute('data-presets'));
-            var follow = document.getElementById('follow-admin');
-            var fields = document.getElementById('website-colour-fields');
-
-            follow.addEventListener('change', function () { fields.hidden = follow.checked; });
-
-            function presetColors() {
-                var picked = form.querySelector('input[name="preset"]:checked');
-                return (picked && presets[picked.value]) || {};
-            }
-
-            function setField(token, value) {
-                var picker = form.querySelector('.w-color-picker[data-token="' + token + '"]');
-                var hex = form.querySelector('.w-color-hex[data-token="' + token + '"]');
-                if (picker) picker.value = value.toLowerCase();
-                if (hex) hex.value = value.toUpperCase();
-            }
-
-            form.querySelectorAll('input[name="preset"]').forEach(function (radio) {
-                radio.addEventListener('change', function () {
-                    var colors = presetColors();
-                    form.querySelectorAll('.w-color-hex').forEach(function (input) {
-                        var token = input.getAttribute('data-token');
-                        if (colors[token]) setField(token, colors[token]);
-                    });
-                });
-            });
-
-            form.addEventListener('input', function (event) {
-                var el = event.target;
-                var token = el.getAttribute('data-token');
-                if (!token) return;
-                if (el.classList.contains('w-color-picker')) setField(token, el.value);
-                if (el.classList.contains('w-color-hex') && /^#[0-9A-Fa-f]{6}$/.test(el.value)) {
-                    var picker = form.querySelector('.w-color-picker[data-token="' + token + '"]');
-                    if (picker) picker.value = el.value.toLowerCase();
-                }
-            });
-
-            form.addEventListener('click', function (event) {
-                var button = event.target.closest('.w-color-reset');
-                if (!button) return;
-                var token = button.getAttribute('data-token');
-                var colors = presetColors();
-                if (colors[token]) setField(token, colors[token]);
-            });
-        })();
-    </script>
-
-<script>
 <script>
     (function () {
         'use strict';
@@ -393,5 +274,4 @@
 
         paintLogin();
     })();
-</script>
 </script>

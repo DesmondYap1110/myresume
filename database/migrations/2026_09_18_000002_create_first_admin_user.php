@@ -15,9 +15,21 @@ use Illuminate\Support\Str;
  */
 return new class extends Migration
 {
+    /*
+     * Held here rather than in .env so a fresh deploy needs no configuration
+     * at all - "php artisan migrate" is enough to get in. The password is in
+     * this repository, so RequirePasswordChange forces a new one at first
+     * login and will not let go until it has been changed.
+     */
+    private const EMAIL = 'desmondyap1110@gmail.com';
+    private const PASSWORD = '123456';
+    private const NAME = 'Yap Jia Chun';
+    private const SLUG = 'desmond-yap';
+    private const TEMPLATE = 'template1';
+
     public function up(): void
     {
-        $email = (string) config('admin.email');
+        $email = self::EMAIL;
 
         $existing = DB::table('users')->where('email', $email)->first();
 
@@ -37,11 +49,11 @@ return new class extends Migration
         }
 
         DB::table('users')->insert([
-            'name' => (string) config('admin.name'),
+            'name' => self::NAME,
             'email' => $email,
-            'password' => Hash::make((string) config('admin.password')),
-            'slug' => $this->freeSlug((string) config('admin.slug') ?: Str::slug((string) config('admin.name'))),
-            'website_template' => (string) config('admin.template'),
+            'password' => Hash::make(self::PASSWORD),
+            'slug' => $this->freeSlug(self::SLUG ?: Str::slug(self::NAME)),
+            'website_template' => self::TEMPLATE,
             'status' => 1,
             'is_admin' => true,
             'created_at' => now(),
@@ -54,7 +66,7 @@ return new class extends Migration
         // Only remove the account if it is still untouched, so a real profile
         // is never deleted by rolling back.
         DB::table('users')
-            ->where('email', (string) config('admin.email'))
+            ->where('email', self::EMAIL)
             ->whereNull('about')
             ->whereNull('phone')
             ->delete();

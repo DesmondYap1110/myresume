@@ -37,7 +37,7 @@ Route::prefix('admin')->group(function () {
 
     // ---------------- PROTECTED AREA ----------------
     // Signed in, and not still on the installation password.
-    Route::middleware(['auth', \App\Http\Middleware\RequirePasswordChange::class, \App\Http\Middleware\TrackLastSeen::class])->group(function () {
+    Route::middleware(['auth', \App\Http\Middleware\TrackLastSeen::class])->group(function () {
 
         Route::post('/logout', [AuthController::class, 'logout'])->name('login.logout');
 
@@ -66,20 +66,25 @@ Route::prefix('admin')->group(function () {
             Route::get('/status/{id}', [\App\Http\Controllers\admin\Member\MemberController::class, 'status'])->name('member.status');
         });
 
+        // ---------------- AI SETTING (admin) ----------------
+        Route::prefix('ai-setting')->middleware(\App\Http\Middleware\EnsureAdmin::class)->group(function () {
+            Route::get('/', [\App\Http\Controllers\admin\AiSetting\AiSettingController::class, 'index'])->name('aisetting.view');
+            Route::get('/edit/{id}', [\App\Http\Controllers\admin\AiSetting\AiSettingController::class, 'edit'])->name('aisetting.edit');
+            Route::post('/update/{id}', [\App\Http\Controllers\admin\AiSetting\AiSettingController::class, 'update'])->name('aisetting.update');
+        });
+
         // ---------------- SETTING ----------------
         Route::prefix('setting')->group(function () {
             Route::get('/', [SettingController::class, 'index'])->name('setting.view');
             Route::post('/update', [SettingController::class, 'update'])->name('setting.update');
             Route::post('/template', [SettingController::class, 'template'])->name('setting.template');
-            Route::post('/ai', [SettingController::class, 'ai'])->name('setting.ai');
         });
 
-        // ---------------- THEME ----------------
-        Route::prefix('theme')->group(function () {
+        // ---------------- THEME (administrators only) ----------------
+        Route::prefix('theme')->middleware(\App\Http\Middleware\EnsureAdmin::class)->group(function () {
             Route::get('/', [ThemeController::class, 'index'])->name('theme.view');
             Route::post('/update', [ThemeController::class, 'update'])->name('theme.update');
             Route::post('/reset', [ThemeController::class, 'reset'])->name('theme.reset');
-            Route::post('/website', [ThemeController::class, 'website'])->name('theme.website');
         });
 
         // ---------------- EDUCATION ----------------
@@ -122,7 +127,7 @@ Route::prefix('admin')->group(function () {
         });
 
         // ---------------- AI ASSISTANT ----------------
-        Route::prefix('ai')->group(function () {
+        Route::prefix('ai')->middleware(\App\Http\Middleware\EnsureAiReady::class)->group(function () {
             Route::get('/', [AiChatController::class, 'index'])->name('ai.view');
             Route::post('/message', [AiChatController::class, 'message'])->name('ai.message');
             Route::post('/import', [AiChatController::class, 'import'])->name('ai.import');

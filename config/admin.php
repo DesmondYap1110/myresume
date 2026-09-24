@@ -6,20 +6,24 @@
 |--------------------------------------------------------------------------
 |
 | On a brand new database, "php artisan migrate" creates this account so the
-| back office can be reached straight after deploying. Set ADMIN_EMAIL and
-| ADMIN_PASSWORD in .env BEFORE the first migrate to use your own.
+| back office can be reached straight after deploying. Nothing needs setting
+| in .env first - the values live here, and the migration that creates the
+| account carries its own copy so it works even without a config cache.
 |
-| The default password is public knowledge (it is in this repository), so the
-| admin is sent to Account Setting to change it until they do.
+| Keep these in step with the constants at the top of
+| database/migrations/2026_09_18_000002_create_first_admin_user.php.
+|
+| The password is public knowledge (it is in this repository), so the admin
+| is sent to Account Setting to change it until they do.
 |
 */
 
 return [
 
-    'email' => env('ADMIN_EMAIL', 'desmondyap@gmail.com'),
-    'password' => env('ADMIN_PASSWORD', '123456'),
-    'name' => env('ADMIN_NAME', 'Yap Jia Chun'),
-    'slug' => env('ADMIN_SLUG', 'desmond-yap'),
-    'template' => env('ADMIN_TEMPLATE', 'template1'),
+    'email' => 'desmondyap1110@gmail.com',
+    'password' => '123456',
+    'name' => 'Yap Jia Chun',
+    'slug' => 'desmond-yap',
+    'template' => 'template1',
 
 ];

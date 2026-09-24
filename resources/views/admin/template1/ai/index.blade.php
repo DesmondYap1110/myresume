@@ -32,9 +32,13 @@ AI Assistant
     <div class="col-md-12">
         @if(!$ready)
         <div class="alert alert-warning">
-            <b>Not set up yet.</b> Choose an AI provider under
-            <a href="{{ route('setting.view') }}#ai">Account Setting → AI Assistant</a> to use this page.
-            The free option runs on this computer — no key, no bill.
+            <b>Not set up yet.</b>
+            @if(Auth::user()->isAdmin())
+                Choose a provider and paste its key under
+                <a href="{{ route('aisetting.view') }}">AI Setting</a> to use this page.
+            @else
+                An administrator sets this up. Ask yours to add an AI provider and key to your account.
+            @endif
         </div>
         @endif
 

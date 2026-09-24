@@ -7,52 +7,37 @@
 |
 | Each user picks a provider under Account Setting > AI Assistant:
 |
-|   ollama      free, open source, runs on your own machine. No key, no bill.
-|   compatible  any OpenAI-compatible endpoint (OpenRouter, Groq, LM Studio,
-|               vLLM). Several have free tiers; needs a key for hosted ones.
+|   compatible  any OpenAI-compatible endpoint (OpenAI, OpenRouter, Groq,
+|               Gemini). OpenRouter and Groq have free models; OpenAI bills.
 |   claude      Anthropic's API. Paid, but reads PDFs and images directly.
+|
+| Both are hosted services reached over HTTPS, so they work on shared hosting
+| where nothing can be installed.
 |
 */
 
 return [
 
-    'default_provider' => env('AI_PROVIDER', 'ollama'),
+    'default_provider' => env('AI_PROVIDER', 'compatible'),
 
     'providers' => [
 
-        'ollama' => [
-            'label' => 'Ollama — free, runs on your computer',
-            'hint' => 'Install from ollama.com, then run: ollama pull qwen2.5:7b',
-            'needs_key' => false,
-            'needs_url' => true,
-            'default_url' => env('OLLAMA_URL', 'http://localhost:11434'),
-            'default_model' => env('OLLAMA_MODEL', 'qwen2.5:7b'),
-            'model_hint' => 'Pick one you have pulled with Ollama, or choose Other to type its name.',
-            'models' => [
-                'qwen2.5:7b' => 'Qwen 2.5 7B — good all-rounder',
-                'llama3.1:8b' => 'Llama 3.1 8B',
-                'mistral:7b' => 'Mistral 7B',
-                'gemma2:9b' => 'Gemma 2 9B',
-            ],
-            'free' => true,
-        ],
-
         'compatible' => [
-            'label' => 'OpenAI-compatible server (OpenAI, OpenRouter, Groq, LM Studio)',
+            'label' => 'OpenAI-compatible server (OpenAI, OpenRouter, Groq, Gemini)',
             'hint' => 'Point at any compatible endpoint. OpenAI is https://api.openai.com/v1; OpenRouter and Groq have free models.',
             'needs_key' => true,
             'needs_url' => true,
             'default_url' => env('AI_COMPATIBLE_URL', 'https://openrouter.ai/api/v1'),
-            'default_model' => env('AI_COMPATIBLE_MODEL', 'meta-llama/llama-3.3-70b-instruct:free'),
+            'default_model' => env('AI_COMPATIBLE_MODEL', 'deepseek/deepseek-chat-v3-0324:free'),
             'model_hint' => 'These services rename models often — choose Other to type the exact name they list.',
             // A starting point only — these services rename and retire models
             // often, so the form always offers "Other" for typing a name in.
             'models' => [
-                'meta-llama/llama-3.3-70b-instruct:free' => 'Llama 3.3 70B — OpenRouter, free',
                 'deepseek/deepseek-chat-v3-0324:free' => 'DeepSeek V3 — OpenRouter, free',
-                'llama-3.3-70b-versatile' => 'Llama 3.3 70B — Groq',
-                'gpt-5-mini' => 'GPT-5 mini — OpenAI, paid',
+                'meta-llama/llama-3.3-70b-instruct:free' => 'Llama 3.3 70B — OpenRouter, free',
+                'llama-3.3-70b-versatile' => 'Llama 3.3 70B — Groq, free tier',
                 'gpt-4o-mini' => 'GPT-4o mini — OpenAI, paid, cheapest',
+                'gpt-5-mini' => 'GPT-5 mini — OpenAI, paid',
                 'gpt-5.1' => 'GPT-5.1 — OpenAI, paid, most capable',
             ],
             'free' => true,
@@ -83,7 +68,7 @@ return [
     'max_upload_mb' => 10,
     'accepted' => ['pdf', 'png', 'jpg', 'jpeg', 'webp', 'txt'],
 
-    /* Local models are slower; allow a generous wait. */
+    /* Hosted models can be slow under load; allow a generous wait. */
     'timeout' => env('AI_TIMEOUT', 180),
 
     /* How many chat turns are kept in the session. */

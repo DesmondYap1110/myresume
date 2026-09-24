@@ -28,11 +28,25 @@ class AiSetting extends Model
         return static::firstOrNew(['user_id' => (string) $userId]);
     }
 
+    /**
+     * The key in the clear, or null when it cannot be read - which happens if
+     * APP_KEY has changed since it was saved. Listing many members at once
+     * must not fail because one row is unreadable.
+     */
+    public function plainKey(): ?string
+    {
+        try {
+            return $this->api_key;
+        } catch (\Throwable $e) {
+            return null;
+        }
+    }
+
     public function resolvedProvider(): string
     {
-        $provider = $this->provider ?: (string) config('ai.default_provider', 'ollama');
+        $provider = $this->provider ?: (string) config('ai.default_provider', 'compatible');
 
-        return config('ai.providers.'.$provider) ? $provider : 'ollama';
+        return config('ai.providers.'.$provider) ? $provider : 'compatible';
     }
 
     /** The chosen provider's block from config/ai.php. */
@@ -68,10 +82,10 @@ class AiSetting extends Model
 
     public function resolvedModel(): string
     {
-        return $this->model ?: (string) ($this->providerConfig()['default_model'] ?? 'qwen2.5:7b');
+        return $this->model ?: (string) ($this->providerConfig()['default_model'] ?? 'gpt-4o-mini');
     }
 
-    /** Ollama needs no key, so being switched on is enough. */
+    /** A provider that needs no key only has to be switched on. */
     public function isReady(): bool
     {
         if (!$this->enabled) {

@@ -26,14 +26,15 @@
             ]
         ],
 
-        [
+        // Hidden until an administrator has set this account up under AI Setting.
+        ...(($aiReady ?? false) ? [[
             'isDropdown' => false,
             'link' => "ai.view",
             'icon' => "fas fa-robot",
             'title' => "AI Assistant",
             'count' => 0,
             'notification' => false
-        ],
+        ]] : []),
 
         [
             'isDropdown' => false,
@@ -50,6 +51,13 @@
             'link' => "member.view",
             'icon' => "fas fa-users",
             'title' => "Member",
+            'count' => 0,
+            'notification' => false
+        ], [
+            'isDropdown' => false,
+            'link' => "aisetting.view",
+            'icon' => "fas fa-key",
+            'title' => "AI Setting",
             'count' => 0,
             'notification' => false
         ]] : []),
