@@ -39,7 +39,6 @@
         <div class="relative z-10 max-w-6xl mx-auto px-6 py-24 w-full">
             <div class="grid md:grid-cols-2 gap-12 items-center">
                 <div>
-                    <p class="reveal text-sm font-medium text-accent-ink dark:text-accent tracking-widest uppercase mb-4">Available for work</p>
                     <h1 class="reveal d1 font-display font-bold text-5xl md:text-6xl lg:text-7xl leading-[1.05] tracking-tight text-zinc-900 dark:text-white mb-6">
                         Hi, I'm <span class="text-accent-ink dark:text-accent">{{ $firstName }}</span>
                     </h1>
