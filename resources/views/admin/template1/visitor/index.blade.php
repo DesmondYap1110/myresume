@@ -34,9 +34,14 @@
         .visitor-agent { display: block; max-width: 320px; overflow: hidden; text-overflow: ellipsis;
             white-space: nowrap; font-size: .75rem; color: #adb5bd; }
         .visitor-when b { display: block; }
-        .visitor-stat { border-radius: .5rem; background: #f8f9fa; padding: .85rem 1rem; height: 100%; }
-        .visitor-stat b { display: block; font-size: 1.5rem; line-height: 1.1; color: #212529; }
-        .visitor-stat span { color: #6c757d; font-size: .82rem; }
+        /*
+         * Theme colours rather than fixed ones, so these follow the preset.
+         * The accent is a bright colour in every preset and only reads on a
+         * dark panel - on the white card it would be close to invisible.
+         */
+        .visitor-stat { border-radius: .5rem; background: var(--brand-sidebar, #141416); padding: .9rem 1.1rem; height: 100%; }
+        .visitor-stat b { display: block; font-size: 1.6rem; line-height: 1.1; color: var(--brand-accent, #FFD700); }
+        .visitor-stat span { color: rgba(255, 255, 255, .7); font-size: .82rem; }
         .visitor-filter-bar { padding: 18px 20px; border-top: 1px solid #ebedf2; }
         .visitor-filter { display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-end; }
         .visitor-field { display: flex; flex-direction: column; gap: 6px; min-width: 170px; }
