@@ -55,6 +55,17 @@
     }
 
     /*
+     * My Profile's submenu is opened on its own pages. Minimised, the theme
+     * hides the item text but keeps the rows, so those open submenus become a
+     * tall blank gap between the icons. Hide them while minimised - hovering
+     * expands the sidebar again, and then they should show as normal.
+     */
+    .sidebar_minimize:not(.sidebar_minimize_hover) .sidebar .nav .collapse.show,
+    .sidebar_minimize:not(.sidebar_minimize_hover) .sidebar .nav .collapsing {
+        display: none !important;
+    }
+
+    /*
      * The theme renders .btn-light white on a white card, which leaves every
      * Cancel, Reset and secondary action invisible. Give it a grey that can
      * be seen, without changing any of the markup that uses it.
