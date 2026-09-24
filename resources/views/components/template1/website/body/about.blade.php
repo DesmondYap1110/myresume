@@ -2,7 +2,6 @@
     // Words for the terminal typing line: the roles from Experience, else a default set.
     // Short titles only, so the typing line stays on one line.
     $words = \App\Support\RoleLabel::headlineWords($experience ?? [], $user->role);
-    $words = array_values(array_unique(array_merge($words, ['Problem Solver'])));
 @endphp
 <section class="resume-section p-3 p-lg-5 d-flex flex-column justify-content-center align-items-center text-center" id="about">
     {{-- Decorative tech layers, animated by assets/website/js/theme.js --}}
