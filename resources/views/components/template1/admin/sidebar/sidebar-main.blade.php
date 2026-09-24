@@ -38,6 +38,15 @@
 
         [
             'isDropdown' => false,
+            'link' => "visitor.view",
+            'icon' => "fas fa-map-marker-alt",
+            'title' => "Visitor",
+            'count' => 0,
+            'notification' => false
+        ],
+
+        [
+            'isDropdown' => false,
             'link' => "inbox.view",
             'icon' => "fas fa-envelope",
             'title' => "Inbox",

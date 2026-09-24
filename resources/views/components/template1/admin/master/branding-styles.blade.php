@@ -54,6 +54,26 @@
         background: var(--brand-logo-header, #000) !important;
     }
 
+    /*
+     * The theme renders .btn-light white on a white card, which leaves every
+     * Cancel, Reset and secondary action invisible. Give it a grey that can
+     * be seen, without changing any of the markup that uses it.
+     */
+    .btn-light,
+    .btn-light:not(:disabled):not(.disabled) {
+        background-color: #eef0f4;
+        border: 1px solid #dfe3ea;
+        color: #495057;
+    }
+
+    .btn-light:hover,
+    .btn-light:focus,
+    .btn-light:active {
+        background-color: #e2e6ed;
+        border-color: #cfd5df;
+        color: #212529;
+    }
+
     @if ($backgroundStyles)
     body.login {
         {!! \App\Support\Branding::cssDeclarations($backgroundStyles) !!}

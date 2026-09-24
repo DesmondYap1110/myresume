@@ -66,6 +66,12 @@ Route::prefix('admin')->group(function () {
             Route::get('/status/{id}', [\App\Http\Controllers\admin\Member\MemberController::class, 'status'])->name('member.status');
         });
 
+        // ---------------- VISITOR ----------------
+        Route::prefix('visitor')->group(function () {
+            Route::get('/', [\App\Http\Controllers\admin\Visitor\VisitorController::class, 'index'])->name('visitor.view');
+            Route::get('/today', [\App\Http\Controllers\admin\Visitor\VisitorController::class, 'today'])->name('visitor.today');
+        });
+
         // ---------------- AI SETTING (admin) ----------------
         Route::prefix('ai-setting')->middleware(\App\Http\Middleware\EnsureAdmin::class)->group(function () {
             Route::get('/', [\App\Http\Controllers\admin\AiSetting\AiSettingController::class, 'index'])->name('aisetting.view');

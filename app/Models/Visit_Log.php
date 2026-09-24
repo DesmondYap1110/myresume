@@ -25,6 +25,22 @@ class Visit_Log extends Model
         ]);
     }
 
+    /**
+     * Today's visits for one owner, newest first.
+     *
+     * Two things keep the (user_id, created_at) index in play: a plain range
+     * rather than whereDate(), because a function around the column rules the
+     * index out; and a string user_id, because the column is a varchar and
+     * comparing it to an integer makes MySQL scan the table instead.
+     */
+    public static function todayFor($user_id)
+    {
+        return self::query()
+            ->where('user_id', (string) $user_id)
+            ->whereBetween('created_at', [Carbon::today()->startOfDay(), Carbon::today()->endOfDay()])
+            ->orderByDesc('created_at');
+    }
+
     static function get_today_visit_log($user_id = null, $startDate = null, $endDate = null)
     {
         $startDate = $startDate ?? Carbon::today()->startOfDay();
