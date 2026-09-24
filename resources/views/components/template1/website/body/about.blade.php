@@ -30,10 +30,13 @@
 
         <h1 class="mb-0 glitch" data-text="{{ $user->name }}">{{ $user->name }}</h1>
 
+        {{-- Nothing to type for somebody with no role and no experience yet. --}}
+        @if($words)
         <div class="subheading mb-5 hero-terminal">
             <span class="prompt">~$</span>
             <span class="typed" data-words='@json($words)'>{{ $words[0] }}</span><span class="caret"></span>
         </div>
+        @endif
 
         @if(trim(strip_tags((string) $user->about)) !== '')
         <p class="mb-5" style="max-width: 560px; text-align: justify;">
