@@ -35,8 +35,8 @@ FilePond.create(document.querySelector('.filepond'), {
                                 <input type="text" class="form-control" id="title" placeholder="Enter Title" name="title" required value="{{old('title')}}">
                             </div>
                             <div class="col-md-12 col-lg-12 col-sm-12 py-1">
-                                <label for="archivement">Description <span>*</span></label>
-                                <textarea class="form-control" rows="4" placeholder="Enter Description of Blog" name="description">{{old('description')}}</textarea>
+                                <label for="summernote" class="summertext" data-placeholder="Write your post here">Description <span>*</span></label>
+                                <textarea class="form-control" id="summernote" name="description">{!! old('description') !!}</textarea>
                             </div>
                             <div class="col-md-12 col-lg-12 col-sm-12 py-1">
                                 <label for="imageInput">Images <span>*</span></label>
