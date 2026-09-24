@@ -41,6 +41,61 @@ class Visit_Log extends Model
             ->orderByDesc('created_at');
     }
 
+    /**
+     * One row per address per day - the last visit that address made on that
+     * day. Somebody who reloads the page ten times is one line, not ten.
+     *
+     * MAX(id) rather than MAX(created_at): ids are sequential, so it names an
+     * exact row, which keeps the page and the time shown genuinely that
+     * visit's rather than values picked from different rows.
+     */
+    public static function uniquePerDayFor($user_id, $from = null, $to = null)
+    {
+        return self::query()
+            ->whereIn('id', function ($q) use ($user_id, $from, $to) {
+                $q->from('visit_log')
+                    ->selectRaw('MAX(id)')
+                    ->where('user_id', (string) $user_id)
+                    ->when($from, fn ($x) => $x->where('created_at', '>=', $from))
+                    ->when($to, fn ($x) => $x->where('created_at', '<=', $to))
+                    ->groupBy('ip_address', DB::raw('DATE(created_at)'));
+            })
+            ->orderByDesc('created_at');
+    }
+
+    /** Today's addresses, one line each. */
+    public static function uniqueTodayFor($user_id)
+    {
+        return self::uniquePerDayFor($user_id, Carbon::today()->startOfDay(), Carbon::today()->endOfDay());
+    }
+
+    /**
+     * What each address did on each day: how many times it came, and the
+     * first and last time it did. Keyed "ip|Y-m-d" so a grouped row can look
+     * its own summary up.
+     */
+    public static function summaryPerDayFor($user_id, $from = null, $to = null)
+    {
+        return self::query()
+            ->where('user_id', (string) $user_id)
+            ->when($from, fn ($x) => $x->where('created_at', '>=', $from))
+            ->when($to, fn ($x) => $x->where('created_at', '<=', $to))
+            ->select(
+                'ip_address',
+                DB::raw('DATE(created_at) as day'),
+                DB::raw('COUNT(*) as hits'),
+                DB::raw('MIN(created_at) as first_at'),
+                DB::raw('MAX(created_at) as last_at')
+            )
+            ->groupBy('ip_address', DB::raw('DATE(created_at)'))
+            ->get()
+            ->mapWithKeys(fn ($r) => [$r->ip_address.'|'.$r->day => [
+                'hits' => (int) $r->hits,
+                'first' => Carbon::parse($r->first_at),
+                'last' => Carbon::parse($r->last_at),
+            ]]);
+    }
+
     static function get_today_visit_log($user_id = null, $startDate = null, $endDate = null)
     {
         $startDate = $startDate ?? Carbon::today()->startOfDay();

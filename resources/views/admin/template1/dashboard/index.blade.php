@@ -58,12 +58,16 @@ Dashboard
                                 <tr>
                                     <th>IP address</th>
                                     <th>Location</th>
-                                    <th>Page</th>
+                                    <th>Visits</th>
                                     <th>When</th>
                                 </tr>
                             </thead>
                             <tbody id="visitor-rows">
                                 @foreach($recent_visits as $visit)
+                                @php
+                                    $key = $visit->ip_address.'|'.$visit->created_at?->format('Y-m-d');
+                                    $seen = $recent_summary[$key] ?? null;
+                                @endphp
                                 <tr>
                                     <td class="dash-ip">{{ $visit->ip_address ?: '—' }}</td>
                                     <td>
@@ -74,9 +78,11 @@ Dashboard
                                             <span class="text-muted text-small">{{ $visit->located_at ? 'Unknown' : 'Looking up…' }}</span>
                                         @endif
                                     </td>
-                                    <td><span class="dash-url" title="{{ $visit->url }}">{{ $visit->url ?: '—' }}</span></td>
+                                    <td><span class="badge bg-light text-dark">{{ $seen['hits'] ?? 1 }}</span></td>
                                     <td>
-                                        <b>{{ $visit->created_at?->format('j M Y, g:ia') }}</b>
+                                        <b>{{ $seen && $seen['hits'] > 1
+                                            ? $seen['first']->format('g:ia').' – '.$seen['last']->format('g:ia')
+                                            : $visit->created_at?->format('g:ia') }}</b>
                                         <div class="text-muted text-small">{{ $visit->created_at?->diffForHumans() }}</div>
                                     </td>
                                 </tr>
@@ -133,12 +139,11 @@ Dashboard
                             cell(row, v.ip, 'dash-ip');
                             cell(row, v.where);
 
-                            var url = row.insertCell();
-                            var span = document.createElement('span');
-                            span.className = 'dash-url';
-                            span.title = v.url;
-                            span.textContent = v.url;
-                            url.appendChild(span);
+                            var hits = row.insertCell();
+                            var badge = document.createElement('span');
+                            badge.className = 'badge bg-light text-dark';
+                            badge.textContent = v.hits;
+                            hits.appendChild(badge);
 
                             var when = row.insertCell();
                             var at = document.createElement('b');

@@ -162,7 +162,7 @@ class VisitorController extends Controller
         $limit = self::perLoad;
 
         // One extra row answers "is there more?" without a second COUNT.
-        $rows = Visit_Log::todayFor(Auth::id())
+        $rows = Visit_Log::uniqueTodayFor(Auth::id())
             ->offset($offset)
             ->limit($limit + 1)
             ->get();
@@ -172,17 +172,25 @@ class VisitorController extends Controller
 
         IpLocation::fill($rows);
 
+        $summary = Visit_Log::summaryPerDayFor(Auth::id(), today()->startOfDay(), today()->endOfDay());
+
         return response()->json([
             'more' => $more,
             'next' => $offset + $rows->count(),
-            'rows' => $rows->map(fn ($v) => [
-                'ip' => $v->ip_address ?: '—',
-                'where' => IpLocation::label($v->country, $v->city),
-                'city' => $v->city,
-                'url' => $v->url ?: '—',
-                'at' => $v->created_at?->format('j M Y, g:ia'),
-                'ago' => $v->created_at?->diffForHumans(),
-            ])->values(),
+            'rows' => $rows->map(function ($v) use ($summary) {
+                $seen = $summary[$v->ip_address.'|'.$v->created_at?->format('Y-m-d')] ?? null;
+                $hits = $seen['hits'] ?? 1;
+
+                return [
+                    'ip' => $v->ip_address ?: '—',
+                    'where' => IpLocation::label($v->country, $v->city),
+                    'hits' => $hits,
+                    'at' => $hits > 1
+                        ? $seen['first']->format('g:ia').' – '.$seen['last']->format('g:ia')
+                        : $v->created_at?->format('g:ia'),
+                    'ago' => $v->created_at?->diffForHumans(),
+                ];
+            })->values(),
         ]);
     }
 }

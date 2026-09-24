@@ -46,15 +46,20 @@ class DashboardController extends Controller
             return [$date => (int) ($daily[$date] ?? 0)];
         })->toArray();
 
-        // Today's arrivals, first page only; the rest load on demand.
-        $recent_visits = Visit_Log::todayFor(Auth::user()->id)
+        // Today's arrivals, one line per address; the rest load on demand.
+        $recent_visits = Visit_Log::uniqueTodayFor(Auth::user()->id)
             ->limit(self::visitorPage)
             ->get();
 
         IpLocation::fill($recent_visits);
 
-        $recent_total = Visit_Log::todayFor(Auth::user()->id)->count();
+        $recent_total = Visit_Log::uniqueTodayFor(Auth::user()->id)->count();
+        $recent_summary = Visit_Log::summaryPerDayFor(
+            Auth::user()->id,
+            Carbon::today()->startOfDay(),
+            Carbon::today()->endOfDay()
+        );
 
-        return view(self::viewPath . 'index', compact('breadcrumbs','inbox','visit_log','all_visit_log','period','data_visit','recent_visits','recent_total'));
+        return view(self::viewPath . 'index', compact('breadcrumbs','inbox','visit_log','all_visit_log','period','data_visit','recent_visits','recent_total','recent_summary'));
     }
 }
