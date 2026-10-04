@@ -247,7 +247,6 @@ return [
         'link' => 'Pautan',
         'show_on_website' => 'Papar di Laman Web',
         'show_all' => 'Papar semua',
-        'show_all_hint' => '- hidup atau matikan semua rangkaian yang ada pautan',
         'add_link' => 'Tambah pautan',
         'link_name' => 'Nama pautan',
         'social_note' => 'Masukkan pautan untuk menggunakan rangkaian; matikan untuk menyembunyikannya tanpa kehilangan pautan.',

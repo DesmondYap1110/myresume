@@ -247,7 +247,6 @@ return [
         'link' => '链接',
         'show_on_website' => '在网站显示',
         'show_all' => '全部显示',
-        'show_all_hint' => '— 一次开关所有已填链接',
         'add_link' => '添加链接',
         'link_name' => '链接名称',
         'social_note' => '填写链接即可启用；关闭开关可在不删除链接的情况下隐藏它。',

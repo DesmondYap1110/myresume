@@ -973,19 +973,41 @@ body.modal-open .modal-backdrop.show {
     outline: 0;
 }
 
-.social-icon-f li i {
+/* Plain icons, no ring. The box stays 44px so it is still an easy tap target,
+   and the styling goes on the link rather than the <i>: the brand icons are
+   inline SVG and only the email is a Font Awesome <i>, so styling the <i>
+   reached one of the four. */
+.social-icon-f li a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     width: 44px;
     height: 44px;
-    line-height: 40px;
-    color: var(--w-accent) !important;
-    border: 2px solid var(--w-accent) !important;
+    color: var(--w-accent);
+    /* An inline-flex box takes its baseline from its first child, so without
+       this the Font Awesome envelope sat lower than the SVG brands. */
+    vertical-align: middle;
     transition: all .3s ease;
 }
 
-.social-icon-f li a:hover i {
-    background: var(--w-accent);
-    color: var(--w-bg) !important;
-    box-shadow: 0 0 22px var(--w-accent-glow);
+.social-icon-f li a i {
+    width: auto;
+    height: auto;
+    /* The theme gives Font Awesome icons a right margin for use beside text;
+       as the only child of a centred ring it pushed the envelope 5px left. */
+    margin: 0 !important;
+    font-size: 18px;
+    line-height: 1;
+    color: inherit !important;
+    border: 0 !important;
+}
+
+/* Without the ring a filled background would read as a square block, so the
+   icon lifts and glows instead. drop-shadow suits both the SVG brands and the
+   Font Awesome envelope; box-shadow would have drawn a box around nothing. */
+.social-icon-f li a:hover {
+    color: var(--w-heading);
+    filter: drop-shadow(0 0 10px var(--w-accent-glow));
     transform: translateY(-3px);
 }
 
@@ -1069,7 +1091,9 @@ body.modal-open .modal-backdrop.show {
 .boot-screen {
     position: fixed;
     inset: 0;
-    z-index: 5000;
+    /* Above the language switcher (10050), which has to clear template 4's
+       navbar: nothing belongs on top of the loading screen. */
+    z-index: 10060;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1191,31 +1215,6 @@ body.modal-open .modal-backdrop.show {
 .hud-corner.bl { bottom: 0; left: 0; border-right: 0; border-top: 0; animation-delay: -1.5s; }
 .hud-corner.br { bottom: 0; right: 0; border-left: 0; border-top: 0; animation-delay: -2.25s; }
 
-.hero-kicker {
-    display: flex;
-    width: fit-content;
-    align-items: center;
-    gap: 10px;
-    margin: 0 auto 1.2rem;
-    padding: .35rem 1rem;
-    font-family: var(--w-mono);
-    font-size: .85rem;
-    letter-spacing: .08em;
-    color: var(--w-accent);
-    border: 1px solid var(--w-accent-soft);
-    border-radius: 999px;
-    background: color-mix(in srgb, var(--w-bg) 60%, transparent);
-    animation: w-rise .8s ease-out both;
-}
-
-.status-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: var(--w-accent);
-    animation: w-ping 1.8s ease-out infinite;
-}
-
 /* Glitch name: two offset copies flicker over the gradient text. */
 .glitch { position: relative; display: inline-block; }
 
@@ -1311,33 +1310,9 @@ section.resume-section:not(#about)::before {
 
 section.resume-section:not(#about) > * { position: relative; z-index: 1; }
 
-/* Section numbers in mono, e.g. "// 01". */
-body { counter-reset: w-section; }
-
-section.resume-section h2 { counter-increment: w-section; }
-
-section.resume-section h2::before {
-    content: "// " counter(w-section, decimal-leading-zero);
-    display: block;
-    font-family: var(--w-mono);
-    font-size: .9rem;
-    font-weight: 400;
-    letter-spacing: .3em;
-    color: var(--w-accent);
-    margin-bottom: .3rem;
-}
-
-/* Nav numbers */
-#sideNav .navbar-nav { counter-reset: w-nav; }
-#sideNav .navbar-nav .nav-item { counter-increment: w-nav; }
-#sideNav .navbar-nav .nav-item .nav-link::before {
-    content: counter(w-nav, decimal-leading-zero);
-    font-family: var(--w-mono);
-    font-size: .7rem;
-    color: var(--w-accent);
-    opacity: .7;
-    margin-right: .45rem;
-}
+/* The "// 01" counters above each heading and the "01" in front of each nav
+   item have been dropped: the numbering carried no meaning and the headings
+   and menu read more directly without it. */
 
 /* Experience: a data pulse travelling down the timeline. */
 #experience-box::after {
@@ -1394,10 +1369,6 @@ section.resume-section h2::before {
     50% { transform: translateY(-26px) rotate(6deg); }
 }
 @keyframes w-hud { 0%, 100% { opacity: .25; } 50% { opacity: .85; } }
-@keyframes w-ping {
-    0% { box-shadow: 0 0 0 0 var(--w-accent-glow); }
-    100% { box-shadow: 0 0 0 12px transparent; }
-}
 @keyframes w-blink { 50% { opacity: 0; } }
 @keyframes w-wheel {
     0% { transform: translateY(0); opacity: 1; }

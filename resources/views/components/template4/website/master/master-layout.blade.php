@@ -288,10 +288,13 @@ a, a:hover, a:focus, .text-primary { color: var(--t4-ink); }
   .t4-menu-foot .t4-menu-cv:hover { box-shadow: 0 10px 22px rgba(0,0,0,.25); }
   .t4-menu-social { display: flex; gap: 10px; }
   /* Solid black circles with gold icons, matching the CV button above. */
+  /* !important on the colour, as on the CV button above: the sheet paints
+     every link inside it white, and these icons are drawn with currentColor,
+     so without this they came out white on a white circle - four blank discs. */
   .t4-menu-social a { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
-    background: var(--t4-on-primary); color: var(--t4-primary); border: 0;
+    background: var(--t4-on-primary); color: var(--t4-primary) !important; border: 0;
     transition: background-color .25s ease, color .25s ease, transform .25s ease; }
-  .t4-menu-social a:hover, .t4-menu-social a:focus { background: #fff; color: var(--t4-on-primary); transform: translateY(-2px); }
+  .t4-menu-social a:hover, .t4-menu-social a:focus { background: var(--t4-primary); color: var(--t4-on-primary) !important; transform: translateY(-2px); }
 
   /* Everything slides in, one after another, each time the menu opens. */
   .t4-motion.nav-open .t4-menu-head { animation: t4-menu-in .5s .1s cubic-bezier(.2,.7,.2,1) both; }
@@ -533,11 +536,20 @@ $(function () {
   // Reading progress bar and back-to-top button.
   var bar = document.querySelector('.t4-progress');
   var topBtn = document.querySelector('.t4-top');
+  /*
+   * The bar carries color-on-scroll="400", but Now UI never acts on it here,
+   * so .navbar-transparent stayed on at every scroll position: a white brand
+   * and white burger floating over white cards, unreadable. The rest of this
+   * layout already styles the solid state as :not(.navbar-transparent), so
+   * dropping the class is all that is needed.
+   */
+  var navBar = document.querySelector('nav.navbar.fixed-top');
   function onScroll() {
     var max = document.documentElement.scrollHeight - window.innerHeight;
     var y = window.pageYOffset || document.documentElement.scrollTop;
     if (bar) bar.style.transform = 'scaleX(' + (max > 0 ? Math.min(y / max, 1) : 0) + ')';
     if (topBtn) topBtn.classList.toggle('show', y > 600);
+    if (navBar) navBar.classList.toggle('navbar-transparent', y < 90);
   }
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();

@@ -37,7 +37,13 @@ class RoleLabel
      */
     public static function headlineWords($experience, ?string $currentRole = null, int $max = 4): array
     {
-        $words = collect($experience)->pluck('role')
+        /*
+         * ->t('role') rather than pluck('role'): the raw column is always the
+         * default language, so the rotating headline stayed English even on a
+         * page being read in Malay or Chinese.
+         */
+        $words = collect($experience)
+            ->map(fn ($job) => method_exists($job, 't') ? $job->t('role') : ($job->role ?? null))
             ->prepend($currentRole)
             ->map(fn ($role) => static::short($role))
             ->filter()

@@ -18,7 +18,6 @@
     <div class="sl-row sl-row-all">
         <div class="sl-col-network">
             <b>{{ __('admin.ui.show_all') }}</b>
-            <span class="sl-hint">{{ __('admin.ui.show_all_hint') }}</span>
         </div>
         <div class="sl-col-link"></div>
         <div class="sl-col-show">
@@ -103,7 +102,6 @@
     }
     .sl-row { border-top: 1px solid #eef0f4; }
     .sl-row:nth-child(even) { background: #fafbfd; }
-    .sl-row-all .sl-hint { color: #6c757d; font-weight: 400; font-size: .8rem; margin-left: 4px; }
     .sl-col-network { display: flex; align-items: center; gap: 10px; font-weight: 600; color: #1a2035; }
     .sl-col-network i { width: 20px; text-align: center; font-size: 17px; }
     .sl-col-show { display: flex; align-items: center; justify-content: flex-end; gap: 8px; }

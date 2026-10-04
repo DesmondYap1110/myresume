@@ -247,7 +247,6 @@ return [
         'link' => 'Link',
         'show_on_website' => 'Show on Website',
         'show_all' => 'Show all',
-        'show_all_hint' => '- switch every network with a link on or off',
         'add_link' => 'Add link',
         'link_name' => 'Link name',
         'social_note' => 'Enter a link to use a network; switch it off to hide it from the website without losing the link.',

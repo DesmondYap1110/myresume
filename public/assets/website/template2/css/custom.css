@@ -382,3 +382,80 @@ section[id] { scroll-margin-top: 80px; }
     border-color: currentColor;
     transform: translateY(-2px);
 }
+
+/* ============ Mobile ============ */
+
+/*
+ * Something inside the hero - the rotating job title is the usual culprit -
+ * can be wider than a phone screen. That makes the whole page scroll
+ * sideways, and because .container is centred in the scrollable width rather
+ * than the visible width, every section ends up pushed off to one side with
+ * blank space beside it.
+ *
+ * overflow-x: clip rather than hidden: hidden would turn the body into a
+ * scroll container and the sticky nav would stop sticking.
+ */
+.t2 {
+    overflow-x: clip;
+    max-width: 100vw;
+}
+
+/*
+ * Nothing in the hero may force the page wider than the screen.
+ *
+ * The word itself is deliberately left alone: the clip effect reveals it by
+ * animating the wrapper's width up from zero, so capping the word to the
+ * wrapper would squeeze it to nothing and the headline would appear blank.
+ */
+.t2-banner .cd-headline,
+.t2-banner .cd-words-wrapper {
+    max-width: 100%;
+    overflow-wrap: break-word;
+}
+
+@media (max-width: 767px) {
+    /* The theme's container keeps desktop gutters on a phone, which leaves
+       the text in a narrow column. */
+    .t2 .container { padding-left: 18px; padding-right: 18px; }
+
+    .t2-banner .cd-headline { font-size: clamp(26px, 8vw, 38px); line-height: 1.25; }
+    .t2-kicker { font-size: 13px; letter-spacing: .08em; }
+    .t2-lead { font-size: 15px; line-height: 1.7; }
+
+    /* Buttons went full width but kept side margins, so they sat inset. */
+    .t2-actions { display: flex; flex-direction: column; gap: 10px; }
+    .t2-actions .btn { width: 100%; margin: 0 !important; }
+
+    .t2-facts li { word-break: break-word; }
+}
+
+/* The burger reads as much smaller than the language button beside it: the
+   themify glyph is set at the body size with no box of its own. Give it the
+   same height and corner as the pill so the two look like a pair.
+
+   Inside the breakpoint, not outside it: `display: inline-flex` here outranks
+   Bootstrap's own `.navbar-expand-lg .navbar-toggler { display: none }`, which
+   left the burger sitting next to the full desktop menu. */
+@media (max-width: 991.98px) {
+    .t2 .main-nav .navbar-toggler {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 38px;
+        height: 30px;
+        padding: 0;
+        border: 0;
+        border-radius: 9px;
+    }
+
+    .t2 .main-nav .navbar-toggler span {
+        font-size: 19px;
+        line-height: 1;
+    }
+}
+
+/* Bootstrap's .navbar carries padding: .5rem 1rem of its own, so the nav's
+   container started 16px further in than every section's container and the
+   brand sat out of line with the headings below it. The container's own
+   gutter is the one that should show. */
+.t2 .main-nav { padding-left: 0; padding-right: 0; }

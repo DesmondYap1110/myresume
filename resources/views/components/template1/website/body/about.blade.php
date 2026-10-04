@@ -26,8 +26,6 @@
 
     <div class="my-auto">
 
-        <div class="hero-kicker"><span class="status-dot"></span> &lt;hello world /&gt;</div>
-
         <h1 class="mb-0 glitch" data-text="{{ $user->name }}">{{ $user->name }}</h1>
 
         {{-- Nothing to type for somebody with no role and no experience yet. --}}

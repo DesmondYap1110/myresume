@@ -36,7 +36,9 @@
         <div class="absolute top-1/4 right-0 w-96 h-96 bg-accent/10 rounded-full blur-3xl pointer-events-none" aria-hidden="true"></div>
         <div class="absolute bottom-1/4 left-0 w-64 h-64 bg-zinc-200/50 dark:bg-zinc-800/30 rounded-full blur-3xl pointer-events-none" aria-hidden="true"></div>
 
-        <div class="relative z-10 max-w-6xl mx-auto px-6 py-24 w-full">
+        {{-- py-10 on phones: the full py-24 stacked on top of the header's
+             pt-16 left a tall empty band above the greeting. --}}
+        <div class="relative z-10 max-w-6xl mx-auto px-6 py-10 md:py-24 w-full">
             <div class="grid md:grid-cols-2 gap-12 items-center">
                 <div>
                     <h1 class="reveal d1 font-display font-bold text-5xl md:text-6xl lg:text-7xl leading-[1.05] tracking-tight text-zinc-900 dark:text-white mb-6">
