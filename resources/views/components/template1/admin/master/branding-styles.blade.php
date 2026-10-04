@@ -55,6 +55,21 @@
     }
 
     /*
+     * Room under the content for the fixed footer.
+     *
+     * The copyright strip is position: fixed, so it floats over whatever is
+     * beneath it, while .page-inner leaves only 24px below the content. On any
+     * page long enough to scroll, the last card finished underneath it. The
+     * strip is about 52px on a desktop and wraps to two lines on a narrow
+     * screen, so the allowance is bigger there.
+     */
+    .main-panel .page-inner { padding-bottom: 80px; }
+
+    @media (max-width: 575px) {
+        .main-panel .page-inner { padding-bottom: 110px; }
+    }
+
+    /*
      * A note tinted with the live theme rather than a fixed grey, so it
      * belongs to whichever preset is in use. color-mix keeps it a faint wash;
      * the plain values below are the fallback where it is not supported.

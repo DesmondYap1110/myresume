@@ -1,63 +1,59 @@
 @push('script')
-<script>
-FilePond.create(document.querySelector('.filepond'), {
-    allowMultiple: true,
-    allowReorder: true,
-    maxFiles: {{ \App\Http\Controllers\admin\Blog\BlogController::maxImages }},
-    acceptedFileTypes: ['image/*', 'video/mp4', 'video/webm'],
-    instantUpload: false,  // preview only, files are sent with the form
-    storeAsFile: true,
-    labelIdle: '{{ __('admin.ui.drag_drop_media') }} <span class="filepond--label-action">{{ __('admin.ui.browse') }}</span><br><small>{{ __('admin.ui.first_media_cover_short') }}</small>'
-});
-</script>
+<x-template1.admin.blog.filepond-init
+    :max-files="\App\Http\Controllers\admin\Blog\BlogController::maxImages"
+    :label="__('admin.ui.drag_drop_media').' <span class=\'filepond--label-action\'>'.__('admin.ui.browse').'</span><br><small>'.__('admin.ui.first_media_cover_short').'</small>'" />
 @endpush
 
 @push('title')
 {{$breadcrumbs['list']['0']['text']}}
 @endpush
 
-
 <x-template1.admin.master.master-layout>
     <x-template1.admin.header.breadcrumbs-main :breadcrumbs="$breadcrumbs"/>
-        <div class="col-md-8 col-lg-6">
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-head-row card-tools-still-right">
-                        <div class="card-title">{{ __('admin.ui.add_blog') }}</div>
-                    </div>
-                </div>
-                <form action="{{route("blog.create")}}" method = "post" enctype="multipart/form-data">
-                    @csrf
-                    <div class="card-action">
-                        <div class="row">
-                            <div class="col-md-12 col-lg-12 col-sm-12 py-1">
-                                <x-template1.admin.lang-fields
-                                    :model="new \App\Models\Blog()"
-                                    :fields="[
-                                        'title' => ['label' => __('admin.ui.title'), 'type' => 'text', 'required' => true, 'width' => 'col-12', 'placeholder' => __('admin.ui.enter_title')],
-                                        'description' => ['label' => __('admin.ui.description'), 'type' => 'rich', 'required' => true],
-                                    ]" />
-                            </div>
-                            <div class="col-md-12 col-lg-12 col-sm-12 py-1">
-                                <x-template1.admin.blog.media-links />
-                            </div>
-                            <div class="col-md-12 col-lg-12 col-sm-12 py-1">
-                                <label for="imageInput">{{ __('admin.ui.images') }} <span>*</span></label>
-                                <input type="file" class="filepond" name="images[]" id="imageInput" multiple accept="{{ \App\Support\SafeMediaUpload::accept() }}">
-                                <p class="themed-note mt-2 mb-0">
-                                    <i class="fas fa-info-circle"></i>
-                                    <span>{{ __('admin.ui.media_hint', ['max' => \App\Http\Controllers\admin\Blog\BlogController::maxImages]) }}</span>
-                                </p>
 
-                                <x-template1.admin.blog.locale-images />
-                            </div>
+        <x-template1.admin.blog.form-styles />
+
+        <div class="col-12">
+            <form action="{{route("blog.create")}}" method="post" enctype="multipart/form-data" class="blog-form">
+                @csrf
+
+                {{-- One column, capped for readability. A second column held only
+                     the links box once the pictures moved into the tabs, and
+                     left most of its height empty. --}}
+                <div class="blog-column">
+                    <div class="card blog-card">
+                        <div class="card-header">
+                            <div class="card-title">{{ __('admin.ui.add_blog') }}</div>
+                        </div>
+                        <div class="card-body">
+                            {{-- Title, description and that language's pictures
+                                 together, so all three tabs read the same. --}}
+                            <x-template1.admin.lang-fields
+                                :model="new \App\Models\Blog()"
+                                extra="admin.template1.blog.partials.locale-images"
+                                :fields="[
+                                    'title' => ['label' => __('admin.ui.title'), 'type' => 'text', 'required' => true, 'width' => 'col-12', 'placeholder' => __('admin.ui.enter_title')],
+                                    'description' => ['label' => __('admin.ui.description'), 'type' => 'rich', 'required' => true],
+                                ]" />
                         </div>
                     </div>
-                    <div class="card-action">
-                        <button class="btn btn-success">{{ __('admin.ui.submit') }}</button>
+
+                    {{-- Links are the same whichever language the post is read
+                         in, so they sit outside the tabs. --}}
+                    <div class="card blog-card">
+                        <div class="card-body">
+                            <x-template1.admin.blog.media-links />
+                        </div>
+
+                        {{-- Part of the card rather than a bar floating under
+                             it, so the buttons belong to the form they save. --}}
+                        <div class="card-action blog-actions">
+                            <a href="{{ route('blog.view') }}" class="btn btn-light">{{ __('admin.ui.cancel') }}</a>
+                            <button class="btn btn-success"><i class="fas fa-check me-1"></i> {{ __('admin.ui.submit') }}</button>
+                        </div>
                     </div>
-                </form>
-            </div>
+                </div>
+            </form>
         </div>
 
 </x-template1.admin.master.master-layout>

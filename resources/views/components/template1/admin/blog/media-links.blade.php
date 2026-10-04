@@ -33,7 +33,26 @@
 
 <style>
     .media-row { display: flex; gap: 8px; margin-bottom: 8px; }
-    .media-row .media-remove { flex: 0 0 auto; width: 42px; }
+    /* Same corner as the box beside it: the theme rounds .form-control to
+       .375rem and buttons to 3px, which read as two different shapes sitting
+       side by side. */
+    .media-row .media-remove { flex: 0 0 auto; width: 42px; border-radius: .375rem; }
+
+    /* In the chosen theme rather than the stock grey. Outlined, because adding
+       a link is a lesser action than saving the post. */
+    #media-add.btn {
+        border: 1px solid var(--brand-primary, #212529);
+        border-radius: .375rem;
+        background: transparent;
+        color: var(--brand-primary, #212529);
+        font-weight: 600;
+    }
+    #media-add.btn:hover:not(:disabled),
+    #media-add.btn:focus:not(:disabled) {
+        background: var(--brand-primary, #212529);
+        color: var(--brand-button-text, #fff);
+    }
+    #media-add.btn:disabled { opacity: .45; }
 </style>
 
 @push('script')

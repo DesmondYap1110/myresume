@@ -1,4 +1,4 @@
-@props(['model', 'fields'])
+@props(['model', 'fields', 'extra' => null, 'extraData' => []])
 
 {{--
     One tab per language for the fields that differ between languages.
@@ -11,6 +11,11 @@
 
     $fields is [name => ['label' => …, 'type' => 'text|textarea|rich',
                          'required' => bool, 'placeholder' => …]]
+
+    $extra names a view rendered at the foot of every pane, with 'locale' and
+    'isDefault' added to $extraData. The blog forms use it to put each
+    language's pictures in that language's tab: a second set of language tabs
+    further down the page only raised the question of which one you were in.
 --}}
 @php
     $locales = (array) config('locales.supported', []);
@@ -94,6 +99,10 @@
             </div>
             @endforeach
             </div>
+
+            @if($extra)
+                @include($extra, array_merge($extraData, ['locale' => $code, 'isDefault' => $isDefault]))
+            @endif
         </div>
         @endforeach
     </div>
