@@ -84,6 +84,11 @@ FilePond.create(document.querySelector('.filepond'), {
                                     ]" />
                             </div>
                             <div class="col-md-12 col-lg-12 col-sm-12 py-1">
+                                {{-- Was only on the add form, so links could be
+                                     set but never changed afterwards. --}}
+                                <x-template1.admin.blog.media-links :urls="$blog->mediaUrls()" />
+                            </div>
+                            <div class="col-md-12 col-lg-12 col-sm-12 py-1">
                                 {{-- The cover and reordering notes sit together
                                      in one panel below, after the uploader. --}}
                                 <label>{{ __('admin.ui.images') }} <span>*</span></label>

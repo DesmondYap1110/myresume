@@ -7,12 +7,12 @@
     $max = \App\Support\MediaEmbed::max;
 @endphp
 
-<label>Video &amp; social links</label>
+<label>{{ __('admin.ui.media_links') }}</label>
 <div id="media-links" data-max="{{ $max }}">
     @foreach($rows as $url)
     <div class="media-row">
         <input type="url" class="form-control" name="media[]" value="{{ $url }}"
-               maxlength="500" placeholder="https://youtu.be/… or an Instagram or X link">
+               maxlength="500" placeholder="{{ __('admin.ui.media_links_placeholder') }}">
         <button type="button" class="btn btn-danger media-remove" title="{{ __('admin.ui.remove') }}" aria-label="{{ __('admin.ui.remove_link') }}">
             <i class="fas fa-times"></i>
         </button>
@@ -21,13 +21,13 @@
 </div>
 
 <button type="button" class="btn btn-light btn-sm mt-1" id="media-add">
-    <i class="fas fa-plus me-1"></i> Add another link
+    <i class="fas fa-plus me-1"></i> {{ __('admin.ui.add_another_link') }}
 </button>
 
-<small class="form-text text-muted">
-    Paste a YouTube, Instagram, X or Vimeo link and it plays inside the post.
-    Up to {{ $max }}. Anything else is shown as an ordinary link.
-</small>
+<p class="themed-note mt-2 mb-0">
+    <i class="fas fa-info-circle"></i>
+    <span>{{ __('admin.ui.media_links_note', ['max' => $max]) }}</span>
+</p>
 
 @error('media')<span class="text-danger d-block">{{ $message }}</span>@enderror
 

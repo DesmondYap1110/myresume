@@ -90,6 +90,15 @@ return [
             'host' => ['xiaohongshu.com', 'xhslink.com'],
         ],
 
+        'drive' => [
+            'label' => 'Google Drive',
+            'icon' => 'fab fa-google-drive',
+            'svg' => 'drive',
+            'brand' => '#1A73E8',
+            'placeholder' => 'https://drive.google.com/file/d/…/view',
+            'host' => ['drive.google.com', 'docs.google.com'],
+        ],
+
         'whatsapp' => [
             'label' => 'WhatsApp',
             'icon' => 'fab fa-whatsapp',

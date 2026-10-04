@@ -15,7 +15,7 @@ namespace App\Support;
  */
 class MediaEmbed
 {
-    public const providers = ['youtube', 'instagram', 'twitter', 'vimeo', 'link'];
+    public const providers = ['youtube', 'instagram', 'twitter', 'vimeo', 'drive', 'link'];
 
     /** How many a single post may carry. */
     public const max = 8;
@@ -74,6 +74,21 @@ class MediaEmbed
                     // Rendered through the platform's own widget, not an iframe.
                     'embed' => null,
                     'label' => 'X (Twitter)',
+                ];
+            }
+        }
+
+        // drive.google.com/file/d/ID/view  |  ?id=ID  |  /open?id=ID
+        if ($host === 'drive.google.com') {
+            if (preg_match('~/file/d/([A-Za-z0-9_-]{10,})~', $url, $m)
+                || preg_match('~[?&]id=([A-Za-z0-9_-]{10,})~', $url, $m)) {
+                return [
+                    'provider' => 'drive',
+                    'id' => $m[1],
+                    'url' => 'https://drive.google.com/file/d/'.$m[1].'/view',
+                    // "preview" is the embeddable view; "view" refuses to frame.
+                    'embed' => 'https://drive.google.com/file/d/'.$m[1].'/preview',
+                    'label' => 'Google Drive',
                 ];
             }
         }
