@@ -4,6 +4,7 @@ namespace App\Http\Controllers\admin\Testimonial;
 
 use App\Helpers\Breadcrumb;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Concerns\SavesTranslations;
 use App\Models\Testimonial;
 use App\Support\SafeImageUpload;
 use Illuminate\Http\Request;
@@ -11,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 
 class TestimonialController extends Controller
 {
+    use SavesTranslations;
     const page = "Testimonial";
     const viewPath = "admin.template1.testimonial.";
 
@@ -71,7 +73,9 @@ class TestimonialController extends Controller
 
         $testimonial->save();
 
-        return redirect()->route($this->route.'view')->with('success', 'Add Testimonial successful!');
+        $this->storeTranslations($request, $testimonial);
+
+        return redirect()->route($this->route.'view')->with('success', __('admin.flash.added', ['item' => __('admin.menu.testimonial')]));
     }
 
     public function edit()
@@ -106,12 +110,14 @@ class TestimonialController extends Controller
 
         $testimonial->update();
 
+        $this->storeTranslations($request, $testimonial);
+
         // Drop the old file once the row is saved.
         if ($old && $testimonial->getRawOriginal('image') !== $old) {
             SafeImageUpload::delete($old, self::uploadDir);
         }
 
-        return redirect()->route($this->route.'view')->with('success', 'Edit Testimonial successful!');
+        return redirect()->route($this->route.'view')->with('success', __('admin.flash.updated', ['item' => __('admin.menu.testimonial')]));
     }
 
     public function delete()
@@ -126,6 +132,6 @@ class TestimonialController extends Controller
             SafeImageUpload::delete($image, self::uploadDir);
         }
 
-        return redirect()->route($this->route.'view')->with('success', 'Delete Testimonial successful!');
+        return redirect()->route($this->route.'view')->with('success', __('admin.flash.deleted', ['item' => __('admin.menu.testimonial')]));
     }
 }

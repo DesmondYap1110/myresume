@@ -20,14 +20,14 @@
         </div>
 
         <div class="col-md-6 py-1">
-            <label for="name">Full name <span class="required-label">*</span></label>
+            <label for="name">{{ __('admin.ui.full_name') }} <span class="required-label">*</span></label>
             <input type="text" class="form-control" id="name" name="name" required maxlength="255"
                    value="{{ old('name', $person->name ?? '') }}" placeholder="e.g. Yap Jia Chun">
             @error('name')<span class="text-danger d-block">{{ $message }}</span>@enderror
         </div>
 
         <div class="col-md-6 py-1">
-            <label for="email">Email address <span class="required-label">*</span></label>
+            <label for="email">{{ __('admin.ui.email_address_lc') }} <span class="required-label">*</span></label>
             <input type="email" class="form-control" id="email" name="email" required maxlength="255"
                    value="{{ old('email', $person->email ?? '') }}" placeholder="name@example.com" autocomplete="off">
             @error('email')<span class="text-danger d-block">{{ $message }}</span>@enderror
@@ -42,7 +42,7 @@
         </div>
 
         <div class="col-md-6 py-1">
-            <label for="slug">Website address <span class="required-label">*</span></label>
+            <label for="slug">{{ __('admin.ui.website_address') }} <span class="required-label">*</span></label>
             <div class="input-group">
                 <span class="input-group-text">{{ rtrim(url('/'), '/') }}/</span>
                 <input type="text" class="form-control" id="slug" name="slug" required minlength="3" maxlength="60"
@@ -53,7 +53,7 @@
         </div>
 
         <div class="col-md-6 py-1">
-            <label for="website_template">Website template <span class="required-label">*</span></label>
+            <label for="website_template">{{ __('admin.ui.website_template') }} <span class="required-label">*</span></label>
             <select class="form-control form-select" id="website_template" name="website_template">
                 @foreach((array) config('website_templates.templates', []) as $key => $template)
                 <option value="{{ $key }}" @selected(old('website_template', $person->website_template ?? config('website_templates.default')) === $key)>{{ $template['name'] }}</option>

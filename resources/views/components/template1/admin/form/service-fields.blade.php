@@ -14,19 +14,16 @@
 <div class="card-action">
     <div class="row">
         <div class="col-12 py-1">
-            <label for="title">Title <span class="required-label">*</span></label>
-            <input type="text" class="form-control" id="title" name="title" placeholder="e.g. Web Development" required maxlength="255"
-                   value="{{ old('title', $service->title ?? '') }}">
-        </div>
-
-        <div class="col-12 py-1">
-            <label for="description">Description <span class="required-label">*</span></label>
-            <textarea class="form-control" id="description" name="description" rows="3" required maxlength="1000"
-                      placeholder="What you offer, in a sentence or two.">{{ old('description', $service->description ?? '') }}</textarea>
+            <x-template1.admin.lang-fields
+                :model="$service ?? new \App\Models\Service()"
+                :fields="[
+                    'title' => ['label' => __('admin.ui.title'), 'type' => 'text', 'required' => true, 'width' => 'col-12', 'placeholder' => __('admin.ui.service_title_hint')],
+                    'description' => ['label' => __('admin.ui.description'), 'type' => 'textarea', 'required' => true, 'rows' => 3, 'placeholder' => __('admin.ui.service_desc_hint')],
+                ]" />
         </div>
 
         <div class="col-12 py-2">
-            <label>Icon <span class="required-label">*</span></label>
+            <label>{{ __('admin.ui.icon') }} <span class="required-label">*</span></label>
             <div class="icon-picker">
                 @php $current = old('icon', $service->icon ?? array_key_first($icons)); @endphp
                 @foreach($icons as $key => $icon)
@@ -39,10 +36,10 @@
         </div>
 
         <div class="col-md-4 py-1">
-            <label for="sort_order">Display order</label>
+            <label for="sort_order">{{ __('admin.ui.display_order') }}</label>
             <input type="number" class="form-control" id="sort_order" name="sort_order" min="0" max="999"
                    value="{{ old('sort_order', $service->sort_order ?? 0) }}">
-            <small class="form-text text-muted">Lower shows first.</small>
+            <small class="form-text text-muted">{{ __('admin.ui.lower_shows_first') }}</small>
         </div>
     </div>
 </div>

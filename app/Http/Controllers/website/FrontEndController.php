@@ -122,7 +122,8 @@ class FrontEndController extends Controller
 
         $inbox->save();
 
-        return redirect()->to($this->contactUrl())->with('success', 'Successfully Submit');
+        // The visitor's language, not the admin's.
+        return redirect()->to($this->contactUrl())->with('success', __('site.form.sent'));
 
     }
 

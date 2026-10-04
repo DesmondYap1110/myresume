@@ -4,10 +4,10 @@ FilePond.create(document.querySelector('.filepond'), {
     allowMultiple: true,
     allowReorder: true,
     maxFiles: {{ \App\Http\Controllers\admin\Blog\BlogController::maxImages }},
-    acceptedFileTypes: ['image/*'],
+    acceptedFileTypes: ['image/*', 'video/mp4', 'video/webm'],
     instantUpload: false,  // preview only, files are sent with the form
     storeAsFile: true,
-    labelIdle: 'Drag &amp; drop images or <span class="filepond--label-action">Browse</span><br><small>The first image is the cover. Drag to reorder.</small>'
+    labelIdle: '{{ __('admin.ui.drag_drop_media') }} <span class="filepond--label-action">{{ __('admin.ui.browse') }}</span><br><small>{{ __('admin.ui.first_media_cover_short') }}</small>'
 });
 </script>
 @endpush
@@ -23,7 +23,7 @@ FilePond.create(document.querySelector('.filepond'), {
             <div class="card">
                 <div class="card-header">
                     <div class="card-head-row card-tools-still-right">
-                        <div class="card-title">Add Blog</div>
+                        <div class="card-title">{{ __('admin.ui.add_blog') }}</div>
                     </div>
                 </div>
                 <form action="{{route("blog.create")}}" method = "post" enctype="multipart/form-data">
@@ -31,22 +31,28 @@ FilePond.create(document.querySelector('.filepond'), {
                     <div class="card-action">
                         <div class="row">
                             <div class="col-md-12 col-lg-12 col-sm-12 py-1">
-                                <label for="title">Title <span>*</span></label>
-                                <input type="text" class="form-control" id="title" placeholder="Enter Title" name="title" required value="{{old('title')}}">
+                                <x-template1.admin.lang-fields
+                                    :model="new \App\Models\Blog()"
+                                    :fields="[
+                                        'title' => ['label' => __('admin.ui.title'), 'type' => 'text', 'required' => true, 'width' => 'col-12', 'placeholder' => __('admin.ui.enter_title')],
+                                        'description' => ['label' => __('admin.ui.description'), 'type' => 'rich', 'required' => true],
+                                    ]" />
                             </div>
                             <div class="col-md-12 col-lg-12 col-sm-12 py-1">
-                                <label for="summernote" class="summertext" data-placeholder="Write your post here">Description <span>*</span></label>
-                                <textarea class="form-control" id="summernote" name="description">{!! old('description') !!}</textarea>
+                                <x-template1.admin.blog.media-links />
                             </div>
                             <div class="col-md-12 col-lg-12 col-sm-12 py-1">
-                                <label for="imageInput">Images <span>*</span></label>
-                                <input type="file" class="filepond" name="images[]" id="imageInput" multiple accept="image/jpeg,image/png,image/gif,image/webp">
-                                <small class="form-text text-muted">JPG, PNG, GIF or WebP, up to 4 MB each, max {{ \App\Http\Controllers\admin\Blog\BlogController::maxImages }} images.</small>
+                                <label for="imageInput">{{ __('admin.ui.images') }} <span>*</span></label>
+                                <input type="file" class="filepond" name="images[]" id="imageInput" multiple accept="{{ \App\Support\SafeMediaUpload::accept() }}">
+                                <p class="themed-note mt-2 mb-0">
+                                    <i class="fas fa-info-circle"></i>
+                                    <span>{{ __('admin.ui.media_hint', ['max' => \App\Http\Controllers\admin\Blog\BlogController::maxImages]) }}</span>
+                                </p>
                             </div>
                         </div>
                     </div>
                     <div class="card-action">
-                        <button class="btn btn-success">Submit</button>
+                        <button class="btn btn-success">{{ __('admin.ui.submit') }}</button>
                     </div>
                 </form>
             </div>

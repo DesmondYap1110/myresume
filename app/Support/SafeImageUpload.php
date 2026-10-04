@@ -54,6 +54,17 @@ class SafeImageUpload
         }
 
         $contents = file_get_contents($file->getRealPath());
+
+        /*
+         * An animated GIF has to keep its frames, and GD would flatten it to
+         * the first one. getimagesize() has already confirmed this really is
+         * a GIF and we still choose the name and the extension, so it is
+         * stored as-is and served as image/gif - never parsed.
+         */
+        if ($type === IMAGETYPE_GIF && $contents !== false && self::isAnimatedGif($contents)) {
+            return self::copyAsIs($contents, $directory, 'gif', $fail);
+        }
+
         $image = $contents === false ? false : @imagecreatefromstring($contents);
 
         if ($image === false) {
@@ -87,6 +98,35 @@ class SafeImageUpload
             @unlink($target);
             $fail('The image could not be saved.');
         }
+
+        return $relative;
+    }
+
+    /**
+     * More than one Graphic Control Extension block means more than one
+     * frame, which is what makes a GIF animated.
+     */
+    private static function isAnimatedGif(string $contents): bool
+    {
+        return substr_count($contents, "\x21\xF9\x04") > 1;
+    }
+
+    /** Store bytes we have already identified, under a name of our choosing. */
+    private static function copyAsIs(string $contents, string $directory, string $extension, callable $fail): string
+    {
+        $relative = trim($directory, '/').'/'.Str::random(40).'.'.$extension;
+        $target = public_path($relative);
+
+        if (! is_dir(dirname($target))) {
+            mkdir(dirname($target), 0755, true);
+        }
+
+        if (file_put_contents($target, $contents) === false) {
+            @unlink($target);
+            $fail('The image could not be saved.');
+        }
+
+        @chmod($target, 0644);
 
         return $relative;
     }

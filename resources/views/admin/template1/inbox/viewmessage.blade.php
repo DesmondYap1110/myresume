@@ -22,19 +22,19 @@
                                 @if($inbox->read_status) checked @endif
                             >
 
-                            <label class="mb-0">Mark as read</label>
+                            <label class="mb-0">{{ __('admin.ui.mark_as_read') }}</label>
                         </div>
                     </div>
                     <div class="col-md-12 col-lg-6 col-sm-12 py-1">
-                        <label for="name">Name </label>
+                        <label for="name">{{ __('admin.ui.name') }} </label>
                         <input type="text" class="form-control" id="company" disabled name="name" value="{{$inbox->name}}">
                     </div>
                     <div class="col-md-12 col-lg-6 col-sm-12 py-1">
-                        <label for="email"> Email</label>
+                        <label for="email"> {{ __('admin.ui.email') }}</label>
                         <input type="text" class="form-control" id="position" disabled name="email" value="{{$inbox->email}}">
                     </div>
                     <div class="col-md-12 col-lg-12 col-sm-12 py-1">
-                        <label for="description"> Description </label>
+                        <label for="description"> {{ __('admin.ui.description') }} </label>
                         {{-- Escaped: this text comes from the public contact form. --}}
                         <textarea name="detail" rows="6" class="form-control" disabled>{{ $inbox->description }}</textarea>
                     </div>

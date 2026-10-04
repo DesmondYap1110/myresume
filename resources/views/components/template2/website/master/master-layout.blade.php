@@ -14,7 +14,7 @@
     $first = trim(explode(' ', trim((string) $user->name))[0] ?? '');
 @endphp
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -40,6 +40,8 @@
 </head>
 
 <body class="t2">
+    <x-website.language-switcher />
+
 
 <nav class="navbar navbar-expand-lg main-nav" id="navbar">
     <div class="container">
@@ -74,9 +76,9 @@
                 @endif
                 <p class="t2-footer-about">{{ \Illuminate\Support\Str::limit(trim(strip_tags((string) $user->about)), 150) }}</p>
                 <ul class="list-inline t2-social mb-0">
-                    @if($user->linkedIn_url)
-                    <li class="list-inline-item"><a href="{{ $user->linkedIn_url }}" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="ti-linkedin"></i></a></li>
-                    @endif
+                    @foreach($user->socialLinks() as $link)
+                    <li class="list-inline-item"><a href="{{ $link['url'] }}" target="_blank" rel="noopener me" aria-label="{{ $link['label'] }}" title="{{ $link['label'] }}"><x-social-icon :network="$link" :size="17" tone="current" /></a></li>
+                    @endforeach
                     @if($user->email)
                     <li class="list-inline-item"><a href="mailto:{{ $user->email }}" aria-label="Email"><i class="ti-email"></i></a></li>
                     @endif
@@ -88,7 +90,7 @@
 
             {{-- Quick links --}}
             <div class="col-lg-2 col-md-4 col-6 mb-5 mb-lg-0">
-                <h5 class="t2-footer-title">Explore</h5>
+                <h5 class="t2-footer-title">{{ __('site.more.explore') }}</h5>
                 <ul class="list-unstyled t2-footer-links">
                     @foreach($links as $anchor => $label)
                     <li><a href="{{ $home }}#{{ $anchor }}">{{ $label }}</a></li>
@@ -98,7 +100,7 @@
 
             {{-- Latest posts --}}
             <div class="col-lg-3 col-md-4 col-6 mb-5 mb-lg-0">
-                <h5 class="t2-footer-title">Latest Posts</h5>
+                <h5 class="t2-footer-title">{{ __('site.more.latest_posts') }}</h5>
                 @if(count($blog))
                 <ul class="list-unstyled t2-footer-posts">
                     @foreach(collect($blog)->take(3) as $item)
@@ -109,13 +111,13 @@
                     @endforeach
                 </ul>
                 @else
-                <p class="t2-footer-about">New posts are on the way.</p>
+                <p class="t2-footer-about">{{ __('site.more.no_posts_yet') }}</p>
                 @endif
             </div>
 
             {{-- Contact --}}
             <div class="col-lg-3 col-md-4">
-                <h5 class="t2-footer-title">Get in Touch</h5>
+                <h5 class="t2-footer-title">{{ __('site.section.get_in_touch') }}</h5>
                 <ul class="list-unstyled t2-footer-contact">
                     @if($user->address)
                     <li><i class="ti-location-pin"></i><span>{{ $user->address }}</span></li>
@@ -133,7 +135,7 @@
 
         <div class="t2-footer-bottom">
             <p class="mb-0">&copy; {{ date('Y') }} <span>{{ $user->name }}</span>. All rights reserved.</p>
-            <a href="#top" class="t2-to-top" aria-label="Back to top">Back to top <i class="ti-arrow-up"></i></a>
+            <a href="#top" class="t2-to-top" aria-label="Back to top">{{ __('site.more.back_to_top') }} <i class="ti-arrow-up"></i></a>
         </div>
     </div>
 </footer>

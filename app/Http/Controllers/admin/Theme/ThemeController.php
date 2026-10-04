@@ -83,7 +83,7 @@ class ThemeController extends Controller
             'login_overlay' => (int) $validated['login_overlay'],
         ]);
 
-        return redirect()->to(route('setting.view').'#theme')->with('success', 'Theme saved successfully!');
+        return redirect()->to(route('setting.view').'#theme')->with('success', __('admin.flash.theme_saved'));
     }
 
 
@@ -100,7 +100,7 @@ class ThemeController extends Controller
             'login_background_image' => null, 'login_background_color' => null, 'login_overlay' => null,
         ]);
 
-        return redirect()->to(route('setting.view').'#theme')->with('success', 'Theme reset to default!');
+        return redirect()->to(route('setting.view').'#theme')->with('success', __('admin.flash.theme_reset'));
     }
 
     /** "rgba(0, 0, 0, 0.35)" -> 35; anything else -> 0. */

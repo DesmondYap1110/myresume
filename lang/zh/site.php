@@ -1,0 +1,128 @@
+<?php
+
+/*
+| 公开网站上的界面文字（简体中文）。
+| 会员自己撰写的内容在 Admin > Translation 翻译，不在这里。
+*/
+
+return [
+
+    'nav' => [
+        'about' => '关于',
+        'experience' => '工作经历',
+        'education' => '教育背景',
+        'skills' => '技能',
+        'projects' => '项目',
+        'services' => '服务',
+        'testimonials' => '客户评价',
+        'blog' => '博客',
+        'contact' => '联系',
+        'menu' => '菜单',
+    ],
+
+    'section' => [
+        'about' => '关于我',
+        'experience' => '工作经历',
+        'education' => '教育背景',
+        'skills' => '技能',
+        'projects' => '项目',
+        'selected_work' => '精选作品',
+        'services' => '服务',
+        'testimonials' => '客户评价',
+        'what_clients_say' => '客户怎么说',
+        'blog' => '博客',
+        'from_the_blog' => '最新文章',
+        'contact' => '联系',
+        'get_in_touch' => '与我联系',
+    ],
+
+    'action' => [
+        'read_more' => '阅读更多',
+        'read_my_blog' => '阅读我的博客',
+        'download_resume' => '下载简历',
+        'send_message' => '发送信息',
+        'sending' => '发送中…',
+        'view_project' => '查看项目',
+        'back' => '返回',
+        'back_to_home' => '返回首页',
+        'contact_me' => '联系我',
+        'hire_me' => '聘请我',
+    ],
+
+    'form' => [
+        'name' => '姓名',
+        'email' => '电子邮件',
+        'subject' => '主题',
+        'message' => '您的留言',
+        'your_name' => '您的姓名',
+        'your_email' => '您的电子邮件',
+        'required' => '必填',
+        'sent' => '谢谢，您的留言已发送。',
+        'failed' => '抱歉，留言发送失败，请再试一次。',
+    ],
+
+    'label' => [
+        'contact_info' => '联系方式',
+        'location' => '地址',
+        'phone' => '电话',
+        'email' => '电子邮件',
+        'linkedin' => 'LinkedIn 主页',
+        'present' => '至今',
+        'language' => '语言',
+        'published' => '发布于',
+        'min_read' => '阅读约 :count 分钟',
+        'no_posts' => '暂无文章。',
+    ],
+
+
+    'more' => [
+        'about_me' => '关于我',
+        'about_author' => '关于作者',
+        'back_to_top' => '回到顶部',
+        'basic_info' => '基本资料',
+        'explore' => '浏览',
+        'feel_free' => '欢迎与我联系',
+        'follow_me' => '关注我',
+        'happy_clients' => '满意的客户',
+        'latest_blog' => '最新文章',
+        'latest_posts' => '最新发布',
+        'honeypot' => '请勿填写此栏',
+        'more_posts' => '更多文章',
+        'more_work' => '更多作品',
+        'no_posts_yet' => '新文章即将发布。',
+        'next' => '下一个',
+        'next_image' => '下一张',
+        'previous' => '上一个',
+        'previous_image' => '上一张',
+        'projects_note' => '我所做项目的记录。',
+        'open_to_projects' => '接受新项目',
+        'portfolio' => '作品集',
+        'references' => '推荐人',
+        'reviews' => '评价',
+        'selected_work_note' => '我交付过的精选作品。',
+        'send' => '发送',
+        'social_proof' => '客户反馈',
+        'thoughts' => '随笔',
+        'discuss_project' => '想聊聊您的项目吗？',
+        'what_i_do' => '我的服务',
+        'what_i_help' => '我能为您做的。',
+        'what_i_work_with' => '我使用的技术',
+    ],
+
+    'ui' => [
+        'hello_im' => '您好，我是 :name',
+        'hi_im' => '您好，我是',
+        'i_work_as' => '我的职业是',
+        'your_name' => '您的姓名',
+        'full_name' => '全名',
+        'name' => '姓名',
+        'subject' => '主题',
+        'email_address' => '电子邮件地址',
+        'email_id' => '电子邮件地址',
+        'e_mail' => '电子邮件',
+        'your_message' => '您的留言',
+        'type_number' => '请输入数字',
+        'quick_check' => '快速验证',
+        'captcha_q' => ':a 加 :b 等于多少？',
+    ],
+];

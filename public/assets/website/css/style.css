@@ -184,7 +184,13 @@ a:active {
   }
 
   @media (min-width: 768px) {
+      /* Sections size to their content. Forcing every one to a full screen
+         left a section with a handful of skills stranded in empty space;
+         only the opening section still fills the window. */
       section.resume-section {
+          min-height: 0;
+      }
+      section.resume-section#about {
           min-height: 100vh;
       }
       section.resume-section .resume-item .resume-date {

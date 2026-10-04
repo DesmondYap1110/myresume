@@ -75,7 +75,7 @@ class AiSettingController extends Controller
 
         if ($action === 'remove') {
             return redirect()->route($this->route.'view')
-                ->with('success', $person->name."'s API key was removed.");
+                ->with('success', __('admin.flash.key_removed_for', ['name' => $person->name]));
         }
 
         // Testing stays on the form, so the settings just tried are still there
@@ -88,6 +88,6 @@ class AiSettingController extends Controller
         }
 
         return redirect()->route($this->route.'view')
-            ->with('success', 'AI settings saved for '.$person->name.'.');
+            ->with('success', __('admin.flash.ai_saved_for', ['name' => $person->name]));
     }
 }

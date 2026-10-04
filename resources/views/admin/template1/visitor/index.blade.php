@@ -80,7 +80,7 @@
         <div class="card">
             <div class="card-header">
                 <div class="card-head-row card-tools-still-right">
-                    <div class="card-title">Who visited your website</div>
+                    <div class="card-title">{{ __('admin.ui.who_visited') }}</div>
                 </div>
                 <div class="card-category">Newest first. Locations are worked out from the address the visit came from.</div>
             </div>
@@ -88,7 +88,7 @@
             <div class="visitor-filter-bar">
                 <form method="GET" action="{{ route('visitor.view') }}" class="visitor-filter" id="visitor-filter">
                     <div class="visitor-field">
-                        <label for="period">Period</label>
+                        <label for="period">{{ __('admin.ui.period') }}</label>
                         <select class="form-control form-select" id="period" name="period">
                             @foreach($filter['periods'] as $key => $label)
                             <option value="{{ $key }}" @selected($filter['period'] === $key)>{{ $label }}</option>
@@ -97,7 +97,7 @@
                     </div>
 
                     <div class="visitor-field visitor-custom" @unless($filter['period'] === 'custom') hidden @endunless>
-                        <label for="from">From</label>
+                        <label for="from">{{ __('admin.ui.from') }}</label>
                         <input type="date" class="form-control" id="from" name="from"
                                value="{{ $filter['period'] === 'custom' ? $filter['from'] : '' }}" max="{{ now()->format('Y-m-d') }}">
                     </div>
@@ -113,7 +113,7 @@
                             <i class="fas fa-filter me-1"></i> Apply
                         </button>
                         <a href="{{ route('visitor.view') }}" class="btn btn-light">
-                            <i class="fas fa-redo me-1"></i> Reset
+                            <i class="fas fa-redo me-1"></i> {{ __('admin.ui.reset') }}
                         </a>
                     </div>
                 </form>
@@ -132,10 +132,10 @@
                     <table class="table table-hover visitor-table">
                         <thead>
                             <tr>
-                                <th>IP address</th>
-                                <th>Location</th>
-                                <th>Page</th>
-                                <th>When</th>
+                                <th>{{ __('admin.ui.ip_address') }}</th>
+                                <th>{{ __('admin.ui.location') }}</th>
+                                <th>{{ __('admin.ui.page') }}</th>
+                                <th>{{ __('admin.ui.when') }}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -147,7 +147,7 @@
                                         <b>{{ $visit->country }}</b>
                                         @if($visit->city)<span class="text-muted text-small">{{ $visit->city }}</span>@endif
                                     @elseif($visit->located_at)
-                                        <span class="text-muted text-small">Unknown</span>
+                                        <span class="text-muted text-small">{{ __('admin.ui.unknown') }}</span>
                                     @else
                                         <span class="text-muted text-small">Looking up…</span>
                                     @endif

@@ -5,7 +5,7 @@ Dashboard
 <x-template1.admin.master.master-layout>
     <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4">
         <div>
-            <h3 class="fw-bold mb-3">Dashboard</h3>
+            <h3 class="fw-bold mb-3">{{ __('admin.ui.dashboard') }}</h3>
         </div>
     </div>
     <div class="row">
@@ -19,7 +19,7 @@ Dashboard
             <div class="card card-round">
                 <div class="card-header">
                     <div class="card-head-row">
-                        <div class="card-title">Visitor Statistics</div>
+                        <div class="card-title">{{ __('admin.ui.visitor_statistics') }}</div>
                         @if(!request()->header('User-Agent') || !Str::contains(request()->header('User-Agent'), ['Mobile', 'Android', 'iPhone']))
                         <div class="card-tools">
                             <a href="javascript:void(0);" class="btn btn-label-info btn-round btn-sm" onclick="printChart()">
@@ -46,7 +46,7 @@ Dashboard
                     <div class="card-head-row card-tools-still-right">
                         <div class="card-title">Today's Visitors <span class="badge bg-light text-dark ms-1">{{ number_format($recent_total) }}</span></div>
                         <div class="card-tools">
-                            <a href="{{ route('visitor.view') }}" class="btn btn-label-info btn-round btn-sm">See all</a>
+                            <a href="{{ route('visitor.view') }}" class="btn btn-label-info btn-round btn-sm">{{ __('admin.ui.see_all') }}</a>
                         </div>
                     </div>
                 </div>
@@ -56,10 +56,10 @@ Dashboard
                         <table class="table table-hover dash-visitors">
                             <thead>
                                 <tr>
-                                    <th>IP address</th>
-                                    <th>Location</th>
-                                    <th>Visits</th>
-                                    <th>When</th>
+                                    <th>{{ __('admin.ui.ip_address') }}</th>
+                                    <th>{{ __('admin.ui.location') }}</th>
+                                    <th>{{ __('admin.ui.visits') }}</th>
+                                    <th>{{ __('admin.ui.when') }}</th>
                                 </tr>
                             </thead>
                             <tbody id="visitor-rows">
@@ -100,7 +100,7 @@ Dashboard
                     </div>
                     @endif
                     @else
-                    <p class="mb-0 text-muted">Nobody has visited your website today.</p>
+                    <p class="mb-0 text-muted">{{ __('admin.ui.no_visits_today') }}</p>
                     @endif
                 </div>
             </div>

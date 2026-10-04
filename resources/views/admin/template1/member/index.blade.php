@@ -22,9 +22,9 @@
         <div class="card">
             <div class="card-header">
                 <div class="card-head-row card-tools-still-right">
-                    <div class="card-title">Member</div>
+                    <div class="card-title">{{ __('admin.menu.member') }}</div>
                     <div class="card-tools">
-                        <a href="{{ route('member.add') }}" class="btn bg-black btn-icon text-white" data-toggle="tooltip" data-placement="bottom" title="Add person">
+                        <a href="{{ route('member.add') }}" class="btn bg-black btn-icon text-white" data-toggle="tooltip" data-placement="bottom" title="{{ __('admin.ui.add_person') }}">
                             <i class="fas fa-plus"></i>
                         </a>
                     </div>
@@ -35,12 +35,12 @@
                     <table class="table table-hover member-table">
                         <thead>
                             <tr>
-                                <th>Person</th>
-                                <th>Access</th>
-                                <th>Online</th>
-                                <th>Website</th>
-                                <th>Status</th>
-                                <th class="text-center">Action</th>
+                                <th>{{ __('admin.label.person') }}</th>
+                                <th>{{ __('admin.label.access') }}</th>
+                                <th>{{ __('admin.label.online') }}</th>
+                                <th>{{ __('admin.label.website') }}</th>
+                                <th>{{ __('admin.label.status') }}</th>
+                                <th class="text-center">{{ __('admin.label.action') }}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -62,18 +62,18 @@
                                 </td>
                                 <td>
                                     @if($person->isAdmin())
-                                        <span class="badge bg-dark">Admin</span>
+                                        <span class="badge bg-dark">{{ __('admin.label.admin') }}</span>
                                     @else
-                                        <span class="badge bg-light text-dark">Member</span>
+                                        <span class="badge bg-light text-dark">{{ __('admin.menu.member') }}</span>
                                     @endif
-                                    @if($person->id === Auth::id())<span class="badge bg-secondary ms-1">You</span>@endif
+                                    @if($person->id === Auth::id())<span class="badge bg-secondary ms-1">{{ __('admin.label.you') }}</span>@endif
                                 </td>
                                 <td class="member-presence">
                                     @if($person->isOnline())
-                                        <span class="member-dot member-dot-on"></span> Online
+                                        <span class="member-dot member-dot-on"></span> {{ __('admin.label.online') }}
                                     @else
                                         <span class="member-dot member-dot-off"></span>
-                                        {{ $person->last_seen_at ? $person->last_seen_at->diffForHumans() : 'Never signed in' }}
+                                        {{ $person->last_seen_at ? $person->last_seen_at->diffForHumans() : __('admin.label.never_signed_in') }}
                                     @endif
                                 </td>
                                 <td>
@@ -82,26 +82,26 @@
                                 </td>
                                 <td>
                                     @if($person->id === Auth::id())
-                                        <span class="btn btn-success btn-sm disabled">Active</span>
+                                        <span class="btn btn-success btn-sm disabled">{{ __('admin.label.active') }}</span>
                                     @elseif($person->status)
                                         <a href="{{ route('member.status', $person->id) }}" class="btn btn-success btn-sm"
-                                           data-confirm="Block {{ $person->name }}? They will not be able to sign in and their website will be hidden."
-                                           data-confirm-title="Block member" data-confirm-ok="Block">Active</a>
+                                           data-confirm="{{ __('admin.confirm.q_block', ['name' => $person->name]) }}"
+                                           data-confirm-title="{{ __('admin.confirm.t_block_member') }}" data-confirm-ok="{{ __('admin.confirm.ok_block') }}">{{ __('admin.label.active') }}</a>
                                     @else
-                                        <a href="{{ route('member.status', $person->id) }}" class="btn btn-danger btn-sm">Blocked</a>
+                                        <a href="{{ route('member.status', $person->id) }}" class="btn btn-danger btn-sm">{{ __('admin.label.blocked') }}</a>
                                     @endif
                                 </td>
                                 <td>
                                     <ul class="nav nav-pills nav-secondary nav-pills-no-bd nav-sm d-flex justify-content-center align-items-center">
                                         <li>
                                             <a class="nav-link btn btn-primary text-white" href="{{ route('member.detail', $person->id) }}"
-                                               data-toggle="tooltip" title="View everything this member has added">
+                                               data-toggle="tooltip" title="{{ __('admin.ui.view_member_content') }}">
                                                 <i class="fas fa-eye fs-6"></i>
                                             </a>
                                         </li>
                                         <li>
                                             <a class="nav-link btn btn-success text-white" href="{{ route('member.edit', $person->id) }}"
-                                               data-toggle="tooltip" title="Edit this member">
+                                               data-toggle="tooltip" title="{{ __('admin.ui.edit_this_member') }}">
                                                 <i class="fas fa-pen fs-6"></i>
                                             </a>
                                         </li>

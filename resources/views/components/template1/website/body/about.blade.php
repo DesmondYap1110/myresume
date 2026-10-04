@@ -1,7 +1,7 @@
 @php
     // Words for the terminal typing line: the roles from Experience, else a default set.
     // Short titles only, so the typing line stays on one line.
-    $words = \App\Support\RoleLabel::headlineWords($experience ?? [], $user->role);
+    $words = \App\Support\RoleLabel::headlineWords($experience ?? [], $user->t('role'));
 @endphp
 <section class="resume-section p-3 p-lg-5 d-flex flex-column justify-content-center align-items-center text-center" id="about">
     {{-- Decorative tech layers, animated by assets/website/js/theme.js --}}
@@ -38,50 +38,59 @@
         </div>
         @endif
 
-        @if(trim(strip_tags((string) $user->about)) !== '')
+        @if(trim(strip_tags((string) $user->t('about'))) !== '')
         <p class="mb-5" style="max-width: 560px; text-align: justify;">
-            {{ strip_tags($user->about) }}
+            {{ strip_tags($user->t('about')) }}
         </p>
         @endif
 
-        <ul class="list-inline list-social-icons mb-0">
+        {{-- Email, then whatever is switched on under Profile > Social Links.
+             WhatsApp is one of those rows now, so it is not repeated here. --}}
+        <ul class="list-inline hero-social mb-0">
             @if($user->email)
             <li class="list-inline-item">
-                <a href="mailto:{{$user->email}}" target="_blank">
-                    <span class="fa-stack fa-lg">
-                        <i class="fa fa-circle fa-stack-2x"></i>
-                        <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
-                    </span>
+                <a href="mailto:{{ $user->email }}" title="{{ __('site.label.email') }}" aria-label="{{ __('site.label.email') }}">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="17" height="17" fill="currentColor" aria-hidden="true">
+                        <path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 4.24-8 4.75-8-4.75V6l8 4.75L20 6z"/>
+                    </svg>
                 </a>
             </li>
             @endif
 
-            @if($user->phone)
+            @foreach($user->socialLinks() as $link)
             <li class="list-inline-item">
-                <a href="https://wa.me/{{ $user->phone }}?text=Hello%20I%20want%20to%20contact%20you" target="_blank">
-                    <span class="fa-stack fa-lg">
-                        <i class="fa fa-circle fa-stack-2x"></i>
-                        <i class="fa fa-whatsapp fa-stack-1x fa-inverse"></i>
-                    </span>
+                <a href="{{ $link['url'] }}" target="_blank" rel="noopener me"
+                   title="{{ $link['label'] }}" aria-label="{{ $link['label'] }}">
+                    <x-social-icon :network="$link" :size="17" tone="current" />
                 </a>
             </li>
-            @endif
-
-            @if($user->linkedIn_url)
-            <li class="list-inline-item">
-                <a href="{{ $user->linkedIn_url }}" target="_blank">
-                    <span class="fa-stack fa-lg">
-                        <i class="fa fa-circle fa-stack-2x"></i>
-                        <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
-                    </span>
-                </a>
-            </li>
-            @endif
+            @endforeach
         </ul>
+
+        <style>
+            /* Round badges drawn here rather than with fa-stack, which can
+               only position a font glyph, not an SVG. The icons inherit the
+               hero's own text colour so they stay visible on the dark panel. */
+            .hero-social { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; padding: 0; }
+            .hero-social .list-inline-item { margin: 0; }
+            .hero-social a {
+                display: inline-flex; align-items: center; justify-content: center;
+                width: 44px; height: 44px; border-radius: 50%;
+                border: 1px solid rgba(255, 255, 255, .28);
+                color: #fff; background: rgba(255, 255, 255, .06);
+                transition: background-color .2s ease, border-color .2s ease, transform .2s ease;
+            }
+            .hero-social a:hover {
+                background: var(--brand-accent, #FFD700);
+                border-color: var(--brand-accent, #FFD700);
+                color: var(--brand-sidebar, #141416);
+                transform: translateY(-2px);
+            }
+        </style>
 
         @if($user->hasResume())
         <div class="hero-cv">
-            <a href="{{ $user->resumeUrl() }}" class="btn btn-general btn-white"><i class="fa fa-download" aria-hidden="true"></i> Download CV</a>
+            <a href="{{ $user->resumeUrl() }}" class="btn btn-general btn-white"><i class="fa fa-download" aria-hidden="true"></i> {{ __('site.action.download_resume') }}</a>
         </div>
         @endif
 

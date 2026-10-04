@@ -33,9 +33,9 @@
         <div class="card">
         <div class="card-header">
             <div class="card-head-row card-tools-still-right">
-            <div class="card-title">My Blog</div>
+            <div class="card-title">{{ __('admin.ui.my_blog') }}</div>
             <div class="card-tools">
-                <a href="{{ route('blog.add') }}" class="btn bg-black btn-icon text-white" data-toggle="tooltip" data-placement="bottom" title="Add Blog" ">
+                <a href="{{ route('blog.add') }}" class="btn bg-black btn-icon text-white" data-toggle="tooltip" data-placement="bottom" title="{{ __('admin.ui.add_blog') }}" ">
                     <i class="fas fa-plus"></i>
                 </a>
             </div>
@@ -69,10 +69,10 @@
                             <h3 class="card-title">{{$data->title}}</h3>
                         </div>
                         <div class="card-header d-flex justify-content-end align-items-center">
-                            <button class="btn btn-success btn-sm m-1" onclick="window.location.href='{{ route('blog.edit',$data->id) }}'">Edit</button>
+                            <button class="btn btn-success btn-sm m-1" onclick="window.location.href='{{ route('blog.edit',$data->id) }}'">{{ __('admin.ui.edit') }}</button>
                             <a href="{{ route('blog.delete',$data->id) }}" class="btn btn-danger btn-sm m-1"
-                               data-confirm="Delete the post “{{ $data->title }}”? This cannot be undone."
-                               data-confirm-title="Delete post" data-confirm-ok="Delete">Delete</a>
+                               data-confirm="{{ __('admin.confirm.q_delete_post', ['title' => $data->title]) }}"
+                               data-confirm-title="{{ __('admin.confirm.t_delete_post') }}" data-confirm-ok="{{ __('admin.confirm.ok_delete') }}">{{ __('admin.ui.delete') }}</a>
                         </div>
 
                     </div>

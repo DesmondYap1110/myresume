@@ -3,10 +3,10 @@
 FilePond.create(document.querySelector('.filepond'), {
     allowMultiple: true,
     allowReorder: true,
-    acceptedFileTypes: ['image/*'],
+    acceptedFileTypes: ['image/*', 'video/mp4', 'video/webm'],
     instantUpload: false,  // preview only, files are sent with the form
     storeAsFile: true,
-    labelIdle: 'Add more images: drag &amp; drop or <span class="filepond--label-action">Browse</span>'
+    labelIdle: '{{ __('admin.ui.add_more_media') }} <span class="filepond--label-action">{{ __('admin.ui.browse') }}</span>'
 });
 
 (function () {
@@ -68,7 +68,7 @@ FilePond.create(document.querySelector('.filepond'), {
             <div class="card">
                 <div class="card-header">
                     <div class="card-head-row card-tools-still-right">
-                        <div class="card-title">Edit Blog</div>
+                        <div class="card-title">{{ __('admin.ui.edit_blog') }}</div>
                     </div>
                 </div>
                 <form action="{{route("blog.update",request()->id)}}" method = "post" enctype="multipart/form-data">
@@ -76,16 +76,17 @@ FilePond.create(document.querySelector('.filepond'), {
                     <div class="card-action">
                         <div class="row">
                             <div class="col-md-12 col-lg-12 col-sm-12 py-1">
-                                <label for="title">Title <span>*</span></label>
-                                <input type="text" class="form-control" id="title" placeholder="Enter Title" name="title" required value="{{ old('title', $blog->title) }}">
+                                <x-template1.admin.lang-fields
+                                    :model="$blog"
+                                    :fields="[
+                                        'title' => ['label' => __('admin.ui.title'), 'type' => 'text', 'required' => true, 'width' => 'col-12'],
+                                        'description' => ['label' => __('admin.ui.description'), 'type' => 'rich', 'required' => true],
+                                    ]" />
                             </div>
                             <div class="col-md-12 col-lg-12 col-sm-12 py-1">
-                                <label for="summernote" class="summertext" data-placeholder="Write your post here">Description <span>*</span></label>
-                                <textarea class="form-control" id="summernote" name="description">{!! old('description', $blog->description) !!}</textarea>
-                            </div>
-                            <div class="col-md-12 col-lg-12 col-sm-12 py-1">
-                                <label>Images <span>*</span></label>
-                                <small class="form-text text-muted mb-2 mt-0">The first image is the cover. Use the arrows to reorder, or tick Remove.</small>
+                                {{-- The cover and reordering notes sit together
+                                     in one panel below, after the uploader. --}}
+                                <label>{{ __('admin.ui.images') }} <span>*</span></label>
 
                                 <ul class="gallery-list" id="gallery-list">
                                     @foreach($blog->images as $image)
@@ -93,27 +94,34 @@ FilePond.create(document.querySelector('.filepond'), {
                                         <input type="hidden" name="image_order[]" value="{{ $image->id }}">
                                         <a href="{{ $image->url }}" target="_blank" rel="noopener"><img src="{{ $image->url }}" alt=""></a>
                                         <div class="meta">
-                                            <span class="cover-badge" hidden>Cover</span>
+                                            <span class="cover-badge" hidden>{{ __('admin.ui.cover') }}</span>
                                             <span class="name">{{ basename($image->path) }}</span>
                                         </div>
                                         <div class="actions">
-                                            <button type="button" class="btn btn-sm btn-light move-up" title="Move up" aria-label="Move up"><i class="fas fa-arrow-up"></i></button>
-                                            <button type="button" class="btn btn-sm btn-light move-down" title="Move down" aria-label="Move down"><i class="fas fa-arrow-down"></i></button>
+                                            <button type="button" class="btn btn-sm btn-light move-up" title="{{ __('admin.ui.move_up') }}" aria-label="{{ __('admin.ui.move_up') }}"><i class="fas fa-arrow-up"></i></button>
+                                            <button type="button" class="btn btn-sm btn-light move-down" title="{{ __('admin.ui.move_down') }}" aria-label="{{ __('admin.ui.move_down') }}"><i class="fas fa-arrow-down"></i></button>
                                             <label class="btn btn-sm btn-outline-danger mb-0 ms-1">
-                                                <input type="checkbox" class="remove-toggle me-1" name="remove_images[]" value="{{ $image->id }}"> Remove
+                                                <input type="checkbox" class="remove-toggle me-1" name="remove_images[]" value="{{ $image->id }}"> {{ __('admin.ui.remove') }}
                                             </label>
                                         </div>
                                     </li>
                                     @endforeach
                                 </ul>
 
-                                <input type="file" class="filepond" name="images[]" id="imageInput" multiple accept="image/jpeg,image/png,image/gif,image/webp">
-                                <small class="form-text text-muted">New images are added after the ones above. JPG, PNG, GIF or WebP, up to 4 MB each, max {{ \App\Http\Controllers\admin\Blog\BlogController::maxImages }} images in total.</small>
+                                <input type="file" class="filepond" name="images[]" id="imageInput" multiple accept="{{ \App\Support\SafeMediaUpload::accept() }}">
+                                <p class="themed-note mt-2 mb-0">
+                                    <i class="fas fa-info-circle"></i>
+                                    <span>
+                                        {{ __('admin.ui.first_media_cover') }}
+                                        {{ __('admin.ui.media_hint_more', ['max' => \App\Http\Controllers\admin\Blog\BlogController::maxImages]) }}
+                                    </span>
+                                </p>
                             </div>
                         </div>
                     </div>
+
                     <div class="card-action">
-                        <button class="btn btn-success">Submit</button>
+                        <button class="btn btn-success">{{ __('admin.ui.submit') }}</button>
                     </div>
                 </form>
             </div>

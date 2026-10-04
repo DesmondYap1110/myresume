@@ -9,7 +9,7 @@
     $links = $sections ?: ['services' => 'Services', 'work' => 'Work', 'about' => 'About', 'reviews' => 'Reviews', 'blog' => 'Blog', 'contact' => 'Contact'];
 @endphp
 <!DOCTYPE html>
-<html lang="en" x-data="folio()" :class="{'dark': dark}" class="scroll-smooth">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" x-data="folio()" :class="{'dark': dark}" class="scroll-smooth">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -86,6 +86,8 @@ background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/sv
 </head>
 
 <body class="bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 antialiased">
+    <x-website.language-switcher />
+
 
 <header class="fixed inset-x-0 top-0 z-50 transition-all duration-300"
         :class="sc ? 'bg-white/80 dark:bg-zinc-950/80 backdrop-blur-md border-b border-zinc-100 dark:border-zinc-900' : ''">
@@ -132,7 +134,7 @@ background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/sv
     </div>
 
     <div>
-      <p class="font-display font-bold text-sm uppercase tracking-widest text-zinc-900 dark:text-white mb-4">Explore</p>
+      <p class="font-display font-bold text-sm uppercase tracking-widest text-zinc-900 dark:text-white mb-4">{{ __('site.more.explore') }}</p>
       <ul class="space-y-2">
         @foreach($links as $anchor => $label)
         <li><a href="{{ $home }}#{{ $anchor }}" class="text-sm text-zinc-500 dark:text-zinc-400 hover:text-accent transition-colors">{{ $label }}</a></li>
@@ -141,12 +143,19 @@ background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/sv
     </div>
 
     <div>
-      <p class="font-display font-bold text-sm uppercase tracking-widest text-zinc-900 dark:text-white mb-4">Get in touch</p>
+      <p class="font-display font-bold text-sm uppercase tracking-widest text-zinc-900 dark:text-white mb-4">{{ __('site.section.get_in_touch') }}</p>
       <ul class="space-y-2 text-sm text-zinc-500 dark:text-zinc-400">
         @if($user->address)<li>{{ $user->address }}</li>@endif
         @if($user->email)<li><a href="mailto:{{ $user->email }}" class="hover:text-accent transition-colors">{{ $user->email }}</a></li>@endif
         @if($user->phone)<li><a href="https://wa.me/{{ $user->phone }}" target="_blank" rel="noopener" class="hover:text-accent transition-colors">+{{ $user->phone }}</a></li>@endif
-        @if($user->linkedIn_url)<li><a href="{{ $user->linkedIn_url }}" target="_blank" rel="noopener" class="hover:text-accent transition-colors">LinkedIn</a></li>@endif
+        @foreach($user->socialLinks() as $link)
+        <li>
+          <a href="{{ $link['url'] }}" target="_blank" rel="noopener me" class="inline-flex items-center gap-2 hover:text-accent transition-colors">
+            <x-social-icon :network="$link" :size="16" tone="current" />
+            <span>{{ $link['label'] }}</span>
+          </a>
+        </li>
+        @endforeach
       </ul>
     </div>
   </div>

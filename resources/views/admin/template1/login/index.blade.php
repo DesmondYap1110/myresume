@@ -19,25 +19,25 @@ Login
         <img src="{{ asset('assets/admin/img/kaiadmin/logo_login.png') }}" alt="my resume">
     </div>
     <div class="container container-login animated fadeIn" style="display: block;">
-        <h3 class="text-center">Sign In</h3>
+        <h3 class="text-center">{{ __('admin.ui.sign_in') }}</h3>
         <div class="login-form">
             <form method="POST" action="{{ route('login.submit') }}">
                 @csrf
                 <div class="form-sub">
                     <div class="form-floating form-floating-custom mb-3">
-                        <input id="email" name="email" type="email" class="form-control" placeholder="Email" value="{{ old('email') }}" required>
+                        <input id="email" name="email" type="email" class="form-control" placeholder="{{ __('admin.ui.email') }}" value="{{ old('email') }}" required>
                         <label for="email">E-mail</label>
                     </div>
                     <div class="form-floating form-floating-custom mb-3">
                         <input id="password" name="password" type="password" class="form-control" placeholder="password" required>
-                        <label for="password">Password</label>
+                        <label for="password">{{ __('admin.ui.password') }}</label>
                         <div class="show-password">
                         <i class="icon-eye"></i>
                         </div>
                     </div>
                 </div>
                 <div class="form-action mb-3">
-                    <button type="submit" class="btn btn-primary w-100 btn-login">Sign In</button>
+                    <button type="submit" class="btn btn-primary w-100 btn-login">{{ __('admin.ui.sign_in') }}</button>
                 </div>
             </form>
         </div>

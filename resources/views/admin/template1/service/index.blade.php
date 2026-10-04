@@ -8,9 +8,9 @@
         <div class="card">
             <div class="card-header">
                 <div class="card-head-row card-tools-still-right">
-                    <div class="card-title">My Services</div>
+                    <div class="card-title">{{ __('admin.ui.my_services') }}</div>
                     <div class="card-tools">
-                        <a href="{{ route('service.add') }}" class="btn bg-black btn-icon text-white" data-toggle="tooltip" data-placement="bottom" title="Add Service">
+                        <a href="{{ route('service.add') }}" class="btn bg-black btn-icon text-white" data-toggle="tooltip" data-placement="bottom" title="{{ __('admin.ui.add_service') }}">
                             <i class="fas fa-plus"></i>
                         </a>
                     </div>
@@ -23,11 +23,11 @@
                     <table class="table table-hover align-middle">
                         <thead>
                             <tr>
-                                <th style="width:60px">Order</th>
-                                <th style="width:70px">Icon</th>
-                                <th>Title</th>
-                                <th>Description</th>
-                                <th style="width:150px" class="text-end">Action</th>
+                                <th style="width:60px">{{ __('admin.ui.order') }}</th>
+                                <th style="width:70px">{{ __('admin.ui.icon') }}</th>
+                                <th>{{ __('admin.ui.title') }}</th>
+                                <th>{{ __('admin.ui.description') }}</th>
+                                <th style="width:150px" class="text-end">{{ __('admin.ui.action') }}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -38,8 +38,8 @@
                                 <td><b>{{ $data->title }}</b></td>
                                 <td class="text-muted">{{ Str::limit($data->description, 110) }}</td>
                                 <td class="text-end">
-                                    <a href="{{ route('service.edit', $data->id) }}" class="btn btn-success btn-sm m-1">Edit</a>
-                                    <a href="{{ route('service.delete', $data->id) }}" class="btn btn-danger btn-sm m-1" data-confirm="Delete this service? This cannot be undone." data-confirm-title="Delete service" data-confirm-ok="Delete">Delete</a>
+                                    <a href="{{ route('service.edit', $data->id) }}" class="btn btn-success btn-sm m-1">{{ __('admin.ui.edit') }}</a>
+                                    <a href="{{ route('service.delete', $data->id) }}" class="btn btn-danger btn-sm m-1" data-confirm="{{ __('admin.confirm.q_delete_service') }}" data-confirm-title="{{ __('admin.confirm.t_delete_service') }}" data-confirm-ok="{{ __('admin.confirm.ok_delete') }}">{{ __('admin.ui.delete') }}</a>
                                 </td>
                             </tr>
                             @endforeach

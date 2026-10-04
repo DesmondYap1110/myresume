@@ -40,11 +40,11 @@ class AuthController extends Controller
                 'user_email'=> Auth::user()->email
             ]);
 
-            return redirect('/admin/dashboard')->with('success', 'Login successful!');
+            return redirect('/admin/dashboard')->with('success', __('admin.flash.login_ok'));
         }
 
         // 4. Failed login
-        return back()->with('error', 'Invalid credentials or account inactive')->withInput();
+        return back()->with('error', __('admin.flash.login_failed'))->withInput();
     }
 
     public function logout(Request $request)
@@ -57,7 +57,7 @@ class AuthController extends Controller
         // Regenerate CSRF token
         $request->session()->regenerateToken();
 
-        return redirect()->route('login.index')->with('success', 'Good Bye');
+        return redirect()->route('login.index')->with('success', __('admin.flash.logout'));
 
     }
 

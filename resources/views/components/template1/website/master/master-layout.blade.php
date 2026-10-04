@@ -1,6 +1,6 @@
 @props(['user' => null, 'post' => null])
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -16,6 +16,8 @@
     <x-template1.website.master.master-style :user="$user" />
 </head>
 <body id="page-top">
+    <x-website.language-switcher />
+
 
     {{-- Boot screen + scroll progress; hidden by assets/website/js/theme.js (CSS fallback after 3s). --}}
     <div class="boot-screen" aria-hidden="true">

@@ -53,12 +53,12 @@
         <ul class="nav setting-tabs" id="setting-tabs" role="tablist">
             <li class="nav-item" role="presentation">
                 <button class="nav-link active" id="tab-password" data-bs-toggle="tab" data-bs-target="#pane-password" type="button" role="tab" aria-controls="pane-password" aria-selected="true">
-                    <i class="fas fa-key"></i>Password
+                    <i class="fas fa-key"></i>{{ __('admin.ui.password') }}
                 </button>
             </li>
             <li class="nav-item" role="presentation">
                 <button class="nav-link" id="tab-template" data-bs-toggle="tab" data-bs-target="#pane-template" type="button" role="tab" aria-controls="pane-template" aria-selected="false">
-                    <i class="fas fa-desktop"></i>Website Template
+                    <i class="fas fa-desktop"></i>{{ __('admin.ui.website_template_h') }}
                 </button>
             </li>
             @if(Auth::user()->isAdmin())
@@ -76,34 +76,34 @@
             <div class="tab-pane fade show active" id="pane-password" role="tabpanel" aria-labelledby="tab-password">
                 <div class="card">
                     <div class="card-header">
-                        <div class="card-title">Edit Password</div>
-                        <div class="card-category">Your login for this admin.</div>
+                        <div class="card-title">{{ __('admin.ui.edit_password') }}</div>
+                        <div class="card-category">{{ __('admin.ui.your_login') }}</div>
                     </div>
                     <div class="form-group form-show-validation row">
                         <label for="email" class="col-lg-3 col-md-3 col-sm-4 mt-sm-2 text-end">E-mail <span class="required-label">*</span></label>
                         <div class="col-lg-4 col-md-9 col-sm-8">
-                            <input type="email" class="form-control" id="email" placeholder="Enter Email" disabled value="{{Auth::user()->email}}">
+                            <input type="email" class="form-control" id="email" placeholder="{{ __('admin.ui.enter_email') }}" disabled value="{{Auth::user()->email}}">
                         </div>
                     </div>
                     <form action="{{route("setting.update")}}" method="post">
                         @csrf
                         <div class="form-group form-show-validation row">
-                            <label for="password" class="col-lg-3 col-md-3 col-sm-4 mt-sm-2 text-end">Password <span class="required-label">*</span></label>
+                            <label for="password" class="col-lg-3 col-md-3 col-sm-4 mt-sm-2 text-end">{{ __('admin.ui.password') }} <span class="required-label">*</span></label>
                             <div class="col-lg-4 col-md-9 col-sm-8">
-                                <input type="password" class="form-control" id="password" name="password" placeholder="Enter Password" required>
+                                <input type="password" class="form-control" id="password" name="password" placeholder="{{ __('admin.ui.enter_password') }}" required>
                             </div>
                         </div>
                         <div class="form-group form-show-validation row">
-                            <label for="confirmpassword" class="col-lg-3 col-md-3 col-sm-4 mt-sm-2 text-end">Confirm Password <span class="required-label">*</span></label>
+                            <label for="confirmpassword" class="col-lg-3 col-md-3 col-sm-4 mt-sm-2 text-end">{{ __('admin.ui.confirm_password') }} <span class="required-label">*</span></label>
                             <div class="col-lg-4 col-md-9 col-sm-8">
-                                <input type="password" class="form-control" id="confirmpassword" name="confirmpassword" placeholder="Enter Password" required>
+                                <input type="password" class="form-control" id="confirmpassword" name="confirmpassword" placeholder="{{ __('admin.ui.enter_password') }}" required>
                             </div>
                         </div>
                         <div class="card-action">
                             <div class="row">
                                 <div class="col-md-12">
                                     <input class="btn btn-success" type="submit" value="Submit">
-                                    <button type="reset" class="btn btn-danger">Reset</button>
+                                    <button type="reset" class="btn btn-danger">{{ __('admin.ui.reset') }}</button>
                                 </div>
                             </div>
                         </div>
@@ -115,20 +115,20 @@
             <div class="tab-pane fade" id="pane-template" role="tabpanel" aria-labelledby="tab-template">
                 <div class="card">
                     <div class="card-header">
-                        <div class="card-title">Website Template</div>
-                        <div class="card-category">Choose the design visitors see on your public portfolio.</div>
+                        <div class="card-title">{{ __('admin.ui.website_template_h') }}</div>
+                        <div class="card-category">{{ __('admin.ui.choose_design') }}</div>
                     </div>
                     <form action="{{ route('setting.template') }}" method="post">
                         @csrf
                         <div class="card-body">
-                            <div class="template-options" role="radiogroup" aria-label="Website template">
+                            <div class="template-options" role="radiogroup" aria-label="{{ __('admin.ui.website_template') }}">
                                 @foreach($templates as $key => $template)
                                 <label class="template-option mb-0">
                                     <input type="radio" name="website_template" value="{{ $key }}" @checked(old('website_template', $currentTemplate) === $key)>
                                     <span class="template-card">
                                         <span class="template-shot" style="background-image: url('{{ asset($template['preview']) }}')">
                                             @if($currentTemplate === $key)
-                                            <span class="template-live">Live</span>
+                                            <span class="template-live">{{ __('admin.ui.live') }}</span>
                                             @endif
                                         </span>
                                         <span class="template-body">
@@ -141,7 +141,7 @@
                             </div>
                         </div>
                         <div class="card-action">
-                            <button type="submit" class="btn btn-success">Save Template</button>
+                            <button type="submit" class="btn btn-success">{{ __('admin.ui.save_template') }}</button>
                             <a href="{{ route('front.show', Auth::user()->routeKey()) }}" target="_blank" rel="noopener" class="btn btn-light">
                                 <i class="fas fa-external-link-alt me-1"></i> View Website
                             </a>

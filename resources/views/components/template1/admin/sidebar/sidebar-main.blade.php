@@ -5,7 +5,7 @@
             'isDropdown' => false,
             'link' => "dashboard.view",
             'icon' => "fas fa-tachometer-alt",
-            'title' => "Dashboard",
+            'title' => __('admin.menu.dashboard'),
             'count' => 5,
             'notification' => false
         ],
@@ -13,16 +13,16 @@
         [
             'isDropdown' => true,
             'icon' => "fas fa-user-circle",
-            'title' => "My Profile",
+            'title' => __('admin.menu.my_profile'),
             'menulist' => [
-                ["url" => "profile.view", "text" => "Profile"],
-                ["url" => "education.view", "text" => "Education"],
-                ["url" => "experience.view", "text" => "Experience"],
-                ["url" => "project.view", "text" => "Project"],
-                ["url" => "skill.view", "text" => "Skill"],
-                ["url" => "service.view", "text" => "Service"],
-                ["url" => "testimonial.view", "text" => "Testimonial"],
-                ["url" => "blog.view", "text" => "Blog"],
+                ["url" => "profile.view", "text" => __('admin.menu.profile')],
+                ["url" => "education.view", "text" => __('admin.menu.education')],
+                ["url" => "experience.view", "text" => __('admin.menu.experience')],
+                ["url" => "project.view", "text" => __('admin.menu.project')],
+                ["url" => "skill.view", "text" => __('admin.menu.skill')],
+                ["url" => "service.view", "text" => __('admin.menu.service')],
+                ["url" => "testimonial.view", "text" => __('admin.menu.testimonial')],
+                ["url" => "blog.view", "text" => __('admin.menu.blog')],
             ]
         ],
 
@@ -31,7 +31,7 @@
             'isDropdown' => false,
             'link' => "ai.view",
             'icon' => "fas fa-robot",
-            'title' => "AI Assistant",
+            'title' => __('admin.menu.ai_assistant'),
             'count' => 0,
             'notification' => false
         ]] : []),
@@ -40,7 +40,7 @@
             'isDropdown' => false,
             'link' => "visitor.view",
             'icon' => "fas fa-map-marker-alt",
-            'title' => "Visitor",
+            'title' => __('admin.menu.visitor'),
             'count' => 0,
             'notification' => false
         ],
@@ -49,7 +49,7 @@
             'isDropdown' => false,
             'link' => "inbox.view",
             'icon' => "fas fa-envelope",
-            'title' => "Inbox",
+            'title' => __('admin.menu.inbox'),
             'count' => count($inboxUnread),
             'notification' => true
         ],
@@ -59,14 +59,14 @@
             'isDropdown' => false,
             'link' => "member.view",
             'icon' => "fas fa-users",
-            'title' => "Member",
+            'title' => __('admin.menu.member'),
             'count' => 0,
             'notification' => false
         ], [
             'isDropdown' => false,
             'link' => "aisetting.view",
             'icon' => "fas fa-key",
-            'title' => "AI Setting",
+            'title' => __('admin.menu.ai_setting'),
             'count' => 0,
             'notification' => false
         ]] : []),
@@ -75,7 +75,7 @@
             'isDropdown' => false,
             'link' => "setting.view",
             'icon' => "fas fa-cog",
-            'title' => "Account Setting",
+            'title' => __('admin.menu.account_setting'),
             'count' => 0,
             'notification' => false
         ],
@@ -84,7 +84,7 @@
             'isDropdown' => false,
             'link' => "login.logout",
             'icon' => "fas fa-sign-out-alt",
-            'title' => "Log Out",
+            'title' => __('admin.menu.logout'),
             'count' => 0,
             'notification' => false
         ]

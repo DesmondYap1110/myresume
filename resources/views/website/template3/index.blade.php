@@ -9,7 +9,7 @@
 
     $period = fn ($start, $end) => \App\Support\Period::label($start, $end, true);
 
-    $about = $plain($user->about);
+    $about = $plain($user->t('about'));
     $firstName = trim(explode(' ', trim((string) $user->name))[0] ?? $user->name);
 
     // Only show sections that have content.
@@ -40,11 +40,11 @@
             <div class="grid md:grid-cols-2 gap-12 items-center">
                 <div>
                     <h1 class="reveal d1 font-display font-bold text-5xl md:text-6xl lg:text-7xl leading-[1.05] tracking-tight text-zinc-900 dark:text-white mb-6">
-                        Hi, I'm <span class="text-accent-ink dark:text-accent">{{ $firstName }}</span>
+                        {{ __('site.ui.hi_im') }} <span class="text-accent-ink dark:text-accent">{{ $firstName }}</span>
                     </h1>
                     @if($about)
                     <p class="reveal d2 text-lg md:text-xl text-zinc-500 dark:text-zinc-400 font-light leading-relaxed max-w-md mb-10 text-justify">
-                        @if($user->role)<strong class="font-medium text-zinc-700 dark:text-zinc-300">{{ $user->role }}</strong>. @endif
+                        @if($user->t('role'))<strong class="font-medium text-zinc-700 dark:text-zinc-300">{{ $user->t('role') }}</strong>. @endif
                         {{ $about }}
                     </p>
                     @endif
@@ -56,24 +56,24 @@
                             <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
                         </a>
                         @endif
-                        <a href="#contact" class="inline-flex items-center gap-2 border border-zinc-300 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 font-medium px-7 py-3.5 rounded-full hover:bg-zinc-50 dark:hover:bg-zinc-900 transition-colors text-sm">Get in touch</a>
+                        <a href="#contact" class="inline-flex items-center gap-2 border border-zinc-300 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 font-medium px-7 py-3.5 rounded-full hover:bg-zinc-50 dark:hover:bg-zinc-900 transition-colors text-sm">{{ __('site.section.get_in_touch') }}</a>
                         @if($user->hasResume())
                         <a href="{{ $user->resumeUrl() }}" class="inline-flex items-center gap-2 border border-zinc-300 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 font-medium px-7 py-3.5 rounded-full hover:border-accent hover:text-accent-ink dark:hover:text-accent transition-colors text-sm">
                             <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
-                            Download CV
+                            {{ __('site.action.download_resume') }}
                         </a>
                         @endif
                     </div>
 
                     <div class="reveal d4 flex gap-8 mt-14 pt-8 border-t border-zinc-100 dark:border-zinc-900">
                         @if(count($project))
-                        <div><p class="font-display font-bold text-3xl text-zinc-900 dark:text-white">{{ count($project) }}</p><p class="text-xs text-zinc-500 dark:text-zinc-400 mt-1">Projects</p></div>
+                        <div><p class="font-display font-bold text-3xl text-zinc-900 dark:text-white">{{ count($project) }}</p><p class="text-xs text-zinc-500 dark:text-zinc-400 mt-1">{{ __('site.section.projects') }}</p></div>
                         @endif
                         @if($years)
-                        <div><p class="font-display font-bold text-3xl text-zinc-900 dark:text-white">{{ $years }}y</p><p class="text-xs text-zinc-500 dark:text-zinc-400 mt-1">Experience</p></div>
+                        <div><p class="font-display font-bold text-3xl text-zinc-900 dark:text-white">{{ $years }}y</p><p class="text-xs text-zinc-500 dark:text-zinc-400 mt-1">{{ __('site.section.experience') }}</p></div>
                         @endif
                         @if(count($testimonial))
-                        <div><p class="font-display font-bold text-3xl text-zinc-900 dark:text-white">{{ count($testimonial) }}</p><p class="text-xs text-zinc-500 dark:text-zinc-400 mt-1">Happy clients</p></div>
+                        <div><p class="font-display font-bold text-3xl text-zinc-900 dark:text-white">{{ count($testimonial) }}</p><p class="text-xs text-zinc-500 dark:text-zinc-400 mt-1">{{ __('site.more.happy_clients') }}</p></div>
                         @endif
                     </div>
                 </div>
@@ -84,7 +84,7 @@
                         <div class="pf w-full h-full rounded-3xl">
                             <img src="{{ $user->image }}" alt="{{ $user->name }}" loading="eager">
                         </div>
-                        <div class="absolute -bottom-4 -left-4 bg-accent text-zinc-900 font-display font-bold text-sm px-4 py-2.5 rounded-2xl shadow-lg">Open to projects</div>
+                        <div class="absolute -bottom-4 -left-4 bg-accent text-zinc-900 font-display font-bold text-sm px-4 py-2.5 rounded-2xl shadow-lg">{{ __('site.more.open_to_projects') }}</div>
                     </div>
                 </div>
                 @endif
@@ -97,8 +97,8 @@
     <section id="services" class="py-24 bg-zinc-50 dark:bg-zinc-900/40">
         <div class="max-w-6xl mx-auto px-6">
             <div class="mb-14">
-                <p class="reveal text-xs font-medium text-accent-ink dark:text-accent tracking-widest uppercase mb-3">What I do</p>
-                <h2 class="reveal d1 font-display font-bold text-4xl md:text-5xl text-zinc-900 dark:text-white">Services</h2>
+                <p class="reveal text-xs font-medium text-accent-ink dark:text-accent tracking-widest uppercase mb-3">{{ __('site.more.what_i_do') }}</p>
+                <h2 class="reveal d1 font-display font-bold text-4xl md:text-5xl text-zinc-900 dark:text-white">{{ __('site.section.services') }}</h2>
             </div>
             <div class="grid md:grid-cols-3 gap-6">
                 @foreach($service as $item)
@@ -109,8 +109,8 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="{{ $item->iconSet()['svg'] }}"/>
                         </svg>
                     </div>
-                    <h3 class="font-display font-bold text-xl mb-3 {{ $dark ? 'text-white' : 'text-zinc-900 dark:text-white' }}">{{ $item->title }}</h3>
-                    <p class="text-sm leading-relaxed {{ $dark ? 'text-zinc-400' : 'text-zinc-500 dark:text-zinc-400' }}">{{ $item->description }}</p>
+                    <h3 class="font-display font-bold text-xl mb-3 {{ $dark ? 'text-white' : 'text-zinc-900 dark:text-white' }}">{{ $item->t('title') }}</h3>
+                    <p class="text-sm leading-relaxed {{ $dark ? 'text-zinc-400' : 'text-zinc-500 dark:text-zinc-400' }}">{{ $item->t('description') }}</p>
                 </article>
                 @endforeach
             </div>
@@ -123,12 +123,12 @@
     <section id="skills" class="py-24">
         <div class="max-w-6xl mx-auto px-6">
             <div class="mb-14">
-                <p class="reveal text-xs font-medium text-accent-ink dark:text-accent tracking-widest uppercase mb-3">What I work with</p>
-                <h2 class="reveal d1 font-display font-bold text-4xl md:text-5xl text-zinc-900 dark:text-white">Skills</h2>
+                <p class="reveal text-xs font-medium text-accent-ink dark:text-accent tracking-widest uppercase mb-3">{{ __('site.more.what_i_work_with') }}</p>
+                <h2 class="reveal d1 font-display font-bold text-4xl md:text-5xl text-zinc-900 dark:text-white">{{ __('site.section.skills') }}</h2>
             </div>
             <ul class="reveal d1 flex flex-wrap gap-3">
                 @foreach($skill as $item)
-                <li class="px-5 py-2.5 rounded-full text-sm border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-300 hover:border-accent transition-colors">{{ $item->name }}</li>
+                <li class="px-5 py-2.5 rounded-full text-sm border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-300 hover:border-accent transition-colors">{{ $item->t('name') }}</li>
                 @endforeach
             </ul>
         </div>
@@ -140,16 +140,16 @@
     <section id="work" class="py-24">
         <div class="max-w-6xl mx-auto px-6">
             <div class="mb-14">
-                <p class="reveal text-xs font-medium text-accent-ink dark:text-accent tracking-widest uppercase mb-3">Portfolio</p>
-                <h2 class="reveal d1 font-display font-bold text-4xl md:text-5xl text-zinc-900 dark:text-white">Selected work</h2>
+                <p class="reveal text-xs font-medium text-accent-ink dark:text-accent tracking-widest uppercase mb-3">{{ __('site.more.portfolio') }}</p>
+                <h2 class="reveal d1 font-display font-bold text-4xl md:text-5xl text-zinc-900 dark:text-white">{{ __('site.section.selected_work') }}</h2>
             </div>
             <div class="grid md:grid-cols-2 gap-6">
                 @foreach($project as $item)
                 <article class="reveal d{{ min($loop->iteration, 4) }} card-h bg-zinc-50 dark:bg-zinc-900 rounded-2xl p-8 border border-zinc-100 dark:border-zinc-800 hover:border-accent">
                     <p class="text-xs text-zinc-500 dark:text-zinc-400 mb-2">{{ $period($item->start_date, $item->end_date) }}</p>
-                    <h3 class="font-display font-bold text-2xl text-zinc-900 dark:text-white mb-1">{{ $item->name }}</h3>
-                    <p class="text-sm text-accent-ink dark:text-accent mb-4">{{ $item->company }}</p>
-                    <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">{{ $plain($item->detail) }}</p>
+                    <h3 class="font-display font-bold text-2xl text-zinc-900 dark:text-white mb-1">{{ $item->t('name') }}</h3>
+                    <p class="text-sm text-accent-ink dark:text-accent mb-4">{{ $item->t('company') }}</p>
+                    <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">{{ $plain($item->t('detail')) }}</p>
                 </article>
                 @endforeach
             </div>
@@ -161,7 +161,7 @@
     <section id="about" class="py-24 bg-zinc-50 dark:bg-zinc-900/40">
         <div class="max-w-6xl mx-auto px-6">
             <div class="mb-14">
-                <p class="reveal text-xs font-medium text-accent-ink dark:text-accent tracking-widest uppercase mb-3">About me</p>
+                <p class="reveal text-xs font-medium text-accent-ink dark:text-accent tracking-widest uppercase mb-3">{{ __('site.more.about_me') }}</p>
                 <h2 class="reveal d1 font-display font-bold text-4xl md:text-5xl text-zinc-900 dark:text-white">{{ $user->name }}</h2>
                 @if($about)
                 <p class="reveal d2 text-zinc-500 dark:text-zinc-400 leading-relaxed max-w-3xl mt-6">{{ $about }}</p>
@@ -169,13 +169,13 @@
             </div>
 
             @if(count($experience))
-            <h3 class="reveal font-display font-bold text-2xl text-zinc-900 dark:text-white mb-8">Experience</h3>
+            <h3 class="reveal font-display font-bold text-2xl text-zinc-900 dark:text-white mb-8">{{ __('site.section.experience') }}</h3>
             <div class="space-y-4 mb-16">
                 @foreach($experience as $job)
-                @php $items = $bullets($job->detail); @endphp
+                @php $items = $bullets($job->t('detail')); @endphp
                 <article class="reveal card-h bg-white dark:bg-zinc-900 rounded-2xl p-7 border border-zinc-100 dark:border-zinc-800 hover:border-accent">
                     <div class="flex flex-wrap items-baseline justify-between gap-2 mb-3">
-                        <h4 class="font-display font-bold text-lg text-zinc-900 dark:text-white">{{ $job->role }} <span class="text-accent-ink dark:text-accent">at</span> {{ $job->company }}</h4>
+                        <h4 class="font-display font-bold text-lg text-zinc-900 dark:text-white">{{ $job->t('role') }} <span class="text-accent-ink dark:text-accent">at</span> {{ $job->t('company') }}</h4>
                         <span class="text-xs text-zinc-500 dark:text-zinc-400">{{ $period($job->start_date, $job->end_date) }}</span>
                     </div>
                     @if($items)
@@ -187,7 +187,7 @@
                         @endforeach
                     </ul>
                     @else
-                    <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">{{ $plain($job->detail) }}</p>
+                    <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">{{ $plain($job->t('detail')) }}</p>
                     @endif
                 </article>
                 @endforeach
@@ -195,14 +195,14 @@
             @endif
 
             @if(count($education))
-            <h3 class="reveal font-display font-bold text-2xl text-zinc-900 dark:text-white mb-8">Education</h3>
+            <h3 class="reveal font-display font-bold text-2xl text-zinc-900 dark:text-white mb-8">{{ __('site.section.education') }}</h3>
             <div class="grid md:grid-cols-2 gap-4">
                 @foreach($education as $edu)
                 <article class="reveal card-h bg-white dark:bg-zinc-900 rounded-2xl p-7 border border-zinc-100 dark:border-zinc-800 hover:border-accent">
                     @if($edu->year)<span class="text-xs text-zinc-500 dark:text-zinc-400">{{ $edu->year }}</span>@endif
-                    <h4 class="font-display font-bold text-lg text-zinc-900 dark:text-white mt-1">{{ $edu->institution }}</h4>
-                    <p class="text-sm text-accent-ink dark:text-accent mb-2">{{ $edu->certificate }}</p>
-                    <p class="text-sm text-zinc-500 dark:text-zinc-400">{{ $plain($edu->achievement) }}</p>
+                    <h4 class="font-display font-bold text-lg text-zinc-900 dark:text-white mt-1">{{ $edu->t('institution') }}</h4>
+                    <p class="text-sm text-accent-ink dark:text-accent mb-2">{{ $edu->t('certificate') }}</p>
+                    <p class="text-sm text-zinc-500 dark:text-zinc-400">{{ $plain($edu->t('achievement')) }}</p>
                 </article>
                 @endforeach
             </div>
@@ -215,8 +215,8 @@
     <section id="reviews" class="py-24">
         <div class="max-w-6xl mx-auto px-6">
             <div class="mb-14">
-                <p class="reveal text-xs font-medium text-accent-ink dark:text-accent tracking-widest uppercase mb-3">Social proof</p>
-                <h2 class="reveal d1 font-display font-bold text-4xl md:text-5xl text-zinc-900 dark:text-white">What clients say</h2>
+                <p class="reveal text-xs font-medium text-accent-ink dark:text-accent tracking-widest uppercase mb-3">{{ __('site.more.social_proof') }}</p>
+                <h2 class="reveal d1 font-display font-bold text-4xl md:text-5xl text-zinc-900 dark:text-white">{{ __('site.section.what_clients_say') }}</h2>
             </div>
 
             <div class="grid md:grid-cols-3 gap-6">
@@ -229,7 +229,7 @@
                         @endfor
                     </div>
 
-                    <p class="text-sm leading-relaxed mb-6 italic {{ $dark ? 'text-zinc-400' : 'text-zinc-600 dark:text-zinc-400' }}">"{{ $review->message }}"</p>
+                    <p class="text-sm leading-relaxed mb-6 italic {{ $dark ? 'text-zinc-400' : 'text-zinc-600 dark:text-zinc-400' }}">"{{ $review->t('message') }}"</p>
 
                     <footer class="flex items-center gap-3">
                         @if($review->image)
@@ -239,7 +239,7 @@
                         @endif
                         <div>
                             <p class="font-medium text-sm {{ $dark ? 'text-white' : 'text-zinc-900 dark:text-white' }}">{{ $review->name }}</p>
-                            @if($review->position)<p class="text-xs text-zinc-500">{{ $review->position }}</p>@endif
+                            @if($review->t('position'))<p class="text-xs text-zinc-500">{{ $review->t('position') }}</p>@endif
                         </div>
                     </footer>
                 </blockquote>
@@ -254,8 +254,8 @@
     <section id="blog" class="py-24 bg-zinc-50 dark:bg-zinc-900/40">
         <div class="max-w-6xl mx-auto px-6">
             <div class="mb-14">
-                <p class="reveal text-xs font-medium text-accent-ink dark:text-accent tracking-widest uppercase mb-3">Thoughts</p>
-                <h2 class="reveal d1 font-display font-bold text-4xl md:text-5xl text-zinc-900 dark:text-white">From the blog</h2>
+                <p class="reveal text-xs font-medium text-accent-ink dark:text-accent tracking-widest uppercase mb-3">{{ __('site.more.thoughts') }}</p>
+                <h2 class="reveal d1 font-display font-bold text-4xl md:text-5xl text-zinc-900 dark:text-white">{{ __('site.section.from_the_blog') }}</h2>
             </div>
 
             <div class="grid md:grid-cols-3 gap-6">
@@ -267,15 +267,15 @@
                 <article class="reveal d{{ min($loop->iteration, 4) }} card-h group bg-white dark:bg-zinc-900 rounded-2xl overflow-hidden border border-zinc-100 dark:border-zinc-800 hover:border-accent">
                     <a href="{{ $url }}" class="block">
                         <div class="pf aspect-[4/3] relative">
-                            <img src="{{ $cover }}" alt="{{ $post->title }}" loading="lazy" class="group-hover:scale-105 transition-transform duration-500">
+                            <img src="{{ $cover }}" alt="{{ $post->t('title') }}" loading="lazy" class="group-hover:scale-105 transition-transform duration-500">
                             @if($post->images->count() > 1)
                             <span class="absolute top-3 right-3 bg-accent text-zinc-900 text-xs font-medium px-2 py-1 rounded-full">{{ $post->images->count() }} images</span>
                             @endif
                         </div>
                         <div class="p-6">
                             <p class="text-xs text-zinc-500 dark:text-zinc-400 mb-2">{{ $post->created_at->format('d M Y') }}</p>
-                            <h3 class="font-display font-bold text-lg text-zinc-900 dark:text-white leading-snug mb-3 group-hover:text-accent-ink dark:group-hover:text-accent transition-colors">{{ $post->title }}</h3>
-                            <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">{{ \Illuminate\Support\Str::limit($plain($post->description), 110) }}</p>
+                            <h3 class="font-display font-bold text-lg text-zinc-900 dark:text-white leading-snug mb-3 group-hover:text-accent-ink dark:group-hover:text-accent transition-colors">{{ $post->t('title') }}</h3>
+                            <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">{{ \Illuminate\Support\Str::limit($plain($post->t('description')), 110) }}</p>
                         </div>
                     </a>
                 </article>
@@ -290,7 +290,7 @@
         <div class="max-w-6xl mx-auto px-6">
             <div class="grid md:grid-cols-2 gap-12">
                 <div>
-                    <p class="reveal text-xs font-medium text-accent-ink dark:text-accent tracking-widest uppercase mb-3">Contact</p>
+                    <p class="reveal text-xs font-medium text-accent-ink dark:text-accent tracking-widest uppercase mb-3">{{ __('site.section.contact') }}</p>
                     <h2 class="reveal d1 font-display font-bold text-4xl md:text-5xl text-zinc-900 dark:text-white mb-6">Let's work together</h2>
                     <p class="reveal d2 text-zinc-500 dark:text-zinc-400 leading-relaxed mb-8">Have a question or a project in mind? Send me a message and I'll get back to you.</p>
 
@@ -303,7 +303,7 @@
 
                 <div class="reveal d2">
                     @if(session('success'))
-                    <div class="mb-6 rounded-xl border border-green-200 bg-green-50 dark:bg-green-900/20 dark:border-green-900 px-4 py-3 text-sm text-green-700 dark:text-green-300">Thank you! Your message has been sent.</div>
+                    <div class="mb-6 rounded-xl border border-green-200 bg-green-50 dark:bg-green-900/20 dark:border-green-900 px-4 py-3 text-sm text-green-700 dark:text-green-300">{{ __('site.form.sent') }}</div>
                     @endif
                     @if($errors->any())
                     <div class="mb-6 rounded-xl border border-red-200 bg-red-50 dark:bg-red-900/20 dark:border-red-900 px-4 py-3 text-sm text-red-700 dark:text-red-300">
@@ -316,23 +316,23 @@
                         <x-website.form-guard />
                         <div class="grid sm:grid-cols-2 gap-4">
                             <div>
-                                <label for="fname" class="block text-sm text-zinc-600 dark:text-zinc-400 mb-1.5">Name</label>
+                                <label for="fname" class="block text-sm text-zinc-600 dark:text-zinc-400 mb-1.5">{{ __('site.form.name') }}</label>
                                 <input type="text" id="fname" name="name" required maxlength="255" value="{{ old('name') }}" autocomplete="name"
                                        class="w-full rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 px-4 py-3 text-sm focus:border-accent focus:outline-none transition-colors">
                             </div>
                             <div>
-                                <label for="femail" class="block text-sm text-zinc-600 dark:text-zinc-400 mb-1.5">Email</label>
+                                <label for="femail" class="block text-sm text-zinc-600 dark:text-zinc-400 mb-1.5">{{ __('site.label.email') }}</label>
                                 <input type="email" id="femail" name="email" required maxlength="255" value="{{ old('email') }}" autocomplete="email"
                                        class="w-full rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 px-4 py-3 text-sm focus:border-accent focus:outline-none transition-colors">
                             </div>
                         </div>
                         <div>
-                            <label for="fsubject" class="block text-sm text-zinc-600 dark:text-zinc-400 mb-1.5">Subject</label>
+                            <label for="fsubject" class="block text-sm text-zinc-600 dark:text-zinc-400 mb-1.5">{{ __('site.form.subject') }}</label>
                             <input type="text" id="fsubject" name="subject" maxlength="255" value="{{ old('subject') }}"
                                    class="w-full rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 px-4 py-3 text-sm focus:border-accent focus:outline-none transition-colors">
                         </div>
                         <div>
-                            <label for="fmessage" class="block text-sm text-zinc-600 dark:text-zinc-400 mb-1.5">Message</label>
+                            <label for="fmessage" class="block text-sm text-zinc-600 dark:text-zinc-400 mb-1.5">{{ __('site.form.message') }}</label>
                             <textarea id="fmessage" name="description" rows="5" required maxlength="5000"
                                       class="w-full rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 px-4 py-3 text-sm focus:border-accent focus:outline-none transition-colors">{{ old('description') }}</textarea>
                         </div>
@@ -341,7 +341,7 @@
                                 class="w-full sm:w-48 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 px-4 py-3 text-sm focus:border-accent focus:outline-none transition-colors" />
                         </div>
                         <button type="submit" class="shimmer w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 font-medium px-8 py-3.5 rounded-full hover:bg-zinc-700 dark:hover:bg-zinc-200 transition-colors text-sm">
-                            Send message
+                            {{ __('site.action.send_message') }}
                         </button>
                     </form>
                 </div>

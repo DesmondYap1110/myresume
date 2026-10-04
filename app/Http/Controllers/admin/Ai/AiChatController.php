@@ -133,7 +133,7 @@ class AiChatController extends Controller
         $draft = session(self::draftKey);
 
         if (!is_array($draft)) {
-            return back()->with('error', 'Nothing to import. Please upload the resume again.');
+            return back()->with('error', __('admin.flash.nothing_to_import'));
         }
 
         $done = (new ResumeImporter(Auth::user()))->import($draft, $request->input('sections'));
@@ -147,14 +147,14 @@ class AiChatController extends Controller
         if ($done['services']) $parts[] = $done['services'].' service'.($done['services'] > 1 ? 's' : '');
 
         return redirect()->route($this->route.'view')
-            ->with('success', $parts ? 'Imported '.implode(', ', $parts).'.' : 'Nothing was imported.');
+            ->with('success', $parts ? __('admin.flash.imported', ['parts' => implode(', ', $parts)]) : __('admin.flash.nothing_imported'));
     }
 
     public function clear()
     {
         session()->forget([self::historyKey, self::draftKey]);
 
-        return redirect()->route($this->route.'view')->with('success', 'Chat cleared.');
+        return redirect()->route($this->route.'view')->with('success', __('admin.flash.chat_cleared'));
     }
 
     /** Keeps the last few turns so the conversation has context. */

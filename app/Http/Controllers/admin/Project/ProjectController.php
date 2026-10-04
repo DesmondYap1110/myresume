@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\admin\Project;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Concerns\SavesTranslations;
 use App\Helpers\Breadcrumb;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -10,6 +11,7 @@ use App\Models\Project;
 
 class ProjectController extends Controller
 {
+    use SavesTranslations;
     const page ="Project";
     const viewPath = "admin.template1.project.";
 
@@ -51,7 +53,9 @@ class ProjectController extends Controller
         $project->detail      = $request->detail;
         $project->save();
 
-       return redirect()->route('project.view')->with('success', 'Add Project successful!');
+        $this->storeTranslations($request, $project);
+
+       return redirect()->route('project.view')->with('success', __('admin.flash.added', ['item' => __('admin.menu.project')]));
     }
 
     public function update(Request $request)
@@ -65,7 +69,9 @@ class ProjectController extends Controller
 
         $project_detail->update();
 
-        return redirect()->route('project.view')->with('success', 'Edit Project successful!');
+        $this->storeTranslations($request, $project_detail);
+
+        return redirect()->route('project.view')->with('success', __('admin.flash.updated', ['item' => __('admin.menu.project')]));
     }
 
     public function delete()
@@ -74,7 +80,7 @@ class ProjectController extends Controller
         $project_detail = Project::getProjectById(Auth::id(),request()->id);
         $project_detail->delete();
 
-        return redirect()->route('project.view')->with('success', 'Delete Project successful!');
+        return redirect()->route('project.view')->with('success', __('admin.flash.deleted', ['item' => __('admin.menu.project')]));
 
     }
 

@@ -139,7 +139,7 @@ class MemberController extends Controller
         if (!$person) abort(404);
 
         if ($person->id === Auth::id()) {
-            return redirect()->route($this->route.'view')->with('error', 'You cannot block your own account.');
+            return redirect()->route($this->route.'view')->with('error', __('admin.flash.no_self_block'));
         }
 
         $person->status = !$person->status;

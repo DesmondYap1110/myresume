@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\admin\Experience;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Concerns\SavesTranslations;
 use App\Helpers\Breadcrumb;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -11,6 +12,7 @@ use Carbon\Carbon;
 
 class ExperienceController extends Controller
 {
+    use SavesTranslations;
     const page ="Experience";
     const viewPath = "admin.template1.experience.";
 
@@ -52,9 +54,11 @@ class ExperienceController extends Controller
 
         $experience->save();
 
+        $this->storeTranslations($request, $experience);
 
 
-       return redirect()->route('experience.view')->with('success', 'Add Experience successful!');
+
+       return redirect()->route('experience.view')->with('success', __('admin.flash.added', ['item' => __('admin.menu.experience')]));
     }
 
     public function update(Request $request)
@@ -69,7 +73,9 @@ class ExperienceController extends Controller
         $experience_detail->detail      = $request->detail;
         $experience_detail->update();
 
-        return redirect()->route('experience.view')->with('success', 'Edit Experience successful!');
+        $this->storeTranslations($request, $experience_detail);
+
+        return redirect()->route('experience.view')->with('success', __('admin.flash.updated', ['item' => __('admin.menu.experience')]));
     }
 
     public function delete()
@@ -78,7 +84,7 @@ class ExperienceController extends Controller
         $experience_detail = Experience::getExperienceById(Auth::id(),request()->id);
         $experience_detail->delete();
 
-        return redirect()->route('experience.view')->with('success', 'Delete Experience successful!');
+        return redirect()->route('experience.view')->with('success', __('admin.flash.deleted', ['item' => __('admin.menu.experience')]));
 
     }
 

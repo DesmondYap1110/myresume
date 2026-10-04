@@ -10,12 +10,12 @@
                 <div class="card-head-row card-tools-still-right">
                     <div class="card-title">Testimonials</div>
                     <div class="card-tools">
-                        <a href="{{ route('testimonial.add') }}" class="btn bg-black btn-icon text-white" data-toggle="tooltip" data-placement="bottom" title="Add Testimonial">
+                        <a href="{{ route('testimonial.add') }}" class="btn bg-black btn-icon text-white" data-toggle="tooltip" data-placement="bottom" title="{{ __('admin.ui.add_testimonial') }}">
                             <i class="fas fa-plus"></i>
                         </a>
                     </div>
                 </div>
-                <div class="card-category">What clients say about you. Shown on your website.</div>
+                <div class="card-category">{{ __('admin.ui.clients_say') }}</div>
             </div>
             <div class="card-body">
                 @if(count($testimonial))
@@ -45,8 +45,8 @@
                                 <p class="text-muted fst-italic mb-0">"{{ Str::limit($data->message, 160) }}"</p>
                             </div>
                             <div class="card-header d-flex justify-content-end align-items-center">
-                                <a href="{{ route('testimonial.edit', $data->id) }}" class="btn btn-success btn-sm m-1">Edit</a>
-                                <a href="{{ route('testimonial.delete', $data->id) }}" class="btn btn-danger btn-sm m-1" data-confirm="Delete this testimonial? This cannot be undone." data-confirm-title="Delete testimonial" data-confirm-ok="Delete">Delete</a>
+                                <a href="{{ route('testimonial.edit', $data->id) }}" class="btn btn-success btn-sm m-1">{{ __('admin.ui.edit') }}</a>
+                                <a href="{{ route('testimonial.delete', $data->id) }}" class="btn btn-danger btn-sm m-1" data-confirm="{{ __('admin.confirm.q_delete_testimonial') }}" data-confirm-title="{{ __('admin.confirm.t_delete_testimonial') }}" data-confirm-ok="{{ __('admin.confirm.ok_delete') }}">{{ __('admin.ui.delete') }}</a>
                             </div>
                         </div>
                     </div>

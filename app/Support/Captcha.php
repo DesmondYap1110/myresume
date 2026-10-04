@@ -46,7 +46,8 @@ class Captcha
         return [
             'a' => $a,
             'b' => $b,
-            'question' => "What is {$a} plus {$b}?",
+            // Asked in the language the visitor is reading the page in.
+            'question' => __('site.ui.captcha_q', ['a' => $a, 'b' => $b]),
         ];
     }
 

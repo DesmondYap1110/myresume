@@ -23,7 +23,7 @@ $(document).ready(function () {
         <div class="card">
             <div class="card-header">
                 <div class="card-head-row card-tools-still-right">
-                    <div class="card-title">Add Education</div>
+                    <div class="card-title">{{ __('admin.ui.add_education') }}</div>
                 </div>
             </div>
             <form action="{{route("education.create")}}" method="post">
@@ -31,19 +31,16 @@ $(document).ready(function () {
                 <div class="card-action">
                     <div class="row">
                         <div class="col-md-12 col-lg-12 col-sm-12 py-1">
-                            <label for="institution">Institution <span>*</span></label>
-                            <input type="text" class="form-control" id="institution" name="institution" placeholder="Enter Institution" value="{{old('institution')}}" required>
-                        </div>
-                        <div class="col-md-12 col-lg-12 col-sm-12 py-1">
-                            <label for="certificate">Certicate<span>*</span></label>
-                            <input type="text" class="form-control" id="certificate" name="certificate" placeholder="Enter Certification" value="{{old('certificate')}}"  required>
-                        </div>
-                        <div class="col-md-12 col-lg-12 col-sm-12 py-1">
-                            <label for="archivement">Achievement <span>*</span></label>
-                            <textarea class="form-control" rows="4" placeholder="Enter your achievement" name="achievement">{{ old('achievement') }}</textarea>
+                            <x-template1.admin.lang-fields
+                                :model="new \App\Models\Education()"
+                                :fields="[
+                                    'institution' => ['label' => __('admin.ui.institution'), 'type' => 'text', 'required' => true, 'width' => 'col-12', 'placeholder' => __('admin.ui.enter_institution')],
+                                    'certificate' => ['label' => __('admin.ui.certificate'), 'type' => 'text', 'required' => true, 'width' => 'col-12', 'placeholder' => __('admin.ui.enter_certification')],
+                                    'achievement' => ['label' => __('admin.ui.achievement'), 'type' => 'textarea', 'rows' => 4, 'placeholder' => __('admin.ui.enter_achievement')],
+                                ]" />
                         </div>
                         <div class="col-md-12 col-lg-6 col-sm-12 py-1">
-                            <label>Year <span>*</span></label>
+                            <label>{{ __('admin.ui.year') }} <span>*</span></label>
                             <div class="input-group">
                                 <input type="text" class="form-control" id="yearpick" name="year" required value="{{old('year')}}">
                                 <span class="input-group-text"><i class="fa fa-calendar-check"></i></span>
@@ -52,7 +49,7 @@ $(document).ready(function () {
                     </div>
                 </div>
                 <div class="card-action">
-                    <button type="submit" class="btn btn-dark">Submit</button>
+                    <button type="submit" class="btn btn-dark">{{ __('admin.ui.submit') }}</button>
                 </div>
             </form>
         </div>

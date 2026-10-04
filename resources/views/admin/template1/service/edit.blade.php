@@ -7,14 +7,15 @@
     <div class="col-md-8 col-lg-6">
         <div class="card">
             <div class="card-header">
-                <div class="card-title">Edit Service</div>
+                <div class="card-title">{{ __('admin.ui.edit_service') }}</div>
             </div>
             <form action="{{ route('service.update', $service_detail->id) }}" method="post">
                 @csrf
                 <x-template1.admin.form.service-fields :icons="$icons" :service="$service_detail" />
+
                 <div class="card-action">
-                    <button class="btn btn-success">Submit</button>
-                    <a href="{{ route('service.view') }}" class="btn btn-light">Cancel</a>
+                    <button class="btn btn-success">{{ __('admin.ui.submit') }}</button>
+                    <a href="{{ route('service.view') }}" class="btn btn-light">{{ __('admin.ui.cancel') }}</a>
                 </div>
             </form>
         </div>

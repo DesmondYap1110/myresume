@@ -2,7 +2,7 @@
     <div class="row my-auto" id="contact">
     <div class="col-md-8">
         <div class="contact-cont">
-        <h3>CONTACT Us</h3>
+        <h3>{{ __('site.section.contact') }}</h3>
         </div>
         <form action="{{route('front.contact',request()->id)}}" method="post">
         @csrf
@@ -10,7 +10,7 @@
             <div class="row con-form">
 
                     @if(session('success'))
-                    <div class="col-md-12"><div class="alert alert-success" role="alert">Thank you! Your message has been sent.</div></div>
+                    <div class="col-md-12"><div class="alert alert-success" role="alert">{{ __('site.form.sent') }}</div></div>
                     @endif
                     @if($errors->any())
                     <div class="col-md-12"><div class="alert alert-danger" role="alert">
@@ -19,18 +19,18 @@
                     @endif
 
                     <div class="col-md-12">
-                        <input type="text" name="name" placeholder="Full Name" class="form-control" value="{{ old('name') }}" required maxlength="255">
+                        <input type="text" name="name" placeholder="{{ __('site.ui.full_name') }}" class="form-control" value="{{ old('name') }}" required maxlength="255">
                     </div>
                     <div class="col-md-12">
-                        <input type="email" name="email" placeholder="Email Id" class="form-control" value="{{ old('email') }}" required maxlength="255">
+                        <input type="email" name="email" placeholder="{{ __('site.ui.email_id') }}" class="form-control" value="{{ old('email') }}" required maxlength="255">
                     </div>
                     <div class="col-md-12">
-                        <input type="text" name="subject" placeholder="Subject" class="form-control" value="{{ old('subject') }}" maxlength="255">
+                        <input type="text" name="subject" placeholder="{{ __('site.ui.subject') }}" class="form-control" value="{{ old('subject') }}" maxlength="255">
                     </div>
-                    <div class="col-md-12"><textarea name="description" placeholder="Your Message" required maxlength="5000">{{ old('description') }}</textarea></div>
+                    <div class="col-md-12"><textarea name="description" placeholder="{{ __('site.ui.your_message') }}" required maxlength="5000">{{ old('description') }}</textarea></div>
                     <div class="col-md-12 captcha-row">
                         <div class="captcha-field"><x-website.captcha theme="dark" /></div>
-                        <div class="sub-but"><button class="btn btn-general btn-white" type="submit">Send</button></div>
+                        <div class="sub-but"><button class="btn btn-general btn-white" type="submit">{{ __('site.more.send') }}</button></div>
                     </div>
 
             </div>
@@ -46,12 +46,12 @@
         @endif
         @if($user->phone)
         <div class="contact-phone contact-side-desc contact-box-desc">
-            <h3><i class="fa fa-phone cl-atlantis fa-2x"></i> Phone</h3>
+            <h3><i class="fa fa-phone cl-atlantis fa-2x"></i> {{ __('site.label.phone') }}</h3>
             <p>{{$user->phone}}</p>
         </div>
         @endif
         <div class="contact-mail contact-side-desc contact-box-desc">
-            <h3><i class="fa fa-envelope-o cl-atlantis fa-2x"></i> Email</h3>
+            <h3><i class="fa fa-envelope-o cl-atlantis fa-2x"></i> {{ __('site.label.email') }}</h3>
         <address class="address-details-f">
             <a href="mailto:{{$user->email}}">{{$user->email}}</a>
         </address>

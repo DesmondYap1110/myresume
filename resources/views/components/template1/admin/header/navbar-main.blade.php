@@ -25,7 +25,7 @@
                     <li>
                         <div class="dropdown-title d-flex justify-content-between align-items-center">
                             Messages
-                            <a href="{{route('inbox.status3')}}" class="small">Mark all as read</a>
+                            <a href="{{route('inbox.status3')}}" class="small">{{ __('admin.ui.mark_all_as_read') }}</a>
                         </div>
                     </li>
                     <li>
@@ -36,7 +36,7 @@
                                 @foreach ($inbox_nav as $item)
                                 <a href="{{route('inbox.view.message',$item->id)}}">
                                     <div class="notif-img">
-                                        <img src="{{asset("assets/admin/img/default.jpg")}}" alt="Img Profile"/>
+                                        <img src="{{asset("assets/admin/img/default.jpg")}}" alt="{{ __('admin.ui.profile_image') }}"/>
                                     </div>
                                     <div class="notif-content">
                                         <span class="subject">{{$item->name}}</span>
@@ -51,7 +51,7 @@
 
                                 <a href="javascript:void(0);" class="d-flex justify-content-center align-items-center">
                                     <div class="notif-content">
-                                        <span class="block">No Message </span>
+                                        <span class="block">{{ __('admin.ui.no_message') }} </span>
                                     </div>
                                 </a>
                                 @endif
@@ -107,13 +107,13 @@
 
                     if (!data.items.length) {
                         listEl.innerHTML = '<a href="javascript:void(0);" class="d-flex justify-content-center align-items-center">'
-                            + '<div class="notif-content"><span class="block">No Message </span></div></a>';
+                            + '<div class="notif-content"><span class="block">{{ __('admin.ui.no_message') }} </span></div></a>';
                         return;
                     }
 
                     listEl.innerHTML = data.items.map(function (item) {
                         return '<a href="' + esc(item.url) + '">'
-                            + '<div class="notif-img"><img src="' + esc(defaultImg) + '" alt="Img Profile"/></div>'
+                            + '<div class="notif-img"><img src="' + esc(defaultImg) + '" alt="{{ __('admin.ui.profile_image') }}"/></div>'
                             + '<div class="notif-content">'
                             + '<span class="subject">' + esc(item.name) + '</span>'
                             + '<span class="block"> ' + esc(item.subject) + ' </span>'
@@ -153,6 +153,27 @@
             </script>
             @endpush
 
+            {{-- Same choice as the public site: it is stored in the session,
+                 so switching here switches there too. --}}
+            @php
+                $bolocales = (array) config('locales.supported', []);
+                $bocurrent = app()->getLocale();
+            @endphp
+            @if(count($bolocales) > 1)
+            <li class="nav-item">
+                <div class="bo-lang" role="group" aria-label="{{ __('site.label.language') }}">
+                    @foreach($bolocales as $code => $meta)
+                        @if($code === $bocurrent)
+                        <span class="bo-lang-item is-active" aria-current="true">{{ $meta['flag'] ?? strtoupper($code) }}</span>
+                        @else
+                        <a class="bo-lang-item" href="{{ request()->fullUrlWithQuery(['lang' => $code]) }}"
+                           title="{{ $meta['native'] ?? $code }}">{{ $meta['flag'] ?? strtoupper($code) }}</a>
+                        @endif
+                    @endforeach
+                </div>
+            </li>
+            @endif
+
             <li class="nav-item topbar-user dropdown hidden-caret">
                 <a
                     class="dropdown-toggle profile-pic"
@@ -173,7 +194,7 @@
                         />
                     </div>
                     <span class="profile-username">
-                        <span class="op-7">Hi,</span>
+                        <span class="op-7">{{ __('admin.label.hi') }}</span>
                         <span class="fw-bold">{{Auth::user()->name}}</span>
                     </span>
                 </a>
@@ -200,11 +221,11 @@
                                 </div>
                             </div>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="{{route('profile.view')}}">My Profile</a>
+                            <a class="dropdown-item" href="{{route('profile.view')}}">{{ __('admin.ui.my_profile') }}</a>
                             <a class="dropdown-item" href="{{route('inbox.view')}}">Inbox</a>
 
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="{{route('setting.view')}}">Account Setting</a>
+                            <a class="dropdown-item" href="{{route('setting.view')}}">{{ __('admin.ui.account_setting') }}</a>
 
                             <div class="dropdown-divider"></div>
 

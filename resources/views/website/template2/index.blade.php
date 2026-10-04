@@ -13,22 +13,22 @@
     $period = fn ($start, $end) => \App\Support\Period::label($start, $end);
 
     // Short titles only: the headline is one line.
-    $roles = \App\Support\RoleLabel::headlineWords($experience, $user->role) ?: ['Web Developer'];
+    $roles = \App\Support\RoleLabel::headlineWords($experience, $user->t('role')) ?: ['Web Developer'];
 
-    $about = $plain($user->about);
+    $about = $plain($user->t('about'));
     $firstName = trim(explode(' ', trim((string) $user->name))[0] ?? $user->name);
 
     // Menu shows only the sections that have content.
     $sections = collect([
-        'about' => 'About',
-        'experience' => count($experience) ? 'Experience' : null,
-        'education' => count($education) ? 'Education' : null,
-        'projects' => count($project) ? 'Projects' : null,
-        'skills' => count($skill) ? 'Skills' : null,
-        'services' => count($service) ? 'Services' : null,
-        'reviews' => count($testimonial) ? 'Reviews' : null,
-        'blog' => count($blog) ? 'Blog' : null,
-        'contact' => 'Contact',
+        'about' => __('site.nav.about'),
+        'experience' => count($experience) ? __('site.nav.experience') : null,
+        'education' => count($education) ? __('site.nav.education') : null,
+        'projects' => count($project) ? __('site.nav.projects') : null,
+        'skills' => count($skill) ? __('site.nav.skills') : null,
+        'services' => count($service) ? __('site.nav.services') : null,
+        'reviews' => count($testimonial) ? __('site.nav.testimonials') : null,
+        'blog' => count($blog) ? __('site.nav.blog') : null,
+        'contact' => __('site.nav.contact'),
     ])->filter()->all();
 @endphp
 
@@ -89,9 +89,9 @@
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-lg-8">
-                    <p class="t2-kicker" data-aos="fade-up">Hello, I'm {{ $firstName }}</p>
+                    <p class="t2-kicker" data-aos="fade-up">{{ __('site.ui.hello_im', ['name' => $firstName]) }}</p>
                     <h1 class="cd-headline clip is-full-width mb-4" data-aos="fade-up" data-aos-delay="100">
-                        I work as a <br>
+                        {{ __('site.ui.i_work_as') }} <br>
                         <span class="cd-words-wrapper text-color">
                             @foreach($roles as $i => $role)
                             <b class="{{ $i === 0 ? 'is-visible' : '' }}">{{ $role }}.</b>
@@ -102,12 +102,12 @@
                     <p class="t2-lead" data-aos="fade-up" data-aos-delay="200">{{ $about }}</p>
                     @endif
                     <div class="mt-5 t2-actions" data-aos="fade-up" data-aos-delay="300">
-                        <a href="#contact" class="btn btn-main mr-2 mb-2">Contact me</a>
+                        <a href="#contact" class="btn btn-main mr-2 mb-2">{{ __('site.action.contact_me') }}</a>
                         @if($user->hasResume())
-                        <a href="{{ $user->resumeUrl() }}" class="btn btn-black mr-2 mb-2"><i class="ti-download mr-1" aria-hidden="true"></i> Download CV</a>
+                        <a href="{{ $user->resumeUrl() }}" class="btn btn-black mr-2 mb-2"><i class="ti-download mr-1" aria-hidden="true"></i> {{ __('site.action.download_resume') }}</a>
                         @endif
                         @if(count($blog))
-                        <a href="#blog" class="btn btn-black mb-2">Read my blog</a>
+                        <a href="#blog" class="btn btn-black mb-2">{{ __('site.action.read_my_blog') }}</a>
                         @endif
                     </div>
                 </div>
@@ -131,8 +131,8 @@
             <div class="row">
                 <div class="col-lg-7" data-aos="fade-up">
                     <h2 class="mb-2">{{ $user->name }}</h2>
-                    @if($user->role)
-                    <p class="lead mb-4">{{ $user->role }}</p>
+                    @if($user->t('role'))
+                    <p class="lead mb-4">{{ $user->t('role') }}</p>
                     @endif
                     {{-- The about text is already in full in the banner above. --}}
                 </div>
@@ -147,10 +147,23 @@
                         @if($user->phone)
                         <li><i class="ti-mobile"></i> <a href="https://wa.me/{{ $user->phone }}" target="_blank" rel="noopener">+{{ $user->phone }}</a></li>
                         @endif
-                        @if($user->linkedIn_url)
-                        <li><i class="ti-linkedin"></i> <a href="{{ $user->linkedIn_url }}" target="_blank" rel="noopener">LinkedIn profile</a></li>
-                        @endif
                     </ul>
+
+                    {{-- One line of icons rather than a row each: the list is
+                         as long as the number of networks, and the labels add
+                         nothing the icon does not already say. --}}
+                    @if(count($user->socialLinks()))
+                    <ul class="list-inline t2-social-row mb-5">
+                        @foreach($user->socialLinks() as $link)
+                        <li class="list-inline-item">
+                            <a href="{{ $link['url'] }}" target="_blank" rel="noopener me"
+                               title="{{ $link['label'] }}" aria-label="{{ $link['label'] }}">
+                                <x-social-icon :network="$link" :size="18" />
+                            </a>
+                        </li>
+                        @endforeach
+                    </ul>
+                    @endif
                 </div>
             </div>
         </div>
@@ -162,14 +175,14 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-4 mb-5">
-                    <h3 class="mb-2">Work Experiences.</h3>
+                    <h3 class="mb-2">{{ __('site.section.experience') }}</h3>
                 </div>
                 <div class="col-lg-8">
                     @foreach($experience as $job)
-                    @php $items = $bullets($job->detail); @endphp
+                    @php $items = $bullets($job->t('detail')); @endphp
                     <div class="about-info t2-timeline mb-5" data-aos="fade-up">
                         <span>{{ $period($job->start_date, $job->end_date) }}</span>
-                        <h4 class="mb-3 mt-1">{{ $job->role }} <span class="text-color">at</span> {{ $job->company }}</h4>
+                        <h4 class="mb-3 mt-1">{{ $job->t('role') }} <span class="text-color">at</span> {{ $job->t('company') }}</h4>
                         @if($items)
                         <ul class="t2-bullets">
                             @foreach($items as $item)
@@ -177,7 +190,7 @@
                             @endforeach
                         </ul>
                         @else
-                        <p>{{ $plain($job->detail) }}</p>
+                        <p>{{ $plain($job->t('detail')) }}</p>
                         @endif
                     </div>
                     @endforeach
@@ -193,7 +206,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-4 mb-5">
-                    <h3 class="mb-2">Education.</h3>
+                    <h3 class="mb-2">{{ __('site.section.education') }}</h3>
                 </div>
                 <div class="col-lg-8">
                     <div class="row">
@@ -201,9 +214,9 @@
                         <div class="col-lg-6">
                             <div class="about-info mb-5" data-aos="fade-up" data-aos-delay="{{ $loop->index * 100 }}">
                                 @if($edu->year)<span>{{ $edu->year }}</span>@endif
-                                <h4 class="mb-2 mt-1">{{ $edu->institution }}</h4>
-                                <p class="mb-1 text-dark">{{ $edu->certificate }}</p>
-                                <p>{{ $plain($edu->achievement) }}</p>
+                                <h4 class="mb-2 mt-1">{{ $edu->t('institution') }}</h4>
+                                <p class="mb-1 text-dark">{{ $edu->t('certificate') }}</p>
+                                <p>{{ $plain($edu->t('achievement')) }}</p>
                             </div>
                         </div>
                         @endforeach
@@ -220,8 +233,8 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-6">
-                    <h2 class="mb-2">Projects.</h2>
-                    <p class="mb-5">Selected work I have delivered.</p>
+                    <h2 class="mb-2">{{ __('site.section.projects') }}</h2>
+                    <p class="mb-5">{{ __('site.more.selected_work_note') }}</p>
                 </div>
             </div>
             <div class="row">
@@ -229,9 +242,9 @@
                 <div class="col-lg-4 col-md-6">
                     <div class="service-item mb-5" data-aos="fade-left" data-aos-delay="{{ $loop->index * 150 }}">
                         <i class="ti-layout"></i>
-                        <h4 class="my-3">{{ $item->name }}</h4>
-                        <p class="text-sm mb-2 text-color">{{ $item->company }} · {{ $period($item->start_date, $item->end_date) }}</p>
-                        <p>{{ \Illuminate\Support\Str::limit($plain($item->detail), 160) }}</p>
+                        <h4 class="my-3">{{ $item->t('name') }}</h4>
+                        <p class="text-sm mb-2 text-color">{{ $item->t('company') }} · {{ $period($item->start_date, $item->end_date) }}</p>
+                        <p>{{ \Illuminate\Support\Str::limit($plain($item->t('detail')), 160) }}</p>
                     </div>
                 </div>
                 @endforeach
@@ -246,14 +259,14 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-6">
-                    <h2 class="mb-5">Skills.</h2>
+                    <h2 class="mb-5">{{ __('site.section.skills') }}</h2>
                 </div>
             </div>
             <div class="row">
                 <div class="col-12" data-aos="fade-left">
                     <ul class="t2-skill-tags">
                         @foreach($skill as $item)
-                        <li>{{ $item->name }}</li>
+                        <li>{{ $item->t('name') }}</li>
                         @endforeach
                     </ul>
                 </div>
@@ -268,8 +281,8 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-6">
-                    <h2 class="mb-2">Services.</h2>
-                    <p class="mb-5">What I can help you with.</p>
+                    <h2 class="mb-2">{{ __('site.section.services') }}</h2>
+                    <p class="mb-5">{{ __('site.more.what_i_help') }}</p>
                 </div>
             </div>
             <div class="row">
@@ -277,8 +290,8 @@
                 <div class="col-lg-4 col-md-6">
                     <div class="service-item mb-5" data-aos="fade-left" data-aos-delay="{{ $loop->index * 150 }}">
                         <i class="{{ $item->iconSet()['ti'] }}"></i>
-                        <h4 class="my-3">{{ $item->title }}</h4>
-                        <p>{{ $item->description }}</p>
+                        <h4 class="my-3">{{ $item->t('title') }}</h4>
+                        <p>{{ $item->t('description') }}</p>
                     </div>
                 </div>
                 @endforeach
@@ -293,7 +306,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-6">
-                    <h2 class="mb-2">What clients say.</h2>
+                    <h2 class="mb-2">{{ __('site.section.what_clients_say') }}</h2>
                     <p class="mb-5">Feedback from the people I have worked with.</p>
                 </div>
             </div>
@@ -306,7 +319,7 @@
                             <i class="ti-star {{ $i <= $review->rating ? 'is-on' : '' }}"></i>
                             @endfor
                         </div>
-                        <p class="t2-review-text">"{{ $review->message }}"</p>
+                        <p class="t2-review-text">"{{ $review->t('message') }}"</p>
                         <footer class="t2-review-by">
                             @if($review->image)
                             <img src="{{ $review->image }}" alt="{{ $review->name }}">
@@ -315,7 +328,7 @@
                             @endif
                             <span>
                                 <b>{{ $review->name }}</b>
-                                @if($review->position)<small>{{ $review->position }}</small>@endif
+                                @if($review->t('position'))<small>{{ $review->t('position') }}</small>@endif
                             </span>
                         </footer>
                     </blockquote>
@@ -332,8 +345,8 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-6">
-                    <h2 class="mb-2">Latest Blog.</h2>
-                    <p class="mb-5">Notes on the projects I build.</p>
+                    <h2 class="mb-2">{{ __('site.more.latest_blog') }}</h2>
+                    <p class="mb-5">{{ __('site.more.projects_note') }}</p>
                 </div>
             </div>
             <div class="row">
@@ -345,15 +358,15 @@
                 <div class="col-lg-4 col-md-6">
                     <div class="post mb-5" data-aos="fade-up" data-aos-delay="{{ $loop->index * 100 }}">
                         <a class="image-content t2-post-image" href="{{ $url }}">
-                            <img src="{{ $cover }}" alt="{{ $post->title }}" class="img-fluid">
+                            <img src="{{ $cover }}" alt="{{ $post->t('title') }}" class="img-fluid">
                             @if($post->images->count() > 1)
                             <span class="t2-count"><i class="ti-gallery"></i> {{ $post->images->count() }}</span>
                             @endif
                         </a>
                         <div class="post-content">
                             <span class="date text-uppercase text-sm">{{ $post->created_at->format('d M Y') }}</span>
-                            <a href="{{ $url }}"><h4>{{ $post->title }}</h4></a>
-                            <p class="text-sm mb-3">{{ \Illuminate\Support\Str::limit($plain($post->description), 120) }}</p>
+                            <a href="{{ $url }}"><h4>{{ $post->t('title') }}</h4></a>
+                            <p class="text-sm mb-3">{{ \Illuminate\Support\Str::limit($plain($post->t('description')), 120) }}</p>
                             <a href="{{ $url }}" class="t2-more">Read more <i class="ti-arrow-right"></i></a>
                         </div>
                     </div>
@@ -369,10 +382,10 @@
         <div class="container">
             <div class="row align-items-center t2-cta p-5" data-aos="zoom-in">
                 <div class="col-lg-8">
-                    <h3 class="text-white mb-0">Want to discuss a project?</h3>
+                    <h3 class="text-white mb-0">{{ __('site.more.discuss_project') }}</h3>
                 </div>
                 <div class="col-lg-4 text-lg-right mt-4 mt-lg-0">
-                    <a href="#contact" class="btn btn-white">Contact me</a>
+                    <a href="#contact" class="btn btn-white">{{ __('site.action.contact_me') }}</a>
                 </div>
             </div>
         </div>
@@ -383,15 +396,15 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-4 mb-4 col-md-4">
-                    <h4>Contact Info</h4>
+                    <h4>{{ __('site.label.contact_info') }}</h4>
                     <p>Have a question or an opportunity? Send me a message and I'll get back to you.</p>
                 </div>
                 <div class="col-lg-4 mb-4 col-md-4">
-                    <h4>Location</h4>
+                    <h4>{{ __('site.label.location') }}</h4>
                     <p>{{ $user->address ?: '-' }}</p>
                 </div>
                 <div class="col-lg-4 mb-4 col-md-4">
-                    <h4>Contact</h4>
+                    <h4>{{ __('site.section.contact') }}</h4>
                     @if($user->email)<p class="mb-0"><a href="mailto:{{ $user->email }}">{{ $user->email }}</a></p>@endif
                     @if($user->phone)<p class="mb-0">+{{ $user->phone }}</p>@endif
                 </div>
@@ -400,11 +413,11 @@
             <div class="row justify-content-center">
                 <div class="col-lg-8">
                     <div class="text-center mb-4 mt-5 contact-title">
-                        <h2>Get in touch</h2>
+                        <h2>{{ __('site.section.get_in_touch') }}</h2>
                     </div>
 
                     @if(session('success'))
-                    <div class="alert alert-success" role="alert">Thank you! Your message has been sent.</div>
+                    <div class="alert alert-success" role="alert">{{ __('site.form.sent') }}</div>
                     @endif
                     @if($errors->any())
                     <div class="alert alert-danger" role="alert">
@@ -418,28 +431,28 @@
                         <div class="form-row">
                             <div class="col-lg-6">
                                 <div class="form-group mb-3">
-                                    <input name="name" type="text" class="form-control" placeholder="Your Name" value="{{ old('name') }}" required maxlength="255">
+                                    <input name="name" type="text" class="form-control" placeholder="{{ __('site.ui.your_name') }}" value="{{ old('name') }}" required maxlength="255">
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="form-group mb-3">
-                                    <input name="subject" type="text" class="form-control" placeholder="Subject" value="{{ old('subject') }}" maxlength="255">
+                                    <input name="subject" type="text" class="form-control" placeholder="{{ __('site.ui.subject') }}" value="{{ old('subject') }}" maxlength="255">
                                 </div>
                             </div>
                             <div class="col-lg-12">
                                 <div class="form-group mb-3">
-                                    <input name="email" type="email" class="form-control" placeholder="Email Address" value="{{ old('email') }}" required maxlength="255">
+                                    <input name="email" type="email" class="form-control" placeholder="{{ __('site.ui.email_address') }}" value="{{ old('email') }}" required maxlength="255">
                                 </div>
                             </div>
                             <div class="col-lg-12">
                                 <div class="form-group-2 mb-4">
-                                    <textarea name="description" class="form-control" rows="6" placeholder="Your Message" required maxlength="5000">{{ old('description') }}</textarea>
+                                    <textarea name="description" class="form-control" rows="6" placeholder="{{ __('site.ui.your_message') }}" required maxlength="5000">{{ old('description') }}</textarea>
                                 </div>
                                 <div class="form-group mb-4 t2-captcha">
                                     <x-website.captcha />
                                 </div>
                                 <div class="text-center">
-                                    <button class="btn btn-main" type="submit">Send Message</button>
+                                    <button class="btn btn-main" type="submit">{{ __('site.action.send_message') }}</button>
                                 </div>
                             </div>
                         </div>

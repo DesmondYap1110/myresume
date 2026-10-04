@@ -23,29 +23,28 @@
 <div class="card-action">
     <div class="row">
         <div class="col-md-6 py-1">
-            <label for="name">Client name <span class="required-label">*</span></label>
+            <label for="name">{{ __('admin.ui.client_name') }} <span class="required-label">*</span></label>
             <input type="text" class="form-control" id="name" name="name" placeholder="e.g. Sarah Tan" required maxlength="255"
                    value="{{ old('name', $testimonial->name ?? '') }}">
         </div>
 
-        <div class="col-md-6 py-1">
-            <label for="position">Role &amp; company</label>
-            <input type="text" class="form-control" id="position" name="position" placeholder="e.g. CTO, Acme Sdn Bhd" maxlength="255"
-                   value="{{ old('position', $testimonial->position ?? '') }}">
-        </div>
-
         <div class="col-12 py-1">
-            <label for="message">Testimonial <span class="required-label">*</span></label>
-            <textarea class="form-control" id="message" name="message" rows="4" required maxlength="1000"
-                      placeholder="What the client said about working with you.">{{ old('message', $testimonial->message ?? '') }}</textarea>
+            {{-- The client's name is the same in every language; what they
+                 said, and their role, are not. --}}
+            <x-template1.admin.lang-fields
+                :model="$testimonial ?? new \App\Models\Testimonial()"
+                :fields="[
+                    'position' => ['label' => __('admin.ui.role_company'), 'type' => 'text', 'width' => 'col-12', 'placeholder' => __('admin.ui.role_company_hint')],
+                    'message' => ['label' => __('admin.ui.testimonial'), 'type' => 'textarea', 'required' => true, 'rows' => 4, 'placeholder' => __('admin.ui.testimonial_hint')],
+                ]" />
         </div>
 
         <div class="col-md-6 py-2">
-            <label class="d-block">Rating <span class="required-label">*</span></label>
+            <label class="d-block">{{ __('admin.ui.rating') }} <span class="required-label">*</span></label>
             @php $rating = (int) old('rating', $testimonial->rating ?? 5); @endphp
             @php $ratingWords = [1 => 'Poor', 2 => 'Fair', 3 => 'Good', 4 => 'Very good', 5 => 'Excellent']; @endphp
             <div class="star-rating-row">
-                <div class="star-rating" role="radiogroup" aria-label="Rating">
+                <div class="star-rating" role="radiogroup" aria-label="{{ __('admin.ui.rating') }}">
                     @for($i = 5; $i >= 1; $i--)
                     <input type="radio" id="rating-{{ $i }}" name="rating" value="{{ $i }}" @checked($rating === $i)>
                     <label for="rating-{{ $i }}" title="{{ $i }} star{{ $i > 1 ? 's' : '' }} - {{ $ratingWords[$i] }}"><i class="fas fa-star"></i></label>
@@ -71,18 +70,18 @@
         </div>
 
         <div class="col-md-6 py-2">
-            <label for="sort_order">Display order</label>
+            <label for="sort_order">{{ __('admin.ui.display_order') }}</label>
             <input type="number" class="form-control" id="sort_order" name="sort_order" min="0" max="999"
                    value="{{ old('sort_order', $testimonial->sort_order ?? 0) }}">
-            <small class="form-text text-muted">Lower shows first.</small>
+            <small class="form-text text-muted">{{ __('admin.ui.lower_shows_first') }}</small>
         </div>
 
         <div class="col-12 py-1">
-            <label for="image">Photo</label>
+            <label for="image">{{ __('admin.ui.photo') }}</label>
             @if($testimonial && $testimonial->image)
             <div class="d-flex align-items-center gap-3 mb-2">
                 <img src="{{ $testimonial->image }}" alt="" class="rounded-circle" style="width:64px;height:64px;object-fit:cover">
-                <label class="mb-0"><input type="checkbox" name="remove_image" value="1" class="me-1">Remove photo</label>
+                <label class="mb-0"><input type="checkbox" name="remove_image" value="1" class="me-1">{{ __('admin.ui.remove_photo') }}</label>
             </div>
             @endif
             <input type="file" class="form-control" id="image" name="image" accept="image/jpeg,image/png,image/webp">

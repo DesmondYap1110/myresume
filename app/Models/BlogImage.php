@@ -8,9 +8,9 @@ class BlogImage extends Model
 {
     protected $table = 'blog_image';
 
-    protected $fillable = ['blog_id', 'path', 'sort_order'];
+    protected $fillable = ['blog_id', 'locale', 'path', 'sort_order'];
 
-    protected $appends = ['url'];
+    protected $appends = ['url', 'is_video'];
 
     protected $hidden = ['blog_id', 'created_at', 'updated_at'];
 
@@ -31,6 +31,12 @@ class BlogImage extends Model
         }
 
         return asset(ltrim($path, '/'));
+    }
+
+    /** A video is shown with <video>, a picture with <img>. */
+    public function getIsVideoAttribute(): bool
+    {
+        return \App\Support\SafeMediaUpload::isVideo($this->path);
     }
 
     /** Whether the file was uploaded here (and so is ours to delete). */

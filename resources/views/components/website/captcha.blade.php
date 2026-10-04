@@ -23,10 +23,10 @@
     @enderror
 @elseif($driver === 'math')
     @php $captcha = \App\Support\Captcha::question(); @endphp
-    <label for="{{ \App\Support\Captcha::field }}">{{ $label ?? 'Quick check' }}: {{ $captcha['question'] }} <span aria-hidden="true">*</span></label>
+    <label for="{{ \App\Support\Captcha::field }}">{{ $label ?? __('site.ui.quick_check') }}: {{ $captcha['question'] }} <span aria-hidden="true">*</span></label>
     <input type="text" class="{{ $class }}" id="{{ \App\Support\Captcha::field }}" name="{{ \App\Support\Captcha::field }}"
            inputmode="numeric" autocomplete="off" required
-           placeholder="Type the number"
+           placeholder="{{ __('site.ui.type_number') }}"
            aria-label="{{ $captcha['question'] }}">
     @error(\App\Support\Captcha::field)
         {{-- The question above is a new one, so say so rather than just "wrong". --}}

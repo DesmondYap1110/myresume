@@ -1,7 +1,7 @@
 <section class="resume-section p-3 p-lg-5 d-flex flex-column" id="blog">
     <div class="row my-auto">
         <div class="col-12">
-        <h2 class="  text-center">Blog</h2>
+        <h2 class="  text-center">{{ __('site.section.blog') }}</h2>
         <div class="mb-5 heading-border"></div>
         </div>
 
@@ -9,7 +9,7 @@
     <div class="row my-auto">
         @foreach($blog as $data)
         <div class="col-sm-4 blog-item filter finance">
-            <a class="blog-link" href="#post-{{ $data->id }}" data-index="{{ $loop->index }}" aria-label="Read: {{ $data->title }}">
+            <a class="blog-link" href="#post-{{ $data->id }}" data-index="{{ $loop->index }}" aria-label="Read: {{ $data->t('title') }}">
                 <div class="caption-port">
                     <div class="caption-port-content">
                         <i class="fa fa-search-plus fa-3x"></i>
@@ -18,7 +18,7 @@
                 @if($data->images->count() > 1)
                 <span class="blog-count"><i class="fa fa-clone"></i> {{ $data->images->count() }}</span>
                 @endif
-                <img class="img-fluid" src="{{ optional($data->images->first())->url ?: $data->image }}" alt="{{ $data->title }}">
+                <img class="img-fluid" src="{{ optional($data->images->first())->url ?: $data->image }}" alt="{{ $data->t('title') }}">
             </a>
         </div>
         @endforeach
@@ -38,8 +38,8 @@
 
         return [
             'id' => $b->id,
-            'title' => $b->title,
-            'description' => $b->description,
+            'title' => $b->t('title'),
+            'description' => $b->t('description'),
             'created_at' => optional($b->created_at)->toIso8601String(),
             'images' => $images ?: array_values(array_filter([$b->image])),
         ];

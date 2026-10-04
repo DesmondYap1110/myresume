@@ -43,10 +43,10 @@
                     <nav class="post-nav" aria-label="More posts">
                         <button type="button" class="post-nav-btn prev" data-step="-1">
                             <i class="fa fa-arrow-left"></i>
-                            <span><small>Previous</small><b id="blog-prev-title"></b></span>
+                            <span><small>{{ __('site.more.previous') }}</small><b id="blog-prev-title"></b></span>
                         </button>
                         <button type="button" class="post-nav-btn next" data-step="1">
-                            <span><small>Next</small><b id="blog-next-title"></b></span>
+                            <span><small>{{ __('site.more.next') }}</small><b id="blog-next-title"></b></span>
                             <i class="fa fa-arrow-right"></i>
                         </button>
                     </nav>

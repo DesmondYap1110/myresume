@@ -3,12 +3,14 @@
 namespace App\Http\Controllers\admin\Education;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Concerns\SavesTranslations;
 use App\Helpers\Breadcrumb;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Education;
 class EducationController extends Controller
 {
+    use SavesTranslations;
     const page ="Education";
     const viewPath = "admin.template1.education.";
 
@@ -38,7 +40,9 @@ class EducationController extends Controller
         $education->year        = $request->year;
         $education->save();
 
-       return redirect()->route('education.view')->with('success', 'Add Education successful!');
+        $this->storeTranslations($request, $education);
+
+       return redirect()->route('education.view')->with('success', __('admin.flash.added', ['item' => __('admin.menu.education')]));
     }
 
     public function edit(Request $request)
@@ -60,7 +64,9 @@ class EducationController extends Controller
 
         $education_detail->update();
 
-        return redirect()->route('education.view')->with('success', 'Edit Education successful!');
+        $this->storeTranslations($request, $education_detail);
+
+        return redirect()->route('education.view')->with('success', __('admin.flash.updated', ['item' => __('admin.menu.education')]));
     }
 
     public function delete()
@@ -69,7 +75,7 @@ class EducationController extends Controller
         $education_detail = Education::getEducationById(Auth::id(),request()->id);
         $education_detail->delete();
 
-        return redirect()->route('education.view')->with('success', 'Delete Education successful!');
+        return redirect()->route('education.view')->with('success', __('admin.flash.deleted', ['item' => __('admin.menu.education')]));
 
     }
 

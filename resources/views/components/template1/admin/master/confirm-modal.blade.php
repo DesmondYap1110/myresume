@@ -9,13 +9,13 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="adminConfirmTitle">Please confirm</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <h5 class="modal-title" id="adminConfirmTitle">{{ __('admin.ui.please_confirm') }}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ __('admin.ui.close') }}"></button>
             </div>
             <div class="modal-body" id="adminConfirmMessage"></div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-light" data-bs-dismiss="modal" id="adminConfirmCancel">Cancel</button>
-                <button type="button" class="btn btn-danger" id="adminConfirmOk">Confirm</button>
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal" id="adminConfirmCancel">{{ __('admin.ui.cancel') }}</button>
+                <button type="button" class="btn btn-danger" id="adminConfirmOk">{{ __('admin.ui.confirm') }}</button>
             </div>
         </div>
     </div>

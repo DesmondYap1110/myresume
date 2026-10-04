@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\admin\Blog;
 
 use App\Http\Controllers\Controller;
-use App\Support\SafeImageUpload;
+use App\Http\Controllers\Concerns\SavesTranslations;
+use App\Support\SafeMediaUpload;
+use App\Support\SafeVideoUpload;
 use App\Helpers\Breadcrumb;
 use Illuminate\Http\Request;
 use App\Models\Blog;
@@ -14,6 +16,7 @@ use Illuminate\Validation\ValidationException;
 
 class BlogController extends Controller
 {
+    use SavesTranslations;
     const page ="Blog";
     const viewPath = "admin.template1.blog.";
 
@@ -41,11 +44,14 @@ class BlogController extends Controller
             'title'       => 'required|max:255',
             'description' => 'required',
             'images'      => 'required|array|min:1|max:'.self::maxImages,
-            'images.*'    => 'image|mimes:jpg,jpeg,png,gif,webp|max:4096',
+            'images.*'    => 'file|mimes:jpg,jpeg,png,gif,webp,mp4,webm|max:20480',
+            'media'       => 'array|max:'.\App\Support\MediaEmbed::max,
+            'media.*'     => 'nullable|string|max:500',
         ], [
             'images.required' => 'Please add at least one image.',
             'images.max'      => 'A blog can have at most '.self::maxImages.' images.',
-            'images.*.max'    => 'Each image must be 4 MB or smaller.',
+            'images.*.max'    => 'Each file must be 20 MB or smaller.',
+            'images.*.mimes'  => 'Use a JPG, PNG, GIF, WebP, MP4 or WebM file.',
         ]);
 
         $stored = [];
@@ -57,25 +63,30 @@ class BlogController extends Controller
                 $blog->title       = $request->title;
                 $blog->description = $request->description;
                 $blog->image       = '';
+                $blog->setMedia($request->input('media', []));
                 $blog->save();
 
                 foreach ($request->file('images') as $i => $file) {
-                    $path = SafeImageUpload::store($file, 'uploads', "images.$i");
+                    $path = SafeMediaUpload::store($file, 'uploads', "images.$i");
                     $stored[] = $path;
                     $blog->images()->create(['path' => $path, 'sort_order' => $i]);
                 }
+
+                // Pictures for the other languages, when a language needs its
+                // own - screenshots of a Chinese screen, say.
+                $this->storeLocaleImages($request, $blog, $stored);
 
                 $blog->syncCover();
             });
         } catch (\Throwable $e) {
             // Nothing was saved, so drop any files already written.
             foreach ($stored as $path) {
-                SafeImageUpload::delete($path, 'uploads');
+                SafeMediaUpload::delete($path, 'uploads');
             }
             throw $e;
         }
 
-        return redirect()->route('blog.view')->with('success', 'Add Blog successful!');
+        return redirect()->route('blog.view')->with('success', __('admin.flash.added', ['item' => __('admin.menu.blog')]));
     }
 
     public function update(Request $request)
@@ -91,9 +102,12 @@ class BlogController extends Controller
             'remove_images'   => 'array',
             'remove_images.*' => 'integer',
             'images'          => 'array|max:'.self::maxImages,
-            'images.*'        => 'image|mimes:jpg,jpeg,png,gif,webp|max:4096',
+            'images.*'        => 'file|mimes:jpg,jpeg,png,gif,webp,mp4,webm|max:20480',
+            'media'           => 'array|max:'.\App\Support\MediaEmbed::max,
+            'media.*'         => 'nullable|string|max:500',
         ], [
-            'images.*.max' => 'Each image must be 4 MB or smaller.',
+            'images.*.max' => 'Each file must be 20 MB or smaller.',
+            'images.*.mimes' => 'Use a JPG, PNG, GIF, WebP, MP4 or WebM file.',
         ]);
 
         // Only this post's own images can be kept, reordered or removed.
@@ -116,6 +130,7 @@ class BlogController extends Controller
             DB::transaction(function () use ($request, $blog, $existing, $remove, &$stored, &$toDelete) {
                 $blog->title       = $request->title;
                 $blog->description = $request->description;
+                $blog->setMedia($request->input('media', []));
 
                 foreach ($remove as $id) {
                     $image = $existing->get($id);
@@ -135,7 +150,7 @@ class BlogController extends Controller
                 }
 
                 foreach ($request->file('images', []) as $i => $file) {
-                    $path = SafeImageUpload::store($file, 'uploads', "images.$i");
+                    $path = SafeMediaUpload::store($file, 'uploads', "images.$i");
                     $stored[] = $path;
                     $blog->images()->create(['path' => $path, 'sort_order' => $position++]);
                 }
@@ -144,17 +159,19 @@ class BlogController extends Controller
             });
         } catch (\Throwable $e) {
             foreach ($stored as $path) {
-                SafeImageUpload::delete($path, 'uploads');
+                SafeMediaUpload::delete($path, 'uploads');
             }
             throw $e;
         }
 
         // Files are removed only once the database change has committed.
         foreach ($toDelete as $path) {
-            SafeImageUpload::delete($path, 'uploads');
+            SafeMediaUpload::delete($path, 'uploads');
         }
 
-        return redirect()->route('blog.view')->with('success', 'Edit Blog successful!');
+        $this->storeTranslations($request, $blog);
+
+        return redirect()->route('blog.view')->with('success', __('admin.flash.updated', ['item' => __('admin.menu.blog')]));
     }
 
     public function delete()
@@ -167,10 +184,10 @@ class BlogController extends Controller
         $blog->delete(); // blog_image rows go with it (cascade)
 
         foreach ($files as $path) {
-            SafeImageUpload::delete($path, 'uploads');
+            SafeMediaUpload::delete($path, 'uploads');
         }
 
-        return redirect()->route('blog.view')->with('success', 'Delete Blog successful!');
+        return redirect()->route('blog.view')->with('success', __('admin.flash.deleted', ['item' => __('admin.menu.blog')]));
     }
 
     public function edit()

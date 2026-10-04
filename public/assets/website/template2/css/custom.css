@@ -52,8 +52,11 @@ section[id] { scroll-margin-top: 80px; }
 .t2-brand { font-family: "Work Sans", sans-serif; font-size: 28px; font-weight: 800; color: #000 !important; letter-spacing: -.5px; }
 .t2-brand span { color: var(--t2-accent); }
 
-/* Banner */
-.t2-banner { padding-top: 90px; }
+/* Banner
+   The theme gives every .section 120px top and bottom, and the banner added
+   90 more to clear the fixed nav - 210px of empty space above the greeting.
+   The nav is about 80px, so this clears it with room to spare and no more. */
+.t2-banner { padding-top: 110px; padding-bottom: 80px; }
 .t2-kicker { font-family: "Work Sans", sans-serif; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--t2-ink); margin-bottom: 12px; }
 .t2-banner .cd-headline { font-size: clamp(30px, 4.2vw, 56px); line-height: 1.2; }
 .t2-banner .cd-words-wrapper { max-width: 100%; }
@@ -309,6 +312,17 @@ section[id] { scroll-margin-top: 80px; }
 .t2-social a { display: inline-flex; align-items: center; justify-content: center; width: 42px; height: 42px; border: 1px solid #2a2b2e; color: #fff; transition: all .25s ease; }
 .t2-social a:hover { background: var(--t2-accent); border-color: var(--t2-accent); color: var(--t2-on-accent) !important; transform: translateY(-3px); }
 
+/* Contact block: the networks on one line, under the address/email/phone. */
+.t2-social-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: -24px; padding: 0; }
+.t2-social-row .list-inline-item { margin: 0; }
+.t2-social-row a {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 40px; height: 40px; border-radius: 10px;
+    border: 1px solid #e3e6ee; background: #fff;
+    transition: border-color .2s ease, box-shadow .2s ease, transform .2s ease;
+}
+.t2-social-row a:hover { border-color: #c9cfdd; box-shadow: 0 4px 12px rgba(16, 24, 40, .1); transform: translateY(-2px); }
+
 .t2-footer-title { position: relative; margin-bottom: 26px; padding-bottom: 14px; font-size: 15px; letter-spacing: .1em; text-transform: uppercase; color: #fff; }
 .t2-footer-title::after { content: ""; position: absolute; left: 0; bottom: 0; width: 28px; height: 2px; background: var(--t2-accent); }
 
@@ -339,6 +353,10 @@ section[id] { scroll-margin-top: 80px; }
     .t2 .main-nav .nav-link { padding: 10px 0 !important; }
     .t2 .main-nav .nav-link::after { display: none; }
     .t2-banner .cd-headline { font-size: 38px; line-height: 50px; }
+    /* The nav collapses on a phone, so the hero needs far less room above. */
+    .t2-banner { padding-top: 84px; padding-bottom: 48px; }
+    .t2 .section { padding: 56px 0; }
+    .t2 .section-sm { padding: 36px 0; }
 }
 
 /* ============ Skills ============ */

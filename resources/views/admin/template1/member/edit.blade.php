@@ -16,8 +16,8 @@
                 @csrf
                 <x-template1.admin.form.member-fields :person="$person" />
                 <div class="card-action">
-                    <button type="submit" class="btn btn-dark">Save changes</button>
-                    <a href="{{ route('member.view') }}" class="btn btn-black btn-border">Cancel</a>
+                    <button type="submit" class="btn btn-dark">{{ __('admin.ui.save_changes') }}</button>
+                    <a href="{{ route('member.view') }}" class="btn btn-black btn-border">{{ __('admin.ui.cancel') }}</a>
                 </div>
             </form>
         </div>

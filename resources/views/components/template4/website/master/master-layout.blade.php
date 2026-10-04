@@ -24,7 +24,7 @@
         ->map(fn ($w) => mb_strtoupper(mb_substr($w, 0, 1)))->implode('');
 @endphp
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -392,6 +392,8 @@ a, a:hover, a:focus, .text-primary { color: var(--t4-ink); }
 </style>
 </head>
 <body id="top">
+    <x-website.language-switcher />
+
 <div class="t4-progress" aria-hidden="true"></div>
 <header>
   <div class="profile-page sidebar-collapse">
@@ -430,7 +432,7 @@ a, a:hover, a:focus, .text-primary { color: var(--t4-ink); }
 
           <div class="t4-menu-foot d-lg-none">
             @if($user->hasResume())
-            <a class="btn btn-primary btn-round t4-menu-cv" href="{{ $user->resumeUrl() }}"><i class="fa fa-download mr-1" aria-hidden="true"></i> Download CV</a>
+            <a class="btn btn-primary btn-round t4-menu-cv" href="{{ $user->resumeUrl() }}"><i class="fa fa-download mr-1" aria-hidden="true"></i> {{ __('site.action.download_resume') }}</a>
             @endif
             <div class="t4-menu-social">
               @if($user->linkedIn_url)<a href="{{ $user->linkedIn_url }}" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fa fa-linkedin"></i></a>@endif
@@ -460,7 +462,7 @@ a, a:hover, a:focus, .text-primary { color: var(--t4-ink); }
     <a class="btn btn-link" href="https://wa.me/{{ preg_replace('/\D+/', '', $user->phone) }}" target="_blank" rel="noopener" aria-label="WhatsApp"><i class="fa fa-whatsapp fa-2x" aria-hidden="true"></i></a>
     @endif
     @if($user->hasResume())
-    <a class="btn btn-link" href="{{ $user->resumeUrl() }}" aria-label="Download CV"><i class="fa fa-file-pdf-o fa-2x" aria-hidden="true"></i></a>
+    <a class="btn btn-link" href="{{ $user->resumeUrl() }}" aria-label="{{ __('site.action.download_resume') }}"><i class="fa fa-file-pdf-o fa-2x" aria-hidden="true"></i></a>
     @endif
   </div>
   <div class="h4 title text-center">{{ $user->name }}</div>

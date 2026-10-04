@@ -4,6 +4,7 @@ namespace App\Http\Controllers\admin\Service;
 
 use App\Helpers\Breadcrumb;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Concerns\SavesTranslations;
 use App\Models\Service;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -11,6 +12,7 @@ use Illuminate\Validation\Rule;
 
 class ServiceController extends Controller
 {
+    use SavesTranslations;
     const page = "Service";
     const viewPath = "admin.template1.service.";
 
@@ -62,7 +64,9 @@ class ServiceController extends Controller
         $service->sort_order  = $data['sort_order'] ?? 0;
         $service->save();
 
-        return redirect()->route($this->route.'view')->with('success', 'Add Service successful!');
+        $this->storeTranslations($request, $service);
+
+        return redirect()->route($this->route.'view')->with('success', __('admin.flash.added', ['item' => __('admin.menu.service')]));
     }
 
     public function edit()
@@ -90,7 +94,9 @@ class ServiceController extends Controller
         $service->sort_order  = $data['sort_order'] ?? 0;
         $service->update();
 
-        return redirect()->route($this->route.'view')->with('success', 'Edit Service successful!');
+        $this->storeTranslations($request, $service);
+
+        return redirect()->route($this->route.'view')->with('success', __('admin.flash.updated', ['item' => __('admin.menu.service')]));
     }
 
     public function delete()
@@ -100,6 +106,6 @@ class ServiceController extends Controller
 
         $service->delete();
 
-        return redirect()->route($this->route.'view')->with('success', 'Delete Service successful!');
+        return redirect()->route($this->route.'view')->with('success', __('admin.flash.deleted', ['item' => __('admin.menu.service')]));
     }
 }

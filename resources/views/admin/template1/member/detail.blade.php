@@ -32,10 +32,10 @@
                     <div class="flex-grow-1" style="min-width: 260px;">
                         <h4 class="mb-1">
                             {{ $person->name }}
-                            @if($person->isAdmin())<span class="badge bg-dark ms-1">Admin</span>@else<span class="badge bg-light text-dark ms-1">Member</span>@endif
-                            @if($person->id === Auth::id())<span class="badge bg-secondary ms-1">You</span>@endif
-                            @if($person->status)<span class="badge bg-success ms-1">Active</span>@else<span class="badge bg-danger ms-1">Blocked</span>@endif
-                            @if($person->isOnline())<span class="badge bg-success ms-1">Online</span>@endif
+                            @if($person->isAdmin())<span class="badge bg-dark ms-1">{{ __('admin.ui.admin') }}</span>@else<span class="badge bg-light text-dark ms-1">{{ __('admin.ui.member') }}</span>@endif
+                            @if($person->id === Auth::id())<span class="badge bg-secondary ms-1">{{ __('admin.ui.you') }}</span>@endif
+                            @if($person->status)<span class="badge bg-success ms-1">{{ __('admin.ui.active') }}</span>@else<span class="badge bg-danger ms-1">{{ __('admin.ui.blocked') }}</span>@endif
+                            @if($person->isOnline())<span class="badge bg-success ms-1">{{ __('admin.ui.online') }}</span>@endif
                         </h4>
                         @if($person->role)<div class="text-muted">{{ $person->role }}</div>@endif
                         <div class="mt-2">
@@ -45,8 +45,8 @@
                     </div>
 
                     <div class="ms-auto">
-                        <a href="{{ route('member.edit', $person->id) }}" class="btn btn-success btn-sm">Edit</a>
-                        <a href="{{ route('member.view') }}" class="btn btn-dark btn-sm">Back to Member</a>
+                        <a href="{{ route('member.edit', $person->id) }}" class="btn btn-success btn-sm">{{ __('admin.ui.edit') }}</a>
+                        <a href="{{ route('member.view') }}" class="btn btn-dark btn-sm">{{ __('admin.ui.back_to_member') }}</a>
                     </div>
                 </div>
 
@@ -55,14 +55,14 @@
                 <div class="row member-facts">
                     <div class="col-md-4">
                         <dl class="mb-0">
-                            <dt>Email</dt><dd>{{ $person->email }}</dd>
-                            <dt>Phone</dt><dd>{{ $person->phone ?: '—' }}</dd>
+                            <dt>{{ __('admin.ui.email') }}</dt><dd>{{ $person->email }}</dd>
+                            <dt>{{ __('admin.ui.phone') }}</dt><dd>{{ $person->phone ?: '—' }}</dd>
                         </dl>
                     </div>
                     <div class="col-md-4">
                         <dl class="mb-0">
-                            <dt>Date of birth</dt><dd>{{ $person->dob ? date('j F Y', strtotime($person->dob)) : '—' }}</dd>
-                            <dt>Address</dt><dd>{{ $person->address ?: '—' }}</dd>
+                            <dt>{{ __('admin.ui.date_of_birth') }}</dt><dd>{{ $person->dob ? date('j F Y', strtotime($person->dob)) : '—' }}</dd>
+                            <dt>{{ __('admin.ui.address') }}</dt><dd>{{ $person->address ?: '—' }}</dd>
                         </dl>
                     </div>
                     <div class="col-md-4">
@@ -73,8 +73,8 @@
                                     <a href="{{ $person->linkedIn_url }}" target="_blank" rel="noopener">{{ $person->linkedIn_url }}</a>
                                 @else — @endif
                             </dd>
-                            <dt>Joined</dt><dd>{{ $person->created_at ? $person->created_at->format('j F Y') : '—' }}</dd>
-                            <dt>Last seen</dt>
+                            <dt>{{ __('admin.ui.joined') }}</dt><dd>{{ $person->created_at ? $person->created_at->format('j F Y') : '—' }}</dd>
+                            <dt>{{ __('admin.ui.last_seen') }}</dt>
                             <dd>
                                 @if($person->isOnline())
                                     Online now
@@ -135,21 +135,21 @@
                 @if(count($experiences))
                 <div class="table-responsive">
                     <table class="table table-hover">
-                        <thead><tr><th>Role</th><th>Company</th><th>Dates</th><th>Status</th></tr></thead>
+                        <thead><tr><th>{{ __('admin.ui.role') }}</th><th>{{ __('admin.ui.company') }}</th><th>{{ __('admin.ui.dates') }}</th><th>{{ __('admin.ui.status') }}</th></tr></thead>
                         <tbody>
                             @foreach($experiences as $item)
                             <tr>
                                 <td><b>{{ $item->role }}</b></td>
                                 <td>{{ $item->company }}</td>
                                 <td>{{ $item->start_date ? date('F Y', strtotime($item->start_date)) : '—' }} – {{ $item->end_date ? date('F Y', strtotime($item->end_date)) : 'Now' }}</td>
-                                <td>@if($item->status)<span class="badge bg-success">Shown</span>@else<span class="badge bg-secondary">Hidden</span>@endif</td>
+                                <td>@if($item->status)<span class="badge bg-success">{{ __('admin.ui.shown') }}</span>@else<span class="badge bg-secondary">{{ __('admin.ui.hidden') }}</span>@endif</td>
                             </tr>
                             @endforeach
                         </tbody>
                     </table>
                 </div>
                 @else
-                <p class="member-empty">No experience added yet.</p>
+                <p class="member-empty">{{ __('admin.ui.no_experience') }}</p>
                 @endif
             </div>
         </div>
@@ -163,21 +163,21 @@
                 @if(count($educations))
                 <div class="table-responsive">
                     <table class="table table-hover">
-                        <thead><tr><th>Institution</th><th>Certificate</th><th>Year</th><th>Status</th></tr></thead>
+                        <thead><tr><th>{{ __('admin.ui.institution') }}</th><th>{{ __('admin.ui.certificate') }}</th><th>{{ __('admin.ui.year') }}</th><th>{{ __('admin.ui.status') }}</th></tr></thead>
                         <tbody>
                             @foreach($educations as $item)
                             <tr>
                                 <td><b>{{ $item->institution }}</b></td>
                                 <td>{{ $item->certificate }}</td>
                                 <td>{{ $item->year ?: '—' }}</td>
-                                <td>@if($item->status)<span class="badge bg-success">Shown</span>@else<span class="badge bg-secondary">Hidden</span>@endif</td>
+                                <td>@if($item->status)<span class="badge bg-success">{{ __('admin.ui.shown') }}</span>@else<span class="badge bg-secondary">{{ __('admin.ui.hidden') }}</span>@endif</td>
                             </tr>
                             @endforeach
                         </tbody>
                     </table>
                 </div>
                 @else
-                <p class="member-empty">No education added yet.</p>
+                <p class="member-empty">{{ __('admin.ui.no_education') }}</p>
                 @endif
             </div>
         </div>
@@ -191,21 +191,21 @@
                 @if(count($projects))
                 <div class="table-responsive">
                     <table class="table table-hover">
-                        <thead><tr><th>Project</th><th>Company</th><th>Dates</th><th>Status</th></tr></thead>
+                        <thead><tr><th>Project</th><th>{{ __('admin.ui.company') }}</th><th>{{ __('admin.ui.dates') }}</th><th>{{ __('admin.ui.status') }}</th></tr></thead>
                         <tbody>
                             @foreach($projects as $item)
                             <tr>
                                 <td><b>{{ $item->name }}</b></td>
                                 <td>{{ $item->company ?: '—' }}</td>
                                 <td>{{ $item->start_date ? date('F Y', strtotime($item->start_date)) : '—' }} – {{ $item->end_date ? date('F Y', strtotime($item->end_date)) : 'Now' }}</td>
-                                <td>@if($item->status)<span class="badge bg-success">Shown</span>@else<span class="badge bg-secondary">Hidden</span>@endif</td>
+                                <td>@if($item->status)<span class="badge bg-success">{{ __('admin.ui.shown') }}</span>@else<span class="badge bg-secondary">{{ __('admin.ui.hidden') }}</span>@endif</td>
                             </tr>
                             @endforeach
                         </tbody>
                     </table>
                 </div>
                 @else
-                <p class="member-empty">No projects added yet.</p>
+                <p class="member-empty">{{ __('admin.ui.no_projects') }}</p>
                 @endif
             </div>
         </div>
@@ -219,20 +219,20 @@
                 @if(count($services))
                 <div class="table-responsive">
                     <table class="table table-hover">
-                        <thead><tr><th>Service</th><th>Description</th><th>Status</th></tr></thead>
+                        <thead><tr><th>Service</th><th>{{ __('admin.ui.description') }}</th><th>{{ __('admin.ui.status') }}</th></tr></thead>
                         <tbody>
                             @foreach($services as $item)
                             <tr>
                                 <td>@if($item->icon)<i class="{{ $item->icon }} me-2"></i>@endif<b>{{ $item->title }}</b></td>
                                 <td>{{ \Illuminate\Support\Str::limit(strip_tags((string) $item->description), 120) }}</td>
-                                <td>@if($item->status)<span class="badge bg-success">Shown</span>@else<span class="badge bg-secondary">Hidden</span>@endif</td>
+                                <td>@if($item->status)<span class="badge bg-success">{{ __('admin.ui.shown') }}</span>@else<span class="badge bg-secondary">{{ __('admin.ui.hidden') }}</span>@endif</td>
                             </tr>
                             @endforeach
                         </tbody>
                     </table>
                 </div>
                 @else
-                <p class="member-empty">No services added yet.</p>
+                <p class="member-empty">{{ __('admin.ui.no_services') }}</p>
                 @endif
             </div>
         </div>
@@ -246,21 +246,21 @@
                 @if(count($testimonials))
                 <div class="table-responsive">
                     <table class="table table-hover">
-                        <thead><tr><th>From</th><th>Message</th><th>Rating</th><th>Status</th></tr></thead>
+                        <thead><tr><th>{{ __('admin.ui.from') }}</th><th>{{ __('admin.ui.message') }}</th><th>{{ __('admin.ui.rating') }}</th><th>{{ __('admin.ui.status') }}</th></tr></thead>
                         <tbody>
                             @foreach($testimonials as $item)
                             <tr>
                                 <td><b>{{ $item->name }}</b>@if($item->position)<div class="text-muted text-small">{{ $item->position }}</div>@endif</td>
                                 <td>{{ \Illuminate\Support\Str::limit(strip_tags((string) $item->message), 120) }}</td>
                                 <td>{{ $item->rating ? $item->rating.'/5' : '—' }}</td>
-                                <td>@if($item->status)<span class="badge bg-success">Shown</span>@else<span class="badge bg-secondary">Hidden</span>@endif</td>
+                                <td>@if($item->status)<span class="badge bg-success">{{ __('admin.ui.shown') }}</span>@else<span class="badge bg-secondary">{{ __('admin.ui.hidden') }}</span>@endif</td>
                             </tr>
                             @endforeach
                         </tbody>
                     </table>
                 </div>
                 @else
-                <p class="member-empty">No testimonials added yet.</p>
+                <p class="member-empty">{{ __('admin.ui.no_testimonials') }}</p>
                 @endif
             </div>
         </div>
@@ -274,7 +274,7 @@
                 @if(count($blogs))
                 <div class="table-responsive">
                     <table class="table table-hover">
-                        <thead><tr><th>Title</th><th>Written</th><th>Status</th></tr></thead>
+                        <thead><tr><th>{{ __('admin.ui.title') }}</th><th>{{ __('admin.ui.written') }}</th><th>{{ __('admin.ui.status') }}</th></tr></thead>
                         <tbody>
                             @foreach($blogs as $item)
                             <tr>
@@ -285,14 +285,14 @@
                                     @endif
                                 </td>
                                 <td>{{ $item->created_at ? $item->created_at->format('j M Y') : '—' }}</td>
-                                <td>@if($item->status)<span class="badge bg-success">Published</span>@else<span class="badge bg-secondary">Draft</span>@endif</td>
+                                <td>@if($item->status)<span class="badge bg-success">{{ __('admin.ui.published') }}</span>@else<span class="badge bg-secondary">{{ __('admin.ui.draft') }}</span>@endif</td>
                             </tr>
                             @endforeach
                         </tbody>
                     </table>
                 </div>
                 @else
-                <p class="member-empty">No blog posts added yet.</p>
+                <p class="member-empty">{{ __('admin.ui.no_blog_posts') }}</p>
                 @endif
             </div>
         </div>
@@ -301,26 +301,26 @@
     {{-- Messages received --}}
     <div class="col-md-12">
         <div class="card member-section">
-            <div class="card-header"><div class="card-title">Messages received <span class="badge bg-light text-dark ms-1">{{ count($messages) }}</span></div></div>
+            <div class="card-header"><div class="card-title">{{ __('admin.ui.messages_received') }} <span class="badge bg-light text-dark ms-1">{{ count($messages) }}</span></div></div>
             <div class="card-body">
                 @if(count($messages))
                 <div class="table-responsive">
                     <table class="table table-hover">
-                        <thead><tr><th>From</th><th>Subject</th><th>Received</th><th>Read</th></tr></thead>
+                        <thead><tr><th>{{ __('admin.ui.from') }}</th><th>{{ __('admin.ui.subject') }}</th><th>{{ __('admin.ui.received') }}</th><th>{{ __('admin.ui.read') }}</th></tr></thead>
                         <tbody>
                             @foreach($messages as $item)
                             <tr>
                                 <td><b>{{ $item->name }}</b><div class="text-muted text-small">{{ $item->email }}</div></td>
                                 <td>{{ $item->subject }}</td>
                                 <td>{{ $item->created_at ? $item->created_at->format('j M Y') : '—' }}</td>
-                                <td>@if($item->read_status)<span class="badge bg-light text-dark">Read</span>@else<span class="badge bg-danger">Unread</span>@endif</td>
+                                <td>@if($item->read_status)<span class="badge bg-light text-dark">{{ __('admin.ui.read') }}</span>@else<span class="badge bg-danger">{{ __('admin.ui.unread') }}</span>@endif</td>
                             </tr>
                             @endforeach
                         </tbody>
                     </table>
                 </div>
                 @else
-                <p class="member-empty">No messages received yet.</p>
+                <p class="member-empty">{{ __('admin.ui.no_messages') }}</p>
                 @endif
             </div>
         </div>

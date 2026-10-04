@@ -1,0 +1,128 @@
+<?php
+
+/*
+| Labels on the public website. Member-written content is not here - that is
+| translated per member under Admin > Translation.
+*/
+
+return [
+
+    'nav' => [
+        'about' => 'About',
+        'experience' => 'Experience',
+        'education' => 'Education',
+        'skills' => 'Skills',
+        'projects' => 'Projects',
+        'services' => 'Services',
+        'testimonials' => 'Testimonials',
+        'blog' => 'Blog',
+        'contact' => 'Contact',
+        'menu' => 'Menu',
+    ],
+
+    'section' => [
+        'about' => 'About',
+        'experience' => 'Experience',
+        'education' => 'Education',
+        'skills' => 'Skills',
+        'projects' => 'Projects',
+        'selected_work' => 'Selected work',
+        'services' => 'Services',
+        'testimonials' => 'Testimonials',
+        'what_clients_say' => 'What clients say',
+        'blog' => 'Blog',
+        'from_the_blog' => 'From the blog',
+        'contact' => 'Contact',
+        'get_in_touch' => 'Get in touch',
+    ],
+
+    'action' => [
+        'read_more' => 'Read more',
+        'read_my_blog' => 'Read my blog',
+        'download_resume' => 'Download resume',
+        'send_message' => 'Send message',
+        'sending' => 'Sending…',
+        'view_project' => 'View project',
+        'back' => 'Back',
+        'back_to_home' => 'Back to home',
+        'contact_me' => 'Contact me',
+        'hire_me' => 'Hire me',
+    ],
+
+    'form' => [
+        'name' => 'Name',
+        'email' => 'Email',
+        'subject' => 'Subject',
+        'message' => 'Your message',
+        'your_name' => 'Your name',
+        'your_email' => 'Your email',
+        'required' => 'Required',
+        'sent' => 'Thank you — your message has been sent.',
+        'failed' => 'Sorry, the message could not be sent. Please try again.',
+    ],
+
+    'label' => [
+        'contact_info' => 'Contact info',
+        'location' => 'Location',
+        'phone' => 'Phone',
+        'email' => 'Email',
+        'linkedin' => 'LinkedIn profile',
+        'present' => 'Present',
+        'language' => 'Language',
+        'published' => 'Published',
+        'min_read' => ':count min read',
+        'no_posts' => 'No posts yet.',
+    ],
+
+
+    'more' => [
+        'about_me' => 'About me',
+        'about_author' => 'About the author',
+        'back_to_top' => 'Back to top',
+        'basic_info' => 'Basic Information',
+        'explore' => 'Explore',
+        'feel_free' => 'Feel free to contact me',
+        'follow_me' => 'Follow me',
+        'happy_clients' => 'Happy clients',
+        'latest_blog' => 'Latest Blog',
+        'latest_posts' => 'Latest Posts',
+        'honeypot' => 'Leave this field empty',
+        'more_posts' => 'More posts',
+        'more_work' => 'More work',
+        'no_posts_yet' => 'New posts are on the way.',
+        'next' => 'Next',
+        'next_image' => 'Next image',
+        'previous' => 'Previous',
+        'previous_image' => 'Previous image',
+        'projects_note' => 'Notes on the projects I build.',
+        'open_to_projects' => 'Open to projects',
+        'portfolio' => 'Portfolio',
+        'references' => 'References',
+        'reviews' => 'Reviews',
+        'selected_work_note' => 'Selected work I have delivered.',
+        'send' => 'Send',
+        'social_proof' => 'Social proof',
+        'thoughts' => 'Thoughts',
+        'discuss_project' => 'Want to discuss a project?',
+        'what_i_do' => 'What I do',
+        'what_i_help' => 'What I can help you with.',
+        'what_i_work_with' => 'What I work with',
+    ],
+
+    'ui' => [
+        'hello_im' => 'Hello, I\'m :name',
+        'hi_im' => 'Hi, I\'m',
+        'i_work_as' => 'I work as a',
+        'your_name' => 'Your Name',
+        'full_name' => 'Full Name',
+        'name' => 'Name',
+        'subject' => 'Subject',
+        'email_address' => 'Email Address',
+        'email_id' => 'Email Id',
+        'e_mail' => 'E-mail',
+        'your_message' => 'Your Message',
+        'type_number' => 'Type the number',
+        'quick_check' => 'Quick check',
+        'captcha_q' => 'What is :a plus :b?',
+    ],
+];

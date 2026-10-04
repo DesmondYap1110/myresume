@@ -4,7 +4,7 @@
 <section class="resume-section p-3 p-lg-5 d-flex flex-column" id="skills">
     <div class="row my-auto">
         <div class="col-12">
-            <h2 class="text-center">Skills</h2>
+            <h2 class="text-center">{{ __('site.section.skills') }}</h2>
             <div class="mb-5 heading-border"></div>
         </div>
     </div>
@@ -14,7 +14,7 @@
         <div class="col-12">
             <ul class="skill-tags">
                 @foreach($skill as $item)
-                <li>{{ $item->name }}</li>
+                <li>{{ $item->t('name') }}</li>
                 @endforeach
             </ul>
         </div>

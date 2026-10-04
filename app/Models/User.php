@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\Concerns\HasTranslations;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -11,7 +12,7 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, HasTranslations, Notifiable;
 
     const status_active = 1;
     const status_block  = 0;
@@ -47,7 +48,14 @@ class User extends Authenticatable
         'password' => 'hashed',
         'is_admin' => 'boolean',
         'last_seen_at' => 'datetime',
+        'social_links' => 'array',
     ];
+
+    /** Links to show on the public website, checked and in order. */
+    public function socialLinks(): array
+    {
+        return \App\Support\SocialLinks::forWebsite($this);
+    }
 
     /**
      * Signed in and active in the back office just now. Tracked by

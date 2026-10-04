@@ -2,23 +2,76 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\HasTranslations;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Blog extends Model
 {
-    use HasFactory;
+    use HasFactory, HasTranslations;
 
     const status_active = 1;
     const status_block  = 0;
 
     protected $table = 'blog';
-    protected $guarded = [];
+
+    // Written through setMedia(), never straight from a form.
+    protected $guarded = ['media'];
+
+    /**
+     * Embedded links, already parsed. Old rows have none, so this is always
+     * a list - never null - for the views to walk.
+     */
+    public function getMediaAttribute($value): array
+    {
+        $media = is_string($value) ? json_decode($value, true) : $value;
+
+        return is_array($media) ? array_values(array_filter($media, 'is_array')) : [];
+    }
+
+    /** Replace the post's links, parsing each one on the way in. */
+    public function setMedia($urls): void
+    {
+        $media = \App\Support\MediaEmbed::parseMany($urls);
+
+        $this->attributes['media'] = $media ? json_encode($media, JSON_UNESCAPED_SLASHES) : null;
+    }
+
+    /** The links as typed, for putting back in the edit form. */
+    public function mediaUrls(): array
+    {
+        return array_column($this->media, 'url');
+    }
 
     /** Gallery images, cover first. */
     public function images()
     {
         return $this->hasMany(BlogImage::class)->orderBy('sort_order')->orderBy('id');
+    }
+
+    /**
+     * The pictures to show in one language.
+     *
+     * A language with its own set gets that set; otherwise the ones marked
+     * for every language (locale NULL) are used, so a post translated into
+     * Chinese without new screenshots still shows the English ones.
+     */
+    public function imagesFor(?string $locale = null)
+    {
+        $locale = $locale ?: app()->getLocale();
+        $all = $this->images;
+
+        $own = $all->where('locale', $locale)->values();
+
+        return $own->isNotEmpty() ? $own : $all->whereNull('locale')->values();
+    }
+
+    /** The pictures a language has of its own, for the admin form. */
+    public function imagesOf(?string $locale)
+    {
+        return $this->images
+            ->filter(fn ($image) => $locale === null ? $image->locale === null : $image->locale === $locale)
+            ->values();
     }
 
     /**

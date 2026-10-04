@@ -18,7 +18,7 @@
         <div class="card">
             <div class="card-header">
                 <div class="card-head-row card-tools-still-right">
-                    <div class="card-title">AI Setting</div>
+                    <div class="card-title">{{ __('admin.ui.ai_setting') }}</div>
                 </div>
                 <div class="card-category">
                     Who has the AI Assistant set up, and the key each one is using. Members can change their own
@@ -30,12 +30,12 @@
                     <table class="table table-hover ai-table">
                         <thead>
                             <tr>
-                                <th>Person</th>
-                                <th>Provider</th>
-                                <th>API key</th>
-                                <th>Status</th>
-                                <th>Last used</th>
-                                <th class="text-center">Action</th>
+                                <th>{{ __('admin.ui.person') }}</th>
+                                <th>{{ __('admin.ui.provider') }}</th>
+                                <th>{{ __('admin.ui.api_key') }}</th>
+                                <th>{{ __('admin.ui.status') }}</th>
+                                <th>{{ __('admin.ui.last_used') }}</th>
+                                <th class="text-center">{{ __('admin.ui.action') }}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -48,32 +48,32 @@
                                 <td class="ai-who">
                                     <b>{{ $person->name }}</b>
                                     <span class="text-muted text-small">{{ $person->email }}</span>
-                                    @if($person->isAdmin())<span class="badge bg-dark ms-1">Admin</span>@endif
+                                    @if($person->isAdmin())<span class="badge bg-dark ms-1">{{ __('admin.ui.admin') }}</span>@endif
                                 </td>
                                 <td>
                                     @if($setting)
                                         {{ $setting->providerLabel() }}
                                         <div class="ai-model">{{ $setting->resolvedModel() }}</div>
                                     @else
-                                        <span class="ai-none">Not set up</span>
+                                        <span class="ai-none">{{ __('admin.ui.not_set_up') }}</span>
                                     @endif
                                 </td>
                                 <td>
                                     @if($key)
                                         <code class="ai-key">{{ $key }}</code>
                                     @elseif($setting && !$setting->needsKey())
-                                        <span class="ai-none">No key needed</span>
+                                        <span class="ai-none">{{ __('admin.ui.no_key_needed') }}</span>
                                     @else
-                                        <span class="ai-none">No key yet</span>
+                                        <span class="ai-none">{{ __('admin.ui.no_key_yet') }}</span>
                                     @endif
                                 </td>
                                 <td>
                                     @if($setting && $setting->isReady())
-                                        <span class="badge bg-success">Ready</span>
+                                        <span class="badge bg-success">{{ __('admin.ui.ready') }}</span>
                                     @elseif($setting && !$setting->enabled)
-                                        <span class="badge bg-secondary">Switched off</span>
+                                        <span class="badge bg-secondary">{{ __('admin.ui.switched_off') }}</span>
                                     @else
-                                        <span class="badge bg-warning text-dark">Needs a key</span>
+                                        <span class="badge bg-warning text-dark">{{ __('admin.ui.needs_a_key') }}</span>
                                     @endif
                                 </td>
                                 <td class="ai-model">

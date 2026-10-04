@@ -1,17 +1,17 @@
 <section class="resume-section p-3 p-lg-5 " id="project">
     <div class="row my-auto">
         <div class="col-12">
-        <h2 class="  text-center">Project</h2>
+        <h2 class="  text-center">{{ __('site.section.projects') }}</h2>
         <div class="mb-5 heading-border"></div>
     </div>
     @foreach($project as $data)
     <div class="resume-item col-md-6 col-sm-12 " >
         <div class="card mx-0 p-4 mb-5">
             <div class=" resume-content mr-auto">
-                <h4 class="mb-3"><i class="fa fa-briefcase mr-3 text-info"></i> {{$data->company}} </h4>
-                <h5> {{$data->name}}</h5>
+                <h4 class="mb-3"><i class="fa fa-briefcase mr-3 text-info"></i> {{$data->t('company')}} </h4>
+                <h5> {{$data->t('name')}}</h5>
 
-                <p> {{ strip_tags($data->detail) }}</p>
+                <p> {{ strip_tags($data->t('detail')) }}</p>
             </div>
             <div class="resume-date text-md-right">
                 <span class="text-primary">{{ \App\Support\Period::label($data->start_date, $data->end_date, false, 'Now') }}</span>

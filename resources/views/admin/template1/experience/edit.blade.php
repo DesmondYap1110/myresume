@@ -9,7 +9,7 @@
             <div class="card">
                 <div class="card-header">
                     <div class="card-head-row card-tools-still-right">
-                        <div class="card-title">Edit Experience</div>
+                        <div class="card-title">{{ __('admin.ui.edit_experience') }}</div>
                     </div>
                 </div>
                 <form action="{{route('experience.update',request()->id)}}" method="post">
@@ -20,28 +20,19 @@
                                 <div class="form-check d-flex align-items-center">
                                     <input class="form-check-input" type="checkbox" name="work_status" id="work_status" @if($experience->work_status) checked @endif>
                                     <label class="mb-0" for="flexCheckChecked">
-                                        Currently Working?
+                                        {{ __('admin.ui.currently_working') }}
                                     </label>
                                 </div>
                             </div>
                             <div class="col-md-12 col-lg-6 col-sm-12 py-1">
-                                <label for="company">Company <span>*</span></label>
-                                <input type="text" class="form-control" id="company" placeholder="Enter Company Name" required name="company" value="{{$experience->company}}">
-                            </div>
-                            <div class="col-md-12 col-lg-6 col-sm-12 py-1">
-                                <label for="position">Position Role <span>*</span></label>
-                                <input type="text" class="form-control" id="position" placeholder="Enter Position Role" required name="role" value="{{$experience->role}}">
-                            </div>
-
-                            <div class="col-md-12 col-lg-6 col-sm-12 py-1">
-                                <label>Start Date <span>*</span></label>
+                                <label>{{ __('admin.ui.start_date') }} <span>*</span></label>
                                 <div class="input-group">
                                     <input type="text" class="form-control datepicker" id="datepicker2" name="start_date" required name="start_date" value="{{$experience->start_date}}">
                                     <span class="input-group-text"><i class="fa fa-calendar-check"></i></span>
                                 </div>
                             </div>
                             <div class="col-md-12 col-lg-6 col-sm-12 py-1" id="togglehide">
-                                <label>End Date</label>
+                                <label>{{ __('admin.ui.end_date') }}</label>
                                 <div class="input-group">
                                     <input type="text" class="form-control datepicker" id="datepicker3" name="end_date" name="end_date" value="{{$experience->end_date}}">
                                     <span class="input-group-text"><i class="fa fa-calendar-check"></i></span>
@@ -50,11 +41,17 @@
                         </div>
                     </div>
                     <div class="card-action">
-                        <div class="card-title summertext" data-placeholder = "Please Fill In Detail">Detail</div>
-                        <textarea name="detail" id="summernote" class="form-control" required>{!! $experience->detail !!}</textarea>
+                        <x-template1.admin.lang-fields
+                            :model="$experience"
+                            :fields="[
+                                'role' => ['label' => __('admin.ui.position_role'), 'type' => 'text', 'required' => true, 'width' => 'col-12'],
+                                'company' => ['label' => __('admin.ui.company_name'), 'type' => 'text', 'required' => true, 'width' => 'col-12'],
+                                'detail' => ['label' => __('admin.ui.detail'), 'type' => 'rich', 'required' => true],
+                            ]" />
                     </div>
+
                     <div class="card-action">
-                        <button type="submit" class="btn btn-dark">Submit</button>
+                        <button type="submit" class="btn btn-dark">{{ __('admin.ui.submit') }}</button>
                     </div>
                 </form>
             </div>

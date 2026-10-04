@@ -34,14 +34,14 @@ class SettingController extends Controller
         // Manual check for password match
         if ($request->password !== $request->confirmpassword)
         {
-            return back()->with('error', 'The password confirmation does not match.')->withInput();
+            return back()->with('error', __('admin.flash.password_mismatch'))->withInput();
         }
 
         $user = User::getUserByEmail(Auth::user()->email);
         $user->password = bcrypt($request->password);
         $user->update();
 
-        return back()->with('success', 'Password updated successfully!');
+        return back()->with('success', __('admin.flash.password_saved'));
     }
     /**
      * Website Template: which public design this user's portfolio uses.

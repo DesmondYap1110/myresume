@@ -46,7 +46,7 @@
                 <div class="card-head-row card-tools-still-right">
                     <div class="card-title">AI Assistant for {{ $person->name }}</div>
                     <div class="card-tools">
-                        <a href="{{ route('aisetting.view') }}" class="btn btn-dark btn-sm">Back to AI Setting</a>
+                        <a href="{{ route('aisetting.view') }}" class="btn btn-dark btn-sm">{{ __('admin.ui.back_to_ai_setting') }}</a>
                     </div>
                 </div>
                 <div class="card-category">{{ $person->email }}</div>
@@ -59,7 +59,7 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-lg-6 py-1">
-                            <label for="provider">Provider</label>
+                            <label for="provider">{{ __('admin.ui.provider') }}</label>
                             <select class="form-control form-select" id="provider" name="provider">
                                 @foreach($providers as $key => $conf)
                                 <option value="{{ $key }}" @selected($current === $key)>{{ $conf['label'] }}</option>
@@ -70,16 +70,16 @@
                         </div>
 
                         <div class="col-lg-6 py-1" id="url-row" @if(!($providers[$current]['needs_url'] ?? false)) hidden @endif>
-                            <label for="base_url">Server address</label>
+                            <label for="base_url">{{ __('admin.ui.server_address') }}</label>
                             <input type="text" class="form-control" id="base_url" name="base_url"
                                    value="{{ old('base_url', $setting->resolvedUrl()) }}" maxlength="200"
                                    placeholder="https://api.openai.com/v1" spellcheck="false">
-                            <small class="form-text text-muted">The endpoint requests are sent to.</small>
+                            <small class="form-text text-muted">{{ __('admin.ui.endpoint_note') }}</small>
                             @error('base_url')<span class="text-danger d-block">{{ $message }}</span>@enderror
                         </div>
 
                         <div class="col-lg-6 py-1">
-                            <label for="model">Model</label>
+                            <label for="model">{{ __('admin.ui.model') }}</label>
                             <input type="text" class="form-control" id="model" name="model"
                                    value="{{ old('model', $setting->resolvedModel()) }}" maxlength="120"
                                    placeholder="gpt-4o-mini" spellcheck="false">
@@ -88,7 +88,7 @@
                         </div>
 
                         <div class="col-lg-6 py-1">
-                            <label for="api_key">API key</label>
+                            <label for="api_key">{{ __('admin.ui.api_key') }}</label>
                             <input type="text" class="form-control" id="api_key" name="api_key"
                                    value="{{ old('api_key', $setting->plainKey()) }}" maxlength="200"
                                    placeholder="Paste {{ $person->name }}'s key" autocomplete="off" spellcheck="false">
@@ -100,7 +100,7 @@
                             <div class="form-check form-switch">
                                 <input class="form-check-input" type="checkbox" role="switch" id="enabled" name="enabled" value="1"
                                        @checked(old('enabled', $setting->enabled ?? true))>
-                                <label class="form-check-label" for="enabled">Enable the AI Assistant for this member</label>
+                                <label class="form-check-label" for="enabled">{{ __('admin.ui.enable_ai_member') }}</label>
                             </div>
                             @if($setting->last_used_at)
                             <small class="form-text text-muted">Last used {{ $setting->last_used_at->diffForHumans() }}.</small>
@@ -110,12 +110,12 @@
                 </div>
 
                 <div class="card-action">
-                    <button type="submit" name="action" value="save" class="btn btn-success">Save</button>
-                    <button type="submit" name="action" value="test" class="btn btn-secondary">Test connection</button>
+                    <button type="submit" name="action" value="save" class="btn btn-success">{{ __('admin.ui.save') }}</button>
+                    <button type="submit" name="action" value="test" class="btn btn-secondary">{{ __('admin.ui.test_connection') }}</button>
                     @if($setting->plainKey())
                     <button type="submit" name="action" value="remove" class="btn btn-danger float-end"
-                            data-confirm="Remove {{ $person->name }}'s API key? Their AI Assistant will stop working until a new one is added."
-                            data-confirm-title="Remove API key" data-confirm-ok="Remove">Remove key</button>
+                            data-confirm="{{ __('admin.confirm.q_remove_key', ['name' => $person->name]) }}"
+                            data-confirm-title="{{ __('admin.confirm.t_remove_key') }}" data-confirm-ok="{{ __('admin.confirm.ok_remove') }}">{{ __('admin.ui.remove_key') }}</button>
                     @endif
                 </div>
             </form>

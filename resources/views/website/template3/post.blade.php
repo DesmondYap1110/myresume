@@ -4,12 +4,12 @@
     $images = $post->images->pluck('url')->filter()->values();
     if ($images->isEmpty() && $post->image) $images = collect([$post->image]);
 
-    $text = trim(preg_replace('/\s+/', ' ', strip_tags((string) $post->description)));
+    $text = trim(preg_replace('/\s+/', ' ', strip_tags((string) $post->t('description'))));
     $minutes = max(1, (int) round(str_word_count($text) / 200));
     $others = $blog->where('id', '!=', $post->id)->take(3);
 @endphp
 
-<x-template3.website.master.master-layout :user="$user" :title="$post->title" :home="$home" :blog="$blog" :post="$post">
+<x-template3.website.master.master-layout :user="$user" :title="$post->t('title')" :home="$home" :blog="$blog" :post="$post">
 
     <article class="pt-32 pb-24">
         <div class="max-w-3xl mx-auto px-6">
@@ -18,15 +18,15 @@
                 Back to blog
             </a>
 
-            <p class="text-xs font-medium text-accent-ink dark:text-accent tracking-widest uppercase mb-3">Blog</p>
-            <h1 class="font-display font-bold text-3xl md:text-4xl leading-tight tracking-tight text-zinc-900 dark:text-white mb-4">{{ $post->title }}</h1>
+            <p class="text-xs font-medium text-accent-ink dark:text-accent tracking-widest uppercase mb-3">{{ __('site.section.blog') }}</p>
+            <h1 class="font-display font-bold text-3xl md:text-4xl leading-tight tracking-tight text-zinc-900 dark:text-white mb-4">{{ $post->t('title') }}</h1>
             <p class="text-sm text-zinc-500 dark:text-zinc-400 mb-10">{{ $post->created_at->format('d F Y') }} · {{ $minutes }} min read · {{ $user->name }}</p>
 
             @if($images->count())
             <div x-data="{ i: 0, total: {{ $images->count() }} }" class="mb-10">
                 <div class="pf rounded-2xl aspect-[4/5] sm:aspect-[4/3] relative">
                     @foreach($images as $image)
-                    <img src="{{ $image }}" alt="{{ $post->title }} - image {{ $loop->iteration }}" x-show="i === {{ $loop->index }}" x-transition.opacity class="absolute inset-0 w-full h-full object-contain bg-zinc-100 dark:bg-zinc-900" @if(!$loop->first) x-cloak @endif>
+                    <img src="{{ $image }}" alt="{{ $post->t('title') }} - image {{ $loop->iteration }}" x-show="i === {{ $loop->index }}" x-transition.opacity class="absolute inset-0 w-full h-full object-contain bg-zinc-100 dark:bg-zinc-900" @if(!$loop->first) x-cloak @endif>
                     @endforeach
 
                     @if($images->count() > 1)
@@ -52,15 +52,15 @@
             @endif
 
             {{-- Written by the site owner in the admin editor. --}}
-            <div class="rich text-zinc-600 dark:text-zinc-400 leading-relaxed">{!! $post->description !!}</div>
+            <div class="rich text-zinc-600 dark:text-zinc-400 leading-relaxed">{!! $post->t('description') !!}</div>
 
             <div class="mt-12 pt-8 border-t border-zinc-100 dark:border-zinc-900 flex flex-wrap items-center gap-4">
                 <span class="text-sm text-zinc-500 dark:text-zinc-400">Share:</span>
                 @php $shareUrl = urlencode(url()->current()); @endphp
                 <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ $shareUrl }}" target="_blank" rel="noopener" class="nl text-sm text-zinc-600 dark:text-zinc-400 hover:text-accent-ink dark:hover:text-accent transition-colors">LinkedIn</a>
                 <a href="https://www.facebook.com/sharer/sharer.php?u={{ $shareUrl }}" target="_blank" rel="noopener" class="nl text-sm text-zinc-600 dark:text-zinc-400 hover:text-accent-ink dark:hover:text-accent transition-colors">Facebook</a>
-                <a href="https://twitter.com/intent/tweet?url={{ $shareUrl }}&text={{ urlencode($post->title) }}" target="_blank" rel="noopener" class="nl text-sm text-zinc-600 dark:text-zinc-400 hover:text-accent-ink dark:hover:text-accent transition-colors">Twitter</a>
-                <a href="https://wa.me/?text={{ urlencode($post->title.' '.url()->current()) }}" target="_blank" rel="noopener" class="nl text-sm text-zinc-600 dark:text-zinc-400 hover:text-accent-ink dark:hover:text-accent transition-colors">WhatsApp</a>
+                <a href="https://twitter.com/intent/tweet?url={{ $shareUrl }}&text={{ urlencode($post->t('title')) }}" target="_blank" rel="noopener" class="nl text-sm text-zinc-600 dark:text-zinc-400 hover:text-accent-ink dark:hover:text-accent transition-colors">Twitter</a>
+                <a href="https://wa.me/?text={{ urlencode($post->t('title').' '.url()->current()) }}" target="_blank" rel="noopener" class="nl text-sm text-zinc-600 dark:text-zinc-400 hover:text-accent-ink dark:hover:text-accent transition-colors">WhatsApp</a>
             </div>
         </div>
     </article>
@@ -68,7 +68,7 @@
     @if($others->count())
     <section class="py-20 bg-zinc-50 dark:bg-zinc-900/40">
         <div class="max-w-6xl mx-auto px-6">
-            <h2 class="font-display font-bold text-2xl text-zinc-900 dark:text-white mb-8">More posts</h2>
+            <h2 class="font-display font-bold text-2xl text-zinc-900 dark:text-white mb-8">{{ __('site.more.more_posts') }}</h2>
             <div class="grid md:grid-cols-3 gap-6">
                 @foreach($others as $other)
                 <article class="card-h group bg-white dark:bg-zinc-900 rounded-2xl overflow-hidden border border-zinc-100 dark:border-zinc-800 hover:border-accent">
@@ -78,7 +78,7 @@
                         </div>
                         <div class="p-6">
                             <p class="text-xs text-zinc-500 dark:text-zinc-400 mb-2">{{ $other->created_at->format('d M Y') }}</p>
-                            <h3 class="font-display font-bold text-lg text-zinc-900 dark:text-white leading-snug group-hover:text-accent-ink dark:group-hover:text-accent transition-colors">{{ $other->title }}</h3>
+                            <h3 class="font-display font-bold text-lg text-zinc-900 dark:text-white leading-snug group-hover:text-accent-ink dark:group-hover:text-accent transition-colors">{{ $other->t('title') }}</h3>
                         </div>
                     </a>
                 </article>

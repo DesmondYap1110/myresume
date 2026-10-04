@@ -55,6 +55,38 @@
     }
 
     /*
+     * A note tinted with the live theme rather than a fixed grey, so it
+     * belongs to whichever preset is in use. color-mix keeps it a faint wash;
+     * the plain values below are the fallback where it is not supported.
+     */
+    .themed-note {
+        display: flex; align-items: flex-start; gap: 8px;
+        margin: 0 0 10px; padding: 9px 13px; border-radius: 6px;
+        background: #f5f7fd; color: #6c757d; font-size: .82rem; line-height: 1.55;
+        border-left: 3px solid var(--brand-primary, #212529);
+    }
+    .themed-note > i { margin-top: 2px; color: var(--brand-primary, #212529); }
+    .themed-note a { color: var(--brand-link, #1572E8); }
+
+    @supports (background: color-mix(in srgb, red 10%, white)) {
+        .themed-note {
+            background: color-mix(in srgb, var(--brand-accent, #FFD700) 14%, #fff);
+            color: color-mix(in srgb, var(--brand-sidebar, #141416) 72%, #fff);
+        }
+    }
+
+    /* Language switcher in the back-office top bar. */
+    .bo-lang { display: flex; gap: 2px; padding: 3px; margin: 0 6px; border-radius: 999px; background: #eef0f4; }
+    .bo-lang-item {
+        display: inline-flex; align-items: center; justify-content: center;
+        min-width: 34px; height: 28px; padding: 0 9px; border-radius: 999px;
+        font-size: 12px; font-weight: 700; line-height: 1;
+        color: #6c757d; text-decoration: none;
+    }
+    .bo-lang-item:hover { background: #e2e6ed; color: #212529; text-decoration: none; }
+    .bo-lang-item.is-active { background: var(--brand-sidebar, #141416); color: var(--brand-accent, #FFD700); }
+
+    /*
      * My Profile's submenu is opened on its own pages. Minimised, the theme
      * hides the item text but keeps the rows, so those open submenus become a
      * tall blank gap between the icons. Hide them while minimised - hovering

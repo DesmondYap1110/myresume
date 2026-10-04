@@ -40,7 +40,7 @@
 
         <div class="card">
             <div class="card-header">
-                <div class="card-title">Theme Color</div>
+                <div class="card-title">{{ __('admin.ui.theme_color') }}</div>
                 <div class="card-category">Pick a preset. This page previews your choice; everything changes once you save.</div>
             </div>
             <div class="card-body">
@@ -60,7 +60,7 @@
                     @endforeach
                 </div>
 
-                <h4 class="mt-4 mb-3">Colours</h4>
+                <h4 class="mt-4 mb-3">{{ __('admin.ui.colours') }}</h4>
                 <div class="row">
                     @foreach ($editable as $token => $label)
                         @php $value = strtoupper(old("colors.$token", $current[$token] ?? '#000000')); @endphp
@@ -82,19 +82,19 @@
             {{-- The same submit as at the foot of the form: saving from here
                  spares a scroll past the login background section. --}}
             <div class="card-action">
-                <button type="submit" class="btn btn-primary">Save Theme</button>
-                <a href="{{ route('setting.view') }}#theme" class="btn btn-light">Discard Changes</a>
+                <button type="submit" class="btn btn-primary">{{ __('admin.ui.save_theme') }}</button>
+                <a href="{{ route('setting.view') }}#theme" class="btn btn-light">{{ __('admin.ui.discard_changes') }}</a>
             </div>
         </div>
 
         <div class="card">
             <div class="card-header">
-                <div class="card-title">Login Page Background</div>
+                <div class="card-title">{{ __('admin.ui.login_page_background') }}</div>
             </div>
             <div class="card-body">
                 <div class="row">
                     <div class="col-lg-7">
-                        <label class="mb-2">Background image</label>
+                        <label class="mb-2">{{ __('admin.ui.background_image') }}</label>
                         <div class="login-bg-options">
                             @foreach ($loginImages as $image)
                                 <label class="login-bg-option">
@@ -105,16 +105,16 @@
                             @if ($loginUploaded)
                                 <label class="login-bg-option">
                                     <input type="radio" name="login_image" value="uploaded" data-src="{{ asset($loginUploaded) }}" @checked($selectedImage === 'uploaded')>
-                                    <span class="login-bg-thumb" style="background-image: url('{{ asset($loginUploaded) }}')"><em>Uploaded</em></span>
+                                    <span class="login-bg-thumb" style="background-image: url('{{ asset($loginUploaded) }}')"><em>{{ __('admin.ui.uploaded') }}</em></span>
                                 </label>
                             @endif
                             <label class="login-bg-option">
                                 <input type="radio" name="login_image" value="upload" @checked($selectedImage === 'upload')>
-                                <span class="login-bg-thumb"><i class="fas fa-upload"></i><em>Upload</em></span>
+                                <span class="login-bg-thumb"><i class="fas fa-upload"></i><em>{{ __('admin.ui.upload') }}</em></span>
                             </label>
                             <label class="login-bg-option">
                                 <input type="radio" name="login_image" value="none" @checked($selectedImage === 'none')>
-                                <span class="login-bg-thumb"><i class="fas fa-fill-drip"></i><em>Colour only</em></span>
+                                <span class="login-bg-thumb"><i class="fas fa-fill-drip"></i><em>{{ __('admin.ui.colour_only') }}</em></span>
                             </label>
                         </div>
 
@@ -126,7 +126,7 @@
                         <div class="row mt-3">
                             <div class="col-md-6">
                                 <div class="form-group px-0">
-                                    <label for="login-color">Background colour</label>
+                                    <label for="login-color">{{ __('admin.ui.background_colour') }}</label>
                                     <div class="theme-color-row">
                                         <input type="color" id="login-color" value="{{ strtolower($loginColor) }}" data-login-color>
                                         <input type="text" class="form-control" name="login_color" value="{{ $loginColor }}" maxlength="7" pattern="#[0-9A-Fa-f]{6}" data-login-color-hex>
@@ -135,7 +135,7 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group px-0">
-                                    <label for="login-overlay">Darken image <span data-overlay-value>{{ $overlay }}%</span></label>
+                                    <label for="login-overlay">{{ __('admin.ui.darken_image') }} <span data-overlay-value>{{ $overlay }}%</span></label>
                                     <input type="range" id="login-overlay" class="form-range" name="login_overlay" min="0" max="80" step="5" value="{{ $overlay }}" data-login-overlay>
                                 </div>
                             </div>
@@ -143,7 +143,7 @@
                     </div>
 
                     <div class="col-lg-5">
-                        <label class="mb-2">Preview</label>
+                        <label class="mb-2">{{ __('admin.ui.preview') }}</label>
                         <div class="login-preview" data-login-preview style="background-color: {{ $loginColor }};">
                             <span class="login-preview-overlay" data-login-preview-overlay style="background: rgba(0,0,0,{{ $overlay / 100 }})"></span>
                             <span class="login-preview-card">
@@ -154,11 +154,11 @@
                 </div>
             </div>
             <div class="card-action">
-                <button type="submit" class="btn btn-primary">Save Theme</button>
-                <a href="{{ route('setting.view') }}#theme" class="btn btn-light">Discard Changes</a>
+                <button type="submit" class="btn btn-primary">{{ __('admin.ui.save_theme') }}</button>
+                <a href="{{ route('setting.view') }}#theme" class="btn btn-light">{{ __('admin.ui.discard_changes') }}</a>
                 <button type="submit" form="theme-reset-form" class="btn btn-danger float-end"
                         data-confirm="Reset the theme and login background to their defaults? Your current colours will be lost."
-                        data-confirm-title="Reset theme" data-confirm-ok="Reset">Reset to Default</button>
+                        data-confirm-title="{{ __('admin.confirm.t_reset_theme') }}" data-confirm-ok="Reset">{{ __('admin.ui.reset_to_default') }}</button>
             </div>
         </div>
     </form>

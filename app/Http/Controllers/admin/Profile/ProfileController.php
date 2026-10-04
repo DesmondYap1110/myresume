@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\admin\Profile;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Concerns\SavesTranslations;
 use App\Support\SafeImageUpload;
 use App\Services\ResumePdf;
 use Illuminate\Validation\ValidationException;
@@ -14,6 +15,7 @@ use App\Models\User;
 
 class ProfileController extends Controller
 {
+    use SavesTranslations;
     const page ="Profile";
     const viewPath = "admin.template1.profile.";
 
@@ -38,24 +40,64 @@ class ProfileController extends Controller
                 Rule::notIn(User::reserved_slugs),
                 Rule::unique('users', 'slug')->ignore($user_detail->id),
             ],
+            'social' => ['array'],
+            'social.*.url' => ['nullable', 'string', 'max:300'],
+            'social_custom' => ['array', 'max:'.\App\Support\SocialLinks::maxCustom],
+            'social_custom.*.label' => ['nullable', 'string', 'max:40'],
+            'social_custom.*.url' => ['nullable', 'string', 'max:300', 'url'],
         ], [
             'slug.regex' => 'The website address can use lowercase letters, numbers and hyphens only, for example desmond-yap.',
             'slug.not_in' => 'That website address is reserved. Please choose another one.',
             'slug.unique' => 'That website address is already taken.',
         ]);
 
+        // A known network's link has to be on that network's own domain, so a
+        // lookalike address cannot be passed off as a real profile.
+        foreach ((array) $request->input('social', []) as $key => $row) {
+            $url = trim((string) ($row['url'] ?? ''));
+
+            if ($url === '') {
+                continue;
+            }
+
+            $hosts = (array) config("social.networks.$key.host", []);
+
+            if (!\App\Support\SocialLinks::valid($url, $hosts)) {
+                throw \Illuminate\Validation\ValidationException::withMessages([
+                    "social.$key.url" => \App\Support\SocialLinks::hostMessage($key),
+                ]);
+            }
+        }
+
         $user_detail->slug = $request->slug;
         $user_detail->name = $request->name;
         $user_detail->dob = date("Y-m-d",strtotime($request->dob));
-        $user_detail->phone = $request->phone;
+        // The phone number is the digits of the WhatsApp link, so it is asked
+        // for once. An empty WhatsApp row leaves whatever is already stored,
+        // rather than wiping a number the resume and contact block still use.
+        $whatsapp = preg_replace('/\D+/', '', (string) $request->input('social.whatsapp.url', ''));
+
+        if ($whatsapp !== '') {
+            $user_detail->phone = $whatsapp;
+        }
         $user_detail->role = $request->role;
         $user_detail->address = $request->address;
-        $user_detail->linkedIn_url = $request->linkedIn_url;
         $user_detail->about = $request->about;
+
+        // Kept in step with the Social Links row, because the resume and the
+        // member list still read this column.
+        $user_detail->linkedIn_url = trim((string) $request->input('social.linkedin.url', '')) ?: null;
+
+        $user_detail->social_links = \App\Support\SocialLinks::fromRequest(
+            (array) $request->input('social', []),
+            (array) $request->input('social_custom', [])
+        ) ?: null;
 
         $user_detail->update();
 
-        return redirect()->route('profile.view')->with('success', 'Edit Successfully');
+        $this->storeTranslations($request, $user_detail);
+
+        return redirect()->route('profile.view')->with('success', __('admin.flash.profile_saved'));
 
     }
 

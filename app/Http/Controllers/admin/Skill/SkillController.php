@@ -51,7 +51,7 @@ class SkillController extends Controller
         $skill->sort_order = (int) Skill::where('user_id', Auth::id())->max('sort_order') + 1;
         $skill->save();
 
-        return redirect()->route($this->route.'view')->with('success', 'Add Skill successful!');
+        return redirect()->route($this->route.'view')->with('success', __('admin.flash.added', ['item' => __('admin.menu.skill')]));
     }
 
     public function update(Request $request)
@@ -65,7 +65,7 @@ class SkillController extends Controller
         $skill->level = $data['level'];
         $skill->update();
 
-        return redirect()->route($this->route.'view')->with('success', 'Edit Skill successful!');
+        return redirect()->route($this->route.'view')->with('success', __('admin.flash.updated', ['item' => __('admin.menu.skill')]));
     }
 
     /**
@@ -97,6 +97,6 @@ class SkillController extends Controller
 
         $skill->delete();
 
-        return redirect()->route($this->route.'view')->with('success', 'Delete Skill successful!');
+        return redirect()->route($this->route.'view')->with('success', __('admin.flash.deleted', ['item' => __('admin.menu.skill')]));
     }
 }

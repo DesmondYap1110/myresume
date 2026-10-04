@@ -32,10 +32,10 @@ AI Assistant
     <div class="col-md-12">
         @if(!$ready)
         <div class="alert alert-warning">
-            <b>Not set up yet.</b>
+            <b>{{ __('admin.ui.not_set_up_yet') }}</b>
             @if(Auth::user()->isAdmin())
                 Choose a provider and paste its key under
-                <a href="{{ route('aisetting.view') }}">AI Setting</a> to use this page.
+                <a href="{{ route('aisetting.view') }}">{{ __('admin.ui.ai_setting') }}</a> to use this page.
             @else
                 An administrator sets this up. Ask yours to add an AI provider and key to your account.
             @endif
@@ -47,11 +47,11 @@ AI Assistant
             <div class="card">
                 <div class="card-header">
                     <div class="card-head-row card-tools-still-right">
-                        <div class="card-title">Chat</div>
+                        <div class="card-title">{{ __('admin.ui.chat') }}</div>
                         <div class="card-tools">
                             <form action="{{ route('ai.clear') }}" method="post"
                                   data-confirm="Clear this conversation? The messages cannot be brought back."
-                                  data-confirm-title="Clear conversation" data-confirm-ok="Clear">
+                                  data-confirm-title="{{ __('admin.confirm.t_clear_chat') }}" data-confirm-ok="Clear">
                                 @csrf
                                 <button class="btn btn-light btn-sm"><i class="fas fa-trash me-1"></i> Clear</button>
                             </form>
@@ -84,13 +84,13 @@ AI Assistant
                     <form class="ai-composer" id="ai-form" enctype="multipart/form-data">
                         @csrf
                         <div class="input-group">
-                            <label class="btn btn-light mb-0" for="ai-resume" title="Attach a resume">
+                            <label class="btn btn-light mb-0" for="ai-resume" title="{{ __('admin.ui.attach_resume') }}">
                                 <i class="fas fa-paperclip"></i>
                                 <input type="file" id="ai-resume" name="resume" hidden
                                        accept=".{{ implode(',.', $accepted) }}">
                             </label>
                             <input type="text" class="form-control" id="ai-input" name="message"
-                                   placeholder="Ask something, or attach your resume..." maxlength="4000" autocomplete="off"
+                                   placeholder="{{ __('admin.ui.ask_something') }}" maxlength="4000" autocomplete="off"
                                    @disabled(!$ready)>
                             <button class="btn btn-primary" type="submit" id="ai-send" @disabled(!$ready)>
                                 <i class="fas fa-paper-plane"></i> Send
@@ -99,13 +99,13 @@ AI Assistant
 
                         <div class="ai-file" id="ai-file" hidden>
                             <i class="fas fa-file-alt"></i><span class="name" id="ai-file-name"></span>
-                            <button type="button" class="btn btn-sm btn-light" id="ai-file-clear">Remove</button>
+                            <button type="button" class="btn btn-sm btn-light" id="ai-file-clear">{{ __('admin.ui.remove') }}</button>
                         </div>
 
                         <div class="mt-3">
-                            <span class="ai-chip" data-ask="Write a short professional summary for my portfolio.">Write my about text</span>
-                            <span class="ai-chip" data-ask="Suggest 3 services I could offer based on my experience.">Suggest services</span>
-                            <span class="ai-chip" data-ask="Give me 5 blog post ideas based on my projects.">Blog ideas</span>
+                            <span class="ai-chip" data-ask="Write a short professional summary for my portfolio.">{{ __('admin.ui.write_about_text') }}</span>
+                            <span class="ai-chip" data-ask="Suggest 3 services I could offer based on my experience.">{{ __('admin.ui.suggest_services') }}</span>
+                            <span class="ai-chip" data-ask="Give me 5 blog post ideas based on my projects.">{{ __('admin.ui.blog_ideas') }}</span>
                         </div>
                     </form>
                 </div>
@@ -114,8 +114,8 @@ AI Assistant
             {{-- ============ Import panel ============ --}}
             <div class="card" id="ai-draft-card" @if(!$draft) hidden @endif>
                 <div class="card-header">
-                    <div class="card-title">Import from resume</div>
-                    <div class="card-category">Review, then choose what to save.</div>
+                    <div class="card-title">{{ __('admin.ui.import_from_resume') }}</div>
+                    <div class="card-category">{{ __('admin.ui.review_then_save') }}</div>
                 </div>
                 <form action="{{ route('ai.import') }}" method="post">
                     @csrf

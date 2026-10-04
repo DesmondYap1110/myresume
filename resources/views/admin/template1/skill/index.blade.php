@@ -119,7 +119,7 @@
     <div class="col-md-12">
         <div class="card">
             <div class="card-header">
-                <div class="card-title">My Skills</div>
+                <div class="card-title">{{ __('admin.ui.my_skills') }}</div>
                 <div class="card-category">Shown on your website and in your resume. Add one in the bottom row, and drag rows to change the order.</div>
             </div>
             <div class="card-body">
@@ -129,15 +129,15 @@
                             <tr>
                                 <th style="width:44px"></th>
                                 <th>Skill</th>
-                                <th style="width:220px">Level</th>
-                                <th style="width:120px" class="text-end">Actions</th>
+                                <th style="width:220px">{{ __('admin.ui.level') }}</th>
+                                <th style="width:120px" class="text-end">{{ __('admin.ui.actions') }}</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach($skill as $data)
                             @php $editing = $openForm === 'edit-'.$data->id; @endphp
                             <tr data-skill-row="{{ $data->id }}" @class(['is-editing' => $editing])>
-                                <td class="skill-drag" draggable="true" title="Drag to reorder">
+                                <td class="skill-drag" draggable="true" title="{{ __('admin.ui.drag_to_reorder') }}">
                                     <i class="fas fa-grip-vertical"></i>
                                 </td>
                                 <td>
@@ -157,18 +157,18 @@
                                     </div>
                                 </td>
                                 <td class="text-end">
-                                    <button type="button" class="btn btn-info btn-sm btn-icon-sm s-view" data-skill-edit="{{ $data->id }}" title="Edit">
+                                    <button type="button" class="btn btn-info btn-sm btn-icon-sm s-view" data-skill-edit="{{ $data->id }}" title="{{ __('admin.ui.edit') }}">
                                         <i class="fas fa-pen"></i>
                                     </button>
-                                    <a href="{{ route('skill.delete', $data->id) }}" class="btn btn-danger btn-sm btn-icon-sm s-view" title="Delete"
-                                       data-confirm="Delete the skill “{{ $data->name }}”? This cannot be undone."
-                                       data-confirm-title="Delete skill" data-confirm-ok="Delete">
+                                    <a href="{{ route('skill.delete', $data->id) }}" class="btn btn-danger btn-sm btn-icon-sm s-view" title="{{ __('admin.ui.delete') }}"
+                                       data-confirm="{{ __('admin.confirm.q_delete_skill', ['name' => $data->name]) }}"
+                                       data-confirm-title="{{ __('admin.confirm.t_delete_skill') }}" data-confirm-ok="{{ __('admin.confirm.ok_delete') }}">
                                         <i class="fas fa-trash"></i>
                                     </a>
-                                    <button type="submit" class="btn btn-success btn-sm btn-icon-sm s-edit" form="skill-edit-{{ $data->id }}" title="Save">
+                                    <button type="submit" class="btn btn-success btn-sm btn-icon-sm s-edit" form="skill-edit-{{ $data->id }}" title="{{ __('admin.ui.save') }}">
                                         <i class="fas fa-check"></i>
                                     </button>
-                                    <button type="button" class="btn btn-danger btn-sm btn-icon-sm s-edit" data-skill-cancel="{{ $data->id }}" title="Cancel">
+                                    <button type="button" class="btn btn-danger btn-sm btn-icon-sm s-edit" data-skill-cancel="{{ $data->id }}" title="{{ __('admin.confirm.cancel') }}">
                                         <i class="fas fa-times"></i>
                                     </button>
                                 </td>
@@ -180,7 +180,7 @@
                                 <td></td>
                                 <td>
                                     <input type="text" class="form-control" form="skill-add-form" name="name" maxlength="255"
-                                           placeholder="Skill name" value="{{ $openForm === 'add' ? old('name') : '' }}">
+                                           placeholder="{{ __('admin.ui.skill_name') }}" value="{{ $openForm === 'add' ? old('name') : '' }}">
                                 </td>
                                 <td>
                                     <div class="input-group">
@@ -190,10 +190,10 @@
                                     </div>
                                 </td>
                                 <td class="text-end">
-                                    <button type="submit" class="btn btn-info btn-sm btn-icon-sm" form="skill-add-form" title="Add skill">
+                                    <button type="submit" class="btn btn-info btn-sm btn-icon-sm" form="skill-add-form" title="{{ __('admin.ui.add_skill') }}">
                                         <i class="fas fa-plus"></i>
                                     </button>
-                                    <button type="reset" class="btn btn-danger btn-sm btn-icon-sm" form="skill-add-form" title="Clear">
+                                    <button type="reset" class="btn btn-danger btn-sm btn-icon-sm" form="skill-add-form" title="{{ __('admin.confirm.ok_clear') }}">
                                         <i class="fas fa-times"></i>
                                     </button>
                                 </td>

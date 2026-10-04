@@ -13,9 +13,9 @@
         <div class="card">
             <div class="card-header">
                 <div class="card-head-row card-tools-still-right">
-                    <div class="card-title">My Past Project</div>
+                    <div class="card-title">{{ __('admin.ui.my_past_project') }}</div>
                     <div class="card-tools">
-                        <a href="{{ route('project.add') }}" class="btn bg-black btn-icon text-white" data-toggle="tooltip" data-placement="bottom" title="Add Project" ">
+                        <a href="{{ route('project.add') }}" class="btn bg-black btn-icon text-white" data-toggle="tooltip" data-placement="bottom" title="{{ __('admin.ui.add_project') }}" ">
                             <i class="fas fa-plus"></i>
                         </a>
                     </div>
@@ -44,8 +44,8 @@
                                 <ul class="nav nav-pills nav-secondary nav-pills-no-bd nav-sm">
                                     <li><a class="nav-link btn btn-primary text-white"  href="{{ route('project.edit',$data->id) }}"><i class="fas fa-edit"></i></a></li>
                                     <li><a class="nav-link btn btn-danger text-white"  href="{{ route('project.delete',$data->id) }}"
-                                           data-confirm="Delete the project “{{ $data->name }}”? This cannot be undone."
-                                           data-confirm-title="Delete project" data-confirm-ok="Delete"><i class="fas fa-trash"></i></a></li>
+                                           data-confirm="{{ __('admin.confirm.q_delete_project', ['name' => $data->name]) }}"
+                                           data-confirm-title="{{ __('admin.confirm.t_delete_project') }}" data-confirm-ok="{{ __('admin.confirm.ok_delete') }}"><i class="fas fa-trash"></i></a></li>
                                 </ul>
                             </div>
                         </div>

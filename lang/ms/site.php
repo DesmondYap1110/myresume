@@ -1,0 +1,128 @@
+<?php
+
+/*
+| Label laman web awam dalam Bahasa Melayu. Kandungan yang ditulis ahli
+| diterjemah di Admin > Translation, bukan di sini.
+*/
+
+return [
+
+    'nav' => [
+        'about' => 'Tentang',
+        'experience' => 'Pengalaman',
+        'education' => 'Pendidikan',
+        'skills' => 'Kemahiran',
+        'projects' => 'Projek',
+        'services' => 'Perkhidmatan',
+        'testimonials' => 'Testimoni',
+        'blog' => 'Blog',
+        'contact' => 'Hubungi',
+        'menu' => 'Menu',
+    ],
+
+    'section' => [
+        'about' => 'Tentang Saya',
+        'experience' => 'Pengalaman',
+        'education' => 'Pendidikan',
+        'skills' => 'Kemahiran',
+        'projects' => 'Projek',
+        'selected_work' => 'Kerja Terpilih',
+        'services' => 'Perkhidmatan',
+        'testimonials' => 'Testimoni',
+        'what_clients_say' => 'Kata Pelanggan',
+        'blog' => 'Blog',
+        'from_the_blog' => 'Dari Blog',
+        'contact' => 'Hubungi',
+        'get_in_touch' => 'Hubungi Saya',
+    ],
+
+    'action' => [
+        'read_more' => 'Baca lagi',
+        'read_my_blog' => 'Baca blog saya',
+        'download_resume' => 'Muat turun resume',
+        'send_message' => 'Hantar mesej',
+        'sending' => 'Menghantar…',
+        'view_project' => 'Lihat projek',
+        'back' => 'Kembali',
+        'back_to_home' => 'Kembali ke laman utama',
+        'contact_me' => 'Hubungi saya',
+        'hire_me' => 'Upah saya',
+    ],
+
+    'form' => [
+        'name' => 'Nama',
+        'email' => 'E-mel',
+        'subject' => 'Subjek',
+        'message' => 'Mesej anda',
+        'your_name' => 'Nama anda',
+        'your_email' => 'E-mel anda',
+        'required' => 'Wajib diisi',
+        'sent' => 'Terima kasih — mesej anda telah dihantar.',
+        'failed' => 'Maaf, mesej tidak dapat dihantar. Sila cuba lagi.',
+    ],
+
+    'label' => [
+        'contact_info' => 'Maklumat hubungan',
+        'location' => 'Lokasi',
+        'phone' => 'Telefon',
+        'email' => 'E-mel',
+        'linkedin' => 'Profil LinkedIn',
+        'present' => 'Sekarang',
+        'language' => 'Bahasa',
+        'published' => 'Diterbitkan',
+        'min_read' => 'Bacaan :count minit',
+        'no_posts' => 'Tiada catatan lagi.',
+    ],
+
+
+    'more' => [
+        'about_me' => 'Tentang saya',
+        'about_author' => 'Tentang penulis',
+        'back_to_top' => 'Kembali ke atas',
+        'basic_info' => 'Maklumat Asas',
+        'explore' => 'Jelajah',
+        'feel_free' => 'Jangan segan hubungi saya',
+        'follow_me' => 'Ikuti saya',
+        'happy_clients' => 'Pelanggan berpuas hati',
+        'latest_blog' => 'Blog Terkini',
+        'latest_posts' => 'Catatan Terkini',
+        'honeypot' => 'Biarkan ruangan ini kosong',
+        'more_posts' => 'Lagi catatan',
+        'more_work' => 'Lagi kerja',
+        'no_posts_yet' => 'Catatan baharu akan menyusul.',
+        'next' => 'Seterusnya',
+        'next_image' => 'Gambar seterusnya',
+        'previous' => 'Sebelumnya',
+        'previous_image' => 'Gambar sebelumnya',
+        'projects_note' => 'Catatan tentang projek yang saya bina.',
+        'open_to_projects' => 'Terbuka untuk projek',
+        'portfolio' => 'Portfolio',
+        'references' => 'Rujukan',
+        'reviews' => 'Ulasan',
+        'selected_work_note' => 'Kerja terpilih yang saya hasilkan.',
+        'send' => 'Hantar',
+        'social_proof' => 'Bukti sosial',
+        'thoughts' => 'Pandangan',
+        'discuss_project' => 'Ingin bincangkan projek?',
+        'what_i_do' => 'Apa yang saya lakukan',
+        'what_i_help' => 'Apa yang saya boleh bantu.',
+        'what_i_work_with' => 'Apa yang saya guna',
+    ],
+
+    'ui' => [
+        'hello_im' => 'Helo, saya :name',
+        'hi_im' => 'Hai, saya',
+        'i_work_as' => 'Saya bekerja sebagai',
+        'your_name' => 'Nama anda',
+        'full_name' => 'Nama penuh',
+        'name' => 'Nama',
+        'subject' => 'Subjek',
+        'email_address' => 'Alamat e-mel',
+        'email_id' => 'Alamat e-mel',
+        'e_mail' => 'E-mel',
+        'your_message' => 'Mesej anda',
+        'type_number' => 'Taip nombor itu',
+        'quick_check' => 'Semakan ringkas',
+        'captcha_q' => 'Berapakah :a campur :b?',
+    ],
+];
