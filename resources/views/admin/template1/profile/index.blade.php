@@ -182,6 +182,18 @@
                                         </div>
                                     </div>
 
+                                    <div class="col-md-6 col-12 py-1">
+                                        <label for="default_locale">{{ __('admin.ui.site_language') }}</label>
+                                        <select class="form-control" id="default_locale" name="default_locale">
+                                            {{-- Empty means follow the visitor's browser, which is
+                                                 what every site did before this setting existed. --}}
+                                            <option value="">{{ __('admin.ui.site_language_auto') }}</option>
+                                            @foreach((array) config('locales.supported', []) as $code => $locale)
+                                            <option value="{{ $code }}" @selected($user_detail->default_locale === $code)>{{ $locale['native'] ?? $code }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+
                                     {{-- The number now comes from the WhatsApp row under
                                          Social Links, so it is only asked for once. --}}
                                 </div>
@@ -251,7 +263,6 @@
             <div class="card" id="resume" data-pf-resume>
                 <div class="card-header">
                     <div class="card-title">{{ __('admin.ui.resume_cv') }}</div>
-                    <div class="card-category">{{ __('admin.resume.auto_note') }}</div>
                 </div>
                 <div class="card-body">
                     @if($user_detail->hasResume())
@@ -274,17 +285,6 @@
                             <a href="{{ route('profile.resume', ['download' => 1]) }}" class="btn btn-sm btn-dark resume-btn"><i class="fa fa-download me-1"></i> {{ __('admin.resume.generate_download') }}</a>
                         </div>
                     </div>
-                    <p class="themed-note mb-0">
-                        <i class="fas fa-info-circle"></i>
-                        <span>
-                            {{-- The address itself is already on this page, under
-                                 Share this link, so the sentence stays short. --}}
-                            {!! __('admin.resume.visitors_note', [
-                                'button' => '<b>'.e(__('admin.ui.download_cv')).'</b>',
-                            ]) !!}
-                            {{ __('admin.resume.skills_tip') }}
-                        </span>
-                    </p>
                     @else
                     <p class="themed-note mb-0">
                         <i class="fas fa-info-circle"></i>

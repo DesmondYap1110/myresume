@@ -105,6 +105,8 @@ return [
         'email_address_lc' => 'Alamat e-mel',
         'email' => 'E-mel',
         'birthday' => 'Hari Lahir',
+        'site_language' => 'Bahasa Laman Web',
+        'site_language_auto' => 'Ikut pelayar pelawat',
         'date_of_birth' => 'Tarikh lahir',
         'phone' => 'Telefon',
         'address' => 'Alamat',
@@ -319,15 +321,12 @@ return [
     ],
 
     'resume' => [
-        'auto_note' => 'Dijana secara automatik daripada halaman ini dan modul Pengalaman, Pendidikan, Projek serta Perkhidmatan anda — sunting modul itu dan resume akan dikemas kini sendiri.',
         'generate_download' => 'Jana & Muat Turun',
         // Malay does not change the noun for plural.
         'jobs' => ':count pekerjaan',
         'qualifications' => ':count kelayakan',
         'strengths' => ':count kekuatan',
         'projects' => ':count projek',
-        'visitors_note' => 'Pelawat boleh memuat turun PDF CV yang sama melalui butang :button di laman web.',
-        'skills_tip' => 'Kemahiran diambil daripada modul Kemahiran anda.',
         'empty_note' => 'Tambah teks Tentang Saya, atau beberapa Pengalaman atau Pendidikan, dan resume anda akan dijana daripadanya. Sehingga itu, butang :button kekal tersembunyi di laman web anda.',
     ],
 

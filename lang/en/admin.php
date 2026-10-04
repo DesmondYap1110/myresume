@@ -105,6 +105,8 @@ return [
         'email_address_lc' => 'Email address',
         'email' => 'Email',
         'birthday' => 'Birthday',
+        'site_language' => 'Website Language',
+        'site_language_auto' => 'Follow the visitor’s browser',
         'date_of_birth' => 'Date of birth',
         'phone' => 'Phone',
         'address' => 'Address',
@@ -324,7 +326,6 @@ return [
     | changes the noun for one versus many can say so.
     */
     'resume' => [
-        'auto_note' => 'Generated automatically from this page and your Experience, Education, Project and Service modules — edit those and the resume updates itself.',
         'generate_download' => 'Generate & Download',
         // Zero needs its own rule: [2,*] does not cover it, and English says
         // "0 jobs", not "0 job".
@@ -332,8 +333,6 @@ return [
         'qualifications' => '{0} :count qualifications|{1} :count qualification|[2,*] :count qualifications',
         'strengths' => '{0} :count strengths|{1} :count strength|[2,*] :count strengths',
         'projects' => '{0} :count projects|{1} :count project|[2,*] :count projects',
-        'visitors_note' => 'Visitors can download the same CV PDF from the :button button on your website.',
-        'skills_tip' => 'Skills come from your Skill module.',
         'empty_note' => 'Add your About text, or some Experience or Education, and your resume will be generated from it. Until then the :button button stays hidden on your website.',
     ],
 

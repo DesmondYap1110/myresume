@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\User;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
@@ -11,8 +12,13 @@ use Symfony\Component\HttpFoundation\Response;
  * Picks the language a public page is read in.
  *
  * In order: ?lang= on the address, then what the visitor chose earlier, then
- * what their browser asks for, then the default. The choice is remembered in
- * the session so it survives moving between pages.
+ * the language the site owner set under Profile, then what the visitor's
+ * browser asks for, then the default. The choice is remembered in the session
+ * so it survives moving between pages.
+ *
+ * The owner's setting sits above the browser on purpose: it is the language
+ * they wrote the site in. A visitor who switches still wins, because their
+ * choice is in the session and is read first.
  */
 class SetLocale
 {
@@ -30,6 +36,7 @@ class SetLocale
             $locale = $wanted;
         } else {
             $locale = $request->session()->get(self::key)
+                ?: $this->fromOwner($request, $supported)
                 ?: $this->fromBrowser($request, $supported)
                 ?: $default;
         }
@@ -37,6 +44,26 @@ class SetLocale
         App::setLocale(in_array($locale, $supported, true) ? $locale : $default);
 
         return $next($request);
+    }
+
+    /**
+     * What the owner of the site being viewed chose under Profile.
+     *
+     * The public routes all carry the owner's slug as {id}. Admin pages have
+     * no such parameter, so this costs nothing there - and the query only runs
+     * when the visitor has neither asked for a language nor chosen one before.
+     */
+    private function fromOwner(Request $request, array $supported): ?string
+    {
+        $slug = $request->route('id');
+
+        if (!is_string($slug) || $slug === '') {
+            return null;
+        }
+
+        $locale = User::where('slug', $slug)->value('default_locale');
+
+        return is_string($locale) && in_array($locale, $supported, true) ? $locale : null;
     }
 
     /**

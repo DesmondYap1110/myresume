@@ -105,6 +105,8 @@ return [
         'email_address_lc' => '电子邮件地址',
         'email' => '电子邮件',
         'birthday' => '生日',
+        'site_language' => '网站语言',
+        'site_language_auto' => '跟随访客浏览器',
         'date_of_birth' => '出生日期',
         'phone' => '电话',
         'address' => '地址',
@@ -320,15 +322,12 @@ return [
     ],
 
     'resume' => [
-        'auto_note' => '根据本页以及您的工作经历、教育背景、项目和服务模块自动生成——修改这些模块，简历会自动更新。',
         'generate_download' => '生成并下载',
         // Chinese uses the same form for one and many.
         'jobs' => ':count 份工作',
         'qualifications' => ':count 项学历',
         'strengths' => ':count 项专长',
         'projects' => ':count 个项目',
-        'visitors_note' => '访客可通过网站上的 :button 按钮下载同一份简历 PDF。',
-        'skills_tip' => '技能来自您的“技能”模块。',
         'empty_note' => '请填写“关于我”，或添加一些工作经历或教育背景，系统会据此生成您的简历。在那之前，:button 按钮不会显示在您的网站上。',
     ],
 

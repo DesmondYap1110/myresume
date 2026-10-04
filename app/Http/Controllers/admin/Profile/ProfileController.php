@@ -40,6 +40,8 @@ class ProfileController extends Controller
                 Rule::notIn(User::reserved_slugs),
                 Rule::unique('users', 'slug')->ignore($user_detail->id),
             ],
+            // Empty is allowed and means "follow the visitor's browser".
+            'default_locale' => ['nullable', 'string', Rule::in(array_keys((array) config('locales.supported', [])))],
             'social' => ['array'],
             'social.*.url' => ['nullable', 'string', 'max:300'],
             'social_custom' => ['array', 'max:'.\App\Support\SocialLinks::maxCustom],
@@ -82,6 +84,21 @@ class ProfileController extends Controller
         }
         $user_detail->role = $request->role;
         $user_detail->address = $request->address;
+
+        // Null rather than '' so the column reads as "not set" in the database
+        // as well as in the form.
+        $user_detail->default_locale = $request->input('default_locale') ?: null;
+
+        /*
+         * Drop any language this browser picked earlier on the public site.
+         *
+         * SetLocale reads the visitor's own choice before the owner's default,
+         * which is right for a visitor but meant the owner saw no change after
+         * setting this - their session still held whatever they last switched
+         * to, so the setting looked broken.
+         */
+        $request->session()->forget(\App\Http\Middleware\SetLocale::key);
+
         $user_detail->about = $request->about;
 
         // Kept in step with the Social Links row, because the resume and the
