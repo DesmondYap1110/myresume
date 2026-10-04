@@ -15,10 +15,10 @@
                         <i class="fa fa-search-plus fa-3x"></i>
                     </div>
                 </div>
-                @if($data->images->count() > 1)
-                <span class="blog-count"><i class="fa fa-clone"></i> {{ $data->images->count() }}</span>
+                @if($data->imagesFor()->count() > 1)
+                <span class="blog-count"><i class="fa fa-clone"></i> {{ $data->imagesFor()->count() }}</span>
                 @endif
-                <img class="img-fluid" src="{{ optional($data->images->first())->url ?: $data->image }}" alt="{{ $data->t('title') }}">
+                <img class="img-fluid" src="{{ optional($data->imagesFor()->first())->url ?: $data->image }}" alt="{{ $data->t('title') }}">
             </a>
         </div>
         @endforeach
@@ -34,7 +34,7 @@
 @php
     // Only what the modal needs: id, title, description, date and image URLs.
     $postsData = $blog->map(function ($b) {
-        $images = $b->images->pluck('url')->filter()->values()->all();
+        $images = $b->imagesFor()->pluck('url')->filter()->values()->all();
 
         return [
             'id' => $b->id,

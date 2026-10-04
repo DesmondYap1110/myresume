@@ -261,15 +261,15 @@
             <div class="grid md:grid-cols-3 gap-6">
                 @foreach($blog as $post)
                 @php
-                    $cover = optional($post->images->first())->url ?: $post->image;
+                    $cover = optional($post->imagesFor()->first())->url ?: $post->image;
                     $url = route('front.post', [$post->id, $id]);
                 @endphp
                 <article class="reveal d{{ min($loop->iteration, 4) }} card-h group bg-white dark:bg-zinc-900 rounded-2xl overflow-hidden border border-zinc-100 dark:border-zinc-800 hover:border-accent">
                     <a href="{{ $url }}" class="block">
                         <div class="pf aspect-[4/3] relative">
                             <img src="{{ $cover }}" alt="{{ $post->t('title') }}" loading="lazy" class="group-hover:scale-105 transition-transform duration-500">
-                            @if($post->images->count() > 1)
-                            <span class="absolute top-3 right-3 bg-accent text-zinc-900 text-xs font-medium px-2 py-1 rounded-full">{{ $post->images->count() }} images</span>
+                            @if($post->imagesFor()->count() > 1)
+                            <span class="absolute top-3 right-3 bg-accent text-zinc-900 text-xs font-medium px-2 py-1 rounded-full">{{ $post->imagesFor()->count() }} images</span>
                             @endif
                         </div>
                         <div class="p-6">

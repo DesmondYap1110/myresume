@@ -1,7 +1,7 @@
 @php
     $id = request()->id;
     $home = route('front.show', $id);
-    $images = $post->images->pluck('url')->filter()->values();
+    $images = $post->imagesFor()->pluck('url')->filter()->values();
     if ($images->isEmpty() && $post->image) $images = collect([$post->image]);
 
     $text = trim(preg_replace('/\s+/', ' ', strip_tags((string) $post->t('description'))));
@@ -31,7 +31,7 @@
                 <div class="col-lg-8">
                     <article class="single-post">
                         @if($images->count() > 1)
-                        <div class="owl-carousel owl-theme t2-gallery" aria-label="Images">
+                        <div class="owl-carousel owl-theme t2-gallery" aria-label="{{ __('site.more.images') }}">
                             @foreach($images as $image)
                             <a href="{{ $image }}" target="_blank" rel="noopener"><img src="{{ $image }}" alt="{{ $post->t('title') }} - image {{ $loop->iteration }}" class="img-fluid"></a>
                             @endforeach
@@ -105,7 +105,7 @@
                             <h4 class="mb-4 widget-title">{{ __('site.more.follow_me') }}</h4>
                             <ul class="list-inline">
                                 @if($user->linkedIn_url)<li class="list-inline-item"><a href="{{ $user->linkedIn_url }}" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="ti-linkedin"></i></a></li>@endif
-                                @if($user->email)<li class="list-inline-item"><a href="mailto:{{ $user->email }}" aria-label="Email"><i class="ti-email"></i></a></li>@endif
+                                @if($user->email)<li class="list-inline-item"><a href="mailto:{{ $user->email }}" aria-label="{{ __('site.label.email') }}"><i class="ti-email"></i></a></li>@endif
                                 @if($user->phone)<li class="list-inline-item"><a href="https://wa.me/{{ $user->phone }}" target="_blank" rel="noopener" aria-label="WhatsApp"><i class="ti-mobile"></i></a></li>@endif
                             </ul>
                         </div>

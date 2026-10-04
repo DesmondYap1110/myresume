@@ -288,6 +288,8 @@ return [
         'lang_optional' => 'Pilihan. Apa-apa yang dibiarkan kosong akan dipaparkan dalam :language.',
         'lang_required' => 'wajib',
         'currently_working' => 'Masih bekerja di sini?',
+        'locale_images' => 'Gambar untuk bahasa lain',
+        'locale_images_note' => 'Hanya perlu jika bahasa ini memerlukan gambar berbeza. Biarkan kosong dan gambar di atas akan digunakan.',
         'drag_drop_media' => 'Seret &amp; lepas gambar atau video, atau',
         'add_more_media' => 'Tambah lagi: seret &amp; lepas, atau',
         'first_media_cover_short' => 'Yang pertama menjadi muka depan.',

@@ -307,7 +307,7 @@
             <div class="row">
                 <div class="col-lg-6">
                     <h2 class="mb-2">{{ __('site.section.what_clients_say') }}</h2>
-                    <p class="mb-5">Feedback from the people I have worked with.</p>
+                    <p class="mb-5">{{ __('site.more.feedback_note') }}</p>
                 </div>
             </div>
             <div class="row">
@@ -352,22 +352,22 @@
             <div class="row">
                 @foreach($blog as $post)
                 @php
-                    $cover = optional($post->images->first())->url ?: $post->image;
+                    $cover = optional($post->imagesFor()->first())->url ?: $post->image;
                     $url = route('front.post', [$post->id, $id]);
                 @endphp
                 <div class="col-lg-4 col-md-6">
                     <div class="post mb-5" data-aos="fade-up" data-aos-delay="{{ $loop->index * 100 }}">
                         <a class="image-content t2-post-image" href="{{ $url }}">
                             <img src="{{ $cover }}" alt="{{ $post->t('title') }}" class="img-fluid">
-                            @if($post->images->count() > 1)
-                            <span class="t2-count"><i class="ti-gallery"></i> {{ $post->images->count() }}</span>
+                            @if($post->imagesFor()->count() > 1)
+                            <span class="t2-count"><i class="ti-gallery"></i> {{ $post->imagesFor()->count() }}</span>
                             @endif
                         </a>
                         <div class="post-content">
                             <span class="date text-uppercase text-sm">{{ $post->created_at->format('d M Y') }}</span>
                             <a href="{{ $url }}"><h4>{{ $post->t('title') }}</h4></a>
                             <p class="text-sm mb-3">{{ \Illuminate\Support\Str::limit($plain($post->t('description')), 120) }}</p>
-                            <a href="{{ $url }}" class="t2-more">Read more <i class="ti-arrow-right"></i></a>
+                            <a href="{{ $url }}" class="t2-more">{{ __('site.action.read_more') }} <i class="ti-arrow-right"></i></a>
                         </div>
                     </div>
                 </div>

@@ -6,20 +6,20 @@
         <div class="modal-content post-panel">
             <div class="post-progress" aria-hidden="true"><span></span></div>
 
-            <button type="button" class="post-close" data-dismiss="modal" aria-label="Close">
+            <button type="button" class="post-close" data-dismiss="modal" aria-label="{{ __('site.more.close') }}">
                 <span></span><span></span>
             </button>
 
             <div class="post-grid">
-                <aside class="post-media" aria-label="Images">
+                <aside class="post-media" aria-label="{{ __('site.more.images') }}">
                     <div class="post-media-frame">
                         <span class="post-corner tl"></span><span class="post-corner tr"></span>
                         <span class="post-corner bl"></span><span class="post-corner br"></span>
-                        <a id="blog-image-link" href="#" target="_blank" rel="noopener" title="Open full size">
+                        <a id="blog-image-link" href="#" target="_blank" rel="noopener" title="{{ __('site.more.open_full') }}">
                             <img id="blog-image" src="" alt="">
                         </a>
-                        <button type="button" class="post-gallery-arrow prev" data-image-step="-1" aria-label="Previous image"><i class="fa fa-chevron-left"></i></button>
-                        <button type="button" class="post-gallery-arrow next" data-image-step="1" aria-label="Next image"><i class="fa fa-chevron-right"></i></button>
+                        <button type="button" class="post-gallery-arrow prev" data-image-step="-1" aria-label="{{ __('site.more.previous_image') }}"><i class="fa fa-chevron-left"></i></button>
+                        <button type="button" class="post-gallery-arrow next" data-image-step="1" aria-label="{{ __('site.more.next_image') }}"><i class="fa fa-chevron-right"></i></button>
                     </div>
                     <div class="post-media-caption">
                         <span class="post-live"></span>
@@ -40,7 +40,7 @@
 
                     <div class="post-content" id="blog-content"></div>
 
-                    <nav class="post-nav" aria-label="More posts">
+                    <nav class="post-nav" aria-label="{{ __('site.more.more_posts') }}">
                         <button type="button" class="post-nav-btn prev" data-step="-1">
                             <i class="fa fa-arrow-left"></i>
                             <span><small>{{ __('site.more.previous') }}</small><b id="blog-prev-title"></b></span>

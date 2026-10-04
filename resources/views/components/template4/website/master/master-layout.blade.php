@@ -401,7 +401,7 @@ a, a:hover, a:focus, .text-primary { color: var(--t4-ink); }
       <div class="container">
         <div class="navbar-translate">
           <a class="navbar-brand" href="{{ $home ?: '#top' }}">{{ $brand }}</a>
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation" aria-expanded="false" aria-label="{{ __('site.more.toggle_nav') }}">
             <span class="navbar-toggler-bar bar1"></span><span class="navbar-toggler-bar bar2"></span><span class="navbar-toggler-bar bar3"></span>
           </button>
         </div>
@@ -415,7 +415,7 @@ a, a:hover, a:focus, .text-primary { color: var(--t4-ink); }
             @endif
             <div>
               <strong>{{ $user->name }}</strong>
-              @if($user->role)<small>{{ $user->role }}</small>@endif
+              @if($user->t('role'))<small>{{ $user->t('role') }}</small>@endif
             </div>
           </div>
 
@@ -436,7 +436,7 @@ a, a:hover, a:focus, .text-primary { color: var(--t4-ink); }
             @endif
             <div class="t4-menu-social">
               @if($user->linkedIn_url)<a href="{{ $user->linkedIn_url }}" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fa fa-linkedin"></i></a>@endif
-              @if($user->email)<a href="mailto:{{ $user->email }}" aria-label="Email"><i class="fa fa-envelope"></i></a>@endif
+              @if($user->email)<a href="mailto:{{ $user->email }}" aria-label="{{ __('site.label.email') }}"><i class="fa fa-envelope"></i></a>@endif
               @if($user->phone)<a href="https://wa.me/{{ preg_replace('/\D+/', '', $user->phone) }}" target="_blank" rel="noopener" aria-label="WhatsApp"><i class="fa fa-whatsapp"></i></a>@endif
             </div>
           </div>
@@ -456,7 +456,7 @@ a, a:hover, a:focus, .text-primary { color: var(--t4-ink); }
     <a class="btn btn-link" href="{{ $user->linkedIn_url }}" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fa fa-linkedin fa-2x" aria-hidden="true"></i></a>
     @endif
     @if($user->email)
-    <a class="btn btn-link" href="mailto:{{ $user->email }}" aria-label="Email"><i class="fa fa-envelope fa-2x" aria-hidden="true"></i></a>
+    <a class="btn btn-link" href="mailto:{{ $user->email }}" aria-label="{{ __('site.label.email') }}"><i class="fa fa-envelope fa-2x" aria-hidden="true"></i></a>
     @endif
     @if($user->phone)
     <a class="btn btn-link" href="https://wa.me/{{ preg_replace('/\D+/', '', $user->phone) }}" target="_blank" rel="noopener" aria-label="WhatsApp"><i class="fa fa-whatsapp fa-2x" aria-hidden="true"></i></a>
@@ -471,7 +471,7 @@ a, a:hover, a:focus, .text-primary { color: var(--t4-ink); }
   </div>
 </footer>
 
-<button class="t4-top" type="button" aria-label="Back to top"><i class="fa fa-arrow-up" aria-hidden="true"></i></button>
+<button class="t4-top" type="button" aria-label="{{ __('site.more.back_to_top') }}"><i class="fa fa-arrow-up" aria-hidden="true"></i></button>
 
 <script src="{{ asset('assets/website/template4/js/core/jquery.3.2.1.min.js') }}"></script>
 <script src="{{ asset('assets/website/template4/js/core/popper.min.js') }}"></script>

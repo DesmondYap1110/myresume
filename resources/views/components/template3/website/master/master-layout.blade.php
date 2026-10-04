@@ -91,7 +91,7 @@ background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/sv
 
 <header class="fixed inset-x-0 top-0 z-50 transition-all duration-300"
         :class="sc ? 'bg-white/80 dark:bg-zinc-950/80 backdrop-blur-md border-b border-zinc-100 dark:border-zinc-900' : ''">
-  <nav class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between" aria-label="Main navigation">
+  <nav class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between" aria-label="{{ __('site.more.main_nav') }}">
     <a href="{{ $home ?: '#hero' }}" class="font-display font-bold text-lg tracking-tight">{{ $first ?: $user->name }}<span class="text-accent">.</span></a>
 
     <div class="hidden md:flex items-center gap-8">
@@ -106,7 +106,7 @@ background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/sv
         <svg x-show="dark" x-cloak class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
       </button>
 
-      <button @click="mm = !mm" class="md:hidden p-2 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-900 transition-colors" aria-label="Menu" :aria-expanded="mm">
+      <button @click="mm = !mm" class="md:hidden p-2 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-900 transition-colors" aria-label="{{ __('site.nav.menu') }}" :aria-expanded="mm">
         <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
       </button>
     </div>
@@ -129,8 +129,8 @@ background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/sv
   <div class="max-w-6xl mx-auto px-6 py-12 grid md:grid-cols-3 gap-10">
     <div>
       <a href="{{ $home ?: '#hero' }}" class="font-display font-bold text-xl tracking-tight">{{ $first ?: $user->name }}<span class="text-accent">.</span></a>
-      @if($user->role)<p class="text-sm text-zinc-500 dark:text-zinc-400 mt-2">{{ $user->role }}</p>@endif
-      <p class="text-sm text-zinc-500 dark:text-zinc-400 mt-4 max-w-xs">{{ \Illuminate\Support\Str::limit(strip_tags((string) $user->about), 120) }}</p>
+      @if($user->t('role'))<p class="text-sm text-zinc-500 dark:text-zinc-400 mt-2">{{ $user->t('role') }}</p>@endif
+      <p class="text-sm text-zinc-500 dark:text-zinc-400 mt-4 max-w-xs">{{ \Illuminate\Support\Str::limit(strip_tags((string) $user->t('about')), 120) }}</p>
     </div>
 
     <div>

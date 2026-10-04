@@ -288,6 +288,8 @@ return [
         'lang_optional' => '选填。留空的内容将以:language显示。',
         'lang_required' => '必填',
         'currently_working' => '目前仍在此任职？',
+        'locale_images' => '其他语言的图片',
+        'locale_images_note' => '仅在本语言需要不同图片时才用。留空则沿用上面的图片。',
         'drag_drop_media' => '拖放图片或视频，或',
         'add_more_media' => '继续添加：拖放，或',
         'first_media_cover_short' => '第一个作为封面。',

@@ -9,17 +9,17 @@
     $plain = fn ($html) => trim(preg_replace('/\s+/', ' ', html_entity_decode(strip_tags((string) $html))));
 
     $siteName = trim((string) $user->name) ?: config('app.name');
-    $role = trim((string) $user->role);
+    $role = trim((string) $user->t('role'));
 
     if ($post) {
-        $title = $plain($post->title).' | '.$siteName;
-        $description = \Illuminate\Support\Str::limit($plain($post->description), 155);
+        $title = $plain($post->t('title')).' | '.$siteName;
+        $description = \Illuminate\Support\Str::limit($plain($post->t('description')), 155);
         $image = optional($post->images->first())->url ?: $post->image;
         $published = optional($post->created_at)->toIso8601String();
         $modified = optional($post->updated_at)->toIso8601String();
     } else {
         $title = $siteName.($role ? ' - '.$role : '');
-        $description = \Illuminate\Support\Str::limit($plain($user->about) ?: $siteName.($role ? ', '.$role : ''), 155);
+        $description = \Illuminate\Support\Str::limit($plain($user->t('about')) ?: $siteName.($role ? ', '.$role : ''), 155);
         $image = $user->image;
     }
 
@@ -53,14 +53,14 @@
         'image' => $imageUrl,
         'address' => $user->address ? ['@type' => 'PostalAddress', 'addressLocality' => $user->address] : null,
         'sameAs' => array_values(array_filter([$user->linkedIn_url])),
-        'description' => $plain($user->about) ?: null,
+        'description' => $plain($user->t('about')) ?: null,
     ], fn ($value) => !empty($value));
 
     $jsonLd = $post
         ? array_filter([
             '@context' => 'https://schema.org',
             '@type' => 'BlogPosting',
-            'headline' => \Illuminate\Support\Str::limit($plain($post->title), 110, ''),
+            'headline' => \Illuminate\Support\Str::limit($plain($post->t('title')), 110, ''),
             'description' => $description,
             'image' => $imageUrl,
             'datePublished' => $published ?? null,
@@ -84,7 +84,7 @@
 <meta property="og:url" content="{{ $canonical }}">
 @if($imageUrl)
 <meta property="og:image" content="{{ $imageUrl }}">
-<meta property="og:image:alt" content="{{ $post ? $plain($post->title) : $siteName }}">
+<meta property="og:image:alt" content="{{ $post ? $plain($post->t('title')) : $siteName }}">
 @endif
 @if($post)
 <meta property="article:published_time" content="{{ $published }}">

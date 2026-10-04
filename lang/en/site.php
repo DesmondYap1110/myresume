@@ -107,6 +107,18 @@ return [
         'what_i_do' => 'What I do',
         'what_i_help' => 'What I can help you with.',
         'what_i_work_with' => 'What I work with',
+        'scroll_down' => 'Scroll down',
+        'main_nav' => 'Main navigation',
+        'toggle_nav' => 'Toggle navigation',
+        'close' => 'Close',
+        'open_full' => 'Open full size',
+        'share_facebook' => 'Share on Facebook',
+        'share_linkedin' => 'Share on LinkedIn',
+        'share_whatsapp' => 'Share on WhatsApp',
+        'email_me' => 'Send me an email',
+        'whatsapp_me' => 'Message me on WhatsApp',
+        'images' => 'Images',
+        'feedback_note' => 'Feedback from the people I have worked with.',
     ],
 
     'ui' => [

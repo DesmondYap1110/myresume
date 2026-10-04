@@ -107,6 +107,18 @@ return [
         'what_i_do' => 'Apa yang saya lakukan',
         'what_i_help' => 'Apa yang saya boleh bantu.',
         'what_i_work_with' => 'Apa yang saya guna',
+        'scroll_down' => 'Tatal ke bawah',
+        'main_nav' => 'Navigasi utama',
+        'toggle_nav' => 'Togol navigasi',
+        'close' => 'Tutup',
+        'open_full' => 'Buka saiz penuh',
+        'share_facebook' => 'Kongsi di Facebook',
+        'share_linkedin' => 'Kongsi di LinkedIn',
+        'share_whatsapp' => 'Kongsi di WhatsApp',
+        'email_me' => 'Hantar e-mel kepada saya',
+        'whatsapp_me' => 'Hubungi saya di WhatsApp',
+        'images' => 'Gambar',
+        'feedback_note' => 'Maklum balas daripada mereka yang pernah bekerja dengan saya.',
     ],
 
     'ui' => [

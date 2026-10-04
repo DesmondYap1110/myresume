@@ -289,6 +289,8 @@ return [
         'lang_optional' => 'Optional. Anything left empty is shown in :language.',
         'lang_required' => 'required',
         'currently_working' => 'Currently working here?',
+        'locale_images' => 'Pictures for other languages',
+        'locale_images_note' => 'Only needed when this language needs different pictures. Leave it empty and the ones above are used.',
         'drag_drop_media' => 'Drag &amp; drop images or video, or',
         'add_more_media' => 'Add more: drag &amp; drop, or',
         'first_media_cover_short' => 'The first one is the cover.',

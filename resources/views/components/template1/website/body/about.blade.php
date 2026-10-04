@@ -94,7 +94,7 @@
         </div>
         @endif
 
-        <a href="#{{ count($education ?? []) ? 'education' : 'contact' }}" class="hero-scroll js-scroll-trigger" aria-label="Scroll down">
+        <a href="#{{ count($education ?? []) ? 'education' : 'contact' }}" class="hero-scroll js-scroll-trigger" aria-label="{{ __('site.more.scroll_down') }}">
             <span class="mouse"><span class="wheel"></span></span>
         </a>
 

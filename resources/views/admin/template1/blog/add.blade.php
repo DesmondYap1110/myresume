@@ -48,6 +48,8 @@ FilePond.create(document.querySelector('.filepond'), {
                                     <i class="fas fa-info-circle"></i>
                                     <span>{{ __('admin.ui.media_hint', ['max' => \App\Http\Controllers\admin\Blog\BlogController::maxImages]) }}</span>
                                 </p>
+
+                                <x-template1.admin.blog.locale-images />
                             </div>
                         </div>
                     </div>

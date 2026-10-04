@@ -2,9 +2,15 @@
 {{-- Shared fields for the Service add and edit forms. --}}
 
 <style>
-    .icon-picker { display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: 10px; }
+    /* A fixed row height, so one tile whose name happens to wrap does not
+       leave the row it sits in taller than the others. */
+    .icon-picker { display: grid; grid-template-columns: repeat(auto-fill, minmax(104px, 1fr)); gap: 10px; grid-auto-rows: 1fr; }
     .icon-pick input { position: absolute; opacity: 0; pointer-events: none; }
-    .icon-pick span { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 12px 6px; border: 2px solid #ebedf2; border-radius: 10px; cursor: pointer; font-size: 11px; text-align: center; color: #6c757d; transition: border-color .2s ease, color .2s ease; }
+    .icon-pick { height: 100%; }
+    .icon-pick span { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 7px;
+        height: 100%; min-height: 82px; padding: 12px 6px; border: 2px solid #ebedf2; border-radius: 10px;
+        cursor: pointer; font-size: 11.5px; line-height: 1.3; text-align: center; color: #6c757d;
+        transition: border-color .2s ease, color .2s ease; }
     .icon-pick span i { font-size: 20px; color: #1a2035; }
     .icon-pick input:checked + span { border-color: var(--brand-primary, #212529); color: #1a2035; }
     .icon-pick input:checked + span i { color: var(--brand-primary, #212529); }
@@ -29,7 +35,10 @@
                 @foreach($icons as $key => $icon)
                 <label class="icon-pick mb-0">
                     <input type="radio" name="icon" value="{{ $key }}" @checked($current === $key)>
-                    <span><i class="{{ $icon['fa'] }}"></i>{{ $icon['label'] }}</span>
+                    {{-- The icon name per language, falling back to the
+                         config label when one has no translation yet. --}}
+                    @php $name = __('icons.'.$key); @endphp
+                    <span><i class="{{ $icon['fa'] }}"></i>{{ $name === 'icons.'.$key ? $icon['label'] : $name }}</span>
                 </label>
                 @endforeach
             </div>

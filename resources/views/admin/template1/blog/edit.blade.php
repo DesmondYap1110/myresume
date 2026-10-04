@@ -116,6 +116,8 @@ FilePond.create(document.querySelector('.filepond'), {
                                         {{ __('admin.ui.media_hint_more', ['max' => \App\Http\Controllers\admin\Blog\BlogController::maxImages]) }}
                                     </span>
                                 </p>
+
+                                <x-template1.admin.blog.locale-images :blog="$blog" />
                             </div>
                         </div>
                     </div>

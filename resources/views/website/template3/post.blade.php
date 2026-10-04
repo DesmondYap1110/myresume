@@ -1,7 +1,7 @@
 @php
     $id = request()->id;
     $home = route('front.show', $id);
-    $images = $post->images->pluck('url')->filter()->values();
+    $images = $post->imagesFor()->pluck('url')->filter()->values();
     if ($images->isEmpty() && $post->image) $images = collect([$post->image]);
 
     $text = trim(preg_replace('/\s+/', ' ', strip_tags((string) $post->t('description'))));
@@ -30,10 +30,10 @@
                     @endforeach
 
                     @if($images->count() > 1)
-                    <button @click="i = (i - 1 + total) % total" class="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/90 dark:bg-zinc-900/90 border border-zinc-200 dark:border-zinc-700 flex items-center justify-center hover:border-accent transition-colors" aria-label="Previous image">
+                    <button @click="i = (i - 1 + total) % total" class="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/90 dark:bg-zinc-900/90 border border-zinc-200 dark:border-zinc-700 flex items-center justify-center hover:border-accent transition-colors" aria-label="{{ __('site.more.previous_image') }}">
                         <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
                     </button>
-                    <button @click="i = (i + 1) % total" class="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/90 dark:bg-zinc-900/90 border border-zinc-200 dark:border-zinc-700 flex items-center justify-center hover:border-accent transition-colors" aria-label="Next image">
+                    <button @click="i = (i + 1) % total" class="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/90 dark:bg-zinc-900/90 border border-zinc-200 dark:border-zinc-700 flex items-center justify-center hover:border-accent transition-colors" aria-label="{{ __('site.more.next_image') }}">
                         <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
                     </button>
                     @endif

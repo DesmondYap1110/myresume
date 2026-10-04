@@ -47,7 +47,7 @@ class BlogController extends Controller
             'images.*'    => 'file|mimes:jpg,jpeg,png,gif,webp,mp4,webm|max:20480',
             'media'       => 'array|max:'.\App\Support\MediaEmbed::max,
             'media.*'     => 'nullable|string|max:500',
-        ], [
+        ] + $this->localeImageRules(), [
             'images.required' => 'Please add at least one image.',
             'images.max'      => 'A blog can have at most '.self::maxImages.' images.',
             'images.*.max'    => 'Each file must be 20 MB or smaller.',
@@ -105,7 +105,7 @@ class BlogController extends Controller
             'images.*'        => 'file|mimes:jpg,jpeg,png,gif,webp,mp4,webm|max:20480',
             'media'           => 'array|max:'.\App\Support\MediaEmbed::max,
             'media.*'         => 'nullable|string|max:500',
-        ], [
+        ] + $this->localeImageRules(), [
             'images.*.max' => 'Each file must be 20 MB or smaller.',
             'images.*.mimes' => 'Use a JPG, PNG, GIF, WebP, MP4 or WebM file.',
         ]);
@@ -155,6 +155,8 @@ class BlogController extends Controller
                     $blog->images()->create(['path' => $path, 'sort_order' => $position++]);
                 }
 
+                $this->storeLocaleImages($request, $blog, $stored);
+
                 $blog->syncCover();
             });
         } catch (\Throwable $e) {
@@ -172,6 +174,55 @@ class BlogController extends Controller
         $this->storeTranslations($request, $blog);
 
         return redirect()->route('blog.view')->with('success', __('admin.flash.updated', ['item' => __('admin.menu.blog')]));
+    }
+
+    /**
+     * Pictures a language has of its own, posted as images_<locale>[].
+     *
+     * Only the languages we publish are accepted, and never the default one:
+     * those are the ordinary images above, shown wherever a language has no
+     * set of its own.
+     */
+    private function storeLocaleImages(Request $request, Blog $blog, array &$stored): void
+    {
+        $default = (string) config('locales.default');
+
+        foreach (array_keys((array) config('locales.supported', [])) as $locale) {
+            if ($locale === $default) {
+                continue;
+            }
+
+            $files = $request->file('images_'.$locale, []);
+
+            foreach (array_slice($files, 0, self::maxImages) as $i => $file) {
+                $path = SafeMediaUpload::store($file, 'uploads', 'images_'.$locale.'.'.$i);
+                $stored[] = $path;
+
+                $blog->images()->create([
+                    'locale' => $locale,
+                    'path' => $path,
+                    'sort_order' => $i,
+                ]);
+            }
+        }
+    }
+
+    /** The rules for those extra uploads, merged into the module's own. */
+    private function localeImageRules(): array
+    {
+        $rules = [];
+        $default = (string) config('locales.default');
+
+        foreach (array_keys((array) config('locales.supported', [])) as $locale) {
+            if ($locale === $default) {
+                continue;
+            }
+
+            $rules['images_'.$locale] = 'array|max:'.self::maxImages;
+            $rules['images_'.$locale.'.*'] = 'file|mimes:jpg,jpeg,png,gif,webp,mp4,webm|max:20480';
+        }
+
+        return $rules;
     }
 
     public function delete()

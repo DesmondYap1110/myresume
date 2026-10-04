@@ -107,6 +107,18 @@ return [
         'what_i_do' => '我的服务',
         'what_i_help' => '我能为您做的。',
         'what_i_work_with' => '我使用的技术',
+        'scroll_down' => '向下滚动',
+        'main_nav' => '主导航',
+        'toggle_nav' => '切换导航',
+        'close' => '关闭',
+        'open_full' => '查看原图',
+        'share_facebook' => '分享到 Facebook',
+        'share_linkedin' => '分享到 LinkedIn',
+        'share_whatsapp' => '分享到 WhatsApp',
+        'email_me' => '给我发邮件',
+        'whatsapp_me' => '通过 WhatsApp 联系我',
+        'images' => '图片',
+        'feedback_note' => '与我合作过的人的评价。',
     ],
 
     'ui' => [

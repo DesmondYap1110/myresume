@@ -1,7 +1,7 @@
 @php
     $key = $user->routeKey();
     $home = route('front.show', $key);
-    $images = $post->images->pluck('url')->filter()->values();
+    $images = $post->imagesFor()->pluck('url')->filter()->values();
     if ($images->isEmpty() && $post->image) $images = collect([$post->image]);
 
     $text = trim(preg_replace('/\s+/', ' ', strip_tags((string) $post->t('description'))));
@@ -69,9 +69,9 @@
               <hr class="my-4">
               <div class="d-flex flex-wrap align-items-center">
                 <span class="mr-3 text-muted">Share:</span>
-                <a class="btn btn-link px-2" href="https://www.linkedin.com/sharing/share-offsite/?url={{ $shareUrl }}" target="_blank" rel="noopener" aria-label="Share on LinkedIn"><i class="fa fa-linkedin fa-lg"></i></a>
-                <a class="btn btn-link px-2" href="https://www.facebook.com/sharer/sharer.php?u={{ $shareUrl }}" target="_blank" rel="noopener" aria-label="Share on Facebook"><i class="fa fa-facebook fa-lg"></i></a>
-                <a class="btn btn-link px-2" href="https://wa.me/?text={{ urlencode($post->t('title').' '.url()->current()) }}" target="_blank" rel="noopener" aria-label="Share on WhatsApp"><i class="fa fa-whatsapp fa-lg"></i></a>
+                <a class="btn btn-link px-2" href="https://www.linkedin.com/sharing/share-offsite/?url={{ $shareUrl }}" target="_blank" rel="noopener" aria-label="{{ __('site.more.share_linkedin') }}"><i class="fa fa-linkedin fa-lg"></i></a>
+                <a class="btn btn-link px-2" href="https://www.facebook.com/sharer/sharer.php?u={{ $shareUrl }}" target="_blank" rel="noopener" aria-label="{{ __('site.more.share_facebook') }}"><i class="fa fa-facebook fa-lg"></i></a>
+                <a class="btn btn-link px-2" href="https://wa.me/?text={{ urlencode($post->t('title').' '.url()->current()) }}" target="_blank" rel="noopener" aria-label="{{ __('site.more.share_whatsapp') }}"><i class="fa fa-whatsapp fa-lg"></i></a>
               </div>
             </div>
           </div>

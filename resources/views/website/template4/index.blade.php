@@ -86,10 +86,10 @@
               <a class="btn btn-default btn-round btn-icon t4-social" href="{{ $link['url'] }}" target="_blank" rel="noopener me" title="{{ $link['label'] }}" aria-label="{{ $link['label'] }}"><x-social-icon :network="$link" :size="17" tone="current" /></a>
               @endforeach
               @if($user->email)
-              <a class="btn btn-default btn-round btn-icon t4-social" href="mailto:{{ $user->email }}" title="Send me an email" aria-label="Email"><i class="fa fa-envelope"></i></a>
+              <a class="btn btn-default btn-round btn-icon t4-social" href="mailto:{{ $user->email }}" title="{{ __('site.more.email_me') }}" aria-label="{{ __('site.label.email') }}"><i class="fa fa-envelope"></i></a>
               @endif
               @if($whatsapp)
-              <a class="btn btn-default btn-round btn-icon t4-social" href="{{ $whatsapp }}" target="_blank" rel="noopener" title="Message me on WhatsApp" aria-label="WhatsApp"><i class="fa fa-whatsapp"></i></a>
+              <a class="btn btn-default btn-round btn-icon t4-social" href="{{ $whatsapp }}" target="_blank" rel="noopener" title="{{ __('site.more.whatsapp_me') }}" aria-label="WhatsApp"><i class="fa fa-whatsapp"></i></a>
               @endif
             </div>
           </div>
@@ -215,7 +215,7 @@
       <div class="gallery mt-5">
         <div class="row justify-content-center">
           @foreach($blog as $post)
-          @php $cover = optional($post->images->first())->url ?: $post->image; @endphp
+          @php $cover = optional($post->imagesFor()->first())->url ?: $post->image; @endphp
           <div class="col-md-6">
             <div class="cc-porfolio-image img-raised" data-aos="fade-up" data-aos-anchor-placement="top-bottom">
               <a href="{{ route('front.post', [$post->id, $key]) }}">
@@ -226,7 +226,7 @@
                     <p>{{ \Illuminate\Support\Str::limit($plain($post->t('description')), 110) }}</p>
                   </figcaption>
                 </figure>
-                <span class="t4-folio-label">{{ $post->t('title') }}<small>{{ $post->created_at->format('d M Y') }}@if($post->images->count() > 1) · {{ $post->images->count() }} images @endif</small></span>
+                <span class="t4-folio-label">{{ $post->t('title') }}<small>{{ $post->created_at->format('d M Y') }}@if($post->imagesFor()->count() > 1) · {{ $post->imagesFor()->count() }} images @endif</small></span>
               </a>
             </div>
           </div>
