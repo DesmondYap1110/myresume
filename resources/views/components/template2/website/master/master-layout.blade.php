@@ -82,9 +82,7 @@
                     @if($user->email)
                     <li class="list-inline-item"><a href="mailto:{{ $user->email }}" aria-label="{{ __('site.label.email') }}"><i class="ti-email"></i></a></li>
                     @endif
-                    @if($user->phone)
-                    <li class="list-inline-item"><a href="https://wa.me/{{ $user->phone }}" target="_blank" rel="noopener" aria-label="WhatsApp"><i class="ti-mobile"></i></a></li>
-                    @endif
+                    {{-- WhatsApp comes through Social Links now. --}}
                 </ul>
             </div>
 

@@ -1,6 +1,0 @@
-User-agent: *
-Allow: /
-Disallow: /admin
-Disallow: /uploads/login-backgrounds/
-
-Sitemap: https://my-portfolio.test/sitemap.xml

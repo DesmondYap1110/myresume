@@ -85,11 +85,10 @@
               @foreach($user->socialLinks() as $link)
               <a class="btn btn-default btn-round btn-icon t4-social" href="{{ $link['url'] }}" target="_blank" rel="noopener me" title="{{ $link['label'] }}" aria-label="{{ $link['label'] }}"><x-social-icon :network="$link" :size="17" tone="current" /></a>
               @endforeach
+              {{-- WhatsApp is one of the Social Links rows now, so it is not
+                   repeated here; only email stays, as it has no row. --}}
               @if($user->email)
               <a class="btn btn-default btn-round btn-icon t4-social" href="mailto:{{ $user->email }}" title="{{ __('site.more.email_me') }}" aria-label="{{ __('site.label.email') }}"><i class="fa fa-envelope"></i></a>
-              @endif
-              @if($whatsapp)
-              <a class="btn btn-default btn-round btn-icon t4-social" href="{{ $whatsapp }}" target="_blank" rel="noopener" title="{{ __('site.more.whatsapp_me') }}" aria-label="WhatsApp"><i class="fa fa-whatsapp"></i></a>
               @endif
             </div>
           </div>

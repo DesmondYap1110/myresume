@@ -21,6 +21,26 @@ use App\Http\Controllers\website\SitemapController;
 
 Route::get('sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
 
+/*
+ * Served rather than kept as a static file, so the sitemap address follows
+ * APP_URL. The file in public/ had a hardcoded domain, which meant the live
+ * site pointed Google at a sitemap that does not exist.
+ */
+Route::get('robots.txt', function () {
+    $base = rtrim((string) config('app.url'), '/');
+
+    $lines = [
+        'User-agent: *',
+        'Allow: /',
+        'Disallow: /admin',
+        'Disallow: /uploads/login-backgrounds/',
+        '',
+        'Sitemap: '.$base.'/sitemap.xml',
+    ];
+
+    return response(implode("\n", $lines)."\n", 200, ['Content-Type' => 'text/plain; charset=UTF-8']);
+})->name('robots');
+
 Route::get('{id}', [FrontEndController::class, 'index'])->name('front.show');
 // Blog post page; the user id stays last because LogFrontendVisit reads the last segment.
 Route::get('post/{blog}/{id}', [FrontEndController::class, 'post'])->whereNumber('blog')->name('front.post');

@@ -26,7 +26,24 @@
     // Same page, but always on the site's real domain (APP_URL). request()->path()
     // drops any local subfolder such as /myresume/public.
     $base = rtrim((string) config('app.url'), '/');
-    $canonical = $base.'/'.ltrim(request()->path(), '/');
+    $path = $base.'/'.ltrim(request()->path(), '/');
+
+    /*
+     * One address per language.
+     *
+     * Language is chosen with ?lang= and remembered in the session, but a
+     * search engine has no session - without a distinct address per language
+     * Google only ever sees the default one, and the translations never get
+     * indexed at all. So each language gets its own canonical URL, and they
+     * point at each other with hreflang.
+     */
+    $locales = array_keys((array) config('locales.supported', []));
+    $default = (string) config('locales.default', 'en');
+    $current = app()->getLocale();
+
+    $urlFor = fn (string $locale) => $locale === $default ? $path : $path.'?lang='.$locale;
+
+    $canonical = $urlFor($current);
 
     // Social images must be absolute and on the same domain as the canonical.
     $imageUrl = null;
@@ -76,6 +93,12 @@
 <meta name="description" content="{{ $description }}">
 <link rel="canonical" href="{{ $canonical }}">
 <meta name="author" content="{{ $siteName }}">
+
+{{-- Tells Google this page exists in other languages, and which to show. --}}
+@foreach($locales as $locale)
+<link rel="alternate" hreflang="{{ $locale }}" href="{{ $urlFor($locale) }}">
+@endforeach
+<link rel="alternate" hreflang="x-default" href="{{ $urlFor($default) }}">
 
 <meta property="og:type" content="{{ $post ? 'article' : $type }}">
 <meta property="og:site_name" content="{{ $siteName }}">

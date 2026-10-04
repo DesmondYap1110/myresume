@@ -56,20 +56,15 @@
             <a href="mailto:{{$user->email}}">{{$user->email}}</a>
         </address>
         <ul class="list-inline social-icon-f top-data">
-            @if($user->phone)
+            {{-- Driven by Profile > Social Links, so a network switched on
+                 there appears here too, and nothing is listed twice. --}}
+            @foreach($user->socialLinks() as $link)
             <li>
-                <a href="https://wa.me/{{ $user->phone }}?text=Hello%20I%20want%20to%20contact%20you" target="_blank">
-                    <i class="fa top-social fa-whatsapp"></i>
+                <a href="{{ $link['url'] }}" target="_blank" rel="noopener me" title="{{ $link['label'] }}" aria-label="{{ $link['label'] }}">
+                    <x-social-icon :network="$link" :size="18" tone="current" />
                 </a>
             </li>
-            @endif
-            @if($user->linkedIn_url)
-            <li>
-                <a href="{{$user->linkedIn_url}}" target="_blank">
-                    <i class="fa top-social fa-linkedin"></i>
-                </a>
-            </li>
-            @endif
+            @endforeach
             @if($user->email)
             <li>
                 <a href="mailto:{{ $user->email }}">

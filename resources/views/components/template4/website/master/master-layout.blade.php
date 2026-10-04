@@ -74,10 +74,19 @@ a, a:hover, a:focus, .text-primary { color: var(--t4-ink); }
   background: var(--t4-primary); color: var(--t4-on-primary); font-size: 56px; font-weight: 700; border: 15px solid transparent; position: relative; z-index: 9999; }
 .page-header .btn { width: auto; min-width: 140px; }
 
-/* Hero social links: the template's large grey circles were too heavy. */
-.page-header .btn.t4-social { width: 40px; min-width: 40px; height: 40px; padding: 0; margin: 0 5px; font-size: 16px; line-height: 38px;
+/* Hero social links: the template's large grey circles were too heavy.
+   Laid out as a wrapping row, so a long list centres evenly on a phone
+   instead of leaving one icon stranded on a line of its own. */
+.page-header .button-container { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 10px; }
+.page-header .btn.t4-social { width: 40px; min-width: 40px; height: 40px; padding: 0; margin: 0; font-size: 16px; line-height: 38px;
+  display: inline-flex; align-items: center; justify-content: center;
   background: rgba(255,255,255,.14); border: 1px solid rgba(255,255,255,.45); color: #fff; box-shadow: none; }
-.page-header .btn.t4-social i { font-size: 16px; line-height: 38px; }
+.page-header .btn.t4-social i { font-size: 16px; line-height: 1; }
+
+@media (max-width: 575px) {
+    .page-header .button-container { gap: 8px; }
+    .page-header .btn.t4-social { width: 36px; min-width: 36px; height: 36px; }
+}
 .page-header .btn.t4-social:hover, .page-header .btn.t4-social:focus { background: var(--t4-primary); border-color: var(--t4-primary); color: var(--t4-on-primary); }
 .page-header .button-container .btn-default { margin-right: 0; }
 .page-header .category { font-size: 1.1rem; }
@@ -434,10 +443,13 @@ a, a:hover, a:focus, .text-primary { color: var(--t4-ink); }
             @if($user->hasResume())
             <a class="btn btn-primary btn-round t4-menu-cv" href="{{ $user->resumeUrl() }}"><i class="fa fa-download mr-1" aria-hidden="true"></i> {{ __('site.action.download_resume') }}</a>
             @endif
+            {{-- Whatever is switched on under Profile > Social Links, so this
+                 menu does not go stale when a network is added or hidden. --}}
             <div class="t4-menu-social">
-              @if($user->linkedIn_url)<a href="{{ $user->linkedIn_url }}" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fa fa-linkedin"></i></a>@endif
+              @foreach($user->socialLinks() as $link)
+              <a href="{{ $link['url'] }}" target="_blank" rel="noopener me" aria-label="{{ $link['label'] }}" title="{{ $link['label'] }}"><x-social-icon :network="$link" :size="16" tone="current" /></a>
+              @endforeach
               @if($user->email)<a href="mailto:{{ $user->email }}" aria-label="{{ __('site.label.email') }}"><i class="fa fa-envelope"></i></a>@endif
-              @if($user->phone)<a href="https://wa.me/{{ preg_replace('/\D+/', '', $user->phone) }}" target="_blank" rel="noopener" aria-label="WhatsApp"><i class="fa fa-whatsapp"></i></a>@endif
             </div>
           </div>
         </div>
@@ -452,14 +464,11 @@ a, a:hover, a:focus, .text-primary { color: var(--t4-ink); }
 
 <footer class="footer">
   <div class="container text-center">
-    @if($user->linkedIn_url)
-    <a class="btn btn-link" href="{{ $user->linkedIn_url }}" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fa fa-linkedin fa-2x" aria-hidden="true"></i></a>
-    @endif
+    @foreach($user->socialLinks() as $link)
+    <a class="btn btn-link" href="{{ $link['url'] }}" target="_blank" rel="noopener me" aria-label="{{ $link['label'] }}" title="{{ $link['label'] }}"><x-social-icon :network="$link" :size="26" tone="current" /></a>
+    @endforeach
     @if($user->email)
     <a class="btn btn-link" href="mailto:{{ $user->email }}" aria-label="{{ __('site.label.email') }}"><i class="fa fa-envelope fa-2x" aria-hidden="true"></i></a>
-    @endif
-    @if($user->phone)
-    <a class="btn btn-link" href="https://wa.me/{{ preg_replace('/\D+/', '', $user->phone) }}" target="_blank" rel="noopener" aria-label="WhatsApp"><i class="fa fa-whatsapp fa-2x" aria-hidden="true"></i></a>
     @endif
     @if($user->hasResume())
     <a class="btn btn-link" href="{{ $user->resumeUrl() }}" aria-label="{{ __('site.action.download_resume') }}"><i class="fa fa-file-pdf-o fa-2x" aria-hidden="true"></i></a>
