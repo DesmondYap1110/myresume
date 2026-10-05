@@ -47,6 +47,7 @@ class BlogController extends Controller
             'images.*'    => 'file|mimes:jpg,jpeg,png,gif,webp,mp4,webm|max:20480',
             'media'       => 'array|max:'.\App\Support\MediaEmbed::max,
             'media.*'     => 'nullable|string|max:500',
+            'status'      => 'nullable|boolean',
         ] + $this->localeImageRules(), [
             'images.required' => 'Please add at least one image.',
             'images.max'      => 'A blog can have at most '.self::maxImages.' images.',
@@ -63,6 +64,8 @@ class BlogController extends Controller
                 $blog->title       = $request->title;
                 $blog->description = $request->description;
                 $blog->image       = '';
+                // An unticked switch posts nothing at all, so absent means off.
+                $blog->status      = $request->boolean('status') ? Blog::status_active : Blog::status_block;
                 $blog->setMedia($request->input('media', []));
                 $blog->save();
 
@@ -91,7 +94,7 @@ class BlogController extends Controller
 
     public function update(Request $request)
     {
-        $blog = Blog::getBlogById(Auth::id(), request()->id);
+        $blog = Blog::getAnyById(Auth::id(), request()->id);
         if (!$blog) abort(404);
 
         $request->validate([
@@ -105,6 +108,7 @@ class BlogController extends Controller
             'images.*'        => 'file|mimes:jpg,jpeg,png,gif,webp,mp4,webm|max:20480',
             'media'           => 'array|max:'.\App\Support\MediaEmbed::max,
             'media.*'         => 'nullable|string|max:500',
+            'status'          => 'nullable|boolean',
         ] + $this->localeImageRules(), [
             'images.*.max' => 'Each file must be 20 MB or smaller.',
             'images.*.mimes' => 'Use a JPG, PNG, GIF, WebP, MP4 or WebM file.',
@@ -130,6 +134,7 @@ class BlogController extends Controller
             DB::transaction(function () use ($request, $blog, $existing, $remove, &$stored, &$toDelete) {
                 $blog->title       = $request->title;
                 $blog->description = $request->description;
+                $blog->status      = $request->boolean('status') ? Blog::status_active : Blog::status_block;
                 $blog->setMedia($request->input('media', []));
 
                 foreach ($remove as $id) {
@@ -227,7 +232,7 @@ class BlogController extends Controller
 
     public function delete()
     {
-        $blog = Blog::getBlogById(Auth::id(), request()->id);
+        $blog = Blog::getAnyById(Auth::id(), request()->id);
         if (!$blog) abort(404);
 
         $files = $blog->images->filter(fn (BlogImage $image) => $image->isLocalUpload())->pluck('path');
@@ -245,7 +250,7 @@ class BlogController extends Controller
     {
         $breadcrumbs = $this->breadcrumbs->add('Edit '.self::page, route($this->route.'edit',request()->id))->get();
 
-        $blog = Blog::getBlogById(Auth::id(),request()->id);
+        $blog = Blog::getAnyById(Auth::id(), request()->id);
         if (!$blog) abort(404);
 
         return view(self::viewPath . 'edit', compact('breadcrumbs','blog'));
@@ -254,7 +259,7 @@ class BlogController extends Controller
     public function index()
     {
         $breadcrumbs = $this->breadcrumbs->get();
-        $blog = Blog::getBlogByUserid(Auth::user()->id);
+        $blog = Blog::getAllByUserid(Auth::user()->id);
 
         return view(self::viewPath . 'index', compact('breadcrumbs','blog'));
     }

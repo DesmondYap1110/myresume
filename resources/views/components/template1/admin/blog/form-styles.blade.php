@@ -48,6 +48,10 @@
     .lf-images { margin-top: 10px; padding-top: 14px; border-top: 1px solid #ebedf2; }
     .lf-images > label { font-weight: 600; }
 
+    /* FilePond hangs its "Powered by FilePond" credit below its own box, so
+       without this it sat on top of the note underneath. */
+    .blog-form .filepond--root { margin-bottom: 1.6rem; }
+
     @media (max-width: 575px) {
         .blog-actions .btn { flex: 1; min-width: 0; }
         .gallery-row .actions { flex: 1 1 100%; }

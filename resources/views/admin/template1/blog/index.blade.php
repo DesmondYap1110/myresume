@@ -66,7 +66,14 @@
                                 </div>
                             </div>
                             <div class="separator-solid"></div>
-                            <h3 class="card-title">{{$data->title}}</h3>
+                            <h3 class="card-title">
+                                {{$data->title}}
+                                {{-- Hidden posts stay in this list, so say which ones
+                                     are not on the site. --}}
+                                @if($data->status != \App\Models\Blog::status_active)
+                                <span class="badge bg-secondary align-middle">{{ __('admin.ui.hidden') }}</span>
+                                @endif
+                            </h3>
                         </div>
                         <div class="card-header d-flex justify-content-end align-items-center">
                             <button class="btn btn-success btn-sm m-1" onclick="window.location.href='{{ route('blog.edit',$data->id) }}'">{{ __('admin.ui.edit') }}</button>

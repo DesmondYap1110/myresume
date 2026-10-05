@@ -110,6 +110,23 @@ class Blog extends Model
         return $query->first();
     }
 
+    /*
+     * The two above are what the public site asks for, so they only return
+     * posts that are switched on. The back office needs the hidden ones too -
+     * otherwise turning a post off would take it out of your own list and
+     * leave no way to turn it back on.
+     */
+
+    static function getAllByUserid($id)
+    {
+        return self::with('images')->where('user_id', $id)->orderBy('id', 'desc')->get();
+    }
+
+    static function getAnyById($user_id, $id)
+    {
+        return self::with('images')->where('user_id', $user_id)->where('id', $id)->first();
+    }
+
 
 
 }

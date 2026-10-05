@@ -26,6 +26,8 @@
                             <div class="card-title">{{ __('admin.ui.add_blog') }}</div>
                         </div>
                         <div class="card-body">
+                            <x-template1.admin.blog.status-switch />
+
                             {{-- Title, description and that language's pictures
                                  together, so all three tabs read the same. --}}
                             <x-template1.admin.lang-fields

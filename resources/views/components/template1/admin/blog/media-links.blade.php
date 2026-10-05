@@ -20,7 +20,9 @@
     @endforeach
 </div>
 
-<button type="button" class="btn btn-light btn-sm mt-1" id="media-add">
+{{-- No .btn-light: the theme paints it white with !important, which beat
+     the themed background below. --}}
+<button type="button" class="btn btn-sm mt-1" id="media-add">
     <i class="fas fa-plus me-1"></i> {{ __('admin.ui.add_another_link') }}
 </button>
 
@@ -36,20 +38,23 @@
     /* Same corner as the box beside it: the theme rounds .form-control to
        .375rem and buttons to 3px, which read as two different shapes sitting
        side by side. */
-    .media-row .media-remove { flex: 0 0 auto; width: 42px; border-radius: .375rem; }
+    /* A flex box so the × sits dead centre: with a fixed width the button's
+       own padding and line-height left it off to one side. */
+    .media-row .media-remove { flex: 0 0 auto; width: 42px; padding: 0; border-radius: .375rem;
+        display: inline-flex; align-items: center; justify-content: center; line-height: 1; }
 
-    /* In the chosen theme rather than the stock grey. Outlined, because adding
-       a link is a lesser action than saving the post. */
+    /* Filled in the chosen theme rather than the stock grey. */
     #media-add.btn {
         border: 1px solid var(--brand-primary, #212529);
         border-radius: .375rem;
-        background: transparent;
-        color: var(--brand-primary, #212529);
+        background: var(--brand-primary, #212529);
+        color: var(--brand-button-text, #fff);
         font-weight: 600;
     }
     #media-add.btn:hover:not(:disabled),
     #media-add.btn:focus:not(:disabled) {
-        background: var(--brand-primary, #212529);
+        background: var(--brand-primary-hover, var(--brand-primary, #212529));
+        border-color: var(--brand-primary-hover, var(--brand-primary, #212529));
         color: var(--brand-button-text, #fff);
     }
     #media-add.btn:disabled { opacity: .45; }
