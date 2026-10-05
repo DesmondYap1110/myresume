@@ -91,6 +91,12 @@
 @php
     // A failed save comes back here, so reopen whichever row was being edited.
     $openForm = old('_form');
+
+    // A skill is one short word, so it gets a box per language in the row
+    // rather than the tabbed block the longer forms use.
+    $locales = (array) config('locales.supported', []);
+    $default = (string) config('locales.default', 'en');
+    $others = array_diff_key($locales, [$default => true]);
 @endphp
 
 <x-template1.admin.master.master-layout>
@@ -101,12 +107,29 @@
         .skill-bar { height: 8px; border-radius: 4px; background: #ebedf2; overflow: hidden; min-width: 90px; }
         .skill-bar span { display: block; height: 100%; border-radius: 4px; background: var(--brand-primary, #212529); }
         .skill-table tfoot input { border-color: #b8e0c8; }
+
+        /* A touch shorter than the stock 42px: a skill is one short word, and
+           the row carries up to three boxes. The % addon follows, or the pair
+           stops lining up. */
+        .skill-table .form-control:not(.form-control-sm),
+        .skill-table .input-group-text { padding-top: 5px; padding-bottom: 5px; }
         .skill-table .btn-icon-sm { width: 34px; height: 34px; padding: 0; display: inline-flex; align-items: center; justify-content: center; }
 
         .skill-drag { cursor: grab; color: #b3b8c4; width: 44px; text-align: center; }
         .skill-drag:active { cursor: grabbing; }
         .skill-table tbody tr.dragging { opacity: .45; background: #f6f7fb; }
         .skill-table tbody tr.drop-target td { border-top: 2px solid var(--brand-primary, #212529); }
+
+        /* One box per language, each behind a tag of the same width so the
+           boxes line up down the column. */
+        .skill-lang { display: flex; align-items: center; gap: 8px; margin-top: 6px; }
+        .skill-lang:first-child { margin-top: 0; }
+        .skill-lang-tag { flex: 0 0 auto; min-width: 86px; font-size: .74rem; font-weight: 600;
+            letter-spacing: .02em; color: #6c757d; }
+
+        @media (max-width: 575px) {
+            .skill-lang-tag { min-width: 60px; }
+        }
 
         /* A row shows either its text or its inputs, never both. */
         .skill-table tbody .s-edit { display: none; }
@@ -141,9 +164,33 @@
                                     <i class="fas fa-grip-vertical"></i>
                                 </td>
                                 <td>
-                                    <span class="s-view"><b>{{ $data->name }}</b></span>
-                                    <input type="text" class="form-control s-edit" form="skill-edit-{{ $data->id }}" name="name"
-                                           maxlength="255" required value="{{ $editing ? old('name') : $data->name }}">
+                                    <span class="s-view">
+                                        <b>{{ $data->name }}</b>
+                                        {{-- How many other languages this skill is written in,
+                                             so a gap is visible without opening the row. --}}
+                                        @php $filled = collect($others)->filter(fn ($m, $code) => filled($data->translationsFor($code)['name'] ?? null))->count(); @endphp
+                                        @if($filled)<span class="badge bg-success ms-1">{{ $filled }}</span>@endif
+                                    </span>
+
+                                    <div class="s-edit">
+                                        {{-- The default language is tagged like the others so all
+                                             three boxes start at the same place. --}}
+                                        <div class="skill-lang">
+                                            <span class="skill-lang-tag">{{ $locales[$default]['native'] ?? $default }}</span>
+                                            <input type="text" class="form-control form-control-sm" form="skill-edit-{{ $data->id }}" name="name"
+                                                   maxlength="255" required value="{{ $editing ? old('name') : $data->name }}">
+                                        </div>
+
+                                        {{-- Leave one empty and that language shows the default. --}}
+                                        @foreach($others as $code => $meta)
+                                        <div class="skill-lang">
+                                            <span class="skill-lang-tag">{{ $meta['native'] ?? $code }}</span>
+                                            <input type="text" class="form-control form-control-sm" form="skill-edit-{{ $data->id }}"
+                                                   name="translations[{{ $code }}][name]" maxlength="255"
+                                                   value="{{ $editing ? old('translations.'.$code.'.name') : ($data->translationsFor($code)['name'] ?? '') }}">
+                                        </div>
+                                        @endforeach
+                                    </div>
                                 </td>
                                 <td>
                                     <div class="s-view d-flex align-items-center" style="gap:10px">
@@ -179,8 +226,20 @@
                             <tr>
                                 <td></td>
                                 <td>
-                                    <input type="text" class="form-control" form="skill-add-form" name="name" maxlength="255"
-                                           placeholder="{{ __('admin.ui.skill_name') }}" value="{{ $openForm === 'add' ? old('name') : '' }}">
+                                    <div class="skill-lang">
+                                        <span class="skill-lang-tag">{{ $locales[$default]['native'] ?? $default }}</span>
+                                        <input type="text" class="form-control form-control-sm" form="skill-add-form" name="name" maxlength="255"
+                                               placeholder="{{ __('admin.ui.skill_name') }}" value="{{ $openForm === 'add' ? old('name') : '' }}">
+                                    </div>
+
+                                    @foreach($others as $code => $meta)
+                                    <div class="skill-lang">
+                                        <span class="skill-lang-tag">{{ $meta['native'] ?? $code }}</span>
+                                        <input type="text" class="form-control form-control-sm" form="skill-add-form"
+                                               name="translations[{{ $code }}][name]" maxlength="255"
+                                               value="{{ $openForm === 'add' ? old('translations.'.$code.'.name') : '' }}">
+                                    </div>
+                                    @endforeach
                                 </td>
                                 <td>
                                     <div class="input-group">

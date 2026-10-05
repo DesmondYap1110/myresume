@@ -112,7 +112,7 @@
                         </svg>
                     </div>
                     <h3 class="font-display font-bold text-xl mb-3 {{ $dark ? 'text-white' : 'text-zinc-900 dark:text-white' }}">{{ $item->t('title') }}</h3>
-                    <p class="text-sm leading-relaxed {{ $dark ? 'text-zinc-400' : 'text-zinc-500 dark:text-zinc-400' }}">{{ $item->t('description') }}</p>
+                    <div class="svc-rich text-sm leading-relaxed {{ $dark ? 'text-zinc-400' : 'text-zinc-500 dark:text-zinc-400' }}">{!! $item->t('description') !!}</div>
                 </article>
                 @endforeach
             </div>

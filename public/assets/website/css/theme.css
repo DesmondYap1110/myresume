@@ -1453,3 +1453,7 @@ section.resume-section:not(#about) > * { position: relative; z-index: 1; }
     color: var(--w-heading);
     transform: translateY(-2px);
 }
+/* Service descriptions come from the editor now, so they can contain
+   paragraphs and lists. The last one keeps the card spacing intact. */
+.svc-rich > :last-child { margin-bottom: 0; }
+.svc-rich ul, .svc-rich ol { padding-left: 1.1em; margin-bottom: .6em; }

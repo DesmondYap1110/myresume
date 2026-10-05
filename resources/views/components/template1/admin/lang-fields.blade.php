@@ -110,8 +110,14 @@
 
 @once
 <style>
+    /*
+     * No overflow: hidden here. It was only rounding off the dark tab strip's
+     * corners, but it also clipped the editor's toolbar menus - the alignment
+     * and table dropdowns were cut off at the edge of the block. The strip
+     * rounds its own corners instead.
+     */
     .lf-block {
-        border: 1px solid #d9dee8; border-radius: 10px; overflow: hidden;
+        border: 1px solid #d9dee8; border-radius: 10px;
         background: #fff; margin: 10px 0 12px; box-shadow: 0 1px 3px rgba(20, 20, 30, .06);
     }
 
@@ -119,6 +125,8 @@
     .lf-tabs {
         padding: 0 10px; gap: 6px; border: 0;
         background: var(--brand-sidebar, #141416);
+        /* 9px, not 10px: it sits inside the block's 1px border. */
+        border-radius: 9px 9px 0 0;
     }
     .lf-tabs .nav-link {
         border: 0; border-radius: 0; margin: 0;

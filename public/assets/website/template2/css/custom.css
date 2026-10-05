@@ -459,3 +459,8 @@ section[id] { scroll-margin-top: 80px; }
    brand sat out of line with the headings below it. The container's own
    gutter is the one that should show. */
 .t2 .main-nav { padding-left: 0; padding-right: 0; }
+
+/* Service descriptions come from the editor now, so they can contain
+   paragraphs and lists. The last one keeps the card spacing intact. */
+.svc-rich > :last-child { margin-bottom: 0; }
+.svc-rich ul, .svc-rich ol { padding-left: 1.1em; margin-bottom: .6em; }

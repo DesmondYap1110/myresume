@@ -44,6 +44,11 @@
 </script>
 
 <style>
+    /* Service descriptions come from the editor now, so they can contain
+       paragraphs and lists. The last one keeps the card spacing intact. */
+    .svc-rich > :last-child { margin-bottom: 0; }
+    .svc-rich ul, .svc-rich ol { padding-left: 1.1em; margin-bottom: .6em; }
+
 :root{
   --t4-primary: {{ $primary }};
   --t4-primary-hover: {{ $hover }};

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\admin\Skill;
 
 use App\Helpers\Breadcrumb;
+use App\Http\Controllers\Concerns\SavesTranslations;
 use App\Http\Controllers\Controller;
 use App\Models\Skill;
 use Illuminate\Http\Request;
@@ -11,6 +12,8 @@ use Illuminate\Support\Facades\DB;
 
 class SkillController extends Controller
 {
+    use SavesTranslations;
+
     const page = "Skill";
     const viewPath = "admin.template1.skill.";
 
@@ -25,10 +28,10 @@ class SkillController extends Controller
 
     private function rules(): array
     {
-        return [
+        return array_merge([
             'name'  => 'required|max:255',
             'level' => 'required|integer|min:0|max:100',
-        ];
+        ], $this->translationRules());
     }
 
     public function index()
@@ -51,6 +54,8 @@ class SkillController extends Controller
         $skill->sort_order = (int) Skill::where('user_id', Auth::id())->max('sort_order') + 1;
         $skill->save();
 
+        $this->storeTranslations($request, $skill);
+
         return redirect()->route($this->route.'view')->with('success', __('admin.flash.added', ['item' => __('admin.menu.skill')]));
     }
 
@@ -64,6 +69,8 @@ class SkillController extends Controller
         $skill->name  = $data['name'];
         $skill->level = $data['level'];
         $skill->update();
+
+        $this->storeTranslations($request, $skill);
 
         return redirect()->route($this->route.'view')->with('success', __('admin.flash.updated', ['item' => __('admin.menu.skill')]));
     }

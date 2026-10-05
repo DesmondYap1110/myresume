@@ -11,7 +11,9 @@
             <div class="card service-card mx-0 p-4 h-100">
                 <div class="service-icon"><i class="{{ $item->iconSet()['fa4'] }}"></i></div>
                 <h4 class="mt-3 mb-2">{{ $item->t('title') }}</h4>
-                <p class="mb-0">{{ $item->t('description') }}</p>
+                {{-- A div, not a p: the description is written in the editor
+                     now, so it can carry paragraphs and lists of its own. --}}
+                <div class="mb-0 svc-rich">{!! $item->t('description') !!}</div>
             </div>
         </div>
         @endforeach

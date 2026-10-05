@@ -40,6 +40,11 @@ tailwind.config = {
 </script>
 
 <style>
+    /* Service descriptions come from the editor now, so they can contain
+       paragraphs and lists. The last one keeps the card spacing intact. */
+    .svc-rich > :last-child { margin-bottom: 0; }
+    .svc-rich ul, .svc-rich ol { padding-left: 1.1em; margin-bottom: .6em; }
+
 *,*::before,*::after{box-sizing:border-box}
 html,body{font-family:'DM Sans',sans-serif}
 h1,h2,h3,h4,h5,h6{font-family:'PT Sans',sans-serif}

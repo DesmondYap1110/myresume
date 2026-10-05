@@ -24,7 +24,7 @@
                 :model="$service ?? new \App\Models\Service()"
                 :fields="[
                     'title' => ['label' => __('admin.ui.title'), 'type' => 'text', 'required' => true, 'width' => 'col-12', 'placeholder' => __('admin.ui.service_title_hint')],
-                    'description' => ['label' => __('admin.ui.description'), 'type' => 'textarea', 'required' => true, 'rows' => 3, 'placeholder' => __('admin.ui.service_desc_hint')],
+                    'description' => ['label' => __('admin.ui.description'), 'type' => 'rich', 'required' => true, 'rows' => 3, 'placeholder' => __('admin.ui.service_desc_hint')],
                 ]" />
         </div>
 

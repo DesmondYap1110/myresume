@@ -197,7 +197,7 @@
           <div class="card t4-service mb-0">
             <div class="t4-icon"><i class="fa {{ $item->iconSet()['fa4'] }}" aria-hidden="true"></i></div>
             <div class="h5 mt-0">{{ $item->t('title') }}</div>
-            <p>{{ $item->t('description') }}</p>
+            <div class="svc-rich">{!! $item->t('description') !!}</div>
           </div>
         </div>
         @endforeach

@@ -103,7 +103,7 @@ return [
         'send' => '发送',
         'social_proof' => '客户反馈',
         'thoughts' => '随笔',
-        'discuss_project' => '想聊聊您的项目吗？',
+        'discuss_project' => '可承接自由职业与全职机会',
         'what_i_do' => '我的服务',
         'what_i_help' => '我能为您做的。',
         'what_i_work_with' => '我使用的技术',

@@ -291,7 +291,7 @@
                     <div class="service-item mb-5" data-aos="fade-left" data-aos-delay="{{ $loop->index * 150 }}">
                         <i class="{{ $item->iconSet()['ti'] }}"></i>
                         <h4 class="my-3">{{ $item->t('title') }}</h4>
-                        <p>{{ $item->t('description') }}</p>
+                        <div class="svc-rich">{!! $item->t('description') !!}</div>
                     </div>
                 </div>
                 @endforeach
