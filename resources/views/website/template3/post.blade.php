@@ -15,7 +15,7 @@
         <div class="max-w-3xl mx-auto px-6">
             <a href="{{ $home }}#blog" class="nl inline-flex items-center gap-2 text-sm text-zinc-500 dark:text-zinc-400 hover:text-accent-ink dark:hover:text-accent transition-colors mb-8">
                 <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
-                Back to blog
+                {{ __('site.more.back_to_blog') }}
             </a>
 
             <p class="text-xs font-medium text-accent-ink dark:text-accent tracking-widest uppercase mb-3">{{ __('site.section.blog') }}</p>
@@ -42,7 +42,7 @@
                 @if($images->count() > 1)
                 <div class="flex gap-2 mt-4">
                     @foreach($images as $image)
-                    <button @click="i = {{ $loop->index }}" class="pf w-16 h-16 rounded-lg border-2 transition-colors" :class="i === {{ $loop->index }} ? 'border-accent' : 'border-transparent opacity-60 hover:opacity-100'" aria-label="Show image {{ $loop->iteration }}">
+                    <button @click="i = {{ $loop->index }}" class="pf w-16 h-16 rounded-lg border-2 transition-colors" :class="i === {{ $loop->index }} ? 'border-accent' : 'border-transparent opacity-60 hover:opacity-100'" aria-label="{{ __('site.more.show_image', ['number' => $loop->iteration]) }}">
                         <img src="{{ $image }}" alt="" loading="lazy">
                     </button>
                     @endforeach

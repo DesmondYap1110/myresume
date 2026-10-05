@@ -3,13 +3,15 @@
 @php
     $asset = fn ($path) => asset('assets/website/template2/'.$path);
     $version = @filemtime(public_path('assets/website/template2/css/custom.css'));
+    // Translated, because a page that does not pass its own sections -
+    // the single post page, for one - falls back to this list.
     $links = $sections ?: [
-        'about' => 'About',
-        'experience' => 'Experience',
-        'education' => 'Education',
-        'projects' => 'Projects',
-        'blog' => 'Blog',
-        'contact' => 'Contact',
+        'about' => __('site.section.about'),
+        'experience' => __('site.section.experience'),
+        'education' => __('site.section.education'),
+        'projects' => __('site.section.projects'),
+        'blog' => __('site.section.blog'),
+        'contact' => __('site.section.contact'),
     ];
     $first = trim(explode(' ', trim((string) $user->name))[0] ?? '');
 @endphp

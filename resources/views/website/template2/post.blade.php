@@ -17,7 +17,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="text-center">
-                        <a href="{{ $home }}#blog" class="t2-back"><i class="ti-arrow-left"></i> Back to blog</a>
+                        <a href="{{ $home }}#blog" class="t2-back"><i class="ti-arrow-left"></i> {{ __('site.more.back_to_blog') }}</a>
                         <h1 class="mb-0 t2-post-title">{{ $post->t('title') }}</h1>
                     </div>
                 </div>
@@ -42,7 +42,7 @@
 
                         <div class="single-post-content mt-4">
                             <div class="post-meta mb-4">
-                                <span class="text-black">By</span> <span>{{ $user->name }}</span>
+                                <span class="text-black">{{ __('site.more.by_author') }}</span> <span>{{ $user->name }}</span>
                                 <span class="ml-3">-</span>
                                 <span class="date">{{ $post->created_at->format('d F Y') }}</span>
                                 <span class="ml-3">-</span>

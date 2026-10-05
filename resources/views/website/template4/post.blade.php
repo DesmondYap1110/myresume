@@ -8,7 +8,8 @@
     $minutes = max(1, (int) round(str_word_count($text) / 200));
     $others = $blog->where('id', '!=', $post->id)->take(2);
 
-    $sections = ['about' => 'About', 'portfolio' => 'Portfolio', 'contact' => 'Contact'];
+    // Translated, so the menu on a post page matches the rest of the site.
+    $sections = ['about' => __('site.section.about'), 'portfolio' => __('site.nav.blog'), 'contact' => __('site.section.contact')];
 @endphp
 
 <x-template4.website.master.master-layout :user="$user" :home="$home" :sections="$sections" :post="$post">

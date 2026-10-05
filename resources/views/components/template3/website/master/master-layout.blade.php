@@ -6,7 +6,8 @@
     $accentInk = \App\Support\Branding::darken($accent, 32);
     $accentLight = $branding['accent'] ?? '#FF8F5C';
     $first = trim(explode(' ', trim((string) $user->name))[0] ?? '');
-    $links = $sections ?: ['services' => 'Services', 'work' => 'Work', 'about' => 'About', 'reviews' => 'Reviews', 'blog' => 'Blog', 'contact' => 'Contact'];
+    // Translated: the single post page does not pass its own sections.
+    $links = $sections ?: ['services' => __('site.section.services'), 'work' => __('site.section.projects'), 'about' => __('site.section.about'), 'reviews' => __('site.more.reviews'), 'blog' => __('site.section.blog'), 'contact' => __('site.section.contact')];
 @endphp
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" x-data="folio()" :class="{'dark': dark}" class="scroll-smooth">

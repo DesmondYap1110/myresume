@@ -18,7 +18,8 @@
         ? sprintf('#%02x%02x%02x', (int) round($r + (255 - $r) * .55), (int) round($g + (255 - $g) * .55), (int) round($b + (255 - $b) * .55))
         : $primary;
 
-    $links = $sections ?: ['about' => 'About', 'experience' => 'Experience', 'education' => 'Education', 'contact' => 'Contact'];
+    // Translated: the single post page does not pass its own sections.
+    $links = $sections ?: ['about' => __('site.section.about'), 'experience' => __('site.section.experience'), 'education' => __('site.section.education'), 'contact' => __('site.section.contact')];
     $brand = trim(explode(' ', trim((string) $user->name))[0] ?? '') ?: $user->name;
     $initials = collect(preg_split('/\s+/', trim((string) $user->name)))->filter()->take(2)
         ->map(fn ($w) => mb_strtoupper(mb_substr($w, 0, 1)))->implode('');
