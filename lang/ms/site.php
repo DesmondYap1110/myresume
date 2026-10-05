@@ -103,7 +103,7 @@ return [
         'send' => 'Hantar',
         'social_proof' => 'Bukti sosial',
         'thoughts' => 'Pandangan',
-        'discuss_project' => 'Tersedia untuk Peluang Bebas & Sepenuh Masa',
+        'discuss_project' => 'Kerja Bebas & Sepenuh Masa — Jom Berbincang',
         'what_i_do' => 'Apa yang saya lakukan',
         'what_i_help' => 'Apa yang saya boleh bantu.',
         'what_i_work_with' => 'Apa yang saya guna',

@@ -40,6 +40,9 @@
             'id' => $b->id,
             'title' => $b->t('title'),
             'description' => $b->t('description'),
+            // Rendered here rather than in the browser, so the modal gets the
+            // same embeds as the standalone post pages.
+            'embeds' => view('components.website.media-embeds', ['blog' => $b])->render(),
             'created_at' => optional($b->created_at)->toIso8601String(),
             'images' => $images ?: array_values(array_filter([$b->image])),
         ];
@@ -112,7 +115,10 @@
 
         document.getElementById('blog-title').textContent = post.title;
         // Written by the site owner in the admin editor.
-        document.getElementById('blog-content').innerHTML = post.description;
+        document.getElementById('blog-content').innerHTML = post.description + (post.embeds || '');
+        // X builds its cards from markup, and a script injected through
+        // innerHTML never runs, so nudge the widget library if it is here.
+        if (window.twttr && twttr.widgets) twttr.widgets.load(document.getElementById('blog-content'));
         document.getElementById('blog-date').textContent = formatDate(post.created_at);
         document.getElementById('blog-read').textContent = readingTime(post.description);
         document.getElementById('blog-index').textContent = pad(index + 1) + ' / ' + pad(total);

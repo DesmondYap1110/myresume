@@ -64,6 +64,7 @@
             <div class="card-body p-4 p-md-5">
               {{-- Written by the site owner in the admin editor. --}}
               <div class="t4-post-body">{!! $post->t('description') !!}</div>
+              <x-website.media-embeds :blog="$post" />
 
               @php $shareUrl = urlencode(url()->current()); @endphp
               <hr class="my-4">

@@ -53,6 +53,7 @@
 
             {{-- Written by the site owner in the admin editor. --}}
             <div class="rich text-zinc-600 dark:text-zinc-400 leading-relaxed">{!! $post->t('description') !!}</div>
+            <x-website.media-embeds :blog="$post" />
 
             <div class="mt-12 pt-8 border-t border-zinc-100 dark:border-zinc-900 flex flex-wrap items-center gap-4">
                 <span class="text-sm text-zinc-500 dark:text-zinc-400">Share:</span>

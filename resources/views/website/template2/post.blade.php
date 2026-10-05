@@ -51,6 +51,7 @@
 
                             {{-- Written by the site owner in the admin editor. --}}
                             <div class="t2-content">{!! $post->t('description') !!}</div>
+                            <x-website.media-embeds :blog="$post" />
 
                             <div class="share mt-5">
                                 <ul class="list-inline">

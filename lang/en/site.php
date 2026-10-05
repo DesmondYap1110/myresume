@@ -103,7 +103,7 @@ return [
         'send' => 'Send',
         'social_proof' => 'Social proof',
         'thoughts' => 'Thoughts',
-        'discuss_project' => 'Available for Freelance & Full-Time Opportunities',
+        'discuss_project' => 'Freelance & Full-Time Opportunities — Let’s Talk',
         'what_i_do' => 'What I do',
         'what_i_help' => 'What I can help you with.',
         'what_i_work_with' => 'What I work with',
