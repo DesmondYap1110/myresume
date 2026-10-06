@@ -55,18 +55,72 @@
     }
 
     /*
-     * Room under the content for the fixed footer.
+     * Room under the content for the fixed copyright strip.
      *
-     * The copyright strip is position: fixed, so it floats over whatever is
-     * beneath it, while .page-inner leaves only 24px below the content. On any
-     * page long enough to scroll, the last card finished underneath it. The
-     * strip is about 52px on a desktop and wraps to two lines on a narrow
-     * screen, so the allowance is bigger there.
+     * It floats over whatever is beneath it, while .page-inner leaves only
+     * 24px below the content, so on any page long enough to scroll the last
+     * card finished underneath it. The strip is about 52px on a desktop and
+     * wraps to two lines on a narrow screen, hence the bigger allowance there.
      */
     .main-panel .page-inner { padding-bottom: 80px; }
 
     @media (max-width: 575px) {
         .main-panel .page-inner { padding-bottom: 110px; }
+    }
+
+    /*
+     * Scrollbars in the chosen theme.
+     *
+     * Only the page's own bar and the boxes that genuinely scroll inside it.
+     * scrollbar-color is an inherited property, so declaring it on html hands
+     * it to every scrollable descendant - including the sidebar, which draws
+     * its own bar with a plugin, and ended up showing two.
+     */
+    html {
+        scrollbar-width: thin;
+        scrollbar-color: var(--brand-primary, #212529) rgba(0, 0, 0, .06);
+    }
+
+    /* Back to the browser default inside the sidebar, so its plugin is the
+       only thing drawing a bar there. */
+    .sidebar,
+    .sidebar * {
+        scrollbar-width: auto;
+        scrollbar-color: auto;
+    }
+
+    html::-webkit-scrollbar,
+    .table-responsive::-webkit-scrollbar,
+    .modal-body::-webkit-scrollbar,
+    .note-editable::-webkit-scrollbar,
+    .dataTables_scrollBody::-webkit-scrollbar { width: 10px; height: 10px; }
+
+    html::-webkit-scrollbar-track,
+    .table-responsive::-webkit-scrollbar-track,
+    .modal-body::-webkit-scrollbar-track,
+    .note-editable::-webkit-scrollbar-track,
+    .dataTables_scrollBody::-webkit-scrollbar-track { background: rgba(0, 0, 0, .06); border-radius: 999px; }
+
+    html::-webkit-scrollbar-thumb,
+    .table-responsive::-webkit-scrollbar-thumb,
+    .modal-body::-webkit-scrollbar-thumb,
+    .note-editable::-webkit-scrollbar-thumb,
+    .dataTables_scrollBody::-webkit-scrollbar-thumb {
+        background: var(--brand-primary, #212529);
+        border-radius: 999px;
+    }
+
+    html::-webkit-scrollbar-thumb:hover,
+    .table-responsive::-webkit-scrollbar-thumb:hover,
+    .modal-body::-webkit-scrollbar-thumb:hover,
+    .note-editable::-webkit-scrollbar-thumb:hover,
+    .dataTables_scrollBody::-webkit-scrollbar-thumb:hover {
+        background: var(--brand-primary-hover, var(--brand-primary, #212529));
+    }
+
+    /* The sidebar's plugin bar in the theme colour as well, so the two match. */
+    .sidebar .scrollbar-inner > .scroll-element .scroll-bar {
+        background: var(--brand-primary, #212529) !important;
     }
 
     /*

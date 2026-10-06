@@ -38,7 +38,9 @@
      * point at each other with hreflang.
      */
     $locales = array_keys((array) config('locales.supported', []));
-    $default = (string) config('locales.default', 'en');
+    // The bare address shows the owner's chosen language (see SetLocale), so
+    // that is the language it stands for here - not the site-wide default.
+    $default = $user->siteLocale();
     $current = app()->getLocale();
 
     $urlFor = fn (string $locale) => $locale === $default ? $path : $path.'?lang='.$locale;

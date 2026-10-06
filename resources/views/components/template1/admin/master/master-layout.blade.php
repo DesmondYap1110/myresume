@@ -35,10 +35,16 @@
                         {{$slot}}
                     </div>
                 </div>
-                <!-- Footer -->
-                @include('components.template1.admin.footer.footer-main')
-                <!-- End Footer -->
             </div>
+
+            {{-- Outside .main-panel on purpose. Opening the mobile sidebar
+                 transforms that element, and a transformed ancestor becomes
+                 the containing block for position: fixed inside it, which sent
+                 the strip into the middle of the page. Out here it stays
+                 pinned to the bottom of the window. --}}
+            <!-- Footer -->
+            @include('components.template1.admin.footer.footer-main')
+            <!-- End Footer -->
             @else
                 {{$slot}}
             @endif

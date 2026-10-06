@@ -109,6 +109,19 @@ class User extends Authenticatable
     }
 
     /**
+     * The language this member's public page opens in when the address has
+     * no ?lang= - their Profile choice, else the site default.
+     */
+    public function siteLocale(): string
+    {
+        $supported = array_keys((array) config('locales.supported', []));
+
+        return in_array($this->default_locale, $supported, true)
+            ? $this->default_locale
+            : (string) config('locales.default', 'en');
+    }
+
+    /**
      * Finds the owner of a public page from either form of the address.
      */
     static function findByRouteKey(?string $key): ?self

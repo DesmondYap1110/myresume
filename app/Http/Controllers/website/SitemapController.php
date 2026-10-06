@@ -29,7 +29,7 @@ class SitemapController extends Controller
                 'lastmod' => optional($posts->max('updated_at') ?: $user->updated_at)->toAtomString(),
                 'priority' => '1.0',
                 'changefreq' => 'weekly',
-                'alternates' => $this->alternates($base.'/'.$key),
+                'alternates' => $this->alternates($base.'/'.$key, $user->siteLocale()),
             ];
 
             // Post pages exist on templates that have them; the others redirect here.
@@ -39,12 +39,15 @@ class SitemapController extends Controller
                     'lastmod' => optional($post->updated_at)->toAtomString(),
                     'priority' => '0.8',
                     'changefreq' => 'monthly',
-                    'alternates' => $this->alternates($base.'/post/'.$post->id.'/'.$key),
+                    'alternates' => $this->alternates($base.'/post/'.$post->id.'/'.$key, $user->siteLocale()),
                 ];
             }
         }
 
-        $xml = view('website.sitemap', compact('urls'))->render();
+        // The XML declaration is written here, not in the view: on a server with
+        // short_open_tag on, PHP reads "<?xml" in a Blade file as code and the
+        // whole sitemap fails with a 500.
+        $xml = '<?xml version="1.0" encoding="UTF-8"?>'."\n".view('website.sitemap', compact('urls'))->render();
 
         return response($xml, 200, ['Content-Type' => 'application/xml; charset=UTF-8']);
     }
@@ -54,13 +57,13 @@ class SitemapController extends Controller
      *
      * Google has no session, so without naming the translated addresses here
      * it would only ever see the default language and the translations would
-     * never be indexed.
+     * never be indexed. $default is the owner's language - the one the bare
+     * address shows.
      *
      * @return array<int, array{hreflang: string, href: string}>
      */
-    private function alternates(string $url): array
+    private function alternates(string $url, string $default): array
     {
-        $default = (string) config('locales.default', 'en');
         $out = [];
 
         foreach (array_keys((array) config('locales.supported', [])) as $locale) {
