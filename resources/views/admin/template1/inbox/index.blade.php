@@ -48,8 +48,13 @@
         padding: 11px 20px; border-top: 1px solid #ebedf2; font-size: .88rem; color: var(--brand-link, #1572E8); }
 
     @media (max-width: 575px) {
-        .ib-field, .ib-actions { width: 100%; }
-        .ib-actions .btn { flex: 1; justify-content: center; }
+        /* min-width: 0 as well as the full width: the 165px floor above kept
+           the fields from shrinking, so they ran past the edge of the card
+           whenever the content column was narrower than that - with the
+           sidebar open on a phone, for one. */
+        .ib-field, .ib-actions { width: 100%; min-width: 0; }
+        .ib-field .form-control { max-width: 100%; }
+        .ib-actions .btn { flex: 1; justify-content: center; min-width: 0; }
     }
 </style>
 
